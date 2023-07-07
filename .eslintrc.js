@@ -21,5 +21,7 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    'no-undef': 'error', // Предупреждает, когда встречает использование необъявленных переменных. Это помогает выявлять опечатки и ошибки из-за отсутствующих импортов.
+    '@typescript-eslint/no-unused-vars': 'warn',
   },
 };

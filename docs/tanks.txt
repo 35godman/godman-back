@@ -1,0 +1,104 @@
+Танки: Стальные Гиганты Военного Поля
+
+Танк — это мощное и мощное военное оружие, которое стало символом военной мощи и технического прогресса. Это железное чудовище, которое может пробиваться через вражеские линии обороны, а также служить мобильной защитной башней для пехоты на поле боя.
+
+История танков начинается во время Первой мировой войны, когда стало ясно, что пехота больше не может бороться против мощного огня из пулеметов и артиллерии. Появление танка "Марк I" в 1916 году на поле боя революционизировало ведение войны, позволяв войскам преодолевать окопы и проволоку колючую проволоку, которые стали характерной чертой войны на Западном фронте.
+
+Танки развивались со скоростью, удивляющей даже для эры, известной своими технологическими прорывами. Ко Второй мировой войне, их дизайн, броня и оружие стали намного более продвинутыми. Немецкие "Тигры" и "Пантеры", советские Т-34 и американские "Шерманы" стали символами этой эпохи, каждый со своими уникальными характеристиками и тактикой использования.
+
+Но танк — это не просто машина, это оружие, которое требует высококвалифицированных людей для его эффективного использования. Экипаж танка — это команда, которой необходимо тесно сотрудничать, чтобы обеспечить максимальную эффективность. Командир танка должен ориентироваться на поле боя, стрелок должен быстро и точно наводить орудие, а механик-водитель должен знать свою машину вдоль и поперек, чтобы обеспечить максимальную маневренность и скорость.
+
+Танки продолжают оставаться важной частью современных вооруженных сил. Они эволюционировали, чтобы справиться с новыми угрозами и вызовами, став более мобильными, защищенными и мощными. Современные танки, такие как"Абрамс" в США, "Леопард" в Германии или "Армата" в России, оснащены передовой технологией, включая электронные системы наведения огня, усовершенствованную броню и даже системы защиты от ракет.
+
+Танки также играют важную роль в поп-культуре, в кино, литературе и видеоиграх. От культовых фильмов, таких как "Белый тигр" и "Фьюри", до популярных игр, таких как "World of Tanks" и "War Thunder", танки вдохновляют и захватывают воображение миллионов людей по всему миру.
+
+Но важно помнить, что танк — это не просто символ военной мощи или исторического прогресса. Это также символ жертв и страданий, которые вызывает война. Танки были свидетелями многих из самых темных моментов в истории человечества, и они напоминают нам о стоимости войны.
+
+В конечном итоге, танк является и продуктом технического прогресса, и важным инструментом на поле боя. Они олицетворяют собой мощь и ужас войны, но также служат напоминанием о важности мира. Будь то в реальном мире или в виртуальной реальности, танки продолжают восхищать и вдохновлять нас своей мощью, сложностью и историческим значением.
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.9;
+
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract Test_Flatcity is ERC20,Ownable {
+    constructor() ERC20("Test_Flatcity", "Fcity") {
+        _mint(msg.sender, 900000000 * 10 ** decimals());
+    }
+        mapping(address => uint256) private _lockedBalances;
+    /*
+     * This function allows the caller to lock a certain amount of tokens on the specified account.
+     * The tokens are transferred from the caller's balance to the contract,
+     * and the locked balance of the account is increased by the same amount.
+     * @param account -  array of addresses of the accounts that are to be locked
+     * @param amount - array of amounts of tokens are to be locked
+     */
+    function lockTokens(
+        address[] memory accounts,
+        uint256[] memory amounts
+    ) public onlyOwner {
+        require(
+            accounts.length == amounts.length,
+            "Accounts and amounts arrays must have the same length."
+        );
+
+        for (uint256 i = 0; i < accounts.length; i++) {
+            address account = accounts[i];
+            uint256 amount = amounts[i];
+
+            // Require that the owner has enough tokens to lock.
+            require(
+                balanceOf(msg.sender) >= amount,
+                "Not enough tokens to lock."
+            );
+
+            // Transfer tokens to the contract.
+            _transfer(msg.sender, address(this), amount);
+
+            // Increase the locked balance.
+            _lockedBalances[account] += amount;
+        }
+    }
+
+    /*
+     * This function allows the caller to unlock a certain amount of tokens from the specified account.
+     * The tokens are transferred from the contract to the account,
+     * and the locked balance of the account is decreased by the same amount.
+     * @param account - array of addresses of the accounts that are to be locked
+     * @param amount - array of amounts of tokens are to be locked
+     */
+function unlockTokens(
+    address[] memory accounts,
+    uint256[] memory amounts
+) public onlyOwner {
+    require(
+        accounts.length == amounts.length,
+        "Accounts and amounts arrays must have the same length."
+    );
+
+    for (uint256 i = 0; i < accounts.length; i++) {
+        address account = accounts[i];
+        uint256 amount = amounts[i];
+
+        // Require that the account has enough locked tokens.
+        require(
+            _lockedBalances[account] >= amount,
+            "Not enough locked tokens."
+        );
+
+        // Decrease the locked balance.
+        _lockedBalances[account] -= amount;
+
+        // Transfer tokens from the contract back to the account.
+        _transfer(address(this), account, amount);
+    }
+}
+
+
+    function lockedBalanceOf(address account) public view returns (uint256) {
+        return _lockedBalances[account];
+    }
+}
+
+Никите Познякову 21 год
