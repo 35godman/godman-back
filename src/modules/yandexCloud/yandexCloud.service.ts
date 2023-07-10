@@ -3,12 +3,17 @@ import * as AWS from 'aws-sdk';
 import {
   CreateBucketCommand,
   GetObjectCommand,
+  ListObjectsV2Command,
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3';
 import { fromIni } from '@aws-sdk/credential-provider-ini';
 import { yandexCloudClient } from '../../config/aws.config';
 import { BUCKET_NAME } from '../../config/aws.config';
+import * as path from 'path';
+import * as fs from 'fs';
+import * as util from 'util';
+import * as stream from 'stream';
 
 @Injectable()
 export class YandexCloudService {
@@ -53,6 +58,45 @@ export class YandexCloudService {
     console.log(await Body.transformToString('utf-8'));
   }
 
+  async downloadFiles(userId) {
+    const params = {
+      Bucket: BUCKET_NAME,
+      Prefix: `test/`,
+    };
+
+    const command = new ListObjectsV2Command(params);
+    const data = await this.s3.send(command);
+
+    if (data.Contents.length) {
+      for (const file of data.Contents) {
+        const getParams = {
+          Bucket: BUCKET_NAME,
+          Key: file.Key,
+        };
+
+        const getCommand = new GetObjectCommand(getParams);
+        const result = await this.s3.send(getCommand);
+
+        const fileStream = result.Body as unknown as stream.Readable;
+
+        console.log('=>(yandexCloud.service.ts:81) result', result.Body);
+        // Ensure directory exists
+        //const directoryPath = path.join('docs', `${userId}`);
+        const directoryPath = path.join('docs', `test`);
+        fs.mkdirSync(directoryPath, { recursive: true });
+
+        const localFilePath = path.join(directoryPath, path.basename(file.Key));
+
+        const writeStream = fs.createWriteStream(localFilePath);
+
+        if (fileStream && fileStream.pipe) {
+          fileStream.pipe(writeStream);
+        } else {
+          console.error('Unable to handle the stream type.');
+        }
+      }
+    }
+  }
   async createBucket() {
     // // Создание бакета
     // try {

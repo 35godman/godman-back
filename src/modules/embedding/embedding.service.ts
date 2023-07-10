@@ -11,24 +11,33 @@ import { createPineconeClient } from '../../config/pinecone.config';
 import { encode } from 'gpt-3-encoder';
 import { loadQAStuffChain } from 'langchain/chains';
 import { OpenAI } from 'langchain/llms/openai';
-import {
-  EmbeddingCreateOpenAI,
-  EmbeddingCreateOpenAIDto,
-} from './dto/create-openai.dto';
+import { EmbeddingCreateOpenAIDto } from './dto/create-openai.dto';
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { queryPineconeVectorStoreAndQueryLLM } from '../../utils/embeddings/queryPineconeVectorStoreAndQueryLLM';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from '../user/user.schema';
 import { Model } from 'mongoose';
+import { YandexCloudService } from '../yandexCloud/yandexCloud.service';
+import { S3Loader } from 'langchain/document_loaders/web/s3';
+import {
+  awsConfig,
+  BUCKET_NAME,
+  yandexCloudClient,
+} from '../../config/aws.config';
+import { fromIni } from '@aws-sdk/credential-provider-ini';
 
 @Injectable()
 export class EmbeddingService {
   private client: PineconeClient;
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<User>,
+    private yandexCloudService: YandexCloudService,
+  ) {}
 
-  async setup(user_id: string) {
+  async setup({ user_id }) {
     this.client = await createPineconeClient();
-    const loader = new DirectoryLoader(`./docs`, {
+    await this.yandexCloudService.downloadFiles(user_id);
+    const loader = new DirectoryLoader(`./docs/test`, {
       '.txt': (path) => new TextLoader(path),
       '.md': (path) => new TextLoader(path),
       '.pdf': (path) => new PDFLoader(path),
@@ -52,6 +61,7 @@ export class EmbeddingService {
     if (!currentUser) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
+    const chatbot = await this.ch;
     await queryPineconeVectorStoreAndQueryLLM(
       this.client,
       indexName,

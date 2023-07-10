@@ -56,6 +56,7 @@ export const updatePinecone = async (
         await index.upsert({
           upsertRequest: {
             vectors: batch,
+            namespace: 'test',
           },
         });
         // Empty the batch

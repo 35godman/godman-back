@@ -7,6 +7,8 @@ import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { LoggerModule } from './modules/logger/logger.module';
+import { YandexCloudModule } from './modules/yandexCloud/yandexCloud.module';
+import { EmbeddingModule } from './modules/embedding/embedding.module';
 config();
 @Module({
   imports: [
@@ -14,6 +16,8 @@ config();
     UserModule,
     AuthModule,
     LoggerModule,
+    YandexCloudModule,
+    EmbeddingModule,
   ],
   controllers: [AppController],
   providers: [

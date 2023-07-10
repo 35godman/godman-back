@@ -29,7 +29,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
       vector: queryEmbedding,
       includeMetadata: true,
       includeValues: true,
-      namespace: user.id,
+      //namespace: user.id,
     },
   });
   // 5. Log the number of matches

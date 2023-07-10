@@ -8,9 +8,10 @@ const REGION = 'ru-central1';
 const ENDPOINT = 'https://storage.yandexcloud.net';
 // export { s3Client };
 export const BUCKET_NAME = 'test-godman';
-// Create an Object Storage client
-export const yandexCloudClient = new S3Client({
+export const awsConfig = {
   region: REGION,
   endpoint: ENDPOINT,
   credentials: fromIni({ profile: 'yandex' }),
-});
+};
+// Create an Object Storage client
+export const yandexCloudClient = new S3Client(awsConfig);
