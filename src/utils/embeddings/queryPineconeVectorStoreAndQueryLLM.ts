@@ -13,7 +13,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
   indexName: string,
   question: string,
   user: UserDocument,
-  chatbot: Chatbot,
+  //chatbot: Chatbot,
 ) => {
   console.log('=>(utils.ts:14) question', question);
   // 1. Start query process
@@ -25,7 +25,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
   // 4. Query Pinecone index and return top 10 matches
   const queryResponse = await index.query({
     queryRequest: {
-      topK: 1,
+      topK: 10,
       vector: queryEmbedding,
       includeMetadata: true,
       includeValues: true,
@@ -39,10 +39,15 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
   if (queryResponse.matches.length) {
     // 7. Create an OpenAI instance and load the QAStuffChain
     try {
+      // const llm = new OpenAI({
+      //   modelName: chatbot.model || 'gpt-3.5-turbo-0613',
+      //   maxTokens: chatbot.max_tokens || 300,
+      //   temperature: chatbot.temperature || 1,
+      // });
       const llm = new OpenAI({
-        modelName: chatbot.model || 'gpt-3.5-turbo-0613',
-        maxTokens: chatbot.max_tokens || 300,
-        temperature: chatbot.temperature || 1,
+        modelName: 'gpt-3.5-turbo-0613',
+        maxTokens: 1000,
+        temperature: 1,
       });
 
       const chain = loadQAStuffChain(llm);
@@ -53,11 +58,11 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
         .map((match) => match.metadata.pageContent.replace(/\n/g, ''))
         .join(' ');
 
-      if (concatenatedPageContent.length > 500) {
-        concatenatedPageContent = concatenatedPageContent.substring(0, 500);
-      }
-      const encoded = encode(concatenatedPageContent);
-      console.log('Encoded this string looks like: ', encoded.length);
+      // if (concatenatedPageContent.length > 500) {
+      //   concatenatedPageContent = concatenatedPageContent.substring(0, 500);
+      // }
+      const encodedQuestion = encode(concatenatedPageContent);
+
       // 9. Execute the chain with input documents and question
       const result = await chain.call({
         input_documents: [
@@ -65,10 +70,14 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
             pageContent: concatenatedPageContent,
           }),
         ],
-        question: `USE only ${user.language} language in answer` + question,
+        question: `USE only russian language in answer` + question,
       });
       //10. Log the answer
       console.log(`Answer: ${result.text}`);
+      const encodedAnswer = encode(result.text);
+      const token_usage = encodedQuestion.length + encodedAnswer.length;
+      console.log(`Tokens used: ${token_usage}`);
+      console.log(`USD used ${(token_usage / 1000) * 0.003}`);
       return result.text;
     } catch (e) {
       console.error(e);

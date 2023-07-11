@@ -9,6 +9,7 @@ import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { LoggerModule } from './modules/logger/logger.module';
 import { YandexCloudModule } from './modules/yandexCloud/yandexCloud.module';
 import { EmbeddingModule } from './modules/embedding/embedding.module';
+import { ChatbotModule } from './modules/chatbot/chatbot.module';
 config();
 @Module({
   imports: [
@@ -18,6 +19,7 @@ config();
     LoggerModule,
     YandexCloudModule,
     EmbeddingModule,
+    ChatbotModule,
   ],
   controllers: [AppController],
   providers: [

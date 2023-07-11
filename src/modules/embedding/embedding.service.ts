@@ -25,6 +25,7 @@ import {
   yandexCloudClient,
 } from '../../config/aws.config';
 import { fromIni } from '@aws-sdk/credential-provider-ini';
+import { AskChatDto } from './dto/ask-chat.dto';
 
 @Injectable()
 export class EmbeddingService {
@@ -55,19 +56,20 @@ export class EmbeddingService {
     await updatePinecone(this.client, indexName, docs);
   }
 
-  async createEmbeddingOpenAi(payload: EmbeddingCreateOpenAIDto) {
+  async askChat(payload: AskChatDto) {
     const { question, user_id, chatbot } = payload;
     const currentUser = await this.userModel.findById(user_id);
-    if (!currentUser) {
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-    }
-    const chatbot = await this.ch;
+    this.client = await createPineconeClient();
+    // if (!currentUser) {
+    //   throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    // }
+    // const chatbot = await this.ch;
     await queryPineconeVectorStoreAndQueryLLM(
       this.client,
       indexName,
       question,
       currentUser,
-      chatbot,
+      //chatbot,
     );
   }
 }

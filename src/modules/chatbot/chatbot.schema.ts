@@ -1,26 +1,42 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
 import { User } from '../user/user.schema';
+import { VisibilityOptions } from './types/visibility.type';
+import { LimitState } from './types/limit.type';
+import { CustomerInfo } from './types/customer-info.type';
+import { ChatbotSettings } from './schemas/chatbotSettings.schema';
+import { EmbeddedCode } from './types/embed-code.type';
+import { ChatbotConversations } from './schemas/chatbotConversations.schema';
+import { ChatbotSources } from './schemas/chatbotSources.schema';
+import { Conversation } from '../conversation/conversation.schema';
+
+export type ChatbotDocument = HydratedDocument<Chatbot>;
 
 @Schema({ timestamps: true })
 export class Chatbot {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   owner: User;
 
-  @Prop()
-  model: 'gpt-3.5-turbo';
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ChatbotSettings' })
+  settings: ChatbotSettings;
 
-  @Prop()
-  num_of_characters: number;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Conversation' })
+  conversations: Conversation[];
 
-  @Prop()
-  visibility: string;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ChatbotSources' })
+  sources: ChatbotSources;
 
-  @Prop()
-  max_tokens: number;
+  @Prop({
+    default: null,
+    type: {
+      iframe: String,
+      script: String,
+    },
+  })
+  embed_code: EmbeddedCode;
 
-  @Prop()
-  temperature: number;
+  @Prop({ default: null })
+  share_link: string;
 }
 
 export const ChatbotSchema = SchemaFactory.createForClass(Chatbot);
