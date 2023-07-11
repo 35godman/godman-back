@@ -11,11 +11,13 @@ export const updatePinecone = async (
   const index = client.Index(indexName);
   // 2. Log the retrieved index name
   console.log(`Pinecone index retrieved: ${indexName}`);
+
   // 3. Process each document in the docs array
   for (const doc of docs) {
     console.log(`Processing document: ${doc.metadata.source}`);
     const txtPath = doc.metadata.source;
     const text = doc.pageContent;
+    console.log('=>(updatePinecone.ts:20) LENGTH', text.length);
     // 4. Create RecursiveCharacterTextSplitter instance
     const textSplitter = new RecursiveCharacterTextSplitter({
       chunkSize: 1000,
