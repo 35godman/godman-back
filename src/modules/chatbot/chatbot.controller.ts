@@ -53,4 +53,11 @@ export class ChatbotController {
   async findChatbotById(@Param('id', new ValidateObjectIdPipe()) id: string) {
     return this.chatbotService.findById(id);
   }
+
+  @Get('find/user/:id')
+  async findChatbotByUserId(
+    @Param('id', new ValidateObjectIdPipe()) id: string,
+  ) {
+    return this.chatbotService.findByUser(id);
+  }
 }

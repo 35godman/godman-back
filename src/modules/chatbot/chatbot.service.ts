@@ -33,4 +33,10 @@ export class ChatbotService {
   async findById(id: string) {
     return this.chatbotModel.findById(id).populate('owner sources settings');
   }
+
+  async findByUser(user_id: string) {
+    return this.chatbotModel.find({
+      owner: user_id,
+    });
+  }
 }
