@@ -1,18 +1,21 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from '../user/user.schema';
 import { Model } from 'mongoose';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 import { ChatbotCreateDto } from './dto/chatbot-create.dto';
-import { ResponseResult } from '../../enum/response.enum';
 import { Chatbot, ChatbotDocument } from './chatbot.schema';
+import { FileUpload } from '../fileUpload/fileUpload.schema';
+import { ChatbotSources } from './schemas/chatbotSources.schema';
 
 @Injectable()
 export class ChatbotService {
   constructor(
     @InjectModel(User.name) private userModel: Model<User>,
     @InjectModel(Chatbot.name) private chatbotModel: Model<Chatbot>,
+    @InjectModel(ChatbotSources.name)
+    private chatbotSourcesModel: Model<ChatbotSources>,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) {}
 
@@ -27,9 +30,7 @@ export class ChatbotService {
 
     return await newChatbot.save();
   }
-  //getbyuser
 
-  //by id
   async findById(id: string) {
     return this.chatbotModel.findById(id).populate('owner sources settings');
   }
@@ -38,5 +39,20 @@ export class ChatbotService {
     return this.chatbotModel.find({
       owner: user_id,
     });
+  }
+
+  async addSourceFile(chatbot_id: string, newFile: FileUpload) {
+    const chatbot = await this.chatbotModel
+      .findById(chatbot_id)
+      .populate('sources')
+      .exec();
+    if (!chatbot) {
+      throw new HttpException('Chatbot not found', HttpStatus.NOT_FOUND);
+    }
+    const sources = await this.chatbotSourcesModel.findById(
+      chatbot.sources._id,
+    );
+    sources.files.push(newFile);
+    await sources.save();
   }
 }

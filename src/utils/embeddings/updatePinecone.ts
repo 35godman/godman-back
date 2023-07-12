@@ -1,23 +1,32 @@
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
 import { PineconeClient } from '@pinecone-database/pinecone';
+import { encode } from 'gpt-3-encoder';
+
 export const updatePinecone = async (
   client: PineconeClient,
   indexName: string,
   docs: Record<string, any>[],
+  chatbot_id: string,
 ) => {
   console.log('Retrieving Pinecone index...');
   // 1. Retrieve Pinecone index
   const index = client.Index(indexName);
   // 2. Log the retrieved index name
   console.log(`Pinecone index retrieved: ${indexName}`);
-
+  //delete all prev_indexes
+  await index.delete1({
+    deleteAll: true,
+    namespace: chatbot_id,
+  });
+  let totalToken = 0;
   // 3. Process each document in the docs array
   for (const doc of docs) {
     console.log(`Processing document: ${doc.metadata.source}`);
     const txtPath = doc.metadata.source;
     const text = doc.pageContent;
-    console.log('=>(updatePinecone.ts:20) LENGTH', text.length);
+    const encodedEmbedding = encode(doc.pageContent);
+    totalToken += encodedEmbedding.length;
     // 4. Create RecursiveCharacterTextSplitter instance
     const textSplitter = new RecursiveCharacterTextSplitter({
       chunkSize: 1000,
@@ -29,6 +38,7 @@ export const updatePinecone = async (
     console.log(
       `Calling OpenAI's Embedding endpoint documents with ${chunks.length} text chunks ...`,
     );
+
     // 6. Create OpenAI embeddings for documents
     const embeddingsArrays = await new OpenAIEmbeddings().embedDocuments(
       chunks.map((chunk) => chunk.pageContent.replace(/\n/g, ' ')),
@@ -58,7 +68,7 @@ export const updatePinecone = async (
         await index.upsert({
           upsertRequest: {
             vectors: batch,
-            namespace: 'test',
+            namespace: chatbot_id,
           },
         });
         // Empty the batch
@@ -66,6 +76,7 @@ export const updatePinecone = async (
       }
     }
     // 8. Log the number of vectors updated
+    console.log(`USD total: ${(totalToken / 1000) * 0.001}`);
     console.log(`Pinecone index updated with ${chunks.length} vectors`);
   }
 };

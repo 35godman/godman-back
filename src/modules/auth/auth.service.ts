@@ -27,10 +27,9 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async generateJwt(username: string) {
-    const payload = { username };
+  async generateJwt({ user_id }: { user_id: string }) {
     return {
-      access_token: await this.jwtService.signAsync(payload),
+      access_token: await this.jwtService.signAsync({ user_id }),
     };
   }
   async login(payload: LoginDto): Promise<any> {
@@ -40,7 +39,7 @@ export class AuthService {
       throw new NotFoundException('Username not found.');
     }
     if (user && (await bcrypt.compare(password, user.password))) {
-      const token = await this.generateJwt(user.username);
+      const token = await this.generateJwt({ user_id: user._id.toString() });
       user.password = '';
       return { user, token };
     } else {

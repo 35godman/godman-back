@@ -1,3 +1,3 @@
 export class EmbeddingSetupDto {
-  user_id: string;
+  chatbot_id: string;
 }

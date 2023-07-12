@@ -7,14 +7,32 @@ import { UserService } from '../user/user.service';
 import { YandexCloudService } from '../yandexCloud/yandexCloud.service';
 import { EmbeddingController } from './embedding.controller';
 import { EmbeddingService } from './embedding.service';
+import { Chatbot, ChatbotSchema } from '../chatbot/chatbot.schema';
+import { ChatbotService } from '../chatbot/chatbot.service';
+import {
+  ChatbotSettings,
+  ChatbotSettingsSchema,
+} from '../chatbot/schemas/chatbotSettings.schema';
+import {
+  ChatbotSources,
+  ChatbotSourcesSchema,
+} from '../chatbot/schemas/chatbotSources.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema },
+      { name: Chatbot.name, schema: ChatbotSchema },
+      {
+        name: ChatbotSettings.name,
+        schema: ChatbotSettingsSchema,
+      },
+      { name: ChatbotSources.name, schema: ChatbotSourcesSchema },
+    ]),
     WinstonModule,
   ],
   controllers: [EmbeddingController],
-  providers: [EmbeddingService, YandexCloudService],
+  providers: [EmbeddingService, YandexCloudService, ChatbotService],
   exports: [],
 })
 export class EmbeddingModule {}

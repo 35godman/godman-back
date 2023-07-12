@@ -10,6 +10,7 @@ import { LoggerModule } from './modules/logger/logger.module';
 import { YandexCloudModule } from './modules/yandexCloud/yandexCloud.module';
 import { EmbeddingModule } from './modules/embedding/embedding.module';
 import { ChatbotModule } from './modules/chatbot/chatbot.module';
+import { FileUploadModule } from './modules/fileUpload/fileUpload.module';
 config();
 @Module({
   imports: [
@@ -20,6 +21,7 @@ config();
     YandexCloudModule,
     EmbeddingModule,
     ChatbotModule,
+    FileUploadModule,
   ],
   controllers: [AppController],
   providers: [

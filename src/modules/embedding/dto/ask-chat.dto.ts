@@ -1,5 +1,5 @@
 export class AskChatDto {
   question: string;
   user_id: string;
-  chatbot: string;
+  chatbot_id: string;
 }

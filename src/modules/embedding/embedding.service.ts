@@ -26,19 +26,23 @@ import {
 } from '../../config/aws.config';
 import { fromIni } from '@aws-sdk/credential-provider-ini';
 import { AskChatDto } from './dto/ask-chat.dto';
+import { Chatbot } from '../chatbot/chatbot.schema';
+import { ChatbotService } from '../chatbot/chatbot.service';
 
 @Injectable()
 export class EmbeddingService {
   private client: PineconeClient;
   constructor(
     @InjectModel(User.name) private userModel: Model<User>,
+    @InjectModel(Chatbot.name) private chatbotModel: Model<Chatbot>,
+    private chatbotService: ChatbotService,
     private yandexCloudService: YandexCloudService,
   ) {}
 
-  async setup({ user_id }) {
+  async setup({ chatbot_id }) {
     this.client = await createPineconeClient();
-    await this.yandexCloudService.downloadFiles(user_id);
-    const loader = new DirectoryLoader(`./docs/test`, {
+    await this.yandexCloudService.downloadFiles(chatbot_id);
+    const loader = new DirectoryLoader(`./docs/${chatbot_id}`, {
       '.txt': (path) => new TextLoader(path),
       '.md': (path) => new TextLoader(path),
       '.pdf': (path) => new PDFLoader(path),
@@ -53,23 +57,24 @@ export class EmbeddingService {
      * console.log(`creating pinecone index ${indexName}`);
      * await createPineconeIndex(client, indexName, vectorDimensions);
      */
-    await updatePinecone(this.client, indexName, docs);
+    await updatePinecone(this.client, indexName, docs, chatbot_id);
   }
 
   async askChat(payload: AskChatDto) {
-    const { question, user_id, chatbot } = payload;
-    const currentUser = await this.userModel.findById(user_id);
+    const { question, user_id, chatbot_id } = payload;
     this.client = await createPineconeClient();
-    // if (!currentUser) {
-    //   throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-    // }
-    // const chatbot = await this.ch;
+    const chatbotInstance = await this.chatbotService.findById(chatbot_id);
+    if (!chatbotInstance) {
+      throw new HttpException(
+        'Chatbot instance not found',
+        HttpStatus.NOT_FOUND,
+      );
+    }
     await queryPineconeVectorStoreAndQueryLLM(
       this.client,
       indexName,
       question,
-      currentUser,
-      //chatbot,
+      chatbotInstance,
     );
   }
 }

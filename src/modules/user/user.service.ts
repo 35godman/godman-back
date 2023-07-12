@@ -1,6 +1,6 @@
 import { Logger } from 'winston';
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { User } from './user.schema';
+import { User, UserDocument } from './user.schema';
 import { Model } from 'mongoose';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { InjectModel } from '@nestjs/mongoose';
@@ -44,7 +44,7 @@ export class UserService {
     return await this.userModel.findById(id).exec();
   }
 
-  async findByUsername(username: string): Promise<User> {
+  async findByUsername(username: string): Promise<UserDocument> {
     return await this.userModel.findOne({ username }).exec();
   }
 }

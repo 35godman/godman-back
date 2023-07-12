@@ -27,7 +27,7 @@ export class YandexCloudService {
     const params = {
       Bucket: BUCKET_NAME, // The name of the bucket. For example, 'sample-bucket-101'.
       Key: `${user_id}/${fileName}`, // The name of the object. For example, 'sample_upload.txt'.
-      Body: 'test ', // fs.readFileSync('<path_to_your_file>') The content of the object. For example, 'Hello world!'.
+      Body: data, // fs.readFileSync('<path_to_your_file>') The content of the object. For example, 'Hello world!'.
     };
 
     // Создание объекта и загрузка его в бакет
@@ -58,10 +58,10 @@ export class YandexCloudService {
     console.log(await Body.transformToString('utf-8'));
   }
 
-  async downloadFiles(userId) {
+  async downloadFiles(chatbot_id) {
     const params = {
       Bucket: BUCKET_NAME,
-      Prefix: `test/`,
+      Prefix: `${chatbot_id}/`,
     };
 
     const command = new ListObjectsV2Command(params);
@@ -78,11 +78,8 @@ export class YandexCloudService {
         const result = await this.s3.send(getCommand);
 
         const fileStream = result.Body as unknown as stream.Readable;
-
-        console.log('=>(yandexCloud.service.ts:81) result', result.Body);
         // Ensure directory exists
-        //const directoryPath = path.join('docs', `${userId}`);
-        const directoryPath = path.join('docs', `test`);
+        const directoryPath = path.join('docs', `${chatbot_id}`);
         fs.mkdirSync(directoryPath, { recursive: true });
 
         const localFilePath = path.join(directoryPath, path.basename(file.Key));
