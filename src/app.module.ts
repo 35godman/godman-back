@@ -11,6 +11,7 @@ import { YandexCloudModule } from './modules/yandexCloud/yandexCloud.module';
 import { EmbeddingModule } from './modules/embedding/embedding.module';
 import { ChatbotModule } from './modules/chatbot/chatbot.module';
 import { FileUploadModule } from './modules/fileUpload/fileUpload.module';
+import { CrawlerModule } from './modules/crawler/crawler.module';
 config();
 @Module({
   imports: [
@@ -22,6 +23,7 @@ config();
     EmbeddingModule,
     ChatbotModule,
     FileUploadModule,
+    CrawlerModule,
   ],
   controllers: [AppController],
   providers: [

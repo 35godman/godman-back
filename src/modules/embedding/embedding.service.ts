@@ -28,6 +28,7 @@ import { fromIni } from '@aws-sdk/credential-provider-ini';
 import { AskChatDto } from './dto/ask-chat.dto';
 import { Chatbot } from '../chatbot/chatbot.schema';
 import { ChatbotService } from '../chatbot/chatbot.service';
+import { FileUploadService } from '../fileUpload/fileUpload.service';
 
 @Injectable()
 export class EmbeddingService {
@@ -37,11 +38,13 @@ export class EmbeddingService {
     @InjectModel(Chatbot.name) private chatbotModel: Model<Chatbot>,
     private chatbotService: ChatbotService,
     private yandexCloudService: YandexCloudService,
+    private fileUploadService: FileUploadService,
   ) {}
 
   async setup({ chatbot_id }) {
     this.client = await createPineconeClient();
     await this.yandexCloudService.downloadFiles(chatbot_id);
+
     const loader = new DirectoryLoader(`./docs/${chatbot_id}`, {
       '.txt': (path) => new TextLoader(path),
       '.md': (path) => new TextLoader(path),
@@ -58,6 +61,7 @@ export class EmbeddingService {
      * await createPineconeIndex(client, indexName, vectorDimensions);
      */
     await updatePinecone(this.client, indexName, docs, chatbot_id);
+    await this.fileUploadService.deleteChatbotDirectory(chatbot_id);
   }
 
   async askChat(payload: AskChatDto) {

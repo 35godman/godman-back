@@ -1,5 +1,5 @@
 export class FileUploadDto {
   fileName: string;
-  data: Buffer;
+  data: Buffer | string;
   chatbot_id: string;
 }

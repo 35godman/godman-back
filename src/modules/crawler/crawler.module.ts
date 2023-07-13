@@ -1,14 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from '../user/user.schema';
-import { WinstonModule } from 'nest-winston';
-import { UserController } from '../user/user.controller';
-import { UserService } from '../user/user.service';
-import { YandexCloudService } from '../yandexCloud/yandexCloud.service';
-import { EmbeddingController } from './embedding.controller';
-import { EmbeddingService } from './embedding.service';
 import { Chatbot, ChatbotSchema } from '../chatbot/chatbot.schema';
-import { ChatbotService } from '../chatbot/chatbot.service';
 import {
   ChatbotSettings,
   ChatbotSettingsSchema,
@@ -17,12 +10,21 @@ import {
   ChatbotSources,
   ChatbotSourcesSchema,
 } from '../chatbot/schemas/chatbotSources.schema';
+import { WinstonModule } from 'nest-winston';
+import { EmbeddingController } from '../embedding/embedding.controller';
+import { EmbeddingService } from '../embedding/embedding.service';
+import { YandexCloudService } from '../yandexCloud/yandexCloud.service';
+import { ChatbotService } from '../chatbot/chatbot.service';
+import { CrawlerController } from './crawler.controller';
+import { CrawlerService } from './crawler.service';
+import { UserModule } from '../user/user.module';
 import { FileUploadService } from '../fileUpload/fileUpload.service';
-import { FileUploadModule } from '../fileUpload/fileUpload.module';
 import { FileUpload, FileUploadSchema } from '../fileUpload/fileUpload.schema';
 
 @Module({
   imports: [
+    WinstonModule,
+    UserModule,
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
       { name: Chatbot.name, schema: ChatbotSchema },
@@ -33,15 +35,14 @@ import { FileUpload, FileUploadSchema } from '../fileUpload/fileUpload.schema';
       { name: ChatbotSources.name, schema: ChatbotSourcesSchema },
       { name: FileUpload.name, schema: FileUploadSchema },
     ]),
-    WinstonModule,
   ],
-  controllers: [EmbeddingController],
+  controllers: [CrawlerController],
   providers: [
-    EmbeddingService,
+    CrawlerService,
     YandexCloudService,
     ChatbotService,
     FileUploadService,
   ],
   exports: [],
 })
-export class EmbeddingModule {}
+export class CrawlerModule {}

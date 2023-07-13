@@ -42,7 +42,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     // 7. Create an OpenAI instance and load the QAStuffChain
     const llm = new OpenAI({
       modelName: chatbotInstance.settings?.model || 'gpt-3.5-turbo-0613',
-      maxTokens: chatbotInstance.settings?.max_tokens || 300,
+      maxTokens: chatbotInstance.settings?.max_tokens || 1000,
       temperature: chatbotInstance.settings?.temperature || 1,
     });
 
@@ -66,7 +66,8 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
         }),
       ],
       question:
-        `only use the language in which the question is asked.` + question,
+        `only use the language in which the question is asked. Answer must be as detailed as possible` +
+        question,
     });
     //10. Log the answer
     console.log(`Answer: ${result.text}`);

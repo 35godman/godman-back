@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
 import {
   CreateBucketCommand,
+  DeleteObjectCommand,
   GetObjectCommand,
   ListObjectsV2Command,
   PutObjectCommand,
@@ -23,7 +24,7 @@ export class YandexCloudService {
     this.s3 = yandexCloudClient;
   }
 
-  async uploadFile(user_id: string, fileName: string, data: Buffer) {
+  async uploadFile(user_id: string, fileName: string, data: Buffer | string) {
     const params = {
       Bucket: BUCKET_NAME, // The name of the bucket. For example, 'sample-bucket-101'.
       Key: `${user_id}/${fileName}`, // The name of the object. For example, 'sample_upload.txt'.
@@ -45,17 +46,6 @@ export class YandexCloudService {
     } catch (err) {
       console.log('Error', err);
     }
-  }
-
-  async retrieve(user_id: string, fileName: string) {
-    const params = {
-      Bucket: BUCKET_NAME,
-      Key: fileName,
-    };
-    const command = new GetObjectCommand(params);
-
-    const { Body } = await this.s3.send(command);
-    console.log(await Body.transformToString('utf-8'));
   }
 
   async downloadFiles(chatbot_id) {
@@ -92,6 +82,21 @@ export class YandexCloudService {
           console.error('Unable to handle the stream type.');
         }
       }
+    }
+  }
+  async removeWebCrawledFile(chatbot_id, web_link: string) {
+    const urlWithoutSlashes = web_link.replace(/\//g, '');
+    const deleteParams = {
+      Bucket: BUCKET_NAME,
+      Key: `${urlWithoutSlashes}.txt`,
+    };
+
+    const deleteCommand = new DeleteObjectCommand(deleteParams);
+    try {
+      await this.s3.send(deleteCommand);
+      return `${urlWithoutSlashes} successfully deleted`;
+    } catch (e) {
+      console.error(e);
     }
   }
   async createBucket() {
