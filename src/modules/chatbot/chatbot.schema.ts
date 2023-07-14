@@ -20,6 +20,9 @@ export class Chatbot {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   owner: UserDocument;
 
+  @Prop({ type: String })
+  chatbot_name: string;
+
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ChatbotSettings' })
   settings: ChatbotSettings;
 

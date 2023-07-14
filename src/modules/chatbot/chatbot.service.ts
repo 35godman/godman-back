@@ -36,9 +36,11 @@ export class ChatbotService {
   }
 
   async findByUser(user_id: string) {
-    return this.chatbotModel.find({
-      owner: user_id,
-    });
+    return this.chatbotModel
+      .find({
+        owner: user_id,
+      })
+      .populate('owner sources settings');
   }
 
   async addSourceFile(chatbot_id: string, newFile: FileUpload) {
