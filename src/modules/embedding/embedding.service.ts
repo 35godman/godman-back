@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { PineconeClient } from '@pinecone-database/pinecone';
 import { TextLoader } from 'langchain/document_loaders/fs/text';
 import { PDFLoader } from 'langchain/document_loaders/fs/pdf';
@@ -29,6 +35,8 @@ import { AskChatDto } from './dto/ask-chat.dto';
 import { Chatbot } from '../chatbot/chatbot.schema';
 import { ChatbotService } from '../chatbot/chatbot.service';
 import { FileUploadService } from '../fileUpload/fileUpload.service';
+import { AuthJWTGuard } from '../../guards/auth.guard';
+import { ChatbotOwnerGuard } from '../../guards/chatbot-owner.guard';
 
 @Injectable()
 export class EmbeddingService {
@@ -41,6 +49,7 @@ export class EmbeddingService {
     private fileUploadService: FileUploadService,
   ) {}
 
+  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
   async setup({ chatbot_id }) {
     this.client = await createPineconeClient();
     await this.yandexCloudService.downloadFiles(chatbot_id);
@@ -64,7 +73,8 @@ export class EmbeddingService {
     await this.fileUploadService.deleteChatbotDirectory(chatbot_id);
   }
 
-  async askChat(payload: AskChatDto) {
+  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
+  async askChat(payload: AskChatDto, @Res() res: Response): Promise<string> {
     const { question, user_id, chatbot_id } = payload;
     this.client = await createPineconeClient();
     const chatbotInstance = await this.chatbotService.findById(chatbot_id);
@@ -74,11 +84,12 @@ export class EmbeddingService {
         HttpStatus.NOT_FOUND,
       );
     }
-    await queryPineconeVectorStoreAndQueryLLM(
+    return await queryPineconeVectorStoreAndQueryLLM(
       this.client,
       indexName,
       question,
       chatbotInstance,
+      res,
     );
   }
 }

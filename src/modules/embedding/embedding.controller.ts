@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Res } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { EmbeddingService } from './embedding.service';
 import { EmbeddingSetupDto } from './dto/setup-pinecone.dto';
@@ -14,7 +14,7 @@ export class EmbeddingController {
   }
 
   @Post('/ask')
-  askChatbot(@Body() askChatDto: AskChatDto) {
-    return this.embeddingService.askChat(askChatDto);
+  askChatbot(@Body() askChatDto: AskChatDto, @Res() res: Response) {
+    return this.embeddingService.askChat(askChatDto, res);
   }
 }

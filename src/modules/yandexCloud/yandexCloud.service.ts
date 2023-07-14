@@ -84,19 +84,19 @@ export class YandexCloudService {
       }
     }
   }
-  async removeWebCrawledFile(chatbot_id, web_link: string) {
+  async removeWebCrawledFile(chatbot_id, web_link: string): Promise<string> {
     const urlWithoutSlashes = web_link.replace(/\//g, '');
     const deleteParams = {
       Bucket: BUCKET_NAME,
-      Key: `${urlWithoutSlashes}.txt`,
+      Key: `${chatbot_id}/${urlWithoutSlashes}.txt`,
     };
 
     const deleteCommand = new DeleteObjectCommand(deleteParams);
     try {
       await this.s3.send(deleteCommand);
-      return `${urlWithoutSlashes} successfully deleted`;
+      return `${web_link} successfully deleted`;
     } catch (e) {
-      console.error(e);
+      return e.message;
     }
   }
   async createBucket() {

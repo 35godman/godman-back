@@ -16,6 +16,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
   indexName: string,
   question: string,
   chatbotInstance: ChatbotDocument,
+  res: Response,
 ) => {
   console.log('=>(utils.ts:14) question', question);
   // 1. Start query process
@@ -27,7 +28,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
   // 4. Query Pinecone index and return top 10 matches
   const queryResponse = await index.query({
     queryRequest: {
-      topK: 10,
+      topK: 5,
       vector: queryEmbedding,
       includeMetadata: true,
       includeValues: true,
@@ -39,15 +40,21 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
   // 6. Log the question being asked
   console.log(`Asking question: ${question}...`);
   if (queryResponse.matches.length) {
+    let streamedResponse = '';
     // 7. Create an OpenAI instance and load the QAStuffChain
     const llm = new OpenAI({
       modelName: chatbotInstance.settings?.model || 'gpt-3.5-turbo-0613',
       maxTokens: chatbotInstance.settings?.max_tokens || 1000,
       temperature: chatbotInstance.settings?.temperature || 1,
+      streaming: true,
+      callbacks: [
+        {
+          handleLLMNewToken(token) {
+            streamedResponse += token;
+          },
+        },
+      ],
     });
-
-    const chain = loadQAStuffChain(llm);
-    //8. Extract and concatenate page content from matched documents
 
     let concatenatedPageContent = queryResponse.matches
       // @ts-ignore
@@ -57,26 +64,37 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     // if (concatenatedPageContent.length > 500) {
     //   concatenatedPageContent = concatenatedPageContent.substring(0, 500);
     // }
-
-    // 9. Execute the chain with input documents and question
-    const result = await chain.call({
-      input_documents: [
-        new Document({
-          pageContent: concatenatedPageContent,
-        }),
+    const prompt = JSON.stringify({
+      question,
+      context: concatenatedPageContent,
+      rules: [
+        {
+          language: `only use the language ${chatbotInstance.settings.language} in answer. Dont use any other language `,
+        },
+        { details: `Answer must be as detailed as possible` },
       ],
-      question:
-        `only use the language in which the question is asked. Answer must be as detailed as possible` +
-        question,
     });
-    //10. Log the answer
-    console.log(`Answer: ${result.text}`);
+
+    const result = await llm.call(
+      'You are a QA chatbot and must answer all the question from the context provided in context key' +
+        prompt,
+      undefined,
+      [
+        {
+          handleLLMNewToken(token: string) {
+            console.log({ token });
+            // res.data.pipe({ token });
+          },
+        },
+      ],
+    );
+    console.log('=>(queryPineconeVectorStoreAndQueryLLM.ts:73) result', result);
     const encodedQuestion = encode(concatenatedPageContent);
-    const encodedAnswer = encode(result.text);
+    const encodedAnswer = encode(result);
     const token_usage = encodedQuestion.length + encodedAnswer.length;
     console.log(`Tokens used: ${token_usage}`);
     console.log(`USD used ${(token_usage / 1000) * 0.0015}`);
-    return result.text;
+    return result;
   } else {
     // 11. Log that there are no matches, so GPT-3 will not be queried
     console.log('Since there are no matches, GPT-3 will not be queried.');

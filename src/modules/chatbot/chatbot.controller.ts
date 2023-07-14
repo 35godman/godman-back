@@ -6,12 +6,15 @@ import {
   HttpStatus,
   Param,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { ChatbotService } from './chatbot.service';
 import { ChatbotSettingsService } from './chatbotSettings.service';
 import { ChatbotSourcesService } from './chatbotSources.service';
 import { CreateChatbotInstanceDto } from './dto/instance-create.dto';
 import { ValidateObjectIdPipe } from '../../decorators/validateObjectIdPipe.decorator';
+import { AuthJWTGuard } from '../../guards/auth.guard';
+import { ChatbotOwnerGuard } from '../../guards/chatbot-owner.guard';
 
 @Controller('chatbot')
 export class ChatbotController {
@@ -21,6 +24,7 @@ export class ChatbotController {
     private readonly chatbotSourcesService: ChatbotSourcesService,
   ) {}
 
+  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
   @Post('create')
   async createChatInstance(
     @Body() createChatInstance: CreateChatbotInstanceDto,
@@ -37,6 +41,7 @@ export class ChatbotController {
     return chatbot;
   }
 
+  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
   @Post('settings-update')
   async updateSettingsChatbot(@Body() payload) {
     const { settings, chatbot_id } = payload;
@@ -49,11 +54,13 @@ export class ChatbotController {
     await currentChatbot.save();
   }
 
+  @UseGuards(AuthJWTGuard)
   @Get('find/:id')
   async findChatbotById(@Param('id', new ValidateObjectIdPipe()) id: string) {
     return this.chatbotService.findById(id);
   }
 
+  @UseGuards(AuthJWTGuard)
   @Get('find/user/:id')
   async findChatbotByUserId(
     @Param('id', new ValidateObjectIdPipe()) id: string,

@@ -15,6 +15,7 @@ import {
   ChatbotSources,
   ChatbotSourcesSchema,
 } from '../chatbot/schemas/chatbotSources.schema';
+import { UserService } from '../user/user.service';
 
 @Module({
   imports: [

@@ -11,6 +11,9 @@ export class ChatbotSettings {
   @Prop({ default: 'gpt-3.5-turbo' })
   model: string;
 
+  @Prop({ default: 'english' })
+  language: string;
+
   @Prop()
   num_of_characters: number;
 
@@ -62,13 +65,13 @@ export class ChatbotSettings {
   user_message_color: string;
 
   @Prop()
+  bot_message_color: string;
+
+  @Prop()
   chat_icon_path: string;
 
   @Prop()
   chat_bubble_color: string;
-
-  @Prop()
-  align_bubble: 'left' | 'right';
 
   @Prop()
   show_initial_messages_timeout: number;

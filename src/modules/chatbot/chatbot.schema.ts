@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument, Model } from 'mongoose';
-import { User } from '../user/user.schema';
+import { User, UserDocument } from '../user/user.schema';
 import { VisibilityOptions } from './types/visibility.type';
 import { LimitState } from './types/limit.type';
 import { CustomerInfo } from './types/customer-info.type';
@@ -18,7 +18,7 @@ export type ChatbotDocument = HydratedDocument<Chatbot>;
 @Schema({ timestamps: true })
 export class Chatbot {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-  owner: User;
+  owner: UserDocument;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ChatbotSettings' })
   settings: ChatbotSettings;
