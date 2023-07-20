@@ -49,7 +49,6 @@ export class EmbeddingService {
     private fileUploadService: FileUploadService,
   ) {}
 
-  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
   async setup({ chatbot_id }) {
     this.client = await createPineconeClient();
     await this.yandexCloudService.downloadFiles(chatbot_id);
@@ -73,7 +72,6 @@ export class EmbeddingService {
     await this.fileUploadService.deleteChatbotDirectory(chatbot_id);
   }
 
-  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
   async askChat(payload: AskChatDto, @Res() res: Response): Promise<string> {
     const { question, user_id, chatbot_id } = payload;
     this.client = await createPineconeClient();
