@@ -41,7 +41,9 @@ export class UserService {
   }
 
   async findById(id: string): Promise<User> {
-    return await this.userModel.findById(id).exec();
+    const user = await this.userModel.findById(id).exec();
+    console.log('=>(user.service.ts:45) user', user);
+    return user;
   }
 
   async findByUsername(username: string): Promise<UserDocument> {

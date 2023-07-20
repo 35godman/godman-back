@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import { User } from '../../user/user.schema';
 import { ChatbotSettings } from './chatbotSettings.schema';
 import { Chatbot } from '../chatbot.schema';
+import { Conversation } from '../../conversation/conversation.schema';
 
 @Schema({ timestamps: true })
 export class ChatbotConversations {
@@ -10,7 +11,7 @@ export class ChatbotConversations {
   chatbot_id: Chatbot;
 
   @Prop([ChatbotConversations])
-  conversations: ChatbotConversations[];
+  conversations: Conversation[];
 }
 
 export const ChatbotConversationsSchema =

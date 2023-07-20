@@ -23,16 +23,15 @@ export class AuthController {
 
   @Post('login')
   login(@Body() loginDto: LoginDto) {
-    try {
-      return this.authService.login(loginDto);
-    } catch (e) {
-      //this.logger.error(`login ${e.message}`);
-    }
+    return this.authService.login(loginDto);
   }
   @UseGuards(AuthJWTGuard)
   @Get('relogin')
   async relogin(@Req() req) {
-    const { sub } = req.user;
-    return await this.userService.findById(sub);
+    const { user_id } = req.user;
+    return await this.userService.findById(user_id);
   }
+
+  @Get('verify')
+  async verifyJWT(@Req() req) {}
 }

@@ -26,7 +26,7 @@ async function bootstrap() {
   } else {
     app.enableCors(testCorsOptions);
   }
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('v1');
   /**
    * проверять все входящие запросы на соответствие
    * определенным критериям валидации, которые

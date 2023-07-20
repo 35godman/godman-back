@@ -59,27 +59,38 @@ export class YandexCloudService {
 
     if (data.Contents.length) {
       for (const file of data.Contents) {
-        const getParams = {
-          Bucket: BUCKET_NAME,
-          Key: file.Key,
-        };
+        const fileExtension = path.extname(file.Key);
+        if (
+          fileExtension === '.txt' ||
+          fileExtension === '.docx' ||
+          fileExtension === '.md' ||
+          fileExtension === '.pdf'
+        ) {
+          const getParams = {
+            Bucket: BUCKET_NAME,
+            Key: file.Key,
+          };
 
-        const getCommand = new GetObjectCommand(getParams);
-        const result = await this.s3.send(getCommand);
+          const getCommand = new GetObjectCommand(getParams);
+          const result = await this.s3.send(getCommand);
 
-        const fileStream = result.Body as unknown as stream.Readable;
-        // Ensure directory exists
-        const directoryPath = path.join('docs', `${chatbot_id}`);
-        fs.mkdirSync(directoryPath, { recursive: true });
+          const fileStream = result.Body as unknown as stream.Readable;
+          // Ensure directory exists
+          const directoryPath = path.join('docs', `${chatbot_id}`);
+          fs.mkdirSync(directoryPath, { recursive: true });
 
-        const localFilePath = path.join(directoryPath, path.basename(file.Key));
+          const localFilePath = path.join(
+            directoryPath,
+            path.basename(file.Key),
+          );
 
-        const writeStream = fs.createWriteStream(localFilePath);
+          const writeStream = fs.createWriteStream(localFilePath);
 
-        if (fileStream && fileStream.pipe) {
-          fileStream.pipe(writeStream);
-        } else {
-          console.error('Unable to handle the stream type.');
+          if (fileStream && fileStream.pipe) {
+            fileStream.pipe(writeStream);
+          } else {
+            console.error('Unable to handle the stream type.');
+          }
         }
       }
     }
