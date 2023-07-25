@@ -10,7 +10,7 @@ export class ChatbotConversations {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Chatbot' })
   chatbot_id: Chatbot;
 
-  @Prop([ChatbotConversations])
+  @Prop({ default: [] })
   conversations: Conversation[];
 }
 

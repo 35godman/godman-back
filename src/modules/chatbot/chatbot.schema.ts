@@ -20,16 +20,25 @@ export class Chatbot {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   owner: UserDocument;
 
-  @Prop({ type: String })
+  @Prop({ type: String, default: 'My chatbot' })
   chatbot_name: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ChatbotSettings' })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'ChatbotSettings',
+  })
   settings: ChatbotSettings;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Conversation' })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Conversation',
+  })
   conversations: Conversation[];
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ChatbotSources' })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'ChatbotSources',
+  })
   sources: ChatbotSourcesDocument;
 
   @Prop({

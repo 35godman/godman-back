@@ -8,7 +8,7 @@ import { ChatbotOwnerGuard } from '../../guards/chatbot-owner.guard';
 export class CrawlerController {
   constructor(private readonly crawlerService: CrawlerService) {}
 
-  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
+  @UseGuards(AuthJWTGuard)
   @Post('/crawl')
   crawlWeblink(@Body() crawlWeblink: CrawlDto) {
     return this.crawlerService.crawlWebLink(crawlWeblink);

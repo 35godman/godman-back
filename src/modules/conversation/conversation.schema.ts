@@ -12,10 +12,10 @@ export class Conversation {
   // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   // owner: User;
 
-  @Prop()
+  @Prop({ default: [] })
   messages: MessageState[];
 
-  @Prop()
+  @Prop({ default: '' })
   source: string;
 }
 

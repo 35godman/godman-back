@@ -20,6 +20,7 @@ import {
 import { FileUploadService } from '../fileUpload/fileUpload.service';
 import { FileUploadModule } from '../fileUpload/fileUpload.module';
 import { FileUpload, FileUploadSchema } from '../fileUpload/fileUpload.schema';
+import { ChatbotSettingsService } from '../chatbot/chatbotSettings.service';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { FileUpload, FileUploadSchema } from '../fileUpload/fileUpload.schema';
     YandexCloudService,
     ChatbotService,
     FileUploadService,
+    ChatbotSettingsService,
   ],
   exports: [],
 })

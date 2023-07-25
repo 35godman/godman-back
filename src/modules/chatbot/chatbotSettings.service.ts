@@ -19,4 +19,11 @@ export class ChatbotSettingsService {
     const newSettings = new this.chatbotSettingsModel(settingsData);
     return newSettings.save();
   }
+
+  async createDefault(chatbot_id: string) {
+    const newSettings = new this.chatbotSettingsModel({
+      chatbot_id: chatbot_id,
+    });
+    return newSettings.save();
+  }
 }

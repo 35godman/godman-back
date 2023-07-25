@@ -16,6 +16,11 @@ import {
   ChatbotSourcesSchema,
 } from '../chatbot/schemas/chatbotSources.schema';
 import { UserService } from '../user/user.service';
+import { ChatbotSettingsService } from '../chatbot/chatbotSettings.service';
+import {
+  ChatbotSettings,
+  ChatbotSettingsSchema,
+} from '../chatbot/schemas/chatbotSettings.schema';
 
 @Module({
   imports: [
@@ -24,12 +29,18 @@ import { UserService } from '../user/user.service';
       { name: User.name, schema: UserSchema },
       { name: Chatbot.name, schema: ChatbotSchema },
       { name: ChatbotSources.name, schema: ChatbotSourcesSchema },
+      { name: ChatbotSettings.name, schema: ChatbotSettingsSchema },
     ]),
     WinstonModule,
     JwtModule,
   ],
   controllers: [FileUploadController],
-  providers: [FileUploadService, YandexCloudService, ChatbotService],
+  providers: [
+    FileUploadService,
+    YandexCloudService,
+    ChatbotService,
+    ChatbotSettingsService,
+  ],
   exports: [],
 })
 export class FileUploadModule {}

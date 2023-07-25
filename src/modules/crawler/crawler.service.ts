@@ -5,6 +5,7 @@ import puppeteer from 'puppeteer';
 import { URL } from 'url';
 import { FileUploadService } from '../fileUpload/fileUpload.service';
 import { CrawlDto } from './dto/crawl.dto';
+import { CrawledLink } from './types/crawledLink.type';
 
 @Injectable()
 export class CrawlerService {
@@ -13,9 +14,8 @@ export class CrawlerService {
   async crawlWebLink(payload: CrawlDto) {
     const { weblink, chatbot_id } = payload;
     const urlsCrawled = new Set();
-    const urlsContent = {
-      size: 0,
-    };
+    const urlsContent: CrawledLink[] = [];
+
     const crawlSite = async (siteUrl) => {
       const browser = await puppeteer.launch({
         headless: 'new',
@@ -33,9 +33,12 @@ export class CrawlerService {
         return textNodes.map((node) => node.textContent).join(' ');
       });
 
-      // urlsContent[siteUrl] = pageText;
-      urlsContent.size = pageText.length;
-      const urlWithoutSlashes = siteUrl.replace(/\//g, '');
+      const linkCrawled = {
+        size: pageText.length,
+        url: siteUrl,
+      };
+      urlsContent.push(linkCrawled);
+      const urlWithoutSlashes = siteUrl.replace(/\//g, '[]');
 
       const uploadFilePayload = {
         fileName: `${urlWithoutSlashes}.txt`,

@@ -15,6 +15,8 @@ import { CreateChatbotInstanceDto } from './dto/instance-create.dto';
 import { ValidateObjectIdPipe } from '../../decorators/validateObjectIdPipe.decorator';
 import { AuthJWTGuard } from '../../guards/auth.guard';
 import { ChatbotOwnerGuard } from '../../guards/chatbot-owner.guard';
+import { Chatbot } from './chatbot.schema';
+import { CreateDefaultChatbotDto } from './dto/create-default.dto';
 
 @Controller('chatbot')
 export class ChatbotController {
@@ -24,22 +26,32 @@ export class ChatbotController {
     private readonly chatbotSourcesService: ChatbotSourcesService,
   ) {}
 
-  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
-  @Post('create')
-  async createChatInstance(
-    @Body() createChatInstance: CreateChatbotInstanceDto,
-  ) {
-    const { sources, user_id } = createChatInstance;
-    const chatbot = await this.chatbotService.create({
+  @Post('create-default')
+  async createDefaultChatbot(
+    @Body() createDefaultChatbot: CreateDefaultChatbotDto,
+  ): Promise<Chatbot> {
+    const { user_id } = createDefaultChatbot;
+    return await this.chatbotService.createDefault({
       owner: user_id,
     });
-    chatbot.sources = await this.chatbotSourcesService.create(
-      sources,
-      chatbot._id,
-    );
-    await chatbot.save();
-    return chatbot;
   }
+
+  // @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
+  // @Post('create')
+  // async createChatInstance(
+  //   @Body() createChatInstance: CreateChatbotInstanceDto,
+  // ) {
+  //   const { sources, user_id } = createChatInstance;
+  //   const chatbot = await this.chatbotService.create({
+  //     owner: user_id,
+  //   });
+  //   chatbot.sources = await this.chatbotSourcesService.create(
+  //     sources,
+  //     chatbot._id,
+  //   );
+  //   await chatbot.save();
+  //   return chatbot;
+  // }
 
   @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
   @Post('settings-update')

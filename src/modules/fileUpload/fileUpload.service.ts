@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UploadedFiles } from '@nestjs/common';
 import { YandexCloudService } from '../yandexCloud/yandexCloud.service';
 import { FileUploadDto } from './dto/file-upload.dto';
 import { Model } from 'mongoose';
@@ -11,6 +11,9 @@ import { writeFileSync } from 'fs';
 import { rmdirSync, readdirSync, statSync, unlinkSync } from 'fs';
 import { join, resolve } from 'path';
 import { RemoveWebCrawledFileDto } from './dto/RemoveWebCrawledFile.dto';
+import * as pdfParse from 'pdf-parse';
+import * as mammoth from 'mammoth';
+import * as fs from 'fs';
 @Injectable()
 export class FileUploadService {
   constructor(
@@ -20,7 +23,7 @@ export class FileUploadService {
     private chatbotService: ChatbotService,
   ) {}
 
-  async uploadFile(payload: FileUploadDto) {
+  async uploadSingleFile(payload: FileUploadDto) {
     const { fileName, data, chatbot_id } = payload;
 
     const updatedFileName = fileName;
@@ -57,5 +60,36 @@ export class FileUploadService {
     }
 
     rmdirSync(resolvedDir); // Remove the directory itself
+  }
+
+  async getFileTextLength(files: Express.Multer.File[]) {
+    const fileSize = [];
+    for (const file of files) {
+      file.originalname = decodeURIComponent(file.originalname);
+      let fileNameExtension = file.originalname.split('.').pop();
+      const data = file.buffer;
+      switch (fileNameExtension) {
+        case 'pdf':
+          const textSize = await pdfParse(data);
+          fileSize.push({
+            textSize: textSize.text.length,
+            name: file.originalname,
+          });
+          break;
+        case 'docx':
+          const { value } = await mammoth.extractRawText({ buffer: data });
+          fileSize.push({
+            textSize: value.length,
+            name: file.originalname,
+          });
+          break;
+        case 'txt':
+          const text = data.toString();
+          fileSize.push({
+            textSize: text.length,
+            name: file.originalname,
+          });
+      }
+    }
   }
 }

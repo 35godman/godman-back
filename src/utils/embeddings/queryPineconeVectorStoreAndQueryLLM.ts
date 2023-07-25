@@ -47,13 +47,13 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
       maxTokens: chatbotInstance.settings?.max_tokens || 1000,
       temperature: chatbotInstance.settings?.temperature || 1,
       streaming: true,
-      callbacks: [
-        {
-          handleLLMNewToken(token) {
-            streamedResponse += token;
-          },
-        },
-      ],
+      // callbacks: [
+      //   {
+      //     handleLLMNewToken(token) {
+      //       streamedResponse += token;
+      //     },
+      //   },
+      // ],
     });
 
     let concatenatedPageContent = queryResponse.matches
