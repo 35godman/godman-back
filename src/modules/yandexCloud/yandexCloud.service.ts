@@ -96,11 +96,15 @@ export class YandexCloudService {
     }
   }
   async removeWebCrawledFile(chatbot_id, web_link: string): Promise<string> {
-    const urlWithoutSlashes = web_link.replace(/\//g, '');
+    const urlWithoutSlashes = web_link.replace(/\//g, '[]');
     const deleteParams = {
       Bucket: BUCKET_NAME,
       Key: `${chatbot_id}/${urlWithoutSlashes}.txt`,
     };
+    console.log(
+      '=>(yandexCloud.service.ts:104) `${chatbot_id}/${urlWithoutSlashes}.txt`',
+      `${chatbot_id}/${urlWithoutSlashes}.txt`,
+    );
 
     const deleteCommand = new DeleteObjectCommand(deleteParams);
     try {

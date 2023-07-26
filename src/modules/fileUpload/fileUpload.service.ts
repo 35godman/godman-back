@@ -1,4 +1,9 @@
-import { Injectable, UploadedFiles } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UploadedFiles,
+} from '@nestjs/common';
 import { YandexCloudService } from '../yandexCloud/yandexCloud.service';
 import { FileUploadDto } from './dto/file-upload.dto';
 import { Model } from 'mongoose';
@@ -14,6 +19,10 @@ import { RemoveWebCrawledFileDto } from './dto/RemoveWebCrawledFile.dto';
 import * as pdfParse from 'pdf-parse';
 import * as mammoth from 'mammoth';
 import * as fs from 'fs';
+import { CategoryEnum } from '../../enum/category.enum';
+import { ChatbotSourcesService } from '../chatbot/chatbotSources.service';
+import { ChatbotSourcesDocument } from '../chatbot/schemas/chatbotSources.schema';
+import { UploadTextFromDataSourceDto } from './dto/text-upload.dto';
 @Injectable()
 export class FileUploadService {
   constructor(
@@ -21,25 +30,63 @@ export class FileUploadService {
     @InjectModel(FileUpload.name)
     private fileUploadModel: Model<FileUploadDocument>,
     private chatbotService: ChatbotService,
+    private chatbotSourcesService: ChatbotSourcesService,
   ) {}
 
-  async uploadSingleFile(payload: FileUploadDto) {
-    const { fileName, data, chatbot_id } = payload;
-
-    const updatedFileName = fileName;
+  async uploadSingleFile(
+    payload: FileUploadDto,
+    category: CategoryEnum.FILE | CategoryEnum.WEB,
+  ): Promise<ChatbotSourcesDocument> {
+    const { fileName, data, chatbot_id, char_length } = payload;
 
     const newFile = new this.fileUploadModel({
+      chatbot: chatbot_id,
       storagePath: chatbot_id,
-      originalName: updatedFileName,
+      originalName: fileName,
+      char_length,
     });
 
-    await this.chatbotService.addSourceFile(chatbot_id, newFile);
+    const newSource = await this.chatbotSourcesService.addSourceFile(
+      chatbot_id,
+      newFile,
+      category,
+    );
 
-    await this.yandexCloudService.uploadFile(chatbot_id, updatedFileName, data);
+    await this.yandexCloudService.uploadFile(chatbot_id, fileName, data);
+    return newSource;
   }
 
-  async removeFileFromYandexCloud(payload: RemoveWebCrawledFileDto) {
-    const { web_link, chatbot_id } = payload;
+  async uploadTextFromDataSource(payload: UploadTextFromDataSourceDto) {
+    const { char_length, chatbot_id, data } = payload;
+    const sources = await this.chatbotSourcesService.findByChatbotId(
+      chatbot_id,
+    );
+    sources.text = data;
+    await sources.save();
+    return await this.yandexCloudService.uploadFile(
+      chatbot_id,
+      process.env.TEXT_DATASOURCE_NAME,
+      data,
+    );
+  }
+
+  async removeCrawledFileFromYandexCloud(payload: RemoveWebCrawledFileDto) {
+    const { web_link, chatbot_id, weblink_id } = payload;
+    const sources = await this.chatbotSourcesService.findByChatbotId(
+      chatbot_id,
+    );
+
+    const sourceFileIndex = sources.website.findIndex(
+      (item) => item._id.toString() === weblink_id,
+    );
+
+    if (sourceFileIndex > -1) {
+      sources.website.splice(sourceFileIndex, 1);
+      await sources.save();
+    } else {
+      throw new HttpException('File not found', HttpStatus.NOT_FOUND);
+    }
+
     return await this.yandexCloudService.removeWebCrawledFile(
       chatbot_id,
       web_link,
@@ -62,34 +109,37 @@ export class FileUploadService {
     rmdirSync(resolvedDir); // Remove the directory itself
   }
 
-  async getFileTextLength(files: Express.Multer.File[]) {
+  async getMultipleFileTextLength(files: Express.Multer.File[]) {
     const fileSize = [];
     for (const file of files) {
-      file.originalname = decodeURIComponent(file.originalname);
-      let fileNameExtension = file.originalname.split('.').pop();
-      const data = file.buffer;
-      switch (fileNameExtension) {
-        case 'pdf':
-          const textSize = await pdfParse(data);
-          fileSize.push({
-            textSize: textSize.text.length,
-            name: file.originalname,
-          });
-          break;
-        case 'docx':
-          const { value } = await mammoth.extractRawText({ buffer: data });
-          fileSize.push({
-            textSize: value.length,
-            name: file.originalname,
-          });
-          break;
-        case 'txt':
-          const text = data.toString();
-          fileSize.push({
-            textSize: text.length,
-            name: file.originalname,
-          });
-      }
+      fileSize.push(await this.getOneFileLength(file));
+    }
+    return fileSize;
+  }
+
+  async getOneFileLength(file: Express.Multer.File) {
+    const fileSize = {
+      textSize: 0,
+      name: file.originalname,
+    };
+    file.originalname = decodeURIComponent(file.originalname);
+    let fileNameExtension = file.originalname.split('.').pop();
+    const data = file.buffer;
+    switch (fileNameExtension) {
+      case 'pdf':
+        const textSize = await pdfParse(data);
+        fileSize.textSize = textSize.length;
+        fileSize.name = file.originalname;
+        break;
+      case 'docx':
+        const { value } = await mammoth.extractRawText({ buffer: data });
+        fileSize.textSize = value.length;
+        fileSize.name = file.originalname;
+        break;
+      case 'txt':
+        const text = data.toString();
+        fileSize.textSize = text.length;
+        fileSize.name = file.originalname;
     }
     return fileSize;
   }

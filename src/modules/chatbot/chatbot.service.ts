@@ -10,6 +10,7 @@ import { FileUpload } from '../fileUpload/fileUpload.schema';
 import { ChatbotSources } from './schemas/chatbotSources.schema';
 import { ChatbotSettingsService } from './chatbotSettings.service';
 import { ChatbotSourcesService } from './chatbotSources.service';
+import { CategoryEnum } from '../../enum/category.enum';
 
 @Injectable()
 export class ChatbotService {
@@ -55,20 +56,5 @@ export class ChatbotService {
         owner: user_id,
       })
       .populate('owner sources settings');
-  }
-
-  async addSourceFile(chatbot_id: string, newFile: FileUpload) {
-    const chatbot = await this.chatbotModel
-      .findById(chatbot_id)
-      .populate('sources')
-      .exec();
-    if (!chatbot) {
-      throw new HttpException('Chatbot not found', HttpStatus.NOT_FOUND);
-    }
-    const sources = await this.chatbotSourcesModel.findById(
-      chatbot.sources._id,
-    );
-    sources.files.push(newFile);
-    await sources.save();
   }
 }

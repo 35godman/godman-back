@@ -31,7 +31,4 @@ export class AuthController {
     const { user_id } = req.user;
     return await this.userService.findById(user_id);
   }
-
-  @Get('verify')
-  async verifyJWT(@Req() req) {}
 }

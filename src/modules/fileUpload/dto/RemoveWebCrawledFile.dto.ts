@@ -6,4 +6,6 @@ export class RemoveWebCrawledFileDto {
   web_link: string;
   @IsMongoId()
   chatbot_id: string;
+  @IsMongoId()
+  weblink_id: string;
 }

@@ -2,27 +2,24 @@ import {
   Body,
   Controller,
   Post,
+  Query,
   UploadedFile,
+  UploadedFiles,
   UseGuards,
   UseInterceptors,
-  Request,
-  UploadedFiles,
-  Delete,
-  Query,
 } from '@nestjs/common';
 import { FileUploadService } from './fileUpload.service';
-import { FileUploadDto } from './dto/file-upload.dto';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { AuthJWTGuard } from '../../guards/auth.guard';
 import { MultipleFileUploadDto } from './dto/multiple-file-upload.dto';
-import { convertFilenameToUtf8 } from '../../helpers/convertFileNameToUtf8';
-import * as iconv from 'iconv-lite';
-import { v4 as uuidv4 } from 'uuid';
 import { RemoveWebCrawledFileDto } from './dto/RemoveWebCrawledFile.dto';
 import { globalConfig } from '../../config/global.config';
-import { ChatbotOwnerGuard } from '../../guards/chatbot-owner.guard';
 
 import { ResponseResult } from '../../enum/response.enum';
+import { CategoryEnum } from '../../enum/category.enum';
+import { TextUploadDto } from './dto/text-upload.dto';
+import { FileUploadDto } from './dto/file-upload.dto';
+
 @Controller('file-upload')
 export class FileUploadController {
   constructor(private readonly fileUploadService: FileUploadService) {}
@@ -36,7 +33,7 @@ export class FileUploadController {
       },
     }),
   )
-  async uploadFile(
+  async dataSourceUploadManyFiles(
     @UploadedFiles() files,
     @Body() uploadFile: MultipleFileUploadDto,
   ) {
@@ -45,18 +42,40 @@ export class FileUploadController {
       const data = file.buffer;
       const fileName = decodeURIComponent(file.originalname);
 
-      await this.fileUploadService.uploadSingleFile({
-        data,
-        fileName,
-        chatbot_id,
-      });
+      const charLength = await this.fileUploadService.getOneFileLength(file);
+
+      await this.fileUploadService.uploadSingleFile(
+        {
+          data,
+          fileName,
+          chatbot_id,
+          char_length: charLength.textSize,
+        },
+        CategoryEnum.FILE,
+      );
     }
     return ResponseResult.SUCCESS;
   }
-  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
-  @Delete('/remove-crawled')
+  @UseGuards(AuthJWTGuard)
+  @Post('remove-crawled')
   async removeWebCrawledFile(@Body() removeFile: RemoveWebCrawledFileDto) {
-    return await this.fileUploadService.removeFileFromYandexCloud(removeFile);
+    return await this.fileUploadService.removeCrawledFileFromYandexCloud(
+      removeFile,
+    );
+  }
+
+  @UseGuards(AuthJWTGuard)
+  @Post('remove-file')
+  //
+  @UseGuards(AuthJWTGuard)
+  @Post('source-text-upload')
+  async dataSourceUploadText(@Body() uploadText: TextUploadDto) {
+    const { chatbot_id, data } = uploadText;
+    const char_length = data.length;
+    return await this.fileUploadService.uploadTextFromDataSource({
+      ...uploadText,
+      char_length,
+    });
   }
 
   @UseGuards(AuthJWTGuard)
@@ -68,13 +87,21 @@ export class FileUploadController {
       },
     }),
   )
-  async uploadSingleFile(@UploadedFile() file, @Query() chatbot_id: string) {
+  async dataSourceUploadFile(
+    @UploadedFile() file,
+    @Query() chatbot_id: string,
+  ) {
     const fileName = decodeURIComponent(file.originalname);
-    await this.fileUploadService.uploadSingleFile({
-      fileName,
-      chatbot_id,
-      data: file.buffer,
-    });
+    const charLength = await this.fileUploadService.getOneFileLength(file);
+    await this.fileUploadService.uploadSingleFile(
+      {
+        fileName,
+        chatbot_id,
+        data: file.buffer,
+        char_length: charLength.textSize,
+      },
+      CategoryEnum.FILE,
+    );
     return ResponseResult.SUCCESS;
   }
 
@@ -88,6 +115,6 @@ export class FileUploadController {
     }),
   )
   async getCharLength(@UploadedFiles() files) {
-    return await this.fileUploadService.getFileTextLength(files);
+    return await this.fileUploadService.getMultipleFileTextLength(files);
   }
 }

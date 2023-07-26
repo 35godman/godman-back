@@ -1,11 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import axios from 'axios';
-import cheerio from 'cheerio';
-import puppeteer from 'puppeteer';
-import { URL } from 'url';
-import { FileUploadService } from '../fileUpload/fileUpload.service';
 import { CrawlDto } from './dto/crawl.dto';
+import { FileUploadService } from '../fileUpload/fileUpload.service';
 import { CrawledLink } from './types/crawledLink.type';
+import puppeteer from 'puppeteer';
+import { Injectable } from '@nestjs/common';
+import { CategoryEnum } from '../../enum/category.enum';
 
 @Injectable()
 export class CrawlerService {
@@ -16,10 +14,17 @@ export class CrawlerService {
     const urlsCrawled = new Set();
     const urlsContent: CrawledLink[] = [];
 
+    // Launch the Puppeteer browser instance once
+    const browser = await puppeteer.launch({
+      headless: 'new',
+    });
+
     const crawlSite = async (siteUrl) => {
-      const browser = await puppeteer.launch({
-        headless: 'new',
-      });
+      // Check if the URL has already been crawled before visiting
+      if (urlsCrawled.has(siteUrl) || urlsCrawled.size >= 100) {
+        return;
+      }
+
       const page = await browser.newPage();
 
       await page.goto(siteUrl);
@@ -33,28 +38,33 @@ export class CrawlerService {
         return textNodes.map((node) => node.textContent).join(' ');
       });
 
-      const linkCrawled = {
-        size: pageText.length,
-        url: siteUrl,
-      };
-      urlsContent.push(linkCrawled);
       const urlWithoutSlashes = siteUrl.replace(/\//g, '[]');
 
       const uploadFilePayload = {
         fileName: `${urlWithoutSlashes}.txt`,
         data: pageText,
         chatbot_id,
+        char_length: pageText.length,
       };
-      await this.fileUploadService.uploadSingleFile(uploadFilePayload);
+      const newSource = await this.fileUploadService.uploadSingleFile(
+        uploadFilePayload,
+        CategoryEnum.WEB,
+      );
       urlsCrawled.add(siteUrl);
-
+      const linkCrawled = {
+        size: pageText.length,
+        url: siteUrl,
+        _id: newSource._id,
+      };
+      urlsContent.push(linkCrawled);
       const linksOnPage: string[] = await page.evaluate(() => {
         const anchors = Array.from(document.querySelectorAll('a[href]'));
         return anchors.map((anchor: HTMLAnchorElement) => anchor.href);
       });
 
-      await browser.close();
+      await page.close();
 
+      // Use p-map to crawl links concurrently
       for (let link of linksOnPage) {
         const url = new URL(link, siteUrl).href;
 
@@ -65,6 +75,8 @@ export class CrawlerService {
     };
 
     await crawlSite(weblink);
+
+    await browser.close();
 
     return urlsContent;
   }
