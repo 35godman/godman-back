@@ -12,10 +12,16 @@ import { EmbeddingModule } from './modules/embedding/embedding.module';
 import { ChatbotModule } from './modules/chatbot/chatbot.module';
 import { FileUploadModule } from './modules/fileUpload/fileUpload.module';
 import { CrawlerModule } from './modules/crawler/crawler.module';
+import { join } from 'path';
+import { ServeStaticModule } from '@nestjs/serve-static';
 config();
 @Module({
   imports: [
     MongooseModule.forRoot(process.env.MONGO_URL),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'static'),
+      serveRoot: '/static',
+    }),
     UserModule,
     AuthModule,
     LoggerModule,

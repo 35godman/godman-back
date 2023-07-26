@@ -1,6 +1,6 @@
-import { IsUUID } from 'class-validator';
+import { IsMongoId, IsUUID } from 'class-validator';
 
 export class EmbeddingSetupDto {
-  @IsUUID()
+  @IsMongoId()
   chatbot_id: string;
 }

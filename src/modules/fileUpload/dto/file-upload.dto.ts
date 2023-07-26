@@ -1,10 +1,10 @@
-import { IsNotEmpty, IsUUID } from 'class-validator';
+import { IsMongoId, IsNotEmpty, IsUUID } from 'class-validator';
 
 export class FileUploadDto {
   @IsNotEmpty()
   fileName: string;
   @IsNotEmpty()
   data: Buffer | string;
-  @IsUUID()
+  @IsMongoId()
   chatbot_id: string;
 }

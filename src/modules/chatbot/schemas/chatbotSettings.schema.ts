@@ -2,7 +2,6 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { VisibilityOptions } from '../types/visibility.type';
 import { LimitState } from '../types/limit.type';
 import { CustomerInfo } from '../types/customer-info.type';
-import { ChatbotConversations } from './chatbotConversations.schema';
 import mongoose, { HydratedDocument } from 'mongoose';
 import { Chatbot } from '../chatbot.schema';
 

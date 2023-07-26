@@ -5,6 +5,7 @@ import { loadQAStuffChain } from 'langchain/chains';
 import { Document } from 'langchain/document';
 import { timeout } from './config';
 import { encode } from 'gpt-3-encoder';
+import { Response } from 'express';
 import { PineconeClient } from '@pinecone-database/pinecone';
 import {
   Chatbot,
@@ -17,7 +18,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
   question: string,
   chatbotInstance: ChatbotDocument,
   res: Response,
-) => {
+): Promise<string> => {
   console.log('=>(utils.ts:14) question', question);
   // 1. Start query process
   console.log('Querying Pinecone vector store...');
@@ -82,8 +83,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
       [
         {
           handleLLMNewToken(token: string) {
-            console.log({ token });
-            // res.data.pipe({ token });
+            res.write(token);
           },
         },
       ],
@@ -94,9 +94,9 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     const token_usage = encodedQuestion.length + encodedAnswer.length;
     console.log(`Tokens used: ${token_usage}`);
     console.log(`USD used ${(token_usage / 1000) * 0.0015}`);
-    return result;
+    res.end();
   } else {
     // 11. Log that there are no matches, so GPT-3 will not be queried
-    console.log('Since there are no matches, GPT-3 will not be queried.');
+    return 'Since there are no matches, GPT-3 will not be queried.';
   }
 };

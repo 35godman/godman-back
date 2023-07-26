@@ -1,9 +1,9 @@
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { IsMongoId, IsNotEmpty, IsString, IsUUID } from 'class-validator';
 
 export class CrawlDto {
   @IsString()
   @IsNotEmpty()
   weblink: string;
-  @IsUUID()
+  @IsMongoId()
   chatbot_id: string;
 }

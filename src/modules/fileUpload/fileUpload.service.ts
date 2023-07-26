@@ -91,5 +91,6 @@ export class FileUploadService {
           });
       }
     }
+    return fileSize;
   }
 }

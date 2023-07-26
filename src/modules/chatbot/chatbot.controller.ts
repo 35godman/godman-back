@@ -17,6 +17,8 @@ import { AuthJWTGuard } from '../../guards/auth.guard';
 import { ChatbotOwnerGuard } from '../../guards/chatbot-owner.guard';
 import { Chatbot } from './chatbot.schema';
 import { CreateDefaultChatbotDto } from './dto/create-default.dto';
+import { UpdateSettingsDto } from './dto/update-settings.dto';
+import { ResponseResult } from '../../enum/response.enum';
 
 @Controller('chatbot')
 export class ChatbotController {
@@ -36,34 +38,19 @@ export class ChatbotController {
     });
   }
 
-  // @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
-  // @Post('create')
-  // async createChatInstance(
-  //   @Body() createChatInstance: CreateChatbotInstanceDto,
-  // ) {
-  //   const { sources, user_id } = createChatInstance;
-  //   const chatbot = await this.chatbotService.create({
-  //     owner: user_id,
-  //   });
-  //   chatbot.sources = await this.chatbotSourcesService.create(
-  //     sources,
-  //     chatbot._id,
-  //   );
-  //   await chatbot.save();
-  //   return chatbot;
-  // }
-
-  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
+  @UseGuards(AuthJWTGuard)
   @Post('settings-update')
-  async updateSettingsChatbot(@Body() payload) {
-    const { settings, chatbot_id } = payload;
-    const settingInstance = await this.chatbotSettingsService.create(settings);
+  async updateSettingsChatbot(@Body() payload: UpdateSettingsDto) {
+    const { chatbot, chatbot_id } = payload;
     const currentChatbot = await this.chatbotService.findById(chatbot_id);
-    if (!currentChatbot || !chatbot_id) {
+    if (!currentChatbot) {
       throw new HttpException('Chatbot not found', HttpStatus.NOT_FOUND);
     }
-    currentChatbot.settings = settingInstance;
-    await currentChatbot.save();
+    await this.chatbotSettingsService.updateSettings(
+      currentChatbot.settings._id.toString(),
+      chatbot.settings,
+    );
+    return ResponseResult.SUCCESS;
   }
 
   @UseGuards(AuthJWTGuard)

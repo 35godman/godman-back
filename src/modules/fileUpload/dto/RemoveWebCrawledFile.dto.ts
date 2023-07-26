@@ -1,9 +1,9 @@
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { IsMongoId, IsNotEmpty, IsString, IsUUID } from 'class-validator';
 
 export class RemoveWebCrawledFileDto {
   @IsString()
   @IsNotEmpty()
   web_link: string;
-  @IsUUID()
+  @IsMongoId()
   chatbot_id: string;
 }

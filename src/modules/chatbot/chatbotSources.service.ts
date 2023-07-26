@@ -7,6 +7,7 @@ import {
   ChatbotSourcesDocument,
 } from './schemas/chatbotSources.schema';
 import { ObjectId } from 'typeorm';
+import { ChatbotDocument } from './chatbot.schema';
 
 @Injectable()
 export class ChatbotSourcesService {
@@ -15,12 +16,9 @@ export class ChatbotSourcesService {
     private chatbotSourcesModel: Model<ChatbotSources>,
   ) {}
 
-  async create(
-    settingsData: Partial<ChatbotSources>,
-    chatbot_id: ObjectId,
-  ): Promise<ChatbotSourcesDocument> {
+  async createDefault(chatbot_id: string): Promise<ChatbotSourcesDocument> {
     const newSettings = new this.chatbotSourcesModel({
-      ...settingsData,
+      chatbot_id,
     });
     return newSettings.save();
   }

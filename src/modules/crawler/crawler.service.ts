@@ -45,7 +45,7 @@ export class CrawlerService {
         data: pageText,
         chatbot_id,
       };
-      await this.fileUploadService.uploadFile(uploadFilePayload);
+      await this.fileUploadService.uploadSingleFile(uploadFilePayload);
       urlsCrawled.add(siteUrl);
 
       const linksOnPage: string[] = await page.evaluate(() => {

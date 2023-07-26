@@ -10,7 +10,11 @@ import { Chatbot } from '../chatbot.schema';
 export type ChatbotSourcesDocument = HydratedDocument<ChatbotSources>;
 @Schema({ timestamps: true })
 export class ChatbotSources {
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Chatbot' })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Chatbot',
+    required: true,
+  })
   chatbot_id: Chatbot;
 
   @Prop([FileUpload])

@@ -1,43 +1,23 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  Res,
-  UseGuards,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PineconeClient } from '@pinecone-database/pinecone';
 import { TextLoader } from 'langchain/document_loaders/fs/text';
 import { PDFLoader } from 'langchain/document_loaders/fs/pdf';
 import { DirectoryLoader } from 'langchain/document_loaders/fs/directory';
 import { DocxLoader } from 'langchain/document_loaders/fs/docx';
-import { createPineconeIndex } from '../../utils/embeddings/createPineconeIndex';
 import { updatePinecone } from '../../utils/embeddings/updatePinecone';
 import { indexName } from '../../utils/embeddings/config';
 import { createPineconeClient } from '../../config/pinecone.config';
-import { encode } from 'gpt-3-encoder';
-import { loadQAStuffChain } from 'langchain/chains';
-import { OpenAI } from 'langchain/llms/openai';
-import { EmbeddingCreateOpenAIDto } from './dto/create-openai.dto';
-import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { queryPineconeVectorStoreAndQueryLLM } from '../../utils/embeddings/queryPineconeVectorStoreAndQueryLLM';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from '../user/user.schema';
 import { Model } from 'mongoose';
 import { YandexCloudService } from '../yandexCloud/yandexCloud.service';
-import { S3Loader } from 'langchain/document_loaders/web/s3';
-import {
-  awsConfig,
-  BUCKET_NAME,
-  yandexCloudClient,
-} from '../../config/aws.config';
-import { fromIni } from '@aws-sdk/credential-provider-ini';
 import { AskChatDto } from './dto/ask-chat.dto';
 import { Chatbot } from '../chatbot/chatbot.schema';
 import { ChatbotService } from '../chatbot/chatbot.service';
 import { FileUploadService } from '../fileUpload/fileUpload.service';
-import { AuthJWTGuard } from '../../guards/auth.guard';
-import { ChatbotOwnerGuard } from '../../guards/chatbot-owner.guard';
-
+import { ResponseResult } from '../../enum/response.enum';
+import { Response } from 'express';
 @Injectable()
 export class EmbeddingService {
   private client: PineconeClient;
@@ -70,9 +50,10 @@ export class EmbeddingService {
      */
     await updatePinecone(this.client, indexName, docs, chatbot_id);
     await this.fileUploadService.deleteChatbotDirectory(chatbot_id);
+    return ResponseResult.SUCCESS;
   }
 
-  async askChat(payload: AskChatDto, @Res() res: Response): Promise<string> {
+  async askChat(payload: AskChatDto, response: Response): Promise<string> {
     const { question, user_id, chatbot_id } = payload;
     this.client = await createPineconeClient();
     const chatbotInstance = await this.chatbotService.findById(chatbot_id);
@@ -87,7 +68,7 @@ export class EmbeddingService {
       indexName,
       question,
       chatbotInstance,
-      res,
+      response,
     );
   }
 }

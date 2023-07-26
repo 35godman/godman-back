@@ -4,9 +4,11 @@ import { User, UserDocument } from '../user/user.schema';
 import { VisibilityOptions } from './types/visibility.type';
 import { LimitState } from './types/limit.type';
 import { CustomerInfo } from './types/customer-info.type';
-import { ChatbotSettings } from './schemas/chatbotSettings.schema';
+import {
+  ChatbotSettings,
+  ChatbotSettingsDocument,
+} from './schemas/chatbotSettings.schema';
 import { EmbeddedCode } from './types/embed-code.type';
-import { ChatbotConversations } from './schemas/chatbotConversations.schema';
 import {
   ChatbotSources,
   ChatbotSourcesDocument,
@@ -27,7 +29,7 @@ export class Chatbot {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'ChatbotSettings',
   })
-  settings: ChatbotSettings;
+  settings: ChatbotSettingsDocument;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,

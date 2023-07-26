@@ -1,9 +1,9 @@
 import { Chatbot } from '../../chatbot/chatbot.schema';
-import { IsUUID } from 'class-validator';
+import { IsMongoId, IsUUID } from 'class-validator';
 
 export class EmbeddingCreateOpenAIDto {
   question: string;
-  @IsUUID()
+  @IsMongoId()
   user_id: string;
 
   chatbot: Chatbot;

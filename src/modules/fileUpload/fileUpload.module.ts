@@ -21,6 +21,7 @@ import {
   ChatbotSettings,
   ChatbotSettingsSchema,
 } from '../chatbot/schemas/chatbotSettings.schema';
+import { ChatbotSourcesService } from '../chatbot/chatbotSources.service';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import {
     YandexCloudService,
     ChatbotService,
     ChatbotSettingsService,
+    ChatbotSourcesService,
   ],
   exports: [],
 })

@@ -9,6 +9,7 @@ import { Chatbot, ChatbotDocument } from './chatbot.schema';
 import { FileUpload } from '../fileUpload/fileUpload.schema';
 import { ChatbotSources } from './schemas/chatbotSources.schema';
 import { ChatbotSettingsService } from './chatbotSettings.service';
+import { ChatbotSourcesService } from './chatbotSources.service';
 
 @Injectable()
 export class ChatbotService {
@@ -19,6 +20,7 @@ export class ChatbotService {
     private chatbotSourcesModel: Model<ChatbotSources>,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
     private chatbotSettingsService: ChatbotSettingsService,
+    private chatbotSourcesService: ChatbotSourcesService,
   ) {}
 
   async createDefault(payload: ChatbotCreateDto): Promise<ChatbotDocument> {
@@ -34,6 +36,9 @@ export class ChatbotService {
       //settings: setting_id,
     });
     newChatbot.settings = await this.chatbotSettingsService.createDefault(
+      newChatbot._id.toString(),
+    );
+    newChatbot.sources = await this.chatbotSourcesService.createDefault(
       newChatbot._id.toString(),
     );
 

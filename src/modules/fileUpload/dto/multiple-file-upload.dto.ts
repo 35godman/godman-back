@@ -1,7 +1,7 @@
 import { FileUploadDto } from './file-upload.dto';
-import { IsUUID } from 'class-validator';
+import { IsMongoId, IsUUID } from 'class-validator';
 
 export class MultipleFileUploadDto {
-  @IsUUID()
+  @IsMongoId()
   chatbot_id: string;
 }

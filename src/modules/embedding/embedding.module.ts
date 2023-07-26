@@ -21,6 +21,7 @@ import { FileUploadService } from '../fileUpload/fileUpload.service';
 import { FileUploadModule } from '../fileUpload/fileUpload.module';
 import { FileUpload, FileUploadSchema } from '../fileUpload/fileUpload.schema';
 import { ChatbotSettingsService } from '../chatbot/chatbotSettings.service';
+import { ChatbotSourcesService } from '../chatbot/chatbotSources.service';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { ChatbotSettingsService } from '../chatbot/chatbotSettings.service';
     ChatbotService,
     FileUploadService,
     ChatbotSettingsService,
+    ChatbotSourcesService,
   ],
   exports: [],
 })
