@@ -23,6 +23,8 @@ import { CategoryEnum } from '../../enum/category.enum';
 import { ChatbotSourcesService } from '../chatbot/chatbotSources.service';
 import { ChatbotSourcesDocument } from '../chatbot/schemas/chatbotSources.schema';
 import { UploadTextFromDataSourceDto } from './dto/text-upload.dto';
+import { RemoveUploadedFileDto } from './dto/RemoveUploadedFile.dto';
+import { UpdateQnADto } from './dto/add-qna.dto';
 @Injectable()
 export class FileUploadService {
   constructor(
@@ -142,5 +144,48 @@ export class FileUploadService {
         fileSize.name = file.originalname;
     }
     return fileSize;
+  }
+
+  async removeUploadedFile(payload: RemoveUploadedFileDto) {
+    const { file_id, original_name, chatbot_id } = payload;
+    const sources = await this.chatbotSourcesService.findByChatbotId(
+      chatbot_id,
+    );
+
+    const sourceFileIndex = sources.files.findIndex(
+      (item) => item._id.toString() === file_id,
+    );
+
+    if (sourceFileIndex > -1) {
+      sources.files.splice(sourceFileIndex, 1);
+      await sources.save();
+    } else {
+      throw new HttpException('File not found', HttpStatus.NOT_FOUND);
+    }
+    return await this.yandexCloudService.removeUploadedFile(
+      chatbot_id,
+      decodeURIComponent(original_name),
+    );
+  }
+
+  async addQnA(payload: UpdateQnADto) {
+    const { char_length, chatbot_id, data } = payload;
+    const sources = await this.chatbotSourcesService.findByChatbotId(
+      chatbot_id,
+    );
+    sources.QA_list = data;
+    await sources.save();
+
+    /**
+     * @COMMENT(convert array to json)
+     */
+    const fileData = JSON.stringify(data, null, 2);
+    console.log('=>(fileUpload.service.ts:183) fileData', fileData);
+
+    return await this.yandexCloudService.uploadFile(
+      chatbot_id,
+      process.env.QNA_DATASOURCE_NAME,
+      fileData,
+    );
   }
 }

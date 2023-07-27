@@ -114,6 +114,26 @@ export class YandexCloudService {
       return e.message;
     }
   }
+
+  async removeUploadedFile(chatbot_id, file_name: string): Promise<string> {
+    const deleteParams = {
+      Bucket: BUCKET_NAME,
+      Key: `${chatbot_id}/${file_name}`,
+    };
+    console.log(
+      '=>(yandexCloud.service.ts:124) `${chatbot_id}/${file_name}`',
+      `${chatbot_id}/${file_name}`,
+    );
+
+    const deleteCommand = new DeleteObjectCommand(deleteParams);
+    try {
+      await this.s3.send(deleteCommand);
+      return `${file_name} successfully deleted`;
+    } catch (e) {
+      return e.message;
+    }
+  }
+
   async createBucket() {
     // // Создание бакета
     // try {

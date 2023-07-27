@@ -33,8 +33,6 @@ export class ChatbotService {
     }
     const newChatbot = new this.chatbotModel({
       owner: userInstance,
-      // sources: sources_id,
-      //settings: setting_id,
     });
     newChatbot.settings = await this.chatbotSettingsService.createDefault(
       newChatbot._id.toString(),
@@ -46,8 +44,14 @@ export class ChatbotService {
     return await newChatbot.save();
   }
 
-  async findById(id: string) {
-    return this.chatbotModel.findById(id).populate('owner sources settings');
+  async findById(id: string): Promise<ChatbotDocument> {
+    const chatbot = await this.chatbotModel
+      .findById(id)
+      .populate('owner sources settings');
+    if (!chatbot) {
+      throw new HttpException('Chatbot not found', HttpStatus.NOT_FOUND);
+    }
+    return chatbot;
   }
 
   async findByUser(user_id: string) {
@@ -56,5 +60,10 @@ export class ChatbotService {
         owner: user_id,
       })
       .populate('owner sources settings');
+  }
+
+  async delete(id: string) {
+    const chatbot = await this.findById(id);
+    await this.chatbotModel.deleteOne({ _id: id }).exec();
   }
 }

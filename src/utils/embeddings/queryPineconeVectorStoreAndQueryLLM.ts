@@ -25,8 +25,10 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
   // 2. Retrieve the Pinecone index
   const index = client.Index(indexName);
   // 3. Create query embedding
-  const queryEmbedding = await new OpenAIEmbeddings().embedQuery(question);
-  // 4. Query Pinecone index and return top 10 matches
+  const queryEmbedding = await new OpenAIEmbeddings({
+    modelName: 'text-embedding-ada-002',
+  }).embedQuery(question);
+  // 4. Query Pinecone index and return top 5 matches
   const queryResponse = await index.query({
     queryRequest: {
       topK: 5,
@@ -41,7 +43,6 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
   // 6. Log the question being asked
   console.log(`Asking question: ${question}...`);
   if (queryResponse.matches.length) {
-    let streamedResponse = '';
     // 7. Create an OpenAI instance and load the QAStuffChain
     const llm = new OpenAI({
       modelName: chatbotInstance.settings?.model || 'gpt-3.5-turbo-0613',

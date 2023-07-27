@@ -40,7 +40,9 @@ export const updatePinecone = async (
     );
 
     // 6. Create OpenAI embeddings for documents
-    const embeddingsArrays = await new OpenAIEmbeddings().embedDocuments(
+    const embeddingsArrays = await new OpenAIEmbeddings({
+      modelName: 'text-embedding-ada-002',
+    }).embedDocuments(
       chunks.map((chunk) => chunk.pageContent.replace(/\n/g, ' ')),
     );
     console.log('Finished embedding documents');

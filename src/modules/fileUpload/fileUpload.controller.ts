@@ -19,6 +19,8 @@ import { ResponseResult } from '../../enum/response.enum';
 import { CategoryEnum } from '../../enum/category.enum';
 import { TextUploadDto } from './dto/text-upload.dto';
 import { FileUploadDto } from './dto/file-upload.dto';
+import { RemoveUploadedFileDto } from './dto/RemoveUploadedFile.dto';
+import { AddQnaDto } from './dto/add-qna.dto';
 
 @Controller('file-upload')
 export class FileUploadController {
@@ -66,14 +68,21 @@ export class FileUploadController {
 
   @UseGuards(AuthJWTGuard)
   @Post('remove-file')
-  //
+  async removeUploadedFile(@Body() removeFile: RemoveUploadedFileDto) {
+    return await this.fileUploadService.removeUploadedFile(removeFile);
+  }
+
   @UseGuards(AuthJWTGuard)
   @Post('source-text-upload')
-  async dataSourceUploadText(@Body() uploadText: TextUploadDto) {
-    const { chatbot_id, data } = uploadText;
+  async dataSourceUploadText(
+    @Body() uploadText: TextUploadDto,
+    @Query('chatbot_id') chatbot_id: string,
+  ) {
+    const { data } = uploadText;
     const char_length = data.length;
     return await this.fileUploadService.uploadTextFromDataSource({
-      ...uploadText,
+      chatbot_id,
+      data,
       char_length,
     });
   }
@@ -116,5 +125,24 @@ export class FileUploadController {
   )
   async getCharLength(@UploadedFiles() files) {
     return await this.fileUploadService.getMultipleFileTextLength(files);
+  }
+
+  @UseGuards(AuthJWTGuard)
+  @Post('add-qna')
+  async addQnaHandler(
+    @Body() addQnaDto: AddQnaDto,
+    @Query('chatbot_id') chatbot_id: string,
+  ) {
+    const { data } = addQnaDto;
+    let text = '';
+    data.forEach((item) => {
+      text += item.answer;
+      text += item.question;
+    });
+    return await this.fileUploadService.addQnA({
+      data,
+      chatbot_id,
+      char_length: text.length,
+    });
   }
 }

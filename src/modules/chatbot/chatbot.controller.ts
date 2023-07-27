@@ -1,11 +1,13 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpException,
   HttpStatus,
   Param,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { ChatbotService } from './chatbot.service';
@@ -46,6 +48,9 @@ export class ChatbotController {
     if (!currentChatbot) {
       throw new HttpException('Chatbot not found', HttpStatus.NOT_FOUND);
     }
+    currentChatbot.chatbot_name = chatbot.chatbot_name;
+    await currentChatbot.save();
+
     await this.chatbotSettingsService.updateSettings(
       currentChatbot.settings._id.toString(),
       chatbot.settings,
@@ -65,5 +70,11 @@ export class ChatbotController {
     @Param('id', new ValidateObjectIdPipe()) id: string,
   ) {
     return this.chatbotService.findByUser(id);
+  }
+
+  @UseGuards(AuthJWTGuard)
+  @Delete('delete')
+  async deleteChatbotById(@Query('chatbot_id') id: string) {
+    return this.chatbotService.delete(id);
   }
 }

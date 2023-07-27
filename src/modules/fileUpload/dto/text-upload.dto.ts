@@ -1,8 +1,6 @@
 import { IsMongoId, IsNumber, IsString } from 'class-validator';
 
 export class TextUploadDto {
-  @IsMongoId()
-  chatbot_id: string;
   @IsString()
   data: string;
 }
