@@ -20,6 +20,9 @@ export class ChatbotSettings {
   @Prop({ default: 0 })
   num_of_characters: number;
 
+  @Prop({ default: 2000000 })
+  char_limit: number;
+
   @Prop({ default: 1000 })
   max_tokens: number;
 
@@ -83,7 +86,7 @@ export class ChatbotSettings {
   @Prop({ default: 'light' })
   theme: 'light' | 'dark';
 
-  @Prop({ default: 'icons/icons8-chatbot-96.png' })
+  @Prop({ default: 'static/icons/icons8-chatbot-96.png' })
   profile_picture_path: string;
 
   @Prop({ default: false })
@@ -98,7 +101,7 @@ export class ChatbotSettings {
   @Prop({ default: '#E3E5E8' })
   bot_message_color: string;
 
-  @Prop({ default: 'icons/icons8-chatbot-96' })
+  @Prop({ default: 'static/icons/icons8-chatbot-96.png' })
   chat_icon_path: string;
 
   @Prop({ default: '#E3E5E8' })

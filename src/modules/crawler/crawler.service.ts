@@ -24,12 +24,19 @@ export class CrawlerService {
       if (urlsCrawled.has(siteUrl) || urlsCrawled.size >= 100) {
         return;
       }
+      // Ignore URLs containing a '?'
+      if (siteUrl.includes('?')) {
+        return;
+      }
 
       const page = await browser.newPage();
 
-      await page.goto(siteUrl);
+      await page.goto(siteUrl, {
+        waitUntil: 'domcontentloaded',
+        timeout: 60000,
+      });
 
-      await page.waitForSelector('p');
+      await page.waitForSelector('a');
 
       const pageText = await page.evaluate(() => {
         const textNodes = Array.from(

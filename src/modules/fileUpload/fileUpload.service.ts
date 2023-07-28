@@ -25,6 +25,8 @@ import { ChatbotSourcesDocument } from '../chatbot/schemas/chatbotSources.schema
 import { UploadTextFromDataSourceDto } from './dto/text-upload.dto';
 import { RemoveUploadedFileDto } from './dto/RemoveUploadedFile.dto';
 import { UpdateQnADto } from './dto/add-qna.dto';
+import { ChatbotSettingsService } from '../chatbot/chatbotSettings.service';
+import { UploadProfilePictureDto } from './dto/upload-profile-picture.dto';
 @Injectable()
 export class FileUploadService {
   constructor(
@@ -33,13 +35,16 @@ export class FileUploadService {
     private fileUploadModel: Model<FileUploadDocument>,
     private chatbotService: ChatbotService,
     private chatbotSourcesService: ChatbotSourcesService,
+    private chatbotSettingsService: ChatbotSettingsService,
   ) {}
 
   async uploadSingleFile(
     payload: FileUploadDto,
     category: CategoryEnum.FILE | CategoryEnum.WEB,
-  ): Promise<ChatbotSourcesDocument> {
+  ): Promise<FileUploadDocument> {
     const { fileName, data, chatbot_id, char_length } = payload;
+
+    await this.chatbotSettingsService.increaseCharNum(chatbot_id, char_length);
 
     const newFile = new this.fileUploadModel({
       chatbot: chatbot_id,
@@ -60,8 +65,15 @@ export class FileUploadService {
 
   async uploadTextFromDataSource(payload: UploadTextFromDataSourceDto) {
     const { char_length, chatbot_id, data } = payload;
+
     const sources = await this.chatbotSourcesService.findByChatbotId(
       chatbot_id,
+    );
+
+    await this.chatbotSettingsService.increaseCharNum(
+      chatbot_id,
+      //here we define the new char_length
+      char_length - sources.text.length,
     );
     sources.text = data;
     await sources.save();
@@ -74,6 +86,7 @@ export class FileUploadService {
 
   async removeCrawledFileFromYandexCloud(payload: RemoveWebCrawledFileDto) {
     const { web_link, chatbot_id, weblink_id } = payload;
+
     const sources = await this.chatbotSourcesService.findByChatbotId(
       chatbot_id,
     );
@@ -83,7 +96,12 @@ export class FileUploadService {
     );
 
     if (sourceFileIndex > -1) {
+      await this.chatbotSettingsService.decreaseCharNum(
+        chatbot_id,
+        sources.website[sourceFileIndex].char_length,
+      );
       sources.website.splice(sourceFileIndex, 1);
+
       await sources.save();
     } else {
       throw new HttpException('File not found', HttpStatus.NOT_FOUND);
@@ -114,6 +132,7 @@ export class FileUploadService {
   async getMultipleFileTextLength(files: Express.Multer.File[]) {
     const fileSize = [];
     for (const file of files) {
+      console.log('=>(fileUpload.service.ts:117) file', file);
       fileSize.push(await this.getOneFileLength(file));
     }
     return fileSize;
@@ -157,7 +176,12 @@ export class FileUploadService {
     );
 
     if (sourceFileIndex > -1) {
+      await this.chatbotSettingsService.decreaseCharNum(
+        chatbot_id,
+        sources.files[sourceFileIndex].char_length,
+      );
       sources.files.splice(sourceFileIndex, 1);
+
       await sources.save();
     } else {
       throw new HttpException('File not found', HttpStatus.NOT_FOUND);
@@ -168,24 +192,14 @@ export class FileUploadService {
     );
   }
 
-  async addQnA(payload: UpdateQnADto) {
-    const { char_length, chatbot_id, data } = payload;
-    const sources = await this.chatbotSourcesService.findByChatbotId(
+  async uploadProfilePicture(payload: UploadProfilePictureDto) {
+    const { chatbot_id, fileName, data } = payload;
+    const settingsEntity = await this.chatbotSettingsService.findByChatbotId(
       chatbot_id,
     );
-    sources.QA_list = data;
-    await sources.save();
-
-    /**
-     * @COMMENT(convert array to json)
-     */
-    const fileData = JSON.stringify(data, null, 2);
-    console.log('=>(fileUpload.service.ts:183) fileData', fileData);
-
-    return await this.yandexCloudService.uploadFile(
-      chatbot_id,
-      process.env.QNA_DATASOURCE_NAME,
-      fileData,
-    );
+    settingsEntity.profile_picture_path =
+      'data:image/jpeg;base64,' + data.toString('base64');
+    // await this.yandexCloudService.uploadFile(chatbot_id, fileName, data);
+    await settingsEntity.save();
   }
 }

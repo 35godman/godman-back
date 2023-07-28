@@ -98,10 +98,11 @@ export class FileUploadController {
   )
   async dataSourceUploadFile(
     @UploadedFile() file,
-    @Query() chatbot_id: string,
+    @Query('chatbot_id') chatbot_id: string,
   ) {
     const fileName = decodeURIComponent(file.originalname);
     const charLength = await this.fileUploadService.getOneFileLength(file);
+    console.log('=>(fileUpload.controller.ts:105) charLength', charLength);
     await this.fileUploadService.uploadSingleFile(
       {
         fileName,
@@ -128,21 +129,25 @@ export class FileUploadController {
   }
 
   @UseGuards(AuthJWTGuard)
-  @Post('add-qna')
-  async addQnaHandler(
-    @Body() addQnaDto: AddQnaDto,
+  @Post('profile-picture-upload')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      limits: {
+        fileSize: globalConfig.MAX_FILE_SIZE,
+      },
+    }),
+  )
+  async imageUpload(
+    @UploadedFile() file,
+
     @Query('chatbot_id') chatbot_id: string,
   ) {
-    const { data } = addQnaDto;
-    let text = '';
-    data.forEach((item) => {
-      text += item.answer;
-      text += item.question;
-    });
-    return await this.fileUploadService.addQnA({
-      data,
+    const fileName = decodeURIComponent(file.originalname);
+    await this.fileUploadService.uploadProfilePicture({
+      fileName,
       chatbot_id,
-      char_length: text.length,
+      data: file.buffer,
     });
+    return ResponseResult.SUCCESS;
   }
 }

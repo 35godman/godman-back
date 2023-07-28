@@ -11,6 +11,7 @@ import { ChatbotSources } from './schemas/chatbotSources.schema';
 import { ChatbotSettingsService } from './chatbotSettings.service';
 import { ChatbotSourcesService } from './chatbotSources.service';
 import { CategoryEnum } from '../../enum/category.enum';
+import { ResponseResult } from '../../enum/response.enum';
 
 @Injectable()
 export class ChatbotService {
@@ -64,6 +65,11 @@ export class ChatbotService {
 
   async delete(id: string) {
     const chatbot = await this.findById(id);
+    const settings_id = chatbot.settings._id.toString();
+    const sources_id = chatbot.sources._id.toString();
+    await this.chatbotSettingsService.deleteById(settings_id);
+    await this.chatbotSourcesService.deleteById(sources_id);
     await this.chatbotModel.deleteOne({ _id: id }).exec();
+    return ResponseResult.SUCCESS;
   }
 }

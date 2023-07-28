@@ -20,12 +20,6 @@ export class User {
   @Prop({ default: 1 })
   chatbot_limit: number;
 
-  @Prop({ default: 2000 })
-  message_limit: number;
-
-  @Prop({ default: 2000000 })
-  char_limit: number;
-
   @Prop()
   language: 'russian' | 'english';
 }

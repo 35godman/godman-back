@@ -17,6 +17,7 @@ import {
   ChatbotSources,
   ChatbotSourcesSchema,
 } from './schemas/chatbotSources.schema';
+import { YandexCloudService } from '../yandexCloud/yandexCloud.service';
 
 @Module({
   imports: [
@@ -32,7 +33,12 @@ import {
     WinstonModule,
   ],
   controllers: [ChatbotController],
-  providers: [ChatbotSourcesService, ChatbotSettingsService, ChatbotService],
+  providers: [
+    ChatbotSourcesService,
+    ChatbotSettingsService,
+    ChatbotService,
+    YandexCloudService,
+  ],
   exports: [],
 })
 export class ChatbotModule {}

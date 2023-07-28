@@ -21,6 +21,7 @@ import { Chatbot } from './chatbot.schema';
 import { CreateDefaultChatbotDto } from './dto/create-default.dto';
 import { UpdateSettingsDto } from './dto/update-settings.dto';
 import { ResponseResult } from '../../enum/response.enum';
+import { AddQnaDto } from '../fileUpload/dto/add-qna.dto';
 
 @Controller('chatbot')
 export class ChatbotController {
@@ -76,5 +77,24 @@ export class ChatbotController {
   @Delete('delete')
   async deleteChatbotById(@Query('chatbot_id') id: string) {
     return this.chatbotService.delete(id);
+  }
+
+  @UseGuards(AuthJWTGuard)
+  @Post('add-qna')
+  async addQnaHandler(
+    @Body() addQnaDto: AddQnaDto,
+    @Query('chatbot_id') chatbot_id: string,
+  ) {
+    const { data } = addQnaDto;
+    let text = '';
+    data.forEach((item) => {
+      text += item.answer;
+      text += item.question;
+    });
+    return await this.chatbotSourcesService.addQnA({
+      data,
+      chatbot_id,
+      char_length: text.length,
+    });
   }
 }

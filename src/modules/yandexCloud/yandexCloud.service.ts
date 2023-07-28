@@ -24,10 +24,14 @@ export class YandexCloudService {
     this.s3 = yandexCloudClient;
   }
 
-  async uploadFile(user_id: string, fileName: string, data: Buffer | string) {
+  async uploadFile(
+    chatbot_id: string,
+    fileName: string,
+    data: Buffer | string,
+  ) {
     const params = {
       Bucket: BUCKET_NAME, // The name of the bucket. For example, 'sample-bucket-101'.
-      Key: `${user_id}/${fileName}`, // The name of the object. For example, 'sample_upload.txt'.
+      Key: `${chatbot_id}/${fileName}`, // The name of the object. For example, 'sample_upload.txt'.
       Body: data, // fs.readFileSync('<path_to_your_file>') The content of the object. For example, 'Hello world!'.
     };
 
