@@ -86,7 +86,9 @@ export class ChatbotSettings {
   @Prop({ default: 'light' })
   theme: 'light' | 'dark';
 
-  @Prop({ default: 'static/icons/icons8-chatbot-96.png' })
+  @Prop({
+    default: `${process.env.BACKEND_DOMAIN_NAME}/static/icons/icons8-chatbot-96.png`,
+  })
   profile_picture_path: string;
 
   @Prop({ default: false })

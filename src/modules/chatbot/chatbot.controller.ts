@@ -97,4 +97,11 @@ export class ChatbotController {
       char_length: text.length,
     });
   }
+
+  @UseGuards(AuthJWTGuard)
+  @Post('generate-iframe')
+  async generateIframe(@Query('chatbot_id') chatbot_id: string) {
+    await this.chatbotService.generateIframeCode(chatbot_id);
+    return ResponseResult.SUCCESS;
+  }
 }

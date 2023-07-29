@@ -25,7 +25,7 @@ export class CrawlerService {
         return;
       }
       // Ignore URLs containing a '?'
-      if (siteUrl.includes('?')) {
+      if (siteUrl.includes('?') || siteUrl.includes('#')) {
         return;
       }
 

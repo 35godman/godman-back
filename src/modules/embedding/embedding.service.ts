@@ -53,7 +53,7 @@ export class EmbeddingService {
     return ResponseResult.SUCCESS;
   }
 
-  async askChat(payload: AskChatDto, response: Response): Promise<string> {
+  async askChat(payload: AskChatDto, response: Response): Promise<void> {
     const { question, user_id, chatbot_id } = payload;
     this.client = await createPineconeClient();
     const chatbotInstance = await this.chatbotService.findById(chatbot_id);
@@ -63,7 +63,7 @@ export class EmbeddingService {
         HttpStatus.NOT_FOUND,
       );
     }
-    return await queryPineconeVectorStoreAndQueryLLM(
+    await queryPineconeVectorStoreAndQueryLLM(
       this.client,
       indexName,
       question,

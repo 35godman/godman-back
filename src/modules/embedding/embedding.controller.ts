@@ -14,6 +14,6 @@ export class EmbeddingController {
 
   @Post('/ask')
   async askChatbot(@Body() askChatDto: AskChatDto, @Res() response) {
-    return await this.embeddingService.askChat(askChatDto, response);
+    await this.embeddingService.askChat(askChatDto, response);
   }
 }

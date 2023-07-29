@@ -193,7 +193,7 @@ export class FileUploadService {
   }
 
   async uploadProfilePicture(payload: UploadProfilePictureDto) {
-    const { chatbot_id, fileName, data } = payload;
+    const { chatbot_id, data } = payload;
     const settingsEntity = await this.chatbotSettingsService.findByChatbotId(
       chatbot_id,
     );

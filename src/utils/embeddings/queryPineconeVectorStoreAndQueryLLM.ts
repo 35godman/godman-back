@@ -12,13 +12,14 @@ import {
   ChatbotDocument,
   ChatbotSchema,
 } from '../../modules/chatbot/chatbot.schema';
+import { HttpException, HttpStatus } from '@nestjs/common';
 export const queryPineconeVectorStoreAndQueryLLM = async (
   client: PineconeClient,
   indexName: string,
   question: string,
   chatbotInstance: ChatbotDocument,
   res: Response,
-): Promise<string> => {
+): Promise<void> => {
   console.log('=>(utils.ts:14) question', question);
   // 1. Start query process
   console.log('Querying Pinecone vector store...');
@@ -66,7 +67,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
         {
           language: `only use the language ${chatbotInstance.settings.language} in answer. Dont use any other language `,
         },
-        { details: `Answer must be as detailed as possible` },
+        // { details: `Answer must be as detailed as possible` },
       ],
     });
 
@@ -90,7 +91,8 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     console.log(`USD used ${(token_usage / 1000) * 0.0015}`);
     res.end();
   } else {
+    throw new HttpException('No matches found', HttpStatus.BAD_REQUEST);
     // 11. Log that there are no matches, so GPT-3 will not be queried
-    return 'Since there are no matches, GPT-3 will not be queried.';
+    // return 'Since there are no matches, GPT-3 will not be queried.';
   }
 };

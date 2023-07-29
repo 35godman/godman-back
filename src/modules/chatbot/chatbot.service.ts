@@ -12,6 +12,9 @@ import { ChatbotSettingsService } from './chatbotSettings.service';
 import { ChatbotSourcesService } from './chatbotSources.service';
 import { CategoryEnum } from '../../enum/category.enum';
 import { ResponseResult } from '../../enum/response.enum';
+import { generateIframeUtil } from '../../utils/generateScripts/generateIframe.util';
+import { generateScriptUtil } from '../../utils/generateScripts/generateScript.util';
+import { obfuscatorUtil } from '../../utils/obfuscate/obfuscator.util';
 
 @Injectable()
 export class ChatbotService {
@@ -48,7 +51,7 @@ export class ChatbotService {
   async findById(id: string): Promise<ChatbotDocument> {
     const chatbot = await this.chatbotModel
       .findById(id)
-      .populate('owner sources settings');
+      .populate('sources settings');
     if (!chatbot) {
       throw new HttpException('Chatbot not found', HttpStatus.NOT_FOUND);
     }
@@ -71,5 +74,20 @@ export class ChatbotService {
     await this.chatbotSourcesService.deleteById(sources_id);
     await this.chatbotModel.deleteOne({ _id: id }).exec();
     return ResponseResult.SUCCESS;
+  }
+
+  async generateIframeCode(chatbot_id: string) {
+    const chatbotEntity = await this.findById(chatbot_id);
+    chatbotEntity.embed_code.script = generateScriptUtil();
+    // obfuscatorUtil(chatbotEntity.embed_code.script);
+    chatbotEntity.embed_code.iframe = generateIframeUtil(chatbot_id);
+
+    const settingEntity = await this.chatbotSettingsService.findByChatbotId(
+      chatbot_id,
+    );
+    settingEntity.visibility = 'public';
+
+    await settingEntity.save();
+    await chatbotEntity.save();
   }
 }

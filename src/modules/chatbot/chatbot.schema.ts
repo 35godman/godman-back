@@ -44,7 +44,10 @@ export class Chatbot {
   sources: ChatbotSourcesDocument;
 
   @Prop({
-    default: null,
+    default: {
+      iframe: '',
+      script: '',
+    },
     type: {
       iframe: String,
       script: String,
