@@ -4,7 +4,10 @@ import { CrawledLink } from './types/crawledLink.type';
 import puppeteer from 'puppeteer';
 import { Injectable } from '@nestjs/common';
 import { CategoryEnum } from '../../enum/category.enum';
+import * as dotenv from 'dotenv';
+import { waitTillHTMLRendered } from '../../utils/puppeteer/waitTillHtmlRendered.util';
 
+dotenv.config();
 @Injectable()
 export class CrawlerService {
   constructor(private fileUploadService: FileUploadService) {}
@@ -15,13 +18,19 @@ export class CrawlerService {
     const urlsContent: CrawledLink[] = [];
 
     // Launch the Puppeteer browser instance once
-
-    const browser = await puppeteer.launch({
-      headless: 'new',
-      //for ubuntu only
-      executablePath: '/usr/bin/chromium-browser',
-      args: ['--no-sandbox'],
-    });
+    let browser = null;
+    if (process.env.NODE_ENV === 'production') {
+      browser = await puppeteer.launch({
+        headless: 'new',
+        //for ubuntu only
+        executablePath: '/usr/bin/chromium-browser',
+        args: ['--no-sandbox'],
+      });
+    } else {
+      browser = await puppeteer.launch({
+        headless: false,
+      });
+    }
 
     const crawlSite = async (siteUrl) => {
       // Check if the URL has already been crawled before visiting
@@ -35,18 +44,31 @@ export class CrawlerService {
 
       const page = await browser.newPage();
 
-      await page.goto(siteUrl, {
-        waitUntil: 'domcontentloaded',
-        timeout: 60000,
-      });
+      await page.goto(siteUrl, { timeout: 60000, waitUntil: 'load' });
+      await waitTillHTMLRendered(page);
 
       await page.waitForSelector('a');
 
       const pageText = await page.evaluate(() => {
-        const textNodes = Array.from(
-          document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span'),
+        const nodes = Array.from(
+          document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, a, div'),
         );
-        return textNodes.map((node) => node.textContent).join(' ');
+
+        const textNodes = nodes.map((node) => {
+          if (node.nodeName.toLowerCase() === 'div') {
+            // If this is a div, filter its childNodes to only take the Text nodes.
+            return Array.from(node.childNodes)
+              .filter((child) => child.nodeType === Node.TEXT_NODE)
+              .map((textNode) => textNode.textContent)
+              .join(' ');
+          } else {
+            // If this is not a div, just take its textContent as before.
+            return node.textContent;
+          }
+        });
+
+        const textContent = textNodes.join(' ');
+        return textContent.replace(/ {2,}/g, ' ');
       });
 
       const urlWithoutSlashes = siteUrl.replace(/\//g, '[]');
@@ -72,6 +94,7 @@ export class CrawlerService {
         const anchors = Array.from(document.querySelectorAll('a[href]'));
         return anchors.map((anchor: HTMLAnchorElement) => anchor.href);
       });
+      console.log('=>(crawler.service.ts:82) linksOnPage', linksOnPage);
 
       await page.close();
 

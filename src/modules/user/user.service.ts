@@ -16,6 +16,7 @@ export class UserService {
   async create(user: UserCreateDto): Promise<User> {
     const { password, username, email } = user;
     const existingUser = await this.userModel
+
       .findOne({
         $or: [{ email: email }, { username: username }],
       })

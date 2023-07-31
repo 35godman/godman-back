@@ -7,6 +7,7 @@ import { AskChatDto } from './dto/ask-chat.dto';
 export class EmbeddingController {
   constructor(private embeddingService: EmbeddingService) {}
 
+  //FIXME add jwt
   @Post('/setup')
   async setupPinecone(@Body() setupPinecone: EmbeddingSetupDto) {
     return await this.embeddingService.setup(setupPinecone);

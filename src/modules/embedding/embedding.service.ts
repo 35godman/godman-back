@@ -39,6 +39,7 @@ export class EmbeddingService {
       '.pdf': (path) => new PDFLoader(path),
       '.docx': (path) => new DocxLoader(path),
     });
+    console.log('=>(embedding.service.ts:42) loader', loader);
 
     const docs = await loader.load();
 
@@ -49,7 +50,7 @@ export class EmbeddingService {
      * await createPineconeIndex(client, indexName, vectorDimensions);
      */
     await updatePinecone(this.client, indexName, docs, chatbot_id);
-    await this.fileUploadService.deleteChatbotDirectory(chatbot_id);
+    //await this.fileUploadService.deleteChatbotDirectory(chatbot_id);
     return ResponseResult.SUCCESS;
   }
 
