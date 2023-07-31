@@ -18,7 +18,9 @@ export class CrawlerService {
 
     const browser = await puppeteer.launch({
       headless: 'new',
+      //for ubuntu only
       executablePath: '/usr/bin/chromium-browser',
+      args: ['--no-sandbox'],
     });
 
     const crawlSite = async (siteUrl) => {
