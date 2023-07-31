@@ -59,7 +59,7 @@ export class ChatbotController {
     return ResponseResult.SUCCESS;
   }
 
-  @UseGuards(AuthJWTGuard)
+  // @UseGuards(AuthJWTGuard)
   @Get('find/:id')
   async findChatbotById(@Param('id', new ValidateObjectIdPipe()) id: string) {
     return this.chatbotService.findById(id);
