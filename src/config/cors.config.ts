@@ -1,4 +1,4 @@
-const allowedOrigins = ['http://godman.tech'];
+const allowedOrigins = ['https://godman.tech'];
 const testAllowedOrigins = [
   'http://localhost:3000',
   'http://localhost:3001',
