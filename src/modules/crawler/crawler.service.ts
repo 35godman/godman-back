@@ -15,8 +15,10 @@ export class CrawlerService {
     const urlsContent: CrawledLink[] = [];
 
     // Launch the Puppeteer browser instance once
+
     const browser = await puppeteer.launch({
       headless: 'new',
+      executablePath: '/usr/bin/chromium-browser',
     });
 
     const crawlSite = async (siteUrl) => {
