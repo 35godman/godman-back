@@ -83,6 +83,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
         },
       ],
     );
+
     console.log('=>(queryPineconeVectorStoreAndQueryLLM.ts:73) result', result);
     const encodedQuestion = encode(concatenatedPageContent);
     const encodedAnswer = encode(result);

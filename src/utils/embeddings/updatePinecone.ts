@@ -2,6 +2,7 @@ import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
 import { PineconeClient } from '@pinecone-database/pinecone';
 import { encode } from 'gpt-3-encoder';
+import { ResponseResult } from '../../enum/response.enum';
 
 export const updatePinecone = async (
   client: PineconeClient,
@@ -81,4 +82,5 @@ export const updatePinecone = async (
     console.log(`USD total: ${(totalToken / 1000) * 0.001}`);
     console.log(`Pinecone index updated with ${chunks.length} vectors`);
   }
+  return ResponseResult.SUCCESS;
 };
