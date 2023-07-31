@@ -31,6 +31,7 @@ export class ChatbotController {
     private readonly chatbotSourcesService: ChatbotSourcesService,
   ) {}
 
+  @UseGuards(AuthJWTGuard)
   @Post('create-default')
   async createDefaultChatbot(
     @Body() createDefaultChatbot: CreateDefaultChatbotDto,
@@ -41,10 +42,13 @@ export class ChatbotController {
     });
   }
 
-  @UseGuards(AuthJWTGuard)
+  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
   @Post('settings-update')
-  async updateSettingsChatbot(@Body() payload: UpdateSettingsDto) {
-    const { chatbot, chatbot_id } = payload;
+  async updateSettingsChatbot(
+    @Query('chatbot_id') chatbot_id: string,
+    @Body() payload: UpdateSettingsDto,
+  ) {
+    const { chatbot } = payload;
     const currentChatbot = await this.chatbotService.findById(chatbot_id);
     if (!currentChatbot) {
       throw new HttpException('Chatbot not found', HttpStatus.NOT_FOUND);
@@ -59,9 +63,11 @@ export class ChatbotController {
     return ResponseResult.SUCCESS;
   }
 
-  // @UseGuards(AuthJWTGuard)
-  @Get('find/:id')
-  async findChatbotById(@Param('id', new ValidateObjectIdPipe()) id: string) {
+  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
+  @Get('find')
+  async findChatbotById(
+    @Query('chatbot_id', new ValidateObjectIdPipe()) id: string,
+  ) {
     return this.chatbotService.findById(id);
   }
 
@@ -73,13 +79,13 @@ export class ChatbotController {
     return this.chatbotService.findByUser(id);
   }
 
-  @UseGuards(AuthJWTGuard)
+  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
   @Delete('delete')
   async deleteChatbotById(@Query('chatbot_id') id: string) {
     return this.chatbotService.delete(id);
   }
 
-  @UseGuards(AuthJWTGuard)
+  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
   @Post('add-qna')
   async addQnaHandler(
     @Body() addQnaDto: AddQnaDto,
@@ -98,7 +104,7 @@ export class ChatbotController {
     });
   }
 
-  @UseGuards(AuthJWTGuard)
+  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
   @Post('generate-iframe')
   async generateIframe(@Query('chatbot_id') chatbot_id: string) {
     await this.chatbotService.generateIframeCode(chatbot_id);

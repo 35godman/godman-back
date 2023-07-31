@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Query, UseGuards } from '@nestjs/common';
 import { CrawlerService } from './crawler.service';
 import { CrawlDto } from './dto/crawl.dto';
 import { AuthJWTGuard } from '../../guards/auth.guard';
@@ -10,7 +10,10 @@ export class CrawlerController {
 
   @UseGuards(AuthJWTGuard)
   @Post('/crawl')
-  crawlWeblink(@Body() crawlWeblink: CrawlDto) {
-    return this.crawlerService.crawlWebLink(crawlWeblink);
+  crawlWeblink(
+    @Body() crawlWeblink: CrawlDto,
+    @Query('chatbot_id') chatbot_id: string,
+  ) {
+    return this.crawlerService.crawlWebLink(crawlWeblink, chatbot_id);
   }
 }

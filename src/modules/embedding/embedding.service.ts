@@ -29,7 +29,7 @@ export class EmbeddingService {
     private fileUploadService: FileUploadService,
   ) {}
 
-  async setup({ chatbot_id }) {
+  async setup(chatbot_id: string) {
     this.client = await createPineconeClient();
     await this.yandexCloudService.downloadFiles(chatbot_id);
 

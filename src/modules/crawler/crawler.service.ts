@@ -12,8 +12,8 @@ dotenv.config();
 export class CrawlerService {
   constructor(private fileUploadService: FileUploadService) {}
 
-  async crawlWebLink(payload: CrawlDto) {
-    const { weblink, chatbot_id } = payload;
+  async crawlWebLink(payload: CrawlDto, chatbot_id: string) {
+    const { weblink } = payload;
     const urlsCrawled = new Set();
     const urlsContent: CrawledLink[] = [];
 
@@ -28,7 +28,7 @@ export class CrawlerService {
       });
     } else {
       browser = await puppeteer.launch({
-        headless: false,
+        headless: 'new',
       });
     }
 

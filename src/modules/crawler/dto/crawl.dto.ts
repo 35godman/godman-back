@@ -4,6 +4,4 @@ export class CrawlDto {
   @IsString()
   @IsNotEmpty()
   weblink: string;
-  @IsMongoId()
-  chatbot_id: string;
 }

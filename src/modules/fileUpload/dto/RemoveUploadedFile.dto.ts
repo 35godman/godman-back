@@ -5,7 +5,5 @@ export class RemoveUploadedFileDto {
   @IsNotEmpty()
   original_name: string;
   @IsMongoId()
-  chatbot_id: string;
-  @IsMongoId()
   file_id: string;
 }

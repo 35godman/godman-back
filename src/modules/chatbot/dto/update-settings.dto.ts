@@ -12,6 +12,4 @@ export class UpdateSettingsDto {
   @IsObject()
   @IsNotEmptyObject()
   chatbot: Partial<ChatbotDocument>;
-  @IsMongoId()
-  chatbot_id: string;
 }

@@ -84,8 +84,11 @@ export class FileUploadService {
     );
   }
 
-  async removeCrawledFileFromYandexCloud(payload: RemoveWebCrawledFileDto) {
-    const { web_link, chatbot_id, weblink_id } = payload;
+  async removeCrawledFileFromYandexCloud(
+    payload: RemoveWebCrawledFileDto,
+    chatbot_id,
+  ) {
+    const { web_link, weblink_id } = payload;
 
     const sources = await this.chatbotSourcesService.findByChatbotId(
       chatbot_id,
@@ -165,8 +168,8 @@ export class FileUploadService {
     return fileSize;
   }
 
-  async removeUploadedFile(payload: RemoveUploadedFileDto) {
-    const { file_id, original_name, chatbot_id } = payload;
+  async removeUploadedFile(payload: RemoveUploadedFileDto, chatbot_id: string) {
+    const { file_id, original_name } = payload;
     const sources = await this.chatbotSourcesService.findByChatbotId(
       chatbot_id,
     );

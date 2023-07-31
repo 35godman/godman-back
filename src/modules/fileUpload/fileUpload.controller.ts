@@ -21,12 +21,13 @@ import { TextUploadDto } from './dto/text-upload.dto';
 import { FileUploadDto } from './dto/file-upload.dto';
 import { RemoveUploadedFileDto } from './dto/RemoveUploadedFile.dto';
 import { AddQnaDto } from './dto/add-qna.dto';
+import { ChatbotOwnerGuard } from '../../guards/chatbot-owner.guard';
 
 @Controller('file-upload')
 export class FileUploadController {
   constructor(private readonly fileUploadService: FileUploadService) {}
 
-  @UseGuards(AuthJWTGuard)
+  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
   @Post('multi-upload')
   @UseInterceptors(
     FilesInterceptor('files', globalConfig.MAX_FILE_AMOUNT, {
@@ -37,9 +38,8 @@ export class FileUploadController {
   )
   async dataSourceUploadManyFiles(
     @UploadedFiles() files,
-    @Body() uploadFile: MultipleFileUploadDto,
+    @Query('chatbot_id') chatbot_id: string,
   ) {
-    const { chatbot_id } = uploadFile;
     for (const file of files) {
       const data = file.buffer;
       const fileName = decodeURIComponent(file.originalname);
@@ -58,21 +58,31 @@ export class FileUploadController {
     }
     return ResponseResult.SUCCESS;
   }
-  @UseGuards(AuthJWTGuard)
+  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
   @Post('remove-crawled')
-  async removeWebCrawledFile(@Body() removeFile: RemoveWebCrawledFileDto) {
+  async removeWebCrawledFile(
+    @Body() removeFile: RemoveWebCrawledFileDto,
+    @Query('chatbot_id') chatbot_id: string,
+  ) {
     return await this.fileUploadService.removeCrawledFileFromYandexCloud(
       removeFile,
+      chatbot_id,
     );
   }
 
-  @UseGuards(AuthJWTGuard)
+  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
   @Post('remove-file')
-  async removeUploadedFile(@Body() removeFile: RemoveUploadedFileDto) {
-    return await this.fileUploadService.removeUploadedFile(removeFile);
+  async removeUploadedFile(
+    @Body() removeFile: RemoveUploadedFileDto,
+    @Query('chatbot_id') chatbot_id: string,
+  ) {
+    return await this.fileUploadService.removeUploadedFile(
+      removeFile,
+      chatbot_id,
+    );
   }
 
-  @UseGuards(AuthJWTGuard)
+  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
   @Post('source-text-upload')
   async dataSourceUploadText(
     @Body() uploadText: TextUploadDto,
@@ -87,7 +97,7 @@ export class FileUploadController {
     });
   }
 
-  @UseGuards(AuthJWTGuard)
+  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
   @Post('single-upload')
   @UseInterceptors(
     FileInterceptor('file', {
@@ -128,7 +138,7 @@ export class FileUploadController {
     return await this.fileUploadService.getMultipleFileTextLength(files);
   }
 
-  @UseGuards(AuthJWTGuard)
+  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
   @Post('profile-picture-upload')
   @UseInterceptors(
     FileInterceptor('file', {
