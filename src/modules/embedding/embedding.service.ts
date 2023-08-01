@@ -49,7 +49,7 @@ export class EmbeddingService {
      * await createPineconeIndex(client, indexName, vectorDimensions);
      */
     await updatePinecone(this.client, indexName, docs, chatbot_id);
-    //await this.fileUploadService.deleteChatbotDirectory(chatbot_id);
+    await this.fileUploadService.deleteChatbotDirectory(chatbot_id);
     return ResponseResult.SUCCESS;
   }
 
