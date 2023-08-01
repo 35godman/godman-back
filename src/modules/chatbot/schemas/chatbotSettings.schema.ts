@@ -26,7 +26,7 @@ export class ChatbotSettings {
   @Prop({ default: 1000 })
   max_tokens: number;
 
-  @Prop({ default: 1 })
+  @Prop({ default: 0 })
   temperature: number;
 
   @Prop({

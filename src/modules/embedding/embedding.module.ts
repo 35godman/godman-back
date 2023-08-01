@@ -22,6 +22,7 @@ import { FileUploadModule } from '../fileUpload/fileUpload.module';
 import { FileUpload, FileUploadSchema } from '../fileUpload/fileUpload.schema';
 import { ChatbotSettingsService } from '../chatbot/chatbotSettings.service';
 import { ChatbotSourcesService } from '../chatbot/chatbotSources.service';
+import { YandexCloudModule } from '../yandexCloud/yandexCloud.module';
 
 @Module({
   imports: [
@@ -36,11 +37,11 @@ import { ChatbotSourcesService } from '../chatbot/chatbotSources.service';
       { name: FileUpload.name, schema: FileUploadSchema },
     ]),
     WinstonModule,
+    YandexCloudModule,
   ],
   controllers: [EmbeddingController],
   providers: [
     EmbeddingService,
-    YandexCloudService,
     ChatbotService,
     FileUploadService,
     ChatbotSettingsService,

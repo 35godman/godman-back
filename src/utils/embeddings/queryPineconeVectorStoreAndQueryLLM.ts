@@ -32,7 +32,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
   // 4. Query Pinecone index and return top 5 matches
   const queryResponse = await index.query({
     queryRequest: {
-      topK: 10,
+      topK: 5,
       vector: queryEmbedding,
       includeMetadata: true,
       includeValues: true,
@@ -46,9 +46,9 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
   if (queryResponse.matches.length) {
     // 7. Create an OpenAI instance and load the QAStuffChain
     const llm = new OpenAI({
-      modelName: chatbotInstance.settings?.model || 'gpt-3.5-turbo-0613',
-      maxTokens: chatbotInstance.settings?.max_tokens || 1000,
-      temperature: chatbotInstance.settings?.temperature || 1,
+      modelName: chatbotInstance.settings.model,
+      maxTokens: chatbotInstance.settings.max_tokens,
+      temperature: chatbotInstance.settings.temperature,
       streaming: true,
     });
 
@@ -70,7 +70,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
       do not indicate that you're deriving answers from the given context. Each answer must be in the language specified 
       in the rules and should be exhaustive and comprehensive, offering a complete understanding of the subject asked in the question. 
       Your responses can significantly influence decisions, hence, accuracy and completeness are paramount.`,
-      base_rule: chatbotInstance.settings.base_prompt,
+      // base_rule: chatbotInstance.settings.base_prompt,
       question,
       context: concatenatedPageContent,
       rules: [
@@ -102,6 +102,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     const token_usage = encodedQuestion.length + encodedAnswer.length;
     console.log(`Tokens used: ${token_usage}`);
     console.log(`USD used ${(token_usage / 1000) * 0.0015}`);
+    res.write(JSON.stringify({ prompt }));
     res.end();
   } else {
     throw new HttpException('No matches found', HttpStatus.BAD_REQUEST);

@@ -110,4 +110,11 @@ export class ChatbotController {
     await this.chatbotService.generateIframeCode(chatbot_id);
     return ResponseResult.SUCCESS;
   }
+
+  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
+  @Post('reset-websources')
+  async resetWebsources(@Query('chatbot_id') chatbot_id: string) {
+    await this.chatbotSourcesService.resetWebCrawledFiles(chatbot_id);
+    return ResponseResult.SUCCESS;
+  }
 }

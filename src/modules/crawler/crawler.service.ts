@@ -46,10 +46,13 @@ export class CrawlerService {
 
       const page = await browser.newPage();
 
-      await page.goto(siteUrl, { timeout: 60000, waitUntil: 'load' });
-      await waitTillHTMLRendered(page);
-
-      await page.waitForSelector('a');
+      try {
+        await page.goto(siteUrl, { timeout: 60000, waitUntil: 'load' });
+        await waitTillHTMLRendered(page);
+      } catch (error) {
+        console.log(`Timeout error on ${siteUrl}`);
+        return; // Skip this link and continue with the next link
+      }
 
       const pageText = await page.evaluate(() => {
         const blackListNodes = [
@@ -121,6 +124,7 @@ export class CrawlerService {
         const anchors = Array.from(document.querySelectorAll('a[href]'));
         return anchors.map((anchor: HTMLAnchorElement) => anchor.href);
       });
+      console.log('=>(crawler.service.ts:124) linksOnPage', linksOnPage);
 
       await page.close();
 

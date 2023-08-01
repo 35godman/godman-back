@@ -13,11 +13,11 @@ import {
   FileUploadDocument,
 } from '../fileUpload/fileUpload.schema';
 import { CategoryEnum } from '../../enum/category.enum';
-import { async } from 'rxjs';
 import { ResponseResult } from '../../enum/response.enum';
 import { UpdateQnADto } from '../fileUpload/dto/add-qna.dto';
 import { ChatbotSettingsService } from './chatbotSettings.service';
 import { YandexCloudService } from '../yandexCloud/yandexCloud.service';
+import { ChatbotService } from './chatbot.service';
 
 @Injectable()
 export class ChatbotSourcesService {
@@ -101,5 +101,18 @@ export class ChatbotSourcesService {
       process.env.QNA_DATASOURCE_NAME,
       fileData,
     );
+  }
+
+  async resetWebCrawledFiles(chatbot_id) {
+    const sources = await this.findByChatbotId(chatbot_id);
+    const web_sources = sources.website;
+    for (const web_source of web_sources) {
+      await this.yandexCloudService.removeWebCrawledFile(
+        chatbot_id,
+        web_source.originalName,
+      );
+    }
+    sources.website = [];
+    await sources.save();
   }
 }
