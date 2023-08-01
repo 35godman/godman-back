@@ -32,7 +32,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
   // 4. Query Pinecone index and return top 5 matches
   const queryResponse = await index.query({
     queryRequest: {
-      topK: 5,
+      topK: 10,
       vector: queryEmbedding,
       includeMetadata: true,
       includeValues: true,
@@ -57,34 +57,46 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
       .map((match) => match.metadata.pageContent.replace(/\n/g, ''))
       .join(' ');
 
-    // if (concatenatedPageContent.length > 500) {
-    //   concatenatedPageContent = concatenatedPageContent.substring(0, 500);
-    // }
+    if (concatenatedPageContent.length > 5000) {
+      concatenatedPageContent = concatenatedPageContent.substring(0, 5000);
+    }
     const prompt = JSON.stringify({
+      base_prompt: `You are an AI model developed to generate precise and detailed responses to queries. 
+      You will be provided with data in a JSON format which will contain the base_rule, a specific question, 
+      context, and rules. Your sole source of information is the context field in the JSON, and it is critical that your responses 
+      do not incorporate any other sources of information. This means that even if you have been trained on a broad range of data, 
+      you must disregard it and strictly adhere to the context given in this JSON data. The base_rule is your primary directive 
+      and the question provided is what you must answer. Avoid any extraneous information and make sure your responses 
+      do not indicate that you're deriving answers from the given context. Each answer must be in the language specified 
+      in the rules and should be exhaustive and comprehensive, offering a complete understanding of the subject asked in the question. 
+      Your responses can significantly influence decisions, hence, accuracy and completeness are paramount.`,
+      base_rule: chatbotInstance.settings.base_prompt,
       question,
       context: concatenatedPageContent,
       rules: [
         {
-          language: `only use the language ${chatbotInstance.settings.language} in answer. Dont use any other language `,
+          language: `only use the language ${chatbotInstance.settings.language} in answer. Do not use any other language.`,
+          context:
+            'refer strictly and only to the context provided. Do not use any other sources, and do not mention in your answer that you are using the context.',
         },
-        // { details: `Answer must be as detailed as possible` },
+        {
+          details:
+            'Your answer must be as detailed and comprehensive as possible, strictly focused on addressing the question.',
+        },
       ],
     });
 
-    const result = await llm.call(
-      'You are a QA chatbot and must answer all the question from the context provided in context key' +
-        prompt,
-      undefined,
-      [
-        {
-          handleLLMNewToken(token: string) {
-            res.write(token);
-          },
-        },
-      ],
-    );
+    console.log('=>(queryPineconeVectorStoreAndQueryLLM.ts:84) prompt', prompt);
 
-    console.log('=>(queryPineconeVectorStoreAndQueryLLM.ts:73) result', result);
+    const result = await llm.call(prompt, undefined, [
+      {
+        handleLLMNewToken(token: string) {
+          res.write(token);
+        },
+      },
+    ]);
+
+    // console.log('=>(queryPineconeVectorStoreAndQueryLLM.ts:73) result', result);
     const encodedQuestion = encode(concatenatedPageContent);
     const encodedAnswer = encode(result);
     const token_usage = encodedQuestion.length + encodedAnswer.length;

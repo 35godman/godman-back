@@ -6,6 +6,8 @@ import { Injectable } from '@nestjs/common';
 import { CategoryEnum } from '../../enum/category.enum';
 import * as dotenv from 'dotenv';
 import { waitTillHTMLRendered } from '../../utils/puppeteer/waitTillHtmlRendered.util';
+import { blackListNodes } from './nodes/blackList.nodes';
+import { parseFromNodes } from './nodes/parseFrom.nodes';
 
 dotenv.config();
 @Injectable()
@@ -50,25 +52,50 @@ export class CrawlerService {
       await page.waitForSelector('a');
 
       const pageText = await page.evaluate(() => {
+        const blackListNodes = [
+          'data-phonemask-mask',
+          'data-phonemask-country-code',
+        ];
+
+        // This function checks if an element has any of the blacklisted tags.
+        const hasBlacklistedTag = (element) => {
+          return blackListNodes.some((tag) => element.hasAttribute(tag));
+        };
+
+        // Remove the div elements with blacklisted tags.
+        Array.from(document.querySelectorAll('div')).forEach((node) => {
+          if (hasBlacklistedTag(node)) {
+            node.remove();
+          }
+        });
+
+        // Remove all style and script tags.
+        Array.from(document.querySelectorAll('style, script')).forEach(
+          (node) => {
+            node.remove();
+          },
+        );
+
         const nodes = Array.from(
-          document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, a, div'),
+          document.querySelectorAll(
+            'p,h1,h2,h3,h4,h5,h6,span,a,li,strong,button,td,th,figcaption,label,title,option,blockquote,cite,em,b,i,mark,small,u,ins,del,s',
+          ),
         );
 
         const textNodes = nodes.map((node) => {
           if (node.nodeName.toLowerCase() === 'div') {
             // If this is a div, filter its childNodes to only take the Text nodes.
             return Array.from(node.childNodes)
-              .filter((child) => child.nodeType === Node.TEXT_NODE)
-              .map((textNode) => textNode.textContent)
-              .join(' ');
+              .filter((child) => (child as Node).nodeType === Node.TEXT_NODE)
+              .map((textNode) => (textNode as Text).textContent)
+              .join('\n');
           } else {
             // If this is not a div, just take its textContent as before.
             return node.textContent;
           }
         });
 
-        const textContent = textNodes.join(' ');
-        return textContent.replace(/ {2,}/g, ' ');
+        return textNodes.join('\n');
       });
 
       const urlWithoutSlashes = siteUrl.replace(/\//g, '[]');
@@ -94,7 +121,6 @@ export class CrawlerService {
         const anchors = Array.from(document.querySelectorAll('a[href]'));
         return anchors.map((anchor: HTMLAnchorElement) => anchor.href);
       });
-      console.log('=>(crawler.service.ts:82) linksOnPage', linksOnPage);
 
       await page.close();
 
