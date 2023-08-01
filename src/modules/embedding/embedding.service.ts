@@ -39,7 +39,6 @@ export class EmbeddingService {
       '.pdf': (path) => new PDFLoader(path),
       '.docx': (path) => new DocxLoader(path),
     });
-    console.log('=>(embedding.service.ts:42) loader', loader);
 
     const docs = await loader.load();
 

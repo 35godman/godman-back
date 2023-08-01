@@ -135,7 +135,6 @@ export class FileUploadService {
   async getMultipleFileTextLength(files: Express.Multer.File[]) {
     const fileSize = [];
     for (const file of files) {
-      console.log('=>(fileUpload.service.ts:117) file', file);
       fileSize.push(await this.getOneFileLength(file));
     }
     return fileSize;

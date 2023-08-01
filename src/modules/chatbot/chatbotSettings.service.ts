@@ -50,10 +50,6 @@ export class ChatbotSettingsService {
     const settingsEntity = await this.chatbotSettingsModel.findOne({
       chatbot_id,
     });
-    console.log(
-      '=>(chatbotSettings.service.ts:53) settingsEntity',
-      settingsEntity,
-    );
     if (!settingsEntity) {
       throw new HttpException('Settings not found', HttpStatus.NOT_FOUND);
     }
