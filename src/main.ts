@@ -7,6 +7,7 @@ import {
 import { corsOptions, testCorsOptions } from './config/cors.config';
 import { ValidationPipe } from '@nestjs/common';
 import * as dotenv from 'dotenv';
+import { json, urlencoded } from 'express';
 
 dotenv.config();
 
@@ -33,7 +34,8 @@ async function bootstrap() {
    * вы устанавливаете в своих DTO.
    */
   app.useGlobalPipes(new ValidationPipe());
-
+  app.use(json({ limit: '1mb' }));
+  app.use(urlencoded({ extended: true, limit: '1mb' }));
   await app.listen(5050);
 }
 bootstrap();

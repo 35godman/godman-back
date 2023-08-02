@@ -4,7 +4,10 @@ import { Injectable } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import * as puppeteer from 'puppeteer';
 import { FileUploadService } from '../fileUpload/fileUpload.service';
-import { CrawledLink } from './types/crawledLink.type';
+import { CrawledLink, ReturnedToFrontUrl } from './types/crawledLink.type';
+import { checkIfFileUrlUtil } from '../../utils/urls/checkIfFileUrl.util';
+import { CategoryEnum } from '../../enum/category.enum';
+import { waitTillHTMLRendered } from '../../utils/puppeteer/waitTillHtmlRendered.util';
 
 dotenv.config();
 @Injectable()
@@ -31,22 +34,25 @@ export class CrawlerService {
 
     const cluster = await Cluster.launch({
       concurrency: Cluster.CONCURRENCY_CONTEXT,
-      maxConcurrency: 5, // Number of parallel tasks
+      maxConcurrency: 10, // Number of parallel tasks
       puppeteerOptions: launchOptions,
     });
 
     await cluster.task(async ({ page, data: url }) => {
-      if (visitedUrls.has(url) || urlCount >= 10) {
+      if (
+        visitedUrls.has(url) ||
+        urlCount >= 10 ||
+        url.includes('?') ||
+        url.includes('#') ||
+        checkIfFileUrlUtil(url)
+      ) {
         return;
       }
       visitedUrls.add(url);
       urlCount++;
       console.log('=>(crawler.service.ts:40) url', url);
-      const responsePage = await page.goto(url, {
-        waitUntil: 'domcontentloaded',
-        timeout: 30000,
-      });
-      console.log('=>(crawler.service.ts:42) responsePage', responsePage);
+      await page.goto(url, { waitUntil: 'domcontentloaded' });
+      await waitTillHTMLRendered(page);
 
       const content = await this.getPageContent(page); // Gets the HTML content of the page
       const size = content.length;
@@ -54,7 +60,6 @@ export class CrawlerService {
 
       //Extract new URLs from page and queue them
       const newUrls = await this.extractNewLinks(page);
-      console.log('=>(crawler.service.ts:48) newUrls', newUrls);
       for (const url of newUrls) {
         await cluster.queue(url);
       }
@@ -77,7 +82,40 @@ export class CrawlerService {
     // Shutdown after everything is done
     await cluster.idle();
     await cluster.close();
-    return crawledData;
+    const returnedToFrontUrls: ReturnedToFrontUrl[] = [];
+    console.log('=>(crawler.service.ts:84) crawledData', crawledData);
+    for (const data of crawledData) {
+      const urlWithoutSlashes = data.url.replace(/\//g, '[]');
+      console.log(
+        '=>(crawler.service.ts:85) urlWithoutSlashes',
+        urlWithoutSlashes,
+      );
+      const uploadFilePayload = {
+        fileName: `${urlWithoutSlashes}.txt`,
+        data: data.content,
+        chatbot_id,
+        char_length: data.size,
+      };
+      try {
+        const newSource = await this.fileUploadService.uploadSingleFile(
+          uploadFilePayload,
+          CategoryEnum.WEB,
+        );
+        const linkCrawled = {
+          size: data.size,
+          url: data.url,
+          _id: newSource._id.toString(),
+        };
+        returnedToFrontUrls.push(linkCrawled);
+      } catch (e) {
+        console.error(e);
+        /**
+         * @COMMENT stop the loop if error occurs in fileUploadService
+         */
+        return;
+      }
+    }
+    return returnedToFrontUrls;
   }
 
   async extractNewLinks(page: puppeteer.Page): Promise<string[]> {
@@ -102,49 +140,43 @@ export class CrawlerService {
 
   async getPageContent(page): Promise<string> {
     console.log('scraping');
-    return await page.evaluate(() => {
-      const blackListNodes = [
-        'data-phonemask-mask',
-        'data-phonemask-country-code',
-      ];
-
-      // This function checks if an element has any of the blacklisted tags.
-      const hasBlacklistedTag = (element) => {
-        return blackListNodes.some((tag) => element.hasAttribute(tag));
-      };
-
-      // Remove the div elements with blacklisted tags.
-      Array.from(document.querySelectorAll('div')).forEach((node) => {
-        if (hasBlacklistedTag(node)) {
-          node.remove();
-        }
-      });
-
-      // Remove all style and script tags.
-      Array.from(document.querySelectorAll('style, script')).forEach((node) => {
-        node.remove();
-      });
-
-      const nodes = Array.from(
-        document.querySelectorAll(
-          'p,h1,h2,h3,h4,h5,h6,span,a,li,strong,button,td,th,figcaption,label,title,option,blockquote,cite,em,b,i,mark,small,u,ins,del,s',
-        ),
-      );
-
-      const textNodes = nodes.map((node) => {
-        if (node.nodeName.toLowerCase() === 'div') {
-          // If this is a div, filter its childNodes to only take the Text nodes.
-          return Array.from(node.childNodes)
-            .filter((child) => (child as Node).nodeType === Node.TEXT_NODE)
-            .map((textNode) => (textNode as Text).textContent)
-            .join('\n');
-        } else {
-          // If this is not a div, just take its textContent as before.
-          return node.textContent;
-        }
-      });
-
-      return textNodes.join('\n');
-    });
+    const extractedText = await page.$eval('*', (el) => el.innerText);
+    return extractedText;
+    // return await page.evaluate(() => {
+    //   const blackListNodes = [
+    //     'data-phonemask-mask',
+    //     'data-phonemask-country-code',
+    //   ];
+    //
+    //   // This function checks if an element has any of the blacklisted tags.
+    //   const hasBlacklistedTag = (element) => {
+    //     return blackListNodes.some((tag) => element.hasAttribute(tag));
+    //   };
+    //
+    //   // // Remove the div elements with blacklisted tags.
+    //   // Array.from(document.querySelectorAll('div')).forEach((node) => {
+    //   //   if (hasBlacklistedTag(node)) {
+    //   //     node.remove();
+    //   //   }
+    //   // });
+    //
+    //   const extractedText = await page.$eval('*', (el) => el.innerText);
+    //   console.log(extractedText);
+    //
+    //   const textNodes = nodes.map((node) => {
+    //     if (node.nodeName.toLowerCase() === 'div') {
+    //       // If this is a div, filter its childNodes to only take the Text nodes.
+    //       return Array.from(node.childNodes)
+    //         .filter((child) => (child as Node).nodeType === Node.TEXT_NODE)
+    //         .map((textNode) => (textNode as Text).textContent)
+    //         .join('\n');
+    //     } else {
+    //       // If this is not a div, just take its textContent as before.
+    //       return node.textContent;
+    //     }
+    //   });
+    //
+    //   return textNodes.join('\n');
+    // });
   }
 }

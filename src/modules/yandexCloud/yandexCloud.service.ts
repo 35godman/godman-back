@@ -15,6 +15,8 @@ import * as path from 'path';
 import * as fs from 'fs';
 import * as util from 'util';
 import * as stream from 'stream';
+import { pipeline } from 'stream';
+import { promisify } from 'util';
 
 @Injectable()
 export class YandexCloudService {
@@ -57,12 +59,17 @@ export class YandexCloudService {
       Bucket: BUCKET_NAME,
       Prefix: `${chatbot_id}/`,
     };
+    const pipelineAsync = promisify(pipeline);
 
     const command = new ListObjectsV2Command(params);
     const data = await this.s3.send(command);
 
     if (data.Contents.length) {
       for (const file of data.Contents) {
+        console.log(
+          '=>(yandexCloud.service.ts:63) data.Contents',
+          data.Contents,
+        );
         const fileExtension = path.extname(file.Key);
         if (
           fileExtension === '.txt' ||
@@ -91,7 +98,8 @@ export class YandexCloudService {
           const writeStream = fs.createWriteStream(localFilePath);
 
           if (fileStream && fileStream.pipe) {
-            fileStream.pipe(writeStream);
+            await pipelineAsync(fileStream, writeStream);
+            console.log(`File downloaded to ${localFilePath}`);
           } else {
             console.error('Unable to handle the stream type.');
           }

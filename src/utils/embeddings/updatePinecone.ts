@@ -11,6 +11,7 @@ export const updatePinecone = async (
   docs: Record<string, any>[],
   chatbot_id: string,
 ) => {
+  console.log('=>(updatePinecone.ts:95) docs', docs);
   console.log('Retrieving Pinecone index...');
   // 1. Retrieve Pinecone index
   const index = client.Index(indexName);

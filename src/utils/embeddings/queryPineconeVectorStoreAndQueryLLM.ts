@@ -62,20 +62,19 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     }
     const prompt = JSON.stringify({
       base_prompt: `You are an AI model developed to generate precise and detailed responses to queries. 
+      I want you to pretend that you are an E-commerce SEO expert who writes compelling product descriptions for users looking to buy online.
       You will be provided with data in a JSON format which will contain the base_rule, a specific question, 
       context, and rules. Your sole source of information is the context field in the JSON, and it is critical that your responses 
-      do not incorporate any other sources of information. This means that even if you have been trained on a broad range of data, 
-      you must disregard it and strictly adhere to the context given in this JSON data. The base_rule is your primary directive 
+      do not incorporate any other sources of information.  The base_rule and rules is your primary directive 
       and the question provided is what you must answer. Avoid any extraneous information and make sure your responses 
-      do not indicate that you're deriving answers from the given context. Each answer must be in the language specified 
-      in the rules and should be exhaustive and comprehensive, offering a complete understanding of the subject asked in the question. 
-      Your responses can significantly influence decisions, hence, accuracy and completeness are paramount.`,
+      do not indicate that you're deriving answers from the given context`,
       base_rule: chatbotInstance.settings.base_prompt,
       question,
-      context: concatenatedPageContent,
       rules: [
         {
           language: `only use the language ${chatbotInstance.settings.language} in answer. Do not use any other language.`,
+          contact_info:
+            'Dont ask to contact the company and dont provide any contact information',
           context:
             'refer strictly and only to the context provided. Do not use any other sources, and do not mention in your answer that you are using the context.',
         },
@@ -84,6 +83,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
             'Your answer must be as detailed and comprehensive as possible, strictly focused on addressing the question.',
         },
       ],
+      context: concatenatedPageContent,
     });
 
     const result = await llm.call(prompt, undefined, [
