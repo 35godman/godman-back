@@ -1,29 +1,25 @@
+import { Cluster } from 'puppeteer-cluster';
 import { CrawlDto } from './dto/crawl.dto';
-import { FileUploadService } from '../fileUpload/fileUpload.service';
-import { CrawledLink, ReturnedToFrontUrl } from './types/crawledLink.type';
-import puppeteer from 'puppeteer';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CategoryEnum } from '../../enum/category.enum';
+import { Injectable } from '@nestjs/common';
 import * as dotenv from 'dotenv';
-import * as pLimit from 'p-limit';
-import { waitTillHTMLRendered } from '../../utils/puppeteer/waitTillHtmlRendered.util';
-import { blackListNodes } from './nodes/blackList.nodes';
-import { parseFromNodes } from './nodes/parseFrom.nodes';
-import { Dataset, PuppeteerCrawler } from 'crawlee';
+import * as puppeteer from 'puppeteer';
+import { FileUploadService } from '../fileUpload/fileUpload.service';
+import { CrawledLink } from './types/crawledLink.type';
 
 dotenv.config();
 @Injectable()
 export class CrawlerService {
   constructor(private fileUploadService: FileUploadService) {}
-  async crawleeSetup(payload: CrawlDto, chatbot_id: string) {
-    const { weblink } = payload;
 
-    const urlsContent: CrawledLink[] = [];
+  async startCrawling(payload: CrawlDto, chatbot_id: string) {
+    const visitedUrls = new Set<string>();
+    const { weblink } = payload;
     let launchOptions = null;
+    let urlCount = 0;
+    const crawledData: CrawledLink[] = [];
     if (process.env.NODE_ENV === 'production') {
       launchOptions = {
         headless: 'new',
-        //for ubuntu only
         executablePath: '/usr/bin/chromium-browser',
         args: ['--no-sandbox'],
       };
@@ -32,147 +28,123 @@ export class CrawlerService {
         headless: 'new',
       };
     }
-    // Create an instance of the PuppeteerCrawler class - a crawler
-    // that automatically loads the URLs in headless Chrome / Puppeteer.
-    try {
-      const crawler = new PuppeteerCrawler({
-        minConcurrency: 5,
-        maxRequestRetries: 5,
-        // Here you can set options that are passed to the launchPuppeteer() function.
-        launchContext: {
-          launchOptions,
-        },
 
-        // Stop crawling after several pages
-        maxRequestsPerCrawl: parseInt(process.env.CRAWL_LIMIT),
-        async requestHandler({ request, page, enqueueLinks, log }) {
-          log.info(`Processing ${request.url}...`);
-          const fileExtensionPattern = /\.[0-9a-z]+$/i; // regex pattern for file extension
+    const cluster = await Cluster.launch({
+      concurrency: Cluster.CONCURRENCY_CONTEXT,
+      maxConcurrency: 5, // Number of parallel tasks
+      puppeteerOptions: launchOptions,
+    });
 
-          // Ignore URLs containing a '?'
-          if (
-            request.url.includes('?') ||
-            request.url.includes('#') ||
-            fileExtensionPattern.test(request.url)
-          ) {
-            console.log('site url contains ?/# or FILE');
-            return;
-          }
-
-          const pageText = await page.evaluate(() => {
-            const blackListNodes = [
-              'data-phonemask-mask',
-              'data-phonemask-country-code',
-            ];
-
-            // This function checks if an element has any of the blacklisted tags.
-            const hasBlacklistedTag = (element) => {
-              return blackListNodes.some((tag) => element.hasAttribute(tag));
-            };
-
-            // Remove the div elements with blacklisted tags.
-            Array.from(document.querySelectorAll('div')).forEach((node) => {
-              if (hasBlacklistedTag(node)) {
-                node.remove();
-              }
-            });
-
-            // Remove all style and script tags.
-            Array.from(document.querySelectorAll('style, script')).forEach(
-              (node) => {
-                node.remove();
-              },
-            );
-
-            const nodes = Array.from(
-              document.querySelectorAll(
-                'p,h1,h2,h3,h4,h5,h6,span,a,li,strong,button,td,th,figcaption,label,title,option,blockquote,cite,em,b,i,mark,small,u,ins,del,s',
-              ),
-            );
-
-            const textNodes = nodes.map((node) => {
-              if (node.nodeName.toLowerCase() === 'div') {
-                // If this is a div, filter its childNodes to only take the Text nodes.
-                return Array.from(node.childNodes)
-                  .filter(
-                    (child) => (child as Node).nodeType === Node.TEXT_NODE,
-                  )
-                  .map((textNode) => (textNode as Text).textContent)
-                  .join('\n');
-              } else {
-                // If this is not a div, just take its textContent as before.
-                return node.textContent;
-              }
-            });
-
-            return textNodes.join('\n');
-          });
-
-          urlsContent.push({
-            url: request.url,
-            size: pageText.length,
-            content: pageText,
-          });
-
-          // Store the results to the default dataset.
-          //await Dataset.pushData(data);
-
-          // Find a link to the next page and enqueue it if it exists.
-          const infos = await enqueueLinks({
-            selector: 'a[href]',
-          });
-
-          if (infos.processedRequests.length === 0)
-            log.info(`${request.url} is the last page!`);
-        },
-
-        // This function is called if the page processing failed more than maxRequestRetries+1 times.
-        failedRequestHandler({ request, log }) {
-          log.error(`Request ${request.url} failed too many times.`);
-        },
+    await cluster.task(async ({ page, data: url }) => {
+      if (visitedUrls.has(url) || urlCount >= 10) {
+        return;
+      }
+      visitedUrls.add(url);
+      urlCount++;
+      console.log('=>(crawler.service.ts:40) url', url);
+      const responsePage = await page.goto(url, {
+        waitUntil: 'domcontentloaded',
+        timeout: 30000,
       });
+      console.log('=>(crawler.service.ts:42) responsePage', responsePage);
 
-      await crawler.addRequests([weblink]);
+      const content = await this.getPageContent(page); // Gets the HTML content of the page
+      const size = content.length;
+      console.log('=>(crawler.service.ts:44) size', size);
 
-      // Run the crawler and wait for it to finish.
-      await crawler.run();
-
-      const returnedToFrontUrls: ReturnedToFrontUrl[] = [];
-
-      for (const url of urlsContent) {
-        const urlWithoutSlashes = url.url.replace(/\//g, '[]');
-        const uploadFilePayload = {
-          fileName: `${urlWithoutSlashes}.txt`,
-          data: url.content,
-          chatbot_id,
-          char_length: url.size,
-        };
-        try {
-          const newSource = await this.fileUploadService.uploadSingleFile(
-            uploadFilePayload,
-            CategoryEnum.WEB,
-          );
-          const linkCrawled = {
-            size: url.size,
-            url: url.url,
-            _id: newSource._id.toString(),
-          };
-          returnedToFrontUrls.push(linkCrawled);
-        } catch (e) {
-          console.error(e);
-          /**
-           * @COMMENT stop the loop if error occurs in fileUploadService
-           */
-          return;
-        }
+      //Extract new URLs from page and queue them
+      const newUrls = await this.extractNewLinks(page);
+      console.log('=>(crawler.service.ts:48) newUrls', newUrls);
+      for (const url of newUrls) {
+        await cluster.queue(url);
       }
 
-      console.log('Crawler finished.');
-      await crawler.requestQueue.drop();
-      return returnedToFrontUrls;
-    } catch (e) {
-      console.error(e);
-      throw new HttpException('Error crawling', HttpStatus.SERVICE_UNAVAILABLE);
-    }
+      // File upload code here
+      const urlWithoutSlashes = url.replace(/\//g, '[]');
+      const uploadFilePayload = {
+        fileName: `${urlWithoutSlashes}.txt`,
+        data: content,
+        chatbot_id,
+        char_length: size,
+      };
+      // Continue here with the file upload code and other operations...
+      const pageData = { url: url, size: size, content: content };
+      crawledData.push(pageData);
+    });
+
+    await cluster.queue(weblink);
+
+    // Shutdown after everything is done
+    await cluster.idle();
+    await cluster.close();
+    return crawledData;
+  }
+
+  async extractNewLinks(page: puppeteer.Page): Promise<string[]> {
+    const currentUrl = page.url();
+    const domain = new URL(currentUrl).hostname;
+    return await page.$$eval(
+      'a[href]',
+      (links, domain) =>
+        links
+          .map((a) => a.href)
+          .filter((url) => {
+            try {
+              return new URL(url).hostname === domain;
+            } catch (err) {
+              // Ignore invalid URLs
+              return false;
+            }
+          }),
+      domain,
+    );
+  }
+
+  async getPageContent(page): Promise<string> {
+    console.log('scraping');
+    return await page.evaluate(() => {
+      const blackListNodes = [
+        'data-phonemask-mask',
+        'data-phonemask-country-code',
+      ];
+
+      // This function checks if an element has any of the blacklisted tags.
+      const hasBlacklistedTag = (element) => {
+        return blackListNodes.some((tag) => element.hasAttribute(tag));
+      };
+
+      // Remove the div elements with blacklisted tags.
+      Array.from(document.querySelectorAll('div')).forEach((node) => {
+        if (hasBlacklistedTag(node)) {
+          node.remove();
+        }
+      });
+
+      // Remove all style and script tags.
+      Array.from(document.querySelectorAll('style, script')).forEach((node) => {
+        node.remove();
+      });
+
+      const nodes = Array.from(
+        document.querySelectorAll(
+          'p,h1,h2,h3,h4,h5,h6,span,a,li,strong,button,td,th,figcaption,label,title,option,blockquote,cite,em,b,i,mark,small,u,ins,del,s',
+        ),
+      );
+
+      const textNodes = nodes.map((node) => {
+        if (node.nodeName.toLowerCase() === 'div') {
+          // If this is a div, filter its childNodes to only take the Text nodes.
+          return Array.from(node.childNodes)
+            .filter((child) => (child as Node).nodeType === Node.TEXT_NODE)
+            .map((textNode) => (textNode as Text).textContent)
+            .join('\n');
+        } else {
+          // If this is not a div, just take its textContent as before.
+          return node.textContent;
+        }
+      });
+
+      return textNodes.join('\n');
+    });
   }
 }

@@ -1,0 +1,414 @@
+Get started with Todoist
+
+help
+
+Log in
+Log in
+Contact us
+Contact us
+cs
+da
+de
+en
+es
+fi
+fr
+it
+ja
+ko
+nb
+nl
+pl
+pt-BR
+ru
+sv
+tr
+zh-CN
+zh-TW
+
+
+cs
+da
+de
+en
+es
+fi
+fr
+it
+ja
+ko
+nb
+nl
+pl
+pt-BR
+ru
+sv
+tr
+zh-CN
+zh-TW
+
+
+Getting StartedGetting Started GuidesDownload AppAccount BasicsAccount SettingsYour DataTips & TricksProductivity Guides
+Getting Started
+Getting Started Guides
+Getting Started Guides
+Download App
+Download App
+Account Basics
+Account Basics
+Account Settings
+Account Settings
+Your Data
+Your Data
+Tips & Tricks
+Tips & Tricks
+Productivity Guides
+Productivity Guides
+Use TodoistProduct UpdatesTasks & PlanningProjects & SectionsTeam workspacesFilters & LabelsComments & FilesReminders & NotificationsProductivity & KarmaAndroid & iOS Features
+Use Todoist
+Product Updates
+Product Updates
+Tasks & Planning
+Tasks & Planning
+Projects & Sections
+Projects & Sections
+Team workspaces
+Team workspaces
+Filters & Labels
+Filters & Labels
+Comments & Files
+Comments & Files
+Reminders & Notifications
+Reminders & Notifications
+Productivity & Karma
+Productivity & Karma
+Android & iOS Features
+Android & iOS Features
+Billing & SubscriptionsSubscriptionsDiscounted PricingBilling Questions
+Billing & Subscriptions
+Subscriptions
+Subscriptions
+Discounted Pricing
+Discounted Pricing
+Billing Questions
+Billing Questions
+TroubleshootingGeneralBrowsersIntegrationsKnown IssuesSyncingWindowsFAQ
+Troubleshooting
+General
+General
+Browsers
+Browsers
+Integrations
+Integrations
+Known Issues
+Known Issues
+Syncing
+Syncing
+Windows
+Windows
+FAQ
+FAQ
+IntegrationsAutomationBrowsersCalendarsCommunicationEmailFile ManagementPlanningProductivityTime Tracking
+Integrations
+Automation
+Automation
+Browsers
+Browsers
+Calendars
+Calendars
+Communication
+Communication
+Email
+Email
+File Management
+File Management
+Planning
+Planning
+Productivity
+Productivity
+Time Tracking
+Time Tracking
+Todoist HelpTodoist ProDrafts for TranslationZendesk DocumentationChangelogsTodoist BusinessArticlesStatus DashboardKnown Issues
+Todoist Help
+Todoist Pro
+Todoist Pro
+Drafts for Translation
+Drafts for Translation
+Zendesk Documentation
+Zendesk Documentation
+Changelogs
+Changelogs
+Todoist Business
+Todoist Business
+Articles
+Articles
+Status Dashboard
+Status Dashboard
+Known Issues
+Known Issues
+Log in
+Contact us
+We’re gradually rolling out access to new collaboration experiences in Todoist. You may temporarily encounter information in the Help Center that is not relevant to you. See what’s changing here.
+See what’s changing here
+
+Getting Started
+Getting Started
+Getting Started Guides
+Getting Started Guides
+Get started with Todoist
+Table of Contents
+Instructions
+Instructions
+Start with a project
+Start with a project
+Add your first task
+Add your first task
+Stay on schedule
+Stay on schedule
+Split big tasks into sub-tasks
+Split big tasks into sub-tasks
+Organize tasks into sections
+Organize tasks into sections
+Get things out of your head
+Get things out of your head
+Plan your future
+Plan your future
+Prioritize your day
+Prioritize your day
+Celebrate your accomplishments
+Celebrate your accomplishments
+Happy doing!
+Happy doing!
+Open Todoist
+Open Todoist
+Related articles
+Get started with Todoist
+Get started with Todoist
+
+Make someone an admin of your Todoist Business account
+Make someone an admin of your Todoist Business account
+
+Create a Todoist account
+Create a Todoist account
+
+Use SaneBox with Todoist
+Use SaneBox with Todoist
+
+Welcome to Todoist!
+Whether you’re managing a project or planning an exercise routine, Todoist can help. Learn the basics to stay on top of work and life.
+Start with a project
+Todoist projects keep all your tasks organized so you can achieve your goals — large and small.
+To create a project, select the + icon next to Projects in the navigation menu. You can add your project’s name, pick a color, and choose to see it as a list or board.
++ icon
+Projects
+You can create projects to:
+Make a teaching plan
+Track a marketing campaign
+Share a grocery list
+Quick tip
+Try a project template
+Add your first task
+All projects begin with a single step, but don’t stop there! Add every task that comes to mind.
+Just select Add task while in your new project. Write your task’s name. Then choose Add task.
+Add task
+Add task
+The most achievable tasks tend to be:
+Super specific and clear
+Actionable
+Less than an hour long
+Stay on schedule
+Life’s smoother if you know when what needs to happen. Todoist can auto-detect due dates, nearly any way you write them!
+When you’re typing your task’s name, write out your task’s due date, too.
+Todoist understands things like:
+Buy grapes today
+
+today
+Paint the deck this weekend
+
+this weekend
+Edit marketing report Sept 15 at 2pm
+
+Sept 15 at 2pm
+Attend professional development class every 3rd Tues for 6 months starting in April
+
+every 3rd Tues for 6 months starting in April
+Quick tip
+Get the whole list
+Split big tasks into sub-tasks
+Small tasks are far easier to complete than big ones, so break large goals into manageable to-dos.
+Create a sub-task by selecting any task and choosing Add sub-task. Type your sub-task’s name and due date, as usual.
+Add sub-task
+Back in your project, you can use the arrow next to your main task to view or hide your sub-tasks.
+arrow
+Helpful hints:
+Divide tough tasks into short, easy ones
+Track all of your progress
+Collapse for calm, expand to complete
+Organize tasks into sections
+Tidy up your long task lists with sections. You can neatly divide your project any way that works for you.
+It’s easy! Hover below your list of tasks and select the Add section line that appears.
+Add section 
+Quick tip
+Tips and tricks:
+Complete projects in stages
+Try sections like To Do, Doing, Done
+
+To Do, Doing, Done
+Set a schedule by day, week, lunar cycle, whatever!
+Find section inspiration
+Get things out of your head
+Not sure which project a new task should go in? Add the task to your Inbox — the home for tasks without projects (yet).
+Inbox
+Find your Inbox at the top of the navigation menu. Any task that isn’t added to a specific project is added there by default.
+Easily move tasks from your Inbox to projects later by selecting the task you’d like to move. In task view, use the project icon to choose the right project.
+project icon
+Plan your future
+Find every task due today, this week, or any week in your Today and Upcoming views.
+Today
+Upcoming 
+You’ll find both views below your Inbox in the navigation menu.
+
+Today view shows you all the tasks due today in all of your projects.
+Today
+
+Upcoming view lets you see every task due in the future.
+Upcoming
+Prioritize your day
+It’s easy to get lost in your task list when there’s a lot on your plate. Keep your focus with color-coded priority levels.
+To use priority levels, select a task. From your task view, use the flag icon to choose red priority 1, orange priority 2, blue priority 3, or white priority 4.
+flag icon
+Your highest priority tasks will appear near the top of your Today and Upcoming views. That way, you know what to work on first.
+Pro tips:
+Pick only a few must-do tasks each day
+Do your hardest task first
+Reschedule any tasks you don’t check off
+Celebrate your accomplishments
+Small steps add up to big achievements over time. So take a moment to look back on all the progress you’ve made.
+Check things off your list by ticking the circle next to the task you have completed. Don’t worry, you can uncomplete tasks, too.
+circle
+uncomplete tasks
+You can see every task you’ve checked off by using the three dots icon at the top of your project. Choose Show completed tasks in the menu.
+three dots icon
+Show completed tasks
+Track your successes
+Note the challenges
+Reward yourself for a job well done!
+Happy doing!
+Now you know the basics of Todoist. That means you’re ready to take control of work and life.
+Open Todoist
+Open Todoist
+Quick tip
+P.S. There’s more to discover. 👇
+
+Integrations: Connect Todoist with all the tools you already use.
+
+Integrations: Connect Todoist with all the tools you already use.
+Integrations
+Connect Todoist
+
+Downloads: With 10+ apps and plugins, Todoist is everywhere you are.
+
+Downloads: With 10+ apps and plugins, Todoist is everywhere you are.
+Downloads
+10+ apps and plugins
+
+Templates: Tried-and-true (and totally editable) projects for work and life.
+
+Templates: Tried-and-true (and totally editable) projects for work and life.
+Templates
+projects
+Instructions
+Instructions
+Instructions
+Instructions
+Start with a project
+Start with a project
+Add your first task
+Add your first task
+Stay on schedule
+Stay on schedule
+Split big tasks into sub-tasks
+Split big tasks into sub-tasks
+Organize tasks into sections
+Organize tasks into sections
+Get things out of your head
+Get things out of your head
+Plan your future
+Plan your future
+Prioritize your day
+Prioritize your day
+Celebrate your accomplishments
+Celebrate your accomplishments
+Happy doing!
+Happy doing!
+Open Todoist
+Open Todoist
+
+Stay up-to-date on all things Todoist by following us on social media.
+Features
+How It Works
+How It Works
+For Teams
+For Teams
+Pricing
+Pricing
+Templates
+Templates
+Resources
+Download Apps
+Download Apps
+Help Center
+Help Center
+Productivity Methods
+Productivity Methods
+Integrations
+Integrations
+Channel Partners
+Channel Partners
+Developer API
+Developer API
+Status
+Status
+Company
+About Us
+About Us
+Careers
+Careers
+Inspiration Hub
+Inspiration Hub
+Press
+Press
+Twist
+Twist
+
+
+
+
+
+
+
+
+Security
+Privacy
+Terms
+© Doist Inc.
+Čeština
+Dansk
+Deutsch
+English
+Español
+Suomi
+Français
+Italiano
+日本語
+한국어
+Norsk
+Nederlands
+Polski
+Português (Brazil)
+Pусский (Russian)
+Svenska
+Türkçe
+中文 (简体)
+中文 (繁體)
+
