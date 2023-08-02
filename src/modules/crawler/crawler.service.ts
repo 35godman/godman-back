@@ -31,140 +31,137 @@ export class CrawlerService {
       launchOptions = {
         headless: 'new',
       };
-      // Create an instance of the PuppeteerCrawler class - a crawler
-      // that automatically loads the URLs in headless Chrome / Puppeteer.
-      try {
-        const crawler = new PuppeteerCrawler({
-          // Here you can set options that are passed to the launchPuppeteer() function.
-          launchContext: {
-            launchOptions,
-          },
+    }
+    // Create an instance of the PuppeteerCrawler class - a crawler
+    // that automatically loads the URLs in headless Chrome / Puppeteer.
+    try {
+      const crawler = new PuppeteerCrawler({
+        // Here you can set options that are passed to the launchPuppeteer() function.
+        launchContext: {
+          launchOptions,
+        },
 
-          // Stop crawling after several pages
-          maxRequestsPerCrawl: parseInt(process.env.CRAWL_LIMIT),
-          async requestHandler({ request, page, enqueueLinks, log }) {
-            log.info(`Processing ${request.url}...`);
-            const fileExtensionPattern = /\.[0-9a-z]+$/i; // regex pattern for file extension
+        // Stop crawling after several pages
+        maxRequestsPerCrawl: parseInt(process.env.CRAWL_LIMIT),
+        async requestHandler({ request, page, enqueueLinks, log }) {
+          log.info(`Processing ${request.url}...`);
+          const fileExtensionPattern = /\.[0-9a-z]+$/i; // regex pattern for file extension
 
-            // Ignore URLs containing a '?'
-            if (
-              request.url.includes('?') ||
-              request.url.includes('#') ||
-              fileExtensionPattern.test(request.url)
-            ) {
-              console.log('site url contains ?/# or FILE');
-              return;
-            }
+          // Ignore URLs containing a '?'
+          if (
+            request.url.includes('?') ||
+            request.url.includes('#') ||
+            fileExtensionPattern.test(request.url)
+          ) {
+            console.log('site url contains ?/# or FILE');
+            return;
+          }
 
-            const pageText = await page.evaluate(() => {
-              const blackListNodes = [
-                'data-phonemask-mask',
-                'data-phonemask-country-code',
-              ];
+          const pageText = await page.evaluate(() => {
+            const blackListNodes = [
+              'data-phonemask-mask',
+              'data-phonemask-country-code',
+            ];
 
-              // This function checks if an element has any of the blacklisted tags.
-              const hasBlacklistedTag = (element) => {
-                return blackListNodes.some((tag) => element.hasAttribute(tag));
-              };
+            // This function checks if an element has any of the blacklisted tags.
+            const hasBlacklistedTag = (element) => {
+              return blackListNodes.some((tag) => element.hasAttribute(tag));
+            };
 
-              // Remove the div elements with blacklisted tags.
-              Array.from(document.querySelectorAll('div')).forEach((node) => {
-                if (hasBlacklistedTag(node)) {
-                  node.remove();
-                }
-              });
-
-              // Remove all style and script tags.
-              Array.from(document.querySelectorAll('style, script')).forEach(
-                (node) => {
-                  node.remove();
-                },
-              );
-
-              const nodes = Array.from(
-                document.querySelectorAll(
-                  'p,h1,h2,h3,h4,h5,h6,span,a,li,strong,button,td,th,figcaption,label,title,option,blockquote,cite,em,b,i,mark,small,u,ins,del,s',
-                ),
-              );
-
-              const textNodes = nodes.map((node) => {
-                if (node.nodeName.toLowerCase() === 'div') {
-                  // If this is a div, filter its childNodes to only take the Text nodes.
-                  return Array.from(node.childNodes)
-                    .filter(
-                      (child) => (child as Node).nodeType === Node.TEXT_NODE,
-                    )
-                    .map((textNode) => (textNode as Text).textContent)
-                    .join('\n');
-                } else {
-                  // If this is not a div, just take its textContent as before.
-                  return node.textContent;
-                }
-              });
-
-              return textNodes.join('\n');
+            // Remove the div elements with blacklisted tags.
+            Array.from(document.querySelectorAll('div')).forEach((node) => {
+              if (hasBlacklistedTag(node)) {
+                node.remove();
+              }
             });
 
-            urlsContent.push({
-              url: request.url,
-              size: pageText.length,
-              content: pageText,
+            // Remove all style and script tags.
+            Array.from(document.querySelectorAll('style, script')).forEach(
+              (node) => {
+                node.remove();
+              },
+            );
+
+            const nodes = Array.from(
+              document.querySelectorAll(
+                'p,h1,h2,h3,h4,h5,h6,span,a,li,strong,button,td,th,figcaption,label,title,option,blockquote,cite,em,b,i,mark,small,u,ins,del,s',
+              ),
+            );
+
+            const textNodes = nodes.map((node) => {
+              if (node.nodeName.toLowerCase() === 'div') {
+                // If this is a div, filter its childNodes to only take the Text nodes.
+                return Array.from(node.childNodes)
+                  .filter(
+                    (child) => (child as Node).nodeType === Node.TEXT_NODE,
+                  )
+                  .map((textNode) => (textNode as Text).textContent)
+                  .join('\n');
+              } else {
+                // If this is not a div, just take its textContent as before.
+                return node.textContent;
+              }
             });
 
-            // Store the results to the default dataset.
-            //await Dataset.pushData(data);
+            return textNodes.join('\n');
+          });
 
-            // Find a link to the next page and enqueue it if it exists.
-            const infos = await enqueueLinks({
-              selector: 'a[href]',
-            });
+          urlsContent.push({
+            url: request.url,
+            size: pageText.length,
+            content: pageText,
+          });
 
-            if (infos.processedRequests.length === 0)
-              log.info(`${request.url} is the last page!`);
-          },
+          // Store the results to the default dataset.
+          //await Dataset.pushData(data);
 
-          // This function is called if the page processing failed more than maxRequestRetries+1 times.
-          failedRequestHandler({ request, log }) {
-            log.error(`Request ${request.url} failed too many times.`);
-          },
-        });
+          // Find a link to the next page and enqueue it if it exists.
+          const infos = await enqueueLinks({
+            selector: 'a[href]',
+          });
 
-        await crawler.addRequests([weblink]);
+          if (infos.processedRequests.length === 0)
+            log.info(`${request.url} is the last page!`);
+        },
 
-        // Run the crawler and wait for it to finish.
-        await crawler.run();
+        // This function is called if the page processing failed more than maxRequestRetries+1 times.
+        failedRequestHandler({ request, log }) {
+          log.error(`Request ${request.url} failed too many times.`);
+        },
+      });
 
-        const returnedToFrontUrls: ReturnedToFrontUrl[] = [];
+      await crawler.addRequests([weblink]);
 
-        for (const url of urlsContent) {
-          const urlWithoutSlashes = url.url.replace(/\//g, '[]');
-          const uploadFilePayload = {
-            fileName: `${urlWithoutSlashes}.txt`,
-            data: url.content,
-            chatbot_id,
-            char_length: url.size,
-          };
-          const newSource = await this.fileUploadService.uploadSingleFile(
-            uploadFilePayload,
-            CategoryEnum.WEB,
-          );
-          const linkCrawled = {
-            size: url.size,
-            url: url.url,
-            _id: newSource._id.toString(),
-          };
-          returnedToFrontUrls.push(linkCrawled);
-        }
+      // Run the crawler and wait for it to finish.
+      await crawler.run();
 
-        console.log('Crawler finished.');
-        return returnedToFrontUrls;
-      } catch (e) {
-        console.error(e);
-        throw new HttpException(
-          'Error crawling',
-          HttpStatus.SERVICE_UNAVAILABLE,
+      const returnedToFrontUrls: ReturnedToFrontUrl[] = [];
+
+      for (const url of urlsContent) {
+        const urlWithoutSlashes = url.url.replace(/\//g, '[]');
+        const uploadFilePayload = {
+          fileName: `${urlWithoutSlashes}.txt`,
+          data: url.content,
+          chatbot_id,
+          char_length: url.size,
+        };
+        const newSource = await this.fileUploadService.uploadSingleFile(
+          uploadFilePayload,
+          CategoryEnum.WEB,
         );
+        const linkCrawled = {
+          size: url.size,
+          url: url.url,
+          _id: newSource._id.toString(),
+        };
+        returnedToFrontUrls.push(linkCrawled);
       }
+
+      console.log('Crawler finished.');
+      return returnedToFrontUrls;
+    } catch (e) {
+      console.error(e);
+      throw new HttpException('Error crawling', HttpStatus.SERVICE_UNAVAILABLE);
     }
   }
 }
