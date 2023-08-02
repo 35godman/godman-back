@@ -41,7 +41,7 @@ export class CrawlerService {
     await cluster.task(async ({ page, data: url }) => {
       if (
         visitedUrls.has(url) ||
-        urlCount >= 10 ||
+        urlCount >= parseInt(process.env.CRAWL_LIMIT) ||
         url.includes('?') ||
         url.includes('#') ||
         checkIfFileUrlUtil(url)

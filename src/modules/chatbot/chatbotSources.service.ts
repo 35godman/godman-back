@@ -103,7 +103,7 @@ export class ChatbotSourcesService {
     );
   }
 
-  async resetWebCrawledFiles(chatbot_id) {
+  async resetWebCrawledFiles(chatbot_id: string) {
     const sources = await this.findByChatbotId(chatbot_id);
     const web_sources = sources.website;
     for (const web_source of web_sources) {
@@ -114,5 +114,46 @@ export class ChatbotSourcesService {
     }
     sources.website = [];
     await sources.save();
+  }
+
+  async resetUploadedFiles(chatbot_id: string) {
+    const sources = await this.findByChatbotId(chatbot_id);
+    const files = sources.files;
+    for (const file of files) {
+      await this.yandexCloudService.removeUploadedFile(
+        chatbot_id,
+        file.originalName,
+      );
+    }
+    sources.files = [];
+    await sources.save();
+  }
+
+  async resetQnA(chatbot_id: string) {
+    const sources = await this.findByChatbotId(chatbot_id);
+    const qna = sources.QA_list;
+    await this.yandexCloudService.removeUploadedFile(
+      chatbot_id,
+      process.env.QNA_DATASOURCE_NAME,
+    );
+    sources.QA_list = [];
+    await sources.save();
+  }
+
+  async resetTextSource(chatbot_id: string) {
+    const sources = await this.findByChatbotId(chatbot_id);
+    await this.yandexCloudService.removeUploadedFile(
+      chatbot_id,
+      process.env.TEXT_DATASOURCE_NAME,
+    );
+    sources.text = '';
+    await sources.save();
+  }
+
+  async deleteAllSources(chatbot_id: string) {
+    await this.resetWebCrawledFiles(chatbot_id);
+    await this.resetUploadedFiles(chatbot_id);
+    await this.resetTextSource(chatbot_id);
+    await this.resetQnA(chatbot_id);
   }
 }

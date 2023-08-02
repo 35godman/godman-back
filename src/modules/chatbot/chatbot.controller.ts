@@ -117,4 +117,11 @@ export class ChatbotController {
     await this.chatbotSourcesService.resetWebCrawledFiles(chatbot_id);
     return ResponseResult.SUCCESS;
   }
+
+  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
+  @Post('reset-all-sources')
+  async resetAllSources(@Query('chatbot_id') chatbot_id) {
+    await this.chatbotSourcesService.deleteAllSources(chatbot_id);
+    return ResponseResult.SUCCESS;
+  }
 }

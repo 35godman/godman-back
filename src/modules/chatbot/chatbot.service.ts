@@ -15,6 +15,8 @@ import { ResponseResult } from '../../enum/response.enum';
 import { generateIframeUtil } from '../../utils/generateScripts/generateIframe.util';
 import { generateScriptUtil } from '../../utils/generateScripts/generateScript.util';
 import { obfuscatorUtil } from '../../utils/obfuscate/obfuscator.util';
+import fs from 'fs';
+import path from 'path';
 
 @Injectable()
 export class ChatbotService {
@@ -70,6 +72,7 @@ export class ChatbotService {
     const chatbot = await this.findById(id);
     const settings_id = chatbot.settings._id.toString();
     const sources_id = chatbot.sources._id.toString();
+    await this.chatbotSourcesService.deleteAllSources(chatbot._id.toString());
     await this.chatbotSettingsService.deleteById(settings_id);
     await this.chatbotSourcesService.deleteById(sources_id);
     await this.chatbotModel.deleteOne({ _id: id }).exec();
@@ -78,6 +81,11 @@ export class ChatbotService {
 
   async generateIframeCode(chatbot_id: string) {
     const chatbotEntity = await this.findById(chatbot_id);
+    const scriptEmbed = fs.readFileSync(
+      path.join(process.cwd(), '/src/utils/generateScripts/iframe.js'),
+    );
+
+    obfuscatorUtil(scriptEmbed.toString());
     chatbotEntity.embed_code.script = generateScriptUtil();
     // obfuscatorUtil(chatbotEntity.embed_code.script);
     chatbotEntity.embed_code.iframe = generateIframeUtil(chatbot_id);

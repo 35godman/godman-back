@@ -10,6 +10,7 @@ window.onload = function () {
   chatbot.style.right = '1rem';
   chatbot.style.width = '448px';
   chatbot.style.height = '85vh';
+  chatbot.style.minHeight = '700px';
   chatbot.style.maxHeight = '824px';
   chatbot.style.borderRadius = '0.75rem';
   chatbot.style.display = 'flex';
