@@ -1,9 +1,0 @@
-{
-	"id": "bDXPvdXYuChm0sf",
-	"json": "{\"id\":\"bDXPvdXYuChm0sf\",\"url\":\"https://suprotec.ru/produktsiya-suprotec/suprotec-active-premium/\",\"uniqueKey\":\"https://suprotec.ru/produktsiya-suprotec/suprotec-active-premium\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
-	"method": "GET",
-	"orderNo": 1690963970571,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/produktsiya-suprotec/suprotec-active-premium",
-	"url": "https://suprotec.ru/produktsiya-suprotec/suprotec-active-premium/"
-}

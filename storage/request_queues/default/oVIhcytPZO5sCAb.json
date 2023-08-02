@@ -1,9 +1,0 @@
-{
-	"id": "oVIhcytPZO5sCAb",
-	"json": "{\"id\":\"oVIhcytPZO5sCAb\",\"url\":\"https://suprotec.ru/acts/podshipnik-so-smazkoi/\",\"uniqueKey\":\"https://suprotec.ru/acts/podshipnik-so-smazkoi\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
-	"method": "GET",
-	"orderNo": 1690963981636,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/acts/podshipnik-so-smazkoi",
-	"url": "https://suprotec.ru/acts/podshipnik-so-smazkoi/"
-}

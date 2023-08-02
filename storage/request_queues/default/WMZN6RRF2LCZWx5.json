@@ -1,9 +1,0 @@
-{
-	"id": "WMZN6RRF2LCZWx5",
-	"json": "{\"id\":\"WMZN6RRF2LCZWx5\",\"url\":\"https://suprotec.ru/nashi-kontakty/\",\"loadedUrl\":\"https://suprotec.ru/nashi-kontakty/\",\"uniqueKey\":\"https://suprotec.ru/nashi-kontakty\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false,\"state\":4}},\"handledAt\":\"2023-08-02T08:12:55.789Z\"}",
-	"method": "GET",
-	"orderNo": null,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/nashi-kontakty",
-	"url": "https://suprotec.ru/nashi-kontakty/"
-}

@@ -1,9 +1,0 @@
-{
-	"id": "eUrASfO1OwmdPiI",
-	"json": "{\"id\":\"eUrASfO1OwmdPiI\",\"url\":\"https://suprotec.ru/acts/lentochnii-konveer/\",\"uniqueKey\":\"https://suprotec.ru/acts/lentochnii-konveer\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
-	"method": "GET",
-	"orderNo": 1690963981643,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/acts/lentochnii-konveer",
-	"url": "https://suprotec.ru/acts/lentochnii-konveer/"
-}

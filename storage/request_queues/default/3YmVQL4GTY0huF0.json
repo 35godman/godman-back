@@ -1,9 +1,0 @@
-{
-	"id": "3YmVQL4GTY0huF0",
-	"json": "{\"id\":\"3YmVQL4GTY0huF0\",\"url\":\"https://suprotec.ru/suprotek-stati-visokotemperaturnie-smazki\",\"uniqueKey\":\"https://suprotec.ru/suprotek-stati-visokotemperaturnie-smazki\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
-	"method": "GET",
-	"orderNo": 1690963988209,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/suprotek-stati-visokotemperaturnie-smazki",
-	"url": "https://suprotec.ru/suprotek-stati-visokotemperaturnie-smazki"
-}

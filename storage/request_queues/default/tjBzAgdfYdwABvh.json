@@ -1,9 +1,0 @@
-{
-	"id": "tjBzAgdfYdwABvh",
-	"json": "{\"id\":\"tjBzAgdfYdwABvh\",\"url\":\"https://suprotec.ru/suprotek-stati/suprotec-a-prohim-vstrechaite\",\"uniqueKey\":\"https://suprotec.ru/suprotek-stati/suprotec-a-prohim-vstrechaite\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
-	"method": "GET",
-	"orderNo": 1690963988308,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/suprotek-stati/suprotec-a-prohim-vstrechaite",
-	"url": "https://suprotec.ru/suprotek-stati/suprotec-a-prohim-vstrechaite"
-}

@@ -1,9 +1,0 @@
-{
-	"id": "32tmshmQQ3CZYDN",
-	"json": "{\"id\":\"32tmshmQQ3CZYDN\",\"url\":\"https://suprotec.ru/%D0%B8%D0%BD%D0%B4%D0%B8%D1%8F/\",\"uniqueKey\":\"https://suprotec.ru/%D0%B8%D0%BD%D0%B4%D0%B8%D1%8F\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
-	"method": "GET",
-	"orderNo": 1690963975776,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/%D0%B8%D0%BD%D0%B4%D0%B8%D1%8F",
-	"url": "https://suprotec.ru/%D0%B8%D0%BD%D0%B4%D0%B8%D1%8F/"
-}

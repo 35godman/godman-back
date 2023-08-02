@@ -1,9 +1,0 @@
-{
-	"id": "42Q0jw6Kyyz4czN",
-	"json": "{\"id\":\"42Q0jw6Kyyz4czN\",\"url\":\"https://suprotec.ru/vopros-otvet/voprosy-rulevoe-upravlenie/\",\"uniqueKey\":\"https://suprotec.ru/vopros-otvet/voprosy-rulevoe-upravlenie\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
-	"method": "GET",
-	"orderNo": 1690963977682,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/vopros-otvet/voprosy-rulevoe-upravlenie",
-	"url": "https://suprotec.ru/vopros-otvet/voprosy-rulevoe-upravlenie/"
-}

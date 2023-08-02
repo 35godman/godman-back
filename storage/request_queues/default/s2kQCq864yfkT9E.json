@@ -1,9 +1,0 @@
-{
-	"id": "s2kQCq864yfkT9E",
-	"json": "{\"id\":\"s2kQCq864yfkT9E\",\"url\":\"https://suprotec.ru/acts/voronezskii-mehanicheskii-zavod/\",\"uniqueKey\":\"https://suprotec.ru/acts/voronezskii-mehanicheskii-zavod\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
-	"method": "GET",
-	"orderNo": 1690963981647,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/acts/voronezskii-mehanicheskii-zavod",
-	"url": "https://suprotec.ru/acts/voronezskii-mehanicheskii-zavod/"
-}

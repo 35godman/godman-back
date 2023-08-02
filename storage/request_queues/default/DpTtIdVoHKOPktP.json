@@ -1,9 +1,0 @@
-{
-	"id": "DpTtIdVoHKOPktP",
-	"json": "{\"id\":\"DpTtIdVoHKOPktP\",\"url\":\"https://suprotec.ru/otzyvy/otzyvy-rulevoe-upravlenie/\",\"uniqueKey\":\"https://suprotec.ru/otzyvy/otzyvy-rulevoe-upravlenie\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
-	"method": "GET",
-	"orderNo": 1690963976831,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/otzyvy/otzyvy-rulevoe-upravlenie",
-	"url": "https://suprotec.ru/otzyvy/otzyvy-rulevoe-upravlenie/"
-}

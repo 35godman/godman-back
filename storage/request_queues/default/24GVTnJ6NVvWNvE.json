@@ -1,9 +1,0 @@
-{
-	"id": "24GVTnJ6NVvWNvE",
-	"json": "{\"id\":\"24GVTnJ6NVvWNvE\",\"url\":\"https://suprotec.ru/suprotek-stati/\",\"loadedUrl\":\"https://suprotec.ru/suprotek-stati/\",\"uniqueKey\":\"https://suprotec.ru/suprotek-stati\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false,\"state\":4}},\"handledAt\":\"2023-08-02T08:13:02.301Z\"}",
-	"method": "GET",
-	"orderNo": null,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/suprotek-stati",
-	"url": "https://suprotec.ru/suprotek-stati/"
-}

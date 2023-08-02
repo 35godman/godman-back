@@ -1,9 +1,0 @@
-{
-	"id": "2VDK2e3OytgoNNF",
-	"json": "{\"id\":\"2VDK2e3OytgoNNF\",\"url\":\"https://suprotec.ru/acts/vosstanovlenie_tnvd/\",\"uniqueKey\":\"https://suprotec.ru/acts/vosstanovlenie_tnvd\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
-	"method": "GET",
-	"orderNo": 1690963981619,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/acts/vosstanovlenie_tnvd",
-	"url": "https://suprotec.ru/acts/vosstanovlenie_tnvd/"
-}

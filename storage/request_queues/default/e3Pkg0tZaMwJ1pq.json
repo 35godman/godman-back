@@ -1,9 +1,0 @@
-{
-	"id": "e3Pkg0tZaMwJ1pq",
-	"json": "{\"id\":\"e3Pkg0tZaMwJ1pq\",\"url\":\"https://suprotec.ru/u/produktsiya-suprotec/podbor-sostava/\",\"uniqueKey\":\"https://suprotec.ru/u/produktsiya-suprotec/podbor-sostava\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
-	"method": "GET",
-	"orderNo": 1690963967693,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/u/produktsiya-suprotec/podbor-sostava",
-	"url": "https://suprotec.ru/u/produktsiya-suprotec/podbor-sostava/"
-}

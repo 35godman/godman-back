@@ -1,9 +1,0 @@
-{
-	"id": "RRx6gGiayf35MGi",
-	"json": "{\"id\":\"RRx6gGiayf35MGi\",\"url\":\"https://suprotec.ru/acts/oao-severstal/\",\"uniqueKey\":\"https://suprotec.ru/acts/oao-severstal\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
-	"method": "GET",
-	"orderNo": 1690963981650,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/acts/oao-severstal",
-	"url": "https://suprotec.ru/acts/oao-severstal/"
-}

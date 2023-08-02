@@ -1,9 +1,0 @@
-{
-	"id": "qmgaxlK0K50iS92",
-	"json": "{\"id\":\"qmgaxlK0K50iS92\",\"url\":\"https://suprotec.ru/smazka_dlya_dverey_avtomobilya/\",\"uniqueKey\":\"https://suprotec.ru/smazka_dlya_dverey_avtomobilya\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
-	"method": "GET",
-	"orderNo": 1690963967698,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/smazka_dlya_dverey_avtomobilya",
-	"url": "https://suprotec.ru/smazka_dlya_dverey_avtomobilya/"
-}

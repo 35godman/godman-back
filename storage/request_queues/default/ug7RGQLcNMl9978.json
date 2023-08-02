@@ -1,9 +1,0 @@
-{
-	"id": "ug7RGQLcNMl9978",
-	"json": "{\"id\":\"ug7RGQLcNMl9978\",\"url\":\"https://suprotec.ru/produktsiya-suprotec/\",\"loadedUrl\":\"https://suprotec.ru/produktsiya-suprotec/\",\"uniqueKey\":\"https://suprotec.ru/produktsiya-suprotec\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false,\"state\":4}},\"handledAt\":\"2023-08-02T08:12:53.130Z\"}",
-	"method": "GET",
-	"orderNo": null,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/produktsiya-suprotec",
-	"url": "https://suprotec.ru/produktsiya-suprotec/"
-}

@@ -1,9 +1,0 @@
-{
-	"id": "h80Zu0th45yeL46",
-	"json": "{\"id\":\"h80Zu0th45yeL46\",\"url\":\"https://suprotec.ru/novosti/suprotek-vozvraschaetsya-na-bezdorozhe/\",\"uniqueKey\":\"https://suprotec.ru/novosti/suprotek-vozvraschaetsya-na-bezdorozhe\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
-	"method": "GET",
-	"orderNo": 1690963967691,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/novosti/suprotek-vozvraschaetsya-na-bezdorozhe",
-	"url": "https://suprotec.ru/novosti/suprotek-vozvraschaetsya-na-bezdorozhe/"
-}

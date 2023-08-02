@@ -1,9 +1,0 @@
-{
-	"id": "pffuZAlQWWVdtI3",
-	"json": "{\"id\":\"pffuZAlQWWVdtI3\",\"url\":\"https://suprotec.ru/suprotek-regiony/\",\"loadedUrl\":\"https://suprotec.ru/suprotek-regiony/\",\"uniqueKey\":\"https://suprotec.ru/suprotek-regiony\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false,\"state\":4}},\"handledAt\":\"2023-08-02T08:12:50.896Z\"}",
-	"method": "GET",
-	"orderNo": null,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/suprotek-regiony",
-	"url": "https://suprotec.ru/suprotek-regiony/"
-}

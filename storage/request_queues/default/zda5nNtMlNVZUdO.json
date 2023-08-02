@@ -1,9 +1,0 @@
-{
-	"id": "zda5nNtMlNVZUdO",
-	"json": "{\"id\":\"zda5nNtMlNVZUdO\",\"url\":\"https://suprotec.ru/otzyvy/otzyvy-dvigatel/\",\"uniqueKey\":\"https://suprotec.ru/otzyvy/otzyvy-dvigatel\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
-	"method": "GET",
-	"orderNo": 1690963976829,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/otzyvy/otzyvy-dvigatel",
-	"url": "https://suprotec.ru/otzyvy/otzyvy-dvigatel/"
-}

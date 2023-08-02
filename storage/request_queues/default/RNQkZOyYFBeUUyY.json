@@ -1,9 +1,0 @@
-{
-	"id": "RNQkZOyYFBeUUyY",
-	"json": "{\"id\":\"RNQkZOyYFBeUUyY\",\"url\":\"https://suprotec.ru/produktsiya-suprotec/fabric-care-product/\",\"uniqueKey\":\"https://suprotec.ru/produktsiya-suprotec/fabric-care-product\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
-	"method": "GET",
-	"orderNo": 1690963970598,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/produktsiya-suprotec/fabric-care-product",
-	"url": "https://suprotec.ru/produktsiya-suprotec/fabric-care-product/"
-}

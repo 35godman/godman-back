@@ -1,9 +1,0 @@
-{
-	"id": "YEJrKNfnifdlqhk",
-	"json": "{\"id\":\"YEJrKNfnifdlqhk\",\"url\":\"https://suprotec.ru/suprotek-regiony/suprotek-v-chechne/\",\"uniqueKey\":\"https://suprotec.ru/suprotek-regiony/suprotek-v-chechne\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
-	"method": "GET",
-	"orderNo": 1690963970886,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/suprotek-regiony/suprotek-v-chechne",
-	"url": "https://suprotec.ru/suprotek-regiony/suprotek-v-chechne/"
-}

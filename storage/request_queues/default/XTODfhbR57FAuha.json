@@ -1,9 +1,0 @@
-{
-	"id": "XTODfhbR57FAuha",
-	"json": "{\"id\":\"XTODfhbR57FAuha\",\"url\":\"https://suprotec.ru/sozh-dlya-stankov/\",\"uniqueKey\":\"https://suprotec.ru/sozh-dlya-stankov\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
-	"method": "GET",
-	"orderNo": 1690963982292,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/sozh-dlya-stankov",
-	"url": "https://suprotec.ru/sozh-dlya-stankov/"
-}

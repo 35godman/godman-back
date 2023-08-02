@@ -1,9 +1,0 @@
-{
-	"id": "0fQq2fIEYJsRAId",
-	"json": "{\"id\":\"0fQq2fIEYJsRAId\",\"url\":\"https://suprotec.ru/acts/ispitanie_lv_190_2k/\",\"uniqueKey\":\"https://suprotec.ru/acts/ispitanie_lv_190_2k\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
-	"method": "GET",
-	"orderNo": 1690963981642,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/acts/ispitanie_lv_190_2k",
-	"url": "https://suprotec.ru/acts/ispitanie_lv_190_2k/"
-}

@@ -1,9 +1,0 @@
-{
-	"id": "8g1X7ojcFyBgnd7",
-	"json": "{\"id\":\"8g1X7ojcFyBgnd7\",\"url\":\"https://suprotec.ru/suprotek-regiony/suprotek-v-kalmykii/\",\"uniqueKey\":\"https://suprotec.ru/suprotek-regiony/suprotek-v-kalmykii\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
-	"method": "GET",
-	"orderNo": 1690963970879,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/suprotek-regiony/suprotek-v-kalmykii",
-	"url": "https://suprotec.ru/suprotek-regiony/suprotek-v-kalmykii/"
-}

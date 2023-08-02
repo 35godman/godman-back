@@ -1,9 +1,0 @@
-{
-	"id": "3nZAX6BBkCkMiOl",
-	"json": "{\"id\":\"3nZAX6BBkCkMiOl\",\"url\":\"https://suprotec.ru/acts/ispitaniy_dfdk/\",\"uniqueKey\":\"https://suprotec.ru/acts/ispitaniy_dfdk\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
-	"method": "GET",
-	"orderNo": 1690963981646,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/acts/ispitaniy_dfdk",
-	"url": "https://suprotec.ru/acts/ispitaniy_dfdk/"
-}

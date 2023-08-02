@@ -1,9 +1,0 @@
-{
-	"id": "bO7wAosDIaLhj5w",
-	"json": "{\"id\":\"bO7wAosDIaLhj5w\",\"url\":\"https://suprotec.ru/acts/zavod-oao-rzd/\",\"uniqueKey\":\"https://suprotec.ru/acts/zavod-oao-rzd\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
-	"method": "GET",
-	"orderNo": 1690963981648,
-	"retryCount": 0,
-	"uniqueKey": "https://suprotec.ru/acts/zavod-oao-rzd",
-	"url": "https://suprotec.ru/acts/zavod-oao-rzd/"
-}
