@@ -158,6 +158,7 @@ export class CrawlerService {
   // }
   async crawleeSetup(payload: CrawlDto, chatbot_id: string) {
     const { weblink } = payload;
+    console.log('=>(crawler.service.ts:161) weblink', weblink);
     const urlsContent: CrawledLink[] = [];
     let launchOptions = null;
     if (process.env.NODE_ENV === 'production') {
