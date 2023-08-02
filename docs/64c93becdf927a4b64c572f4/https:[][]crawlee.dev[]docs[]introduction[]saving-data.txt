@@ -1,0 +1,591 @@
+Saving data | Crawlee
+Skip to main content
+
+Crawlee
+Crawlee
+Docs
+Examples
+API
+Changelog
+3.5
+Next
+Next
+3.5
+3.5
+3.4
+3.4
+3.3
+3.3
+3.2
+3.2
+3.1
+3.1
+3.0
+3.0
+2.2
+2.2
+1.3
+1.3
+
+
+GitHub
+Discord
+Search⌘K
+Search
+Search
+⌘K
+
+Crawlee
+Crawlee
+Quick Start
+Quick Start
+IntroductionSetting upFirst crawlerAdding more URLsReal-world projectCrawlingScrapingSaving dataRefactoring
+Introduction
+
+Setting up
+Setting up
+First crawler
+First crawler
+Adding more URLs
+Adding more URLs
+Real-world project
+Real-world project
+Crawling
+Crawling
+Scraping
+Scraping
+Saving data
+Saving data
+Refactoring
+Refactoring
+Guides
+Guides
+
+Examples
+Examples
+
+Upgrading
+Upgrading
+
+
+
+
+Introduction
+Introduction
+Introduction
+Saving data
+Saving data
+Version: 3.5
+On this page
+Saving data
+A data extraction job would not be complete without saving the data for later use and processing. We've come to the final and most difficult part of this tutorial so make sure to pay attention very carefully!
+First, add a new import to the top of the file:
+import { PlaywrightCrawler, Dataset } from 'crawlee';
+import
+ 
+{
+ PlaywrightCrawler
+,
+ Dataset 
+}
+ 
+from
+ 
+'crawlee'
+;
+
+
+Then, replace the console.log(results) call with:
+await Dataset.pushData(results);
+await
+ 
+Dataset
+.
+pushData
+(
+results
+)
+;
+
+
+and that's it. Unlike earlier, we are being serious now. That's it, we're done. The final code looks like this:
+import { PlaywrightCrawler, Dataset } from 'crawlee';
+import
+ 
+{
+ 
+PlaywrightCrawler
+,
+ 
+Dataset
+ 
+}
+ 
+from
+ 
+'crawlee'
+;
+
+
+
+const crawler = new PlaywrightCrawler({
+
+const
+ crawler 
+=
+ 
+new
+ 
+PlaywrightCrawler
+(
+{
+
+    requestHandler: async ({ page, request, enqueueLinks }) => {
+    
+requestHandler
+:
+ 
+async
+ 
+(
+{
+ page
+,
+ request
+,
+ enqueueLinks 
+}
+)
+ 
+=>
+ 
+{
+
+        console.log(`Processing: ${request.url}`)
+        
+console
+.
+log
+(
+`
+Processing: 
+${
+request
+.
+url
+}
+`
+)
+
+        if (request.label === 'DETAIL') {
+        
+if
+ 
+(
+request
+.
+label
+ 
+===
+ 
+'DETAIL'
+)
+ 
+{
+
+            const urlParts = request.url.split('/').slice(-2);
+            
+const
+ urlParts 
+=
+ request
+.
+url
+.
+split
+(
+'/'
+)
+.
+slice
+(
+-
+2
+)
+;
+
+            const modifiedTimestamp = await page.locator('time[datetime]').getAttribute('datetime');
+            
+const
+ modifiedTimestamp 
+=
+ 
+await
+ page
+.
+locator
+(
+'time[datetime]'
+)
+.
+getAttribute
+(
+'datetime'
+)
+;
+
+            const runsRow = page.locator('ul.ActorHeader-userMedallion > li').filter({ hasText: 'Runs' });
+            
+const
+ runsRow 
+=
+ page
+.
+locator
+(
+'ul.ActorHeader-userMedallion > li'
+)
+.
+filter
+(
+{
+ 
+hasText
+:
+ 
+'Runs'
+ 
+}
+)
+;
+
+            const runCountString = await runsRow.textContent();
+            
+const
+ runCountString 
+=
+ 
+await
+ runsRow
+.
+textContent
+(
+)
+;
+
+
+
+            const results = {
+            
+const
+ results 
+=
+ 
+{
+
+                url: request.url,
+                
+url
+:
+ request
+.
+url
+,
+
+                uniqueIdentifier: urlParts.join('/'),
+                
+uniqueIdentifier
+:
+ urlParts
+.
+join
+(
+'/'
+)
+,
+
+                owner: urlParts[0],
+                
+owner
+:
+ urlParts
+[
+0
+]
+,
+
+                title: await page.locator('.ActorHeader-identificator h1').textContent(),
+                
+title
+:
+ 
+await
+ page
+.
+locator
+(
+'.ActorHeader-identificator h1'
+)
+.
+textContent
+(
+)
+,
+
+                description: await page.locator('p.ActorHeader-description').textContent(),
+                
+description
+:
+ 
+await
+ page
+.
+locator
+(
+'p.ActorHeader-description'
+)
+.
+textContent
+(
+)
+,
+
+                modifiedDate: new Date(Number(modifiedTimestamp)),
+                
+modifiedDate
+:
+ 
+new
+ 
+Date
+(
+Number
+(
+modifiedTimestamp
+)
+)
+,
+
+                runCount: (runCountString.replace('Runs ', '')),
+                
+runCount
+:
+ 
+(
+runCountString
+.
+replace
+(
+'Runs '
+,
+ 
+''
+)
+)
+,
+
+            }
+            
+}
+
+
+
+            await Dataset.pushData(results);
+            
+await
+ 
+Dataset
+.
+pushData
+(
+results
+)
+;
+
+        } else {
+        
+}
+ 
+else
+ 
+{
+
+            await page.waitForSelector('.ActorStorePagination-buttons a');
+            
+await
+ page
+.
+waitForSelector
+(
+'.ActorStorePagination-buttons a'
+)
+;
+
+            await enqueueLinks({
+            
+await
+ 
+enqueueLinks
+(
+{
+
+                selector: '.ActorStorePagination-buttons a',
+                
+selector
+:
+ 
+'.ActorStorePagination-buttons a'
+,
+
+                label: 'LIST',
+                
+label
+:
+ 
+'LIST'
+,
+
+            })
+            
+}
+)
+
+            await page.waitForSelector('div[data-test="actorCard"] a');
+            
+await
+ page
+.
+waitForSelector
+(
+'div[data-test="actorCard"] a'
+)
+;
+
+            await enqueueLinks({
+            
+await
+ 
+enqueueLinks
+(
+{
+
+                selector: 'div[data-test="actorCard"] a',
+                
+selector
+:
+ 
+'div[data-test="actorCard"] a'
+,
+
+                label: 'DETAIL', // <= note the different label
+                
+label
+:
+ 
+'DETAIL'
+,
+ 
+// <= note the different label
+
+            })
+            
+}
+)
+
+        }
+        
+}
+
+    }
+    
+}
+
+});
+
+}
+)
+;
+
+
+
+await crawler.run(['https://apify.com/store']);
+
+await
+ crawler
+.
+run
+(
+[
+'https://apify.com/store'
+]
+)
+;
+
+
+
+What's Dataset.pushData()​
+​
+​Dataset.pushData() is a function that saves data to the default Dataset. Dataset is a storage designed to hold data in a format similar to a table. Each time you call Dataset.pushData() a new row in the table is created, with the property names serving as column titles. In the default configuration, the rows are represented as JSON files saved on your disk, but other storage systems can be plugged into Crawlee as well.
+Dataset.pushData()
+Dataset
+
+Each time you start Crawlee a default Dataset is automatically created, so there's no need to initialize it or create an instance first. You can create as many datasets as you want and even give them names. For more details see the Result storage guide and the Dataset.open() function.
+Result storage guide
+Dataset.open()
+Finding saved data​
+​
+Unless you changed the configuration that Crawlee uses locally, which would suggest that you knew what you were doing, and you didn't need this tutorial anyway, you'll find your data in the storage directory that Crawlee creates in the working directory of the running script:
+{PROJECT_FOLDER}/storage/datasets/default/
+{
+PROJECT_FOLDER
+}
+/
+storage
+/
+datasets
+/
+default
+/
+
+
+The above folder will hold all your saved data in numbered files, as they were pushed into the dataset. Each file represents one invocation of Dataset.pushData() or one table row.
+
+If you would like to store your data in a single big file, instead of many small ones, see the Result storage guide for Key-value stores.
+Result storage guide
+Next lesson​
+​
+In the next and final lesson, we will show you some improvements that you can add to your crawler code that will make it more readable and maintainable in the long run.
+Last updated on Jul 31, 2023 by renovate[bot]
+Jul 31, 2023
+renovate[bot]
+PreviousScraping
+NextRefactoring
+What's Dataset.pushData()
+What's Dataset.pushData()
+Finding saved data
+Finding saved data
+Next lesson
+Next lesson
+Guides
+Guides
+Examples
+Examples
+API reference
+API reference
+Upgrading to v3
+Upgrading to v3
+Discord
+Discord
+Stack Overflow
+Stack Overflow
+Twitter
+Twitter
+Apify Platform
+Apify Platform
+Docusaurus
+Docusaurus
+GitHub
+GitHub
+Crawlee is free and open source
+Built by
+Built by

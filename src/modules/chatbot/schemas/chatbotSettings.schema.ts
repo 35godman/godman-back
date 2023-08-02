@@ -20,7 +20,7 @@ export class ChatbotSettings {
   @Prop({ default: 0 })
   num_of_characters: number;
 
-  @Prop({ default: 2000000 })
+  @Prop({ default: 100000000 })
   char_limit: number;
 
   @Prop({ default: 1000 })

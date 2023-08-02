@@ -36,6 +36,8 @@ export class CrawlerService {
     // that automatically loads the URLs in headless Chrome / Puppeteer.
     try {
       const crawler = new PuppeteerCrawler({
+        minConcurrency: 5,
+        maxRequestRetries: 5,
         // Here you can set options that are passed to the launchPuppeteer() function.
         launchContext: {
           launchOptions,
@@ -145,19 +147,28 @@ export class CrawlerService {
           chatbot_id,
           char_length: url.size,
         };
-        const newSource = await this.fileUploadService.uploadSingleFile(
-          uploadFilePayload,
-          CategoryEnum.WEB,
-        );
-        const linkCrawled = {
-          size: url.size,
-          url: url.url,
-          _id: newSource._id.toString(),
-        };
-        returnedToFrontUrls.push(linkCrawled);
+        try {
+          const newSource = await this.fileUploadService.uploadSingleFile(
+            uploadFilePayload,
+            CategoryEnum.WEB,
+          );
+          const linkCrawled = {
+            size: url.size,
+            url: url.url,
+            _id: newSource._id.toString(),
+          };
+          returnedToFrontUrls.push(linkCrawled);
+        } catch (e) {
+          console.error(e);
+          /**
+           * @COMMENT stop the loop if error occurs in fileUploadService
+           */
+          return;
+        }
       }
 
       console.log('Crawler finished.');
+      await crawler.requestQueue.drop();
       return returnedToFrontUrls;
     } catch (e) {
       console.error(e);

@@ -1,0 +1,1177 @@
+Quick Start | Crawlee
+Skip to main content
+
+Crawlee
+Crawlee
+Docs
+Examples
+API
+Changelog
+3.3
+Next
+Next
+3.5
+3.5
+3.4
+3.4
+3.3
+3.3
+3.2
+3.2
+3.1
+3.1
+3.0
+3.0
+2.2
+2.2
+1.3
+1.3
+
+
+GitHub
+Discord
+Search⌘K
+Search
+Search
+⌘K
+
+Crawlee
+Crawlee
+Quick Start
+Quick Start
+IntroductionSetting upFirst crawlerAdding more URLsReal-world projectCrawlingScrapingSaving dataRefactoring
+Introduction
+
+Setting up
+Setting up
+First crawler
+First crawler
+Adding more URLs
+Adding more URLs
+Real-world project
+Real-world project
+Crawling
+Crawling
+Scraping
+Scraping
+Saving data
+Saving data
+Refactoring
+Refactoring
+Guides
+Guides
+
+Examples
+Examples
+
+Upgrading
+Upgrading
+
+
+3.3
+latest version
+latest version
+
+
+Quick Start
+Quick Start
+Version: 3.3
+On this page
+Quick Start
+With this short tutorial you can start scraping with Crawlee in a minute or two. To learn in-depth how Crawlee works, read the Introduction, which is a comprehensive step-by-step guide for creating your first scraper.
+Introduction
+Choose your crawler​
+​
+Crawlee comes with three main crawler classes: CheerioCrawler, PuppeteerCrawler and PlaywrightCrawler. All classes share the same interface for maximum flexibility when switching between them.
+CheerioCrawler
+PuppeteerCrawler
+PlaywrightCrawler
+CheerioCrawler​
+​
+This is a plain HTTP crawler. It parses HTML using the Cheerio library and crawls the web using the specialized got-scraping HTTP client which masks as a browser. It's very fast and efficient, but can't handle JavaScript rendering.
+Cheerio
+got-scraping
+PuppeteerCrawler​
+​
+This crawler uses a headless browser to crawl, controlled by the Puppeteer library. It can control Chromium or Chrome. Puppeteer is the de-facto standard in headless browser automation.
+Puppeteer
+PlaywrightCrawler​
+​
+Playwright is a more powerful and full-featured successor to Puppeteer. It can control Chromium, Chrome, Firefox, Webkit and many other browsers. If you're not familiar with Puppeteer already, and you need a headless browser, go with Playwright.
+Playwright
+
+Crawlee requires Node.js 16 or later.
+Node.js 16 or later
+Installation with Crawlee CLI​
+​
+The fastest way to try Crawlee out is to use the Crawlee CLI and choose the Getting started example.
+The CLI will install all the necessary dependencies and add boilerplate code for you to play with.
+Crawlee CLI
+Getting started example
+npx crawlee create my-crawler
+npx crawlee create my-crawler
+
+
+After the installation is complete you can start the crawler like this:
+cd my-crawler && npm start
+cd
+ my-crawler 
+&&
+ 
+npm
+ start
+
+
+Manual installation​
+​
+You can add Crawlee to any Node.js project by running:
+CheerioCrawler
+PlaywrightCrawler
+PuppeteerCrawler
+npm install crawlee
+npm
+ 
+install
+ crawlee
+
+
+
+playwright is not bundled with Crawlee to reduce install size and allow greater flexibility. You need to explicitly install it with NPM. 👇
+npm install crawlee playwright
+npm
+ 
+install
+ crawlee playwright
+
+
+
+puppeteer is not bundled with Crawlee to reduce install size and allow greater flexibility. You need to explicitly install it with NPM. 👇
+npm install crawlee puppeteer
+npm
+ 
+install
+ crawlee puppeteer
+
+
+Crawling​
+​
+Run the following example to perform a recursive crawl of the Crawlee website using the selected crawler.
+
+Node.js docs
+CheerioCrawler
+PlaywrightCrawler
+PuppeteerCrawler
+import { CheerioCrawler, Dataset } from 'crawlee';
+import
+ 
+{
+ 
+CheerioCrawler
+,
+ 
+Dataset
+ 
+}
+ 
+from
+ 
+'crawlee'
+;
+
+
+
+// CheerioCrawler crawls the web using HTTP requests
+
+// CheerioCrawler crawls the web using HTTP requests
+
+// and parses HTML using the Cheerio library.
+
+// and parses HTML using the Cheerio library.
+
+const crawler = new CheerioCrawler({
+
+const
+ crawler 
+=
+ 
+new
+ 
+CheerioCrawler
+(
+{
+
+    // Use the requestHandler to process each of the crawled pages.
+    
+// Use the requestHandler to process each of the crawled pages.
+
+    async requestHandler({ request, $, enqueueLinks, log }) {
+    
+async
+ 
+requestHandler
+(
+{
+ request
+,
+ $
+,
+ enqueueLinks
+,
+ log 
+}
+)
+ 
+{
+
+        const title = $('title').text();
+        
+const
+ title 
+=
+ 
+$
+(
+'title'
+)
+.
+text
+(
+)
+;
+
+        log.info(`Title of ${request.loadedUrl} is '${title}'`);
+        log
+.
+info
+(
+`
+Title of 
+${
+request
+.
+loadedUrl
+}
+ is '
+${
+title
+}
+'
+`
+)
+;
+
+
+
+        // Save results as JSON to ./storage/datasets/default
+        
+// Save results as JSON to ./storage/datasets/default
+
+        await Dataset.pushData({ title, url: request.loadedUrl });
+        
+await
+ 
+Dataset
+.
+pushData
+(
+{
+ title
+,
+ 
+url
+:
+ request
+.
+loadedUrl
+ 
+}
+)
+;
+
+
+
+        // Extract links from the current page
+        
+// Extract links from the current page
+
+        // and add them to the crawling queue.
+        
+// and add them to the crawling queue.
+
+        await enqueueLinks();
+        
+await
+ 
+enqueueLinks
+(
+)
+;
+
+    },
+    
+}
+,
+
+});
+
+}
+)
+;
+
+
+
+// Add first URL to the queue and start the crawl.
+
+// Add first URL to the queue and start the crawl.
+
+await crawler.run(['https://crawlee.dev']);
+
+await
+ crawler
+.
+run
+(
+[
+'https://crawlee.dev'
+]
+)
+;
+
+
+import { PlaywrightCrawler, Dataset } from 'crawlee';
+import
+ 
+{
+ 
+PlaywrightCrawler
+,
+ 
+Dataset
+ 
+}
+ 
+from
+ 
+'crawlee'
+;
+
+
+
+// PlaywrightCrawler crawls the web using a headless
+
+// PlaywrightCrawler crawls the web using a headless
+
+// browser controlled by the Playwright library.
+
+// browser controlled by the Playwright library.
+
+const crawler = new PlaywrightCrawler({
+
+const
+ crawler 
+=
+ 
+new
+ 
+PlaywrightCrawler
+(
+{
+
+    // Use the requestHandler to process each of the crawled pages.
+    
+// Use the requestHandler to process each of the crawled pages.
+
+    async requestHandler({ request, page, enqueueLinks, log }) {
+    
+async
+ 
+requestHandler
+(
+{
+ request
+,
+ page
+,
+ enqueueLinks
+,
+ log 
+}
+)
+ 
+{
+
+        const title = await page.title();
+        
+const
+ title 
+=
+ 
+await
+ page
+.
+title
+(
+)
+;
+
+        log.info(`Title of ${request.loadedUrl} is '${title}'`);
+        log
+.
+info
+(
+`
+Title of 
+${
+request
+.
+loadedUrl
+}
+ is '
+${
+title
+}
+'
+`
+)
+;
+
+
+
+        // Save results as JSON to ./storage/datasets/default
+        
+// Save results as JSON to ./storage/datasets/default
+
+        await Dataset.pushData({ title, url: request.loadedUrl });
+        
+await
+ 
+Dataset
+.
+pushData
+(
+{
+ title
+,
+ 
+url
+:
+ request
+.
+loadedUrl
+ 
+}
+)
+;
+
+
+
+        // Extract links from the current page
+        
+// Extract links from the current page
+
+        // and add them to the crawling queue.
+        
+// and add them to the crawling queue.
+
+        await enqueueLinks();
+        
+await
+ 
+enqueueLinks
+(
+)
+;
+
+    },
+    
+}
+,
+
+    // Uncomment this option to see the browser window.
+    
+// Uncomment this option to see the browser window.
+
+    // headless: false,
+    
+// headless: false,
+
+});
+
+}
+)
+;
+
+
+
+// Add first URL to the queue and start the crawl.
+
+// Add first URL to the queue and start the crawl.
+
+await crawler.run(['https://crawlee.dev']);
+
+await
+ crawler
+.
+run
+(
+[
+'https://crawlee.dev'
+]
+)
+;
+
+
+import { PuppeteerCrawler, Dataset } from 'crawlee';
+import
+ 
+{
+ 
+PuppeteerCrawler
+,
+ 
+Dataset
+ 
+}
+ 
+from
+ 
+'crawlee'
+;
+
+
+
+// PuppeteerCrawler crawls the web using a headless
+
+// PuppeteerCrawler crawls the web using a headless
+
+// browser controlled by the Puppeteer library.
+
+// browser controlled by the Puppeteer library.
+
+const crawler = new PuppeteerCrawler({
+
+const
+ crawler 
+=
+ 
+new
+ 
+PuppeteerCrawler
+(
+{
+
+    // Use the requestHandler to process each of the crawled pages.
+    
+// Use the requestHandler to process each of the crawled pages.
+
+    async requestHandler({ request, page, enqueueLinks, log }) {
+    
+async
+ 
+requestHandler
+(
+{
+ request
+,
+ page
+,
+ enqueueLinks
+,
+ log 
+}
+)
+ 
+{
+
+        const title = await page.title();
+        
+const
+ title 
+=
+ 
+await
+ page
+.
+title
+(
+)
+;
+
+        log.info(`Title of ${request.loadedUrl} is '${title}'`);
+        log
+.
+info
+(
+`
+Title of 
+${
+request
+.
+loadedUrl
+}
+ is '
+${
+title
+}
+'
+`
+)
+;
+
+
+
+        // Save results as JSON to ./storage/datasets/default
+        
+// Save results as JSON to ./storage/datasets/default
+
+        await Dataset.pushData({ title, url: request.loadedUrl });
+        
+await
+ 
+Dataset
+.
+pushData
+(
+{
+ title
+,
+ 
+url
+:
+ request
+.
+loadedUrl
+ 
+}
+)
+;
+
+
+
+        // Extract links from the current page
+        
+// Extract links from the current page
+
+        // and add them to the crawling queue.
+        
+// and add them to the crawling queue.
+
+        await enqueueLinks();
+        
+await
+ 
+enqueueLinks
+(
+)
+;
+
+    },
+    
+}
+,
+
+    // Uncomment this option to see the browser window.
+    
+// Uncomment this option to see the browser window.
+
+    // headless: false,
+    
+// headless: false,
+
+});
+
+}
+)
+;
+
+
+
+// Add first URL to the queue and start the crawl.
+
+// Add first URL to the queue and start the crawl.
+
+await crawler.run(['https://crawlee.dev']);
+
+await
+ crawler
+.
+run
+(
+[
+'https://crawlee.dev'
+]
+)
+;
+
+
+When you run the example, you will see Crawlee automating the data extraction process in your terminal.
+INFO  CheerioCrawler: Starting the crawl
+INFO
+  
+CheerioCrawler:
+ Starting the crawl
+INFO  CheerioCrawler: Title of https://crawlee.dev/ is 'Crawlee · Build reliable crawlers. Fast. | Crawlee'
+
+INFO
+  
+CheerioCrawler:
+ Title of 
+https://crawlee.dev/
+ is 
+'Crawlee · Build reliable crawlers. Fast. | Crawlee'
+
+INFO  CheerioCrawler: Title of https://crawlee.dev/docs/examples is 'Examples | Crawlee'
+
+INFO
+  
+CheerioCrawler:
+ Title of 
+https://crawlee.dev/docs/examples
+ is 
+'Examples | Crawlee'
+
+INFO  CheerioCrawler: Title of https://crawlee.dev/docs/quick-start is 'Quick Start | Crawlee'
+
+INFO
+  
+CheerioCrawler:
+ Title of 
+https://crawlee.dev/docs/quick-start
+ is 
+'Quick Start | Crawlee'
+
+INFO  CheerioCrawler: Title of https://crawlee.dev/docs/guides is 'Guides | Crawlee'
+
+INFO
+  
+CheerioCrawler:
+ Title of 
+https://crawlee.dev/docs/guides
+ is 
+'Guides | Crawlee'
+
+
+
+Running headful browsers​
+​
+Browsers controlled by Puppeteer and Playwright run headless (without a visible window). You can switch to headful by adding the headless: false option to the crawlers' constructor. This is useful in the development phase when you want to see what's going on in the browser.
+PlaywrightCrawler
+PuppeteerCrawler
+import { PlaywrightCrawler, Dataset } from 'crawlee';
+import
+ 
+{
+ 
+PlaywrightCrawler
+,
+ 
+Dataset
+ 
+}
+ 
+from
+ 
+'crawlee'
+;
+
+
+
+const crawler = new PlaywrightCrawler({
+
+const
+ crawler 
+=
+ 
+new
+ 
+PlaywrightCrawler
+(
+{
+
+    async requestHandler({ request, page, enqueueLinks, log }) {
+    
+async
+ 
+requestHandler
+(
+{
+ request
+,
+ page
+,
+ enqueueLinks
+,
+ log 
+}
+)
+ 
+{
+
+        const title = await page.title();
+        
+const
+ title 
+=
+ 
+await
+ page
+.
+title
+(
+)
+;
+
+        log.info(`Title of ${request.loadedUrl} is '${title}'`);
+        log
+.
+info
+(
+`
+Title of 
+${
+request
+.
+loadedUrl
+}
+ is '
+${
+title
+}
+'
+`
+)
+;
+
+        await Dataset.pushData({ title, url: request.loadedUrl });
+        
+await
+ 
+Dataset
+.
+pushData
+(
+{
+ title
+,
+ 
+url
+:
+ request
+.
+loadedUrl
+ 
+}
+)
+;
+
+        await enqueueLinks();
+        
+await
+ 
+enqueueLinks
+(
+)
+;
+
+    },
+    
+}
+,
+
+    // When you turn off headless mode, the crawler
+    
+// When you turn off headless mode, the crawler
+
+    // will run with a visible browser window.
+    
+// will run with a visible browser window.
+
+    headless: false,
+    
+headless
+:
+ 
+false
+,
+
+});
+
+}
+)
+;
+
+
+
+// Add first URL to the queue and start the crawl.
+
+// Add first URL to the queue and start the crawl.
+
+await crawler.run(['https://crawlee.dev']);
+
+await
+ crawler
+.
+run
+(
+[
+'https://crawlee.dev'
+]
+)
+;
+
+
+import { PuppeteerCrawler, Dataset } from 'crawlee';
+import
+ 
+{
+ 
+PuppeteerCrawler
+,
+ 
+Dataset
+ 
+}
+ 
+from
+ 
+'crawlee'
+;
+
+
+
+const crawler = new PuppeteerCrawler({
+
+const
+ crawler 
+=
+ 
+new
+ 
+PuppeteerCrawler
+(
+{
+
+    async requestHandler({ request, page, enqueueLinks, log }) {
+    
+async
+ 
+requestHandler
+(
+{
+ request
+,
+ page
+,
+ enqueueLinks
+,
+ log 
+}
+)
+ 
+{
+
+        const title = await page.title();
+        
+const
+ title 
+=
+ 
+await
+ page
+.
+title
+(
+)
+;
+
+        log.info(`Title of ${request.loadedUrl} is '${title}'`);
+        log
+.
+info
+(
+`
+Title of 
+${
+request
+.
+loadedUrl
+}
+ is '
+${
+title
+}
+'
+`
+)
+;
+
+        await Dataset.pushData({ title, url: request.loadedUrl });
+        
+await
+ 
+Dataset
+.
+pushData
+(
+{
+ title
+,
+ 
+url
+:
+ request
+.
+loadedUrl
+ 
+}
+)
+;
+
+        await enqueueLinks();
+        
+await
+ 
+enqueueLinks
+(
+)
+;
+
+    },
+    
+}
+,
+
+    // When you turn off headless mode, the crawler
+    
+// When you turn off headless mode, the crawler
+
+    // will run with a visible browser window.
+    
+// will run with a visible browser window.
+
+    headless: false,
+    
+headless
+:
+ 
+false
+,
+
+});
+
+}
+)
+;
+
+
+
+// Add first URL to the queue and start the crawl.
+
+// Add first URL to the queue and start the crawl.
+
+await crawler.run(['https://crawlee.dev']);
+
+await
+ crawler
+.
+run
+(
+[
+'https://crawlee.dev'
+]
+)
+;
+
+
+When you run the example code, you'll see an automated browser blaze through the Crawlee website.
+
+For the sake of this show off, we've slowed down the crawler, but rest assured, it's blazing fast in real world usage.
+Results​
+​
+Crawlee stores data to the ./storage directory in your current working directory. The results of your crawl will be available under ./storage/datasets/default/*.json as JSON files.
+{
+{
+
+    "url": "https://crawlee.dev/",
+    
+"url"
+:
+ 
+"https://crawlee.dev/"
+,
+
+    "title": "Crawlee · The scalable web crawling, scraping and automation library for JavaScript/Node.js | Crawlee"
+    
+"title"
+:
+ 
+"Crawlee · The scalable web crawling, scraping and automation library for JavaScript/Node.js | Crawlee"
+
+}
+
+}
+
+
+
+
+You can override the storage directory by setting the CRAWLEE_STORAGE_DIR environment variable.
+Examples and further reading​
+​
+You can find more examples showcasing various features of Crawlee in the Examples section of the documentation. To better understand Crawlee and its components you should read the Introduction step-by-step guide.
+Examples
+Introduction
+Related links
+Related links
+Configuration
+Configuration
+Request storage
+Request storage
+Result storage
+Result storage
+Last updated on Jul 31, 2023 by renovate[bot]
+Jul 31, 2023
+renovate[bot]
+NextIntroduction
+Choose your crawlerCheerioCrawlerPuppeteerCrawlerPlaywrightCrawler
+Choose your crawler
+CheerioCrawler
+CheerioCrawler
+PuppeteerCrawler
+PuppeteerCrawler
+PlaywrightCrawler
+PlaywrightCrawler
+Installation with Crawlee CLI
+Installation with Crawlee CLI
+Manual installation
+Manual installation
+CrawlingRunning headful browsers
+Crawling
+Running headful browsers
+Running headful browsers
+Results
+Results
+Examples and further reading
+Examples and further reading
+Guides
+Guides
+Examples
+Examples
+API reference
+API reference
+Upgrading to v3
+Upgrading to v3
+Discord
+Discord
+Stack Overflow
+Stack Overflow
+Twitter
+Twitter
+Apify Platform
+Apify Platform
+Docusaurus
+Docusaurus
+GitHub
+GitHub
+Crawlee is free and open source
+Built by
+Built by

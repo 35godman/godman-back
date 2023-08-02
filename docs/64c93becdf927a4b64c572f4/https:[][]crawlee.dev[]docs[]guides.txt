@@ -1,0 +1,171 @@
+Guides | Crawlee
+Skip to main content
+
+Crawlee
+Crawlee
+Docs
+Examples
+API
+Changelog
+3.5
+Next
+Next
+3.5
+3.5
+3.4
+3.4
+3.3
+3.3
+3.2
+3.2
+3.1
+3.1
+3.0
+3.0
+2.2
+2.2
+1.3
+1.3
+
+
+GitHub
+Discord
+Search⌘K
+Search
+Search
+⌘K
+
+Crawlee
+Crawlee
+Quick Start
+Quick Start
+IntroductionSetting upFirst crawlerAdding more URLsReal-world projectCrawlingScrapingSaving dataRefactoring
+Introduction
+
+Setting up
+Setting up
+First crawler
+First crawler
+Adding more URLs
+Adding more URLs
+Real-world project
+Real-world project
+Crawling
+Crawling
+Scraping
+Scraping
+Saving data
+Saving data
+Refactoring
+Refactoring
+GuidesRequest StorageResult StorageConfigurationCheerioCrawlerJavaScript renderingProxy ManagementSession ManagementScaling our crawlersAvoid getting blockedJSDOMCrawlerGot ScrapingTypeScript ProjectsRunning in DockerApify Platform
+Guides
+
+Request Storage
+Request Storage
+Result Storage
+Result Storage
+Configuration
+Configuration
+CheerioCrawler
+CheerioCrawler
+JavaScript rendering
+JavaScript rendering
+Proxy Management
+Proxy Management
+Session Management
+Session Management
+Scaling our crawlers
+Scaling our crawlers
+Avoid getting blocked
+Avoid getting blocked
+JSDOMCrawler
+JSDOMCrawler
+Got Scraping
+Got Scraping
+TypeScript Projects
+TypeScript Projects
+Running in Docker
+Running in Docker
+Apify Platform
+Apify Platform
+Examples
+Examples
+
+Upgrading
+Upgrading
+
+
+
+
+Guides
+Guides
+Version: 3.5
+Guides
+📄️ Request StorageHow to store the requests your crawler will go through
+📄️ Request Storage
+How to store the requests your crawler will go through
+📄️ Result StorageWhere are you going to store all of that juicy scraped data?!
+📄️ Result Storage
+Where are you going to store all of that juicy scraped data?!
+📄️ ConfigurationConfiguring Crawlee parameters
+📄️ Configuration
+Configuring Crawlee parameters
+📄️ CheerioCrawlerYour first steps into the world of scraping with Crawlee
+📄️ CheerioCrawler
+Your first steps into the world of scraping with Crawlee
+📄️ JavaScript renderingYour first steps into the world of scraping with Crawlee
+📄️ JavaScript rendering
+Your first steps into the world of scraping with Crawlee
+📄️ Proxy ManagementUsing proxies to get around those annoying IP-blocks
+📄️ Proxy Management
+Using proxies to get around those annoying IP-blocks
+📄️ Session ManagementHow to manage your cookies, proxy IP rotations and more
+📄️ Session Management
+How to manage your cookies, proxy IP rotations and more
+📄️ Scaling our crawlersTo infinity and beyond! ...within limits
+📄️ Scaling our crawlers
+To infinity and beyond! ...within limits
+📄️ Avoid getting blockedHow to avoid getting blocked when scraping
+📄️ Avoid getting blocked
+How to avoid getting blocked when scraping
+📄️ JSDOMCrawlerYour first steps into the world of scraping with Crawlee
+📄️ JSDOMCrawler
+Your first steps into the world of scraping with Crawlee
+📄️ Got ScrapingBlazing fast cURL alternative for modern web scraping
+📄️ Got Scraping
+Blazing fast cURL alternative for modern web scraping
+📄️ TypeScript ProjectsStricter, safer, and better development experience
+📄️ TypeScript Projects
+Stricter, safer, and better development experience
+📄️ Running in DockerExample Docker images to run your crawlers
+📄️ Running in Docker
+Example Docker images to run your crawlers
+📄️ Apify PlatformApify platform - large-scale and high-performance web scraping
+📄️ Apify Platform
+Apify platform - large-scale and high-performance web scraping
+PreviousRefactoring
+NextRequest Storage
+Guides
+Guides
+Examples
+Examples
+API reference
+API reference
+Upgrading to v3
+Upgrading to v3
+Discord
+Discord
+Stack Overflow
+Stack Overflow
+Twitter
+Twitter
+Apify Platform
+Apify Platform
+Docusaurus
+Docusaurus
+GitHub
+GitHub
+Crawlee is free and open source
+Built by
+Built by
