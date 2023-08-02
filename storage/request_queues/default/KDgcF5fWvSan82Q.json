@@ -1,0 +1,9 @@
+{
+	"id": "KDgcF5fWvSan82Q",
+	"json": "{\"id\":\"KDgcF5fWvSan82Q\",\"url\":\"https://suprotec.ru/industry/catalog-of-products-for-industry/\",\"uniqueKey\":\"https://suprotec.ru/industry/catalog-of-products-for-industry\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
+	"method": "GET",
+	"orderNo": 1690963981999,
+	"retryCount": 0,
+	"uniqueKey": "https://suprotec.ru/industry/catalog-of-products-for-industry",
+	"url": "https://suprotec.ru/industry/catalog-of-products-for-industry/"
+}

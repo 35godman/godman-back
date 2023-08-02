@@ -1,0 +1,9 @@
+{
+	"id": "rll8tvEBhs8l8jm",
+	"json": "{\"id\":\"rll8tvEBhs8l8jm\",\"url\":\"https://suprotec.ru/acts/ispitanie_maikopskii_zavod/\",\"uniqueKey\":\"https://suprotec.ru/acts/ispitanie_maikopskii_zavod\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
+	"method": "GET",
+	"orderNo": 1690963981644,
+	"retryCount": 0,
+	"uniqueKey": "https://suprotec.ru/acts/ispitanie_maikopskii_zavod",
+	"url": "https://suprotec.ru/acts/ispitanie_maikopskii_zavod/"
+}

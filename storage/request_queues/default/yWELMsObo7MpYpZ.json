@@ -1,0 +1,9 @@
+{
+	"id": "yWELMsObo7MpYpZ",
+	"json": "{\"id\":\"yWELMsObo7MpYpZ\",\"url\":\"https://suprotec.ru/vopros-otvet/voprosy-transmissiya/\",\"uniqueKey\":\"https://suprotec.ru/vopros-otvet/voprosy-transmissiya\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
+	"method": "GET",
+	"orderNo": 1690963977679,
+	"retryCount": 0,
+	"uniqueKey": "https://suprotec.ru/vopros-otvet/voprosy-transmissiya",
+	"url": "https://suprotec.ru/vopros-otvet/voprosy-transmissiya/"
+}

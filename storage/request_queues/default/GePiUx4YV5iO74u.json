@@ -1,0 +1,9 @@
+{
+	"id": "GePiUx4YV5iO74u",
+	"json": "{\"id\":\"GePiUx4YV5iO74u\",\"url\":\"https://suprotec.ru/index.php?mact=CGBlog,ma9d32,default,1&ma9d32category=1&ma9d32inline=true&ma9d32number=30&ma9d32detailpage=reviews-detail&ma9d32summarytemplate=final_reviews&ma9d32pagenumber=139&ma9d32returnid=21&page=21\",\"uniqueKey\":\"https://suprotec.ru/index.php?ma9d32category=1&ma9d32detailpage=reviews-detail&ma9d32inline=true&ma9d32number=30&ma9d32pagenumber=139&ma9d32returnid=21&ma9d32summarytemplate=final_reviews&mact=CGBlog%2Cma9d32%2Cdefault%2C1&page=21\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
+	"method": "GET",
+	"orderNo": 1690963976840,
+	"retryCount": 0,
+	"uniqueKey": "https://suprotec.ru/index.php?ma9d32category=1&ma9d32detailpage=reviews-detail&ma9d32inline=true&ma9d32number=30&ma9d32pagenumber=139&ma9d32returnid=21&ma9d32summarytemplate=final_reviews&mact=CGBlog%2Cma9d32%2Cdefault%2C1&page=21",
+	"url": "https://suprotec.ru/index.php?mact=CGBlog,ma9d32,default,1&ma9d32category=1&ma9d32inline=true&ma9d32number=30&ma9d32detailpage=reviews-detail&ma9d32summarytemplate=final_reviews&ma9d32pagenumber=139&ma9d32returnid=21&page=21"
+}

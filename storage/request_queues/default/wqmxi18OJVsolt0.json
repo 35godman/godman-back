@@ -1,0 +1,9 @@
+{
+	"id": "wqmxi18OJVsolt0",
+	"json": "{\"id\":\"wqmxi18OJVsolt0\",\"url\":\"https://suprotec.ru/index.php?mact=LISEArticles,cntnt01,default,0&cntnt01pagelimit=10&cntnt01returnid=136\",\"uniqueKey\":\"https://suprotec.ru/index.php?cntnt01pagelimit=10&cntnt01returnid=136&mact=LISEArticles%2Ccntnt01%2Cdefault%2C0\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
+	"method": "GET",
+	"orderNo": 1690963967695,
+	"retryCount": 0,
+	"uniqueKey": "https://suprotec.ru/index.php?cntnt01pagelimit=10&cntnt01returnid=136&mact=LISEArticles%2Ccntnt01%2Cdefault%2C0",
+	"url": "https://suprotec.ru/index.php?mact=LISEArticles,cntnt01,default,0&cntnt01pagelimit=10&cntnt01returnid=136"
+}

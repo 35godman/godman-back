@@ -1,0 +1,9 @@
+{
+	"id": "SwpzOjTBKwPjQlq",
+	"json": "{\"id\":\"SwpzOjTBKwPjQlq\",\"url\":\"https://suprotec.ru/acts/passazhirskii-lift/\",\"uniqueKey\":\"https://suprotec.ru/acts/passazhirskii-lift\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
+	"method": "GET",
+	"orderNo": 1690963981622,
+	"retryCount": 0,
+	"uniqueKey": "https://suprotec.ru/acts/passazhirskii-lift",
+	"url": "https://suprotec.ru/acts/passazhirskii-lift/"
+}

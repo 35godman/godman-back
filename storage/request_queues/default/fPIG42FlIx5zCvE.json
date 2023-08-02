@@ -1,0 +1,9 @@
+{
+	"id": "fPIG42FlIx5zCvE",
+	"json": "{\"id\":\"fPIG42FlIx5zCvE\",\"url\":\"https://suprotec.ru/smazka-dlya-stankov-suprotec\",\"uniqueKey\":\"https://suprotec.ru/smazka-dlya-stankov-suprotec\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
+	"method": "GET",
+	"orderNo": 1690963988210,
+	"retryCount": 0,
+	"uniqueKey": "https://suprotec.ru/smazka-dlya-stankov-suprotec",
+	"url": "https://suprotec.ru/smazka-dlya-stankov-suprotec"
+}

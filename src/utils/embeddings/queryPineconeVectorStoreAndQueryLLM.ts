@@ -70,7 +70,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
       do not indicate that you're deriving answers from the given context. Each answer must be in the language specified 
       in the rules and should be exhaustive and comprehensive, offering a complete understanding of the subject asked in the question. 
       Your responses can significantly influence decisions, hence, accuracy and completeness are paramount.`,
-      // base_rule: chatbotInstance.settings.base_prompt,
+      base_rule: chatbotInstance.settings.base_prompt,
       question,
       context: concatenatedPageContent,
       rules: [
@@ -86,8 +86,6 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
       ],
     });
 
-    console.log('=>(queryPineconeVectorStoreAndQueryLLM.ts:84) prompt', prompt);
-
     const result = await llm.call(prompt, undefined, [
       {
         handleLLMNewToken(token: string) {
@@ -102,7 +100,6 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     const token_usage = encodedQuestion.length + encodedAnswer.length;
     console.log(`Tokens used: ${token_usage}`);
     console.log(`USD used ${(token_usage / 1000) * 0.0015}`);
-    res.write(JSON.stringify({ prompt }));
     res.end();
   } else {
     throw new HttpException('No matches found', HttpStatus.BAD_REQUEST);

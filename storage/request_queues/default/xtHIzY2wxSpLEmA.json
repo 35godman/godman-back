@@ -1,0 +1,9 @@
+{
+	"id": "xtHIzY2wxSpLEmA",
+	"json": "{\"id\":\"xtHIzY2wxSpLEmA\",\"url\":\"https://suprotec.ru/novosti/s-dnem-rossii/\",\"uniqueKey\":\"https://suprotec.ru/novosti/s-dnem-rossii\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
+	"method": "GET",
+	"orderNo": 1690963967701,
+	"retryCount": 0,
+	"uniqueKey": "https://suprotec.ru/novosti/s-dnem-rossii",
+	"url": "https://suprotec.ru/novosti/s-dnem-rossii/"
+}

@@ -1,0 +1,9 @@
+{
+	"id": "ukEhF65G76gJFeW",
+	"json": "{\"id\":\"ukEhF65G76gJFeW\",\"url\":\"https://suprotec.ru/otzyvy/\",\"loadedUrl\":\"https://suprotec.ru/otzyvy/\",\"uniqueKey\":\"https://suprotec.ru/otzyvy\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false,\"state\":4}},\"handledAt\":\"2023-08-02T08:12:56.871Z\"}",
+	"method": "GET",
+	"orderNo": null,
+	"retryCount": 0,
+	"uniqueKey": "https://suprotec.ru/otzyvy",
+	"url": "https://suprotec.ru/otzyvy/"
+}

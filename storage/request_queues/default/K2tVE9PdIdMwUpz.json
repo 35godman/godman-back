@@ -1,0 +1,9 @@
+{
+	"id": "K2tVE9PdIdMwUpz",
+	"json": "{\"id\":\"K2tVE9PdIdMwUpz\",\"url\":\"https://suprotec.ru/novosti/\",\"loadedUrl\":\"https://suprotec.ru/novosti/\",\"uniqueKey\":\"https://suprotec.ru/novosti\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false,\"state\":4}},\"handledAt\":\"2023-08-02T08:12:58.615Z\"}",
+	"method": "GET",
+	"orderNo": null,
+	"retryCount": 0,
+	"uniqueKey": "https://suprotec.ru/novosti",
+	"url": "https://suprotec.ru/novosti/"
+}

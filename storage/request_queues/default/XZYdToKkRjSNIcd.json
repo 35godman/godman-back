@@ -1,0 +1,9 @@
+{
+	"id": "XZYdToKkRjSNIcd",
+	"json": "{\"id\":\"XZYdToKkRjSNIcd\",\"url\":\"https://suprotec.ru/index.php?mact=News,mb606e,default,1&mb606enumber=10&mb606esummarytemplate=final_newslist&mb606edetailpage=101348&mb606epagenumber=2&mb606ereturnid=101348&page=101348\",\"uniqueKey\":\"https://suprotec.ru/index.php?mact=News%2Cmb606e%2Cdefault%2C1&mb606edetailpage=101348&mb606enumber=10&mb606epagenumber=2&mb606ereturnid=101348&mb606esummarytemplate=final_newslist&page=101348\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
+	"method": "GET",
+	"orderNo": 1690963978612,
+	"retryCount": 0,
+	"uniqueKey": "https://suprotec.ru/index.php?mact=News%2Cmb606e%2Cdefault%2C1&mb606edetailpage=101348&mb606enumber=10&mb606epagenumber=2&mb606ereturnid=101348&mb606esummarytemplate=final_newslist&page=101348",
+	"url": "https://suprotec.ru/index.php?mact=News,mb606e,default,1&mb606enumber=10&mb606esummarytemplate=final_newslist&mb606edetailpage=101348&mb606epagenumber=2&mb606ereturnid=101348&page=101348"
+}

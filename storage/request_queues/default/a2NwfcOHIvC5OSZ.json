@@ -1,0 +1,9 @@
+{
+	"id": "a2NwfcOHIvC5OSZ",
+	"json": "{\"id\":\"a2NwfcOHIvC5OSZ\",\"url\":\"https://suprotec.ru/personal-data/\",\"uniqueKey\":\"https://suprotec.ru/personal-data\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
+	"method": "GET",
+	"orderNo": 1690963967703,
+	"retryCount": 0,
+	"uniqueKey": "https://suprotec.ru/personal-data",
+	"url": "https://suprotec.ru/personal-data/"
+}

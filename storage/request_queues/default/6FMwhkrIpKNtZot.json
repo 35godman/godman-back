@@ -1,0 +1,9 @@
+{
+	"id": "6FMwhkrIpKNtZot",
+	"json": "{\"id\":\"6FMwhkrIpKNtZot\",\"url\":\"https://suprotec.ru/smazka-protivozadirnaya\",\"uniqueKey\":\"https://suprotec.ru/smazka-protivozadirnaya\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
+	"method": "GET",
+	"orderNo": 1690963988211,
+	"retryCount": 0,
+	"uniqueKey": "https://suprotec.ru/smazka-protivozadirnaya",
+	"url": "https://suprotec.ru/smazka-protivozadirnaya"
+}

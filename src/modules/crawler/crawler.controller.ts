@@ -14,6 +14,6 @@ export class CrawlerController {
     @Body() crawlWeblink: CrawlDto,
     @Query('chatbot_id') chatbot_id: string,
   ) {
-    return this.crawlerService.crawlWebLink(crawlWeblink, chatbot_id);
+    return this.crawlerService.crawleeSetup(crawlWeblink, chatbot_id);
   }
 }

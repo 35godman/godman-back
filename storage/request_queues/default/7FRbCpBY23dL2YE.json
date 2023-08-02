@@ -1,0 +1,9 @@
+{
+	"id": "7FRbCpBY23dL2YE",
+	"json": "{\"id\":\"7FRbCpBY23dL2YE\",\"url\":\"https://suprotec.ru/acts/smc-2-chelybinsk/\",\"uniqueKey\":\"https://suprotec.ru/acts/smc-2-chelybinsk\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
+	"method": "GET",
+	"orderNo": 1690963981648,
+	"retryCount": 0,
+	"uniqueKey": "https://suprotec.ru/acts/smc-2-chelybinsk",
+	"url": "https://suprotec.ru/acts/smc-2-chelybinsk/"
+}

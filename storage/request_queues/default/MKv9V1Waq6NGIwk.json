@@ -1,0 +1,9 @@
+{
+	"id": "MKv9V1Waq6NGIwk",
+	"json": "{\"id\":\"MKv9V1Waq6NGIwk\",\"url\":\"https://suprotec.ru/suprotek-stati/statya-regulyar/\",\"uniqueKey\":\"https://suprotec.ru/suprotek-stati/statya-regulyar\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
+	"method": "GET",
+	"orderNo": 1690963967698,
+	"retryCount": 0,
+	"uniqueKey": "https://suprotec.ru/suprotek-stati/statya-regulyar",
+	"url": "https://suprotec.ru/suprotek-stati/statya-regulyar/"
+}

@@ -1,0 +1,9 @@
+{
+	"id": "DoUJjJb3FUMdmj1",
+	"json": "{\"id\":\"DoUJjJb3FUMdmj1\",\"url\":\"https://suprotec.ru/acts/impuls_max_dvs/\",\"uniqueKey\":\"https://suprotec.ru/acts/impuls_max_dvs\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"skipNavigation\":false}}}",
+	"method": "GET",
+	"orderNo": 1690963981621,
+	"retryCount": 0,
+	"uniqueKey": "https://suprotec.ru/acts/impuls_max_dvs",
+	"url": "https://suprotec.ru/acts/impuls_max_dvs/"
+}

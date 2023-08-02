@@ -103,11 +103,11 @@ export class YandexCloudService {
     const urlWithoutSlashes = web_link.replace(/\//g, '[]');
     const deleteParams = {
       Bucket: BUCKET_NAME,
-      Key: `${chatbot_id}/${urlWithoutSlashes}.txt`,
+      Key: `${chatbot_id}/${urlWithoutSlashes}`,
     };
     console.log(
       '=>(yandexCloud.service.ts:104) `${chatbot_id}/${urlWithoutSlashes}.txt`',
-      `${chatbot_id}/${urlWithoutSlashes}.txt`,
+      `${chatbot_id}/${urlWithoutSlashes}`,
     );
 
     const deleteCommand = new DeleteObjectCommand(deleteParams);
