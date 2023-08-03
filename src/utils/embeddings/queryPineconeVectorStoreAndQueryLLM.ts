@@ -55,9 +55,11 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     });
 
     let concatenatedPageContent = queryResponse.matches
-      // @ts-ignore
-      .map((match) => match.metadata.pageContent.replace(/\n/g, ''))
-      .join(' ');
+      .map((match) =>
+        // @ts-ignore
+        match.metadata.pageContent.replace(/\n/g, '').replace(/\u2001/g, ''),
+      )
+      .join('\n');
 
     // if (concatenatedPageContent.length > 5000) {
     //   concatenatedPageContent = concatenatedPageContent.substring(0, 5000);

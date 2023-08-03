@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ChatbotService } from '../chatbot/chatbot.service';
@@ -43,10 +43,6 @@ export class ConversationService {
       ];
       newConversation.conversation_id = conversation_id;
       await newConversation.save();
-      console.log(
-        '=>(conversation.service.ts:45) newConversation',
-        newConversation,
-      );
       return ResponseResult.SUCCESS;
     }
     const messages = existingConversation.messages;
@@ -79,5 +75,15 @@ export class ConversationService {
       chatbot_id: chatbot_id,
     });
     return newConversation.save();
+  }
+
+  async showLatestSource(conversation_id: string){
+    const existingConversation = await this.findByConversationId(
+      conversation_id,
+    );
+    if(!existingConversation){
+      throw new HttpException('Conversation not found', HttpStatus.NOT_FOUND)
+    }
+    return existingConversation.messages.pop()
   }
 }
