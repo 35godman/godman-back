@@ -51,7 +51,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
   if (queryResponse.matches.length) {
     // 7. Create an OpenAI instance and load the QAStuffChain
     const llm = new OpenAI({
-      modelName: 'gpt-3.5-turbo-16k-0613',
+      modelName: chatbotInstance.settings.model,
       maxTokens: chatbotInstance.settings.max_tokens,
       temperature: chatbotInstance.settings.temperature,
       streaming: true,
@@ -63,12 +63,9 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
         match.metadata.pageContent.replace(/\n/g, '').replace(/\u2001/g, ''),
       )
       .join('\n');
-
-    const prompt = `You are an AI designed to generate precise responses, acting as a representative of the company. Your role is strictly to provide information about the company and its products without suggesting any form of contact or sharing contact details. 
- 
-    Please use only the language ${chatbotInstance.settings.language} in your answers and do not use any other language.
-    Address the inquiry below by carefully interpreting and using the information provided in the context. Do not simply copy the context or incorporate any other sources of information. Your answer should be structured and detailed, presenting the company's profile and products clearly and compellingly.
-    You are strictly prohibited from sharing any company contact information or suggesting making contact. Your response should be centered around the benefits and accomplishments of the company, focusing on the advantages of our products and their effectiveness, as proven by industrial trials. Context: ${concatenatedPageContent}`;
+    if (chatbotInstance.settings.model === 'gpt-3.5-turbo') {
+      concatenatedPageContent = concatenatedPageContent.substring(0, 5000);
+    }
 
     const userMessagesStringified = JSON.stringify(user_messages);
 
