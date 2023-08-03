@@ -64,15 +64,6 @@ export class CrawlerService {
         await cluster.queue(url);
       }
 
-      // File upload code here
-      const urlWithoutSlashes = url.replace(/\//g, '[]');
-      const uploadFilePayload = {
-        fileName: `${urlWithoutSlashes}.txt`,
-        data: content,
-        chatbot_id,
-        char_length: size,
-      };
-      // Continue here with the file upload code and other operations...
       const pageData = { url: url, size: size, content: content };
       crawledData.push(pageData);
     });
@@ -83,13 +74,8 @@ export class CrawlerService {
     await cluster.idle();
     await cluster.close();
     const returnedToFrontUrls: ReturnedToFrontUrl[] = [];
-    console.log('=>(crawler.service.ts:84) crawledData', crawledData);
     for (const data of crawledData) {
       const urlWithoutSlashes = data.url.replace(/\//g, '[]');
-      console.log(
-        '=>(crawler.service.ts:85) urlWithoutSlashes',
-        urlWithoutSlashes,
-      );
       const uploadFilePayload = {
         fileName: `${urlWithoutSlashes}.txt`,
         data: data.content,
@@ -140,43 +126,6 @@ export class CrawlerService {
 
   async getPageContent(page): Promise<string> {
     console.log('scraping');
-    const extractedText = await page.$eval('*', (el) => el.innerText);
-    return extractedText;
-    // return await page.evaluate(() => {
-    //   const blackListNodes = [
-    //     'data-phonemask-mask',
-    //     'data-phonemask-country-code',
-    //   ];
-    //
-    //   // This function checks if an element has any of the blacklisted tags.
-    //   const hasBlacklistedTag = (element) => {
-    //     return blackListNodes.some((tag) => element.hasAttribute(tag));
-    //   };
-    //
-    //   // // Remove the div elements with blacklisted tags.
-    //   // Array.from(document.querySelectorAll('div')).forEach((node) => {
-    //   //   if (hasBlacklistedTag(node)) {
-    //   //     node.remove();
-    //   //   }
-    //   // });
-    //
-    //   const extractedText = await page.$eval('*', (el) => el.innerText);
-    //   console.log(extractedText);
-    //
-    //   const textNodes = nodes.map((node) => {
-    //     if (node.nodeName.toLowerCase() === 'div') {
-    //       // If this is a div, filter its childNodes to only take the Text nodes.
-    //       return Array.from(node.childNodes)
-    //         .filter((child) => (child as Node).nodeType === Node.TEXT_NODE)
-    //         .map((textNode) => (textNode as Text).textContent)
-    //         .join('\n');
-    //     } else {
-    //       // If this is not a div, just take its textContent as before.
-    //       return node.textContent;
-    //     }
-    //   });
-    //
-    //   return textNodes.join('\n');
-    // });
+    return await page.$eval('*', (el) => el.innerText);
   }
 }

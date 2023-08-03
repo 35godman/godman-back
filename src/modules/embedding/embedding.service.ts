@@ -57,7 +57,7 @@ export class EmbeddingService {
   }
 
   async askChat(payload: AskChatDto, response: Response): Promise<void> {
-    const { question, chatbot_id, conversation_id } = payload;
+    const { question, chatbot_id, conversation_id, user_messages } = payload;
     this.client = await createPineconeClient();
     const chatbotInstance = await this.chatbotService.findById(chatbot_id);
     if (!chatbotInstance) {
@@ -73,6 +73,7 @@ export class EmbeddingService {
       chatbotInstance,
       response,
       conversation_id,
+      user_messages,
     );
     await this.conversationService.addMessage(conversationData);
   }

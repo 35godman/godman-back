@@ -14,6 +14,8 @@ import {
 } from '../../modules/chatbot/schemas/chatbot.schema';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { AddMessageDto } from '../../modules/conversation/dto/add-message.dto';
+import { MessageState } from '../../modules/conversation/types/message.type';
+import { UserMessageEmbedding } from '../../modules/embedding/dto/ask-chat.dto';
 export const queryPineconeVectorStoreAndQueryLLM = async (
   client: PineconeClient,
   indexName: string,
@@ -21,6 +23,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
   chatbotInstance: ChatbotDocument,
   res: Response,
   conversation_id: string,
+  user_messages: UserMessageEmbedding[],
 ): Promise<AddMessageDto> => {
   console.log('=>(utils.ts:14) question', question);
   // 1. Start query process
@@ -61,45 +64,20 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
       )
       .join('\n');
 
-    // if (concatenatedPageContent.length > 5000) {
-    //   concatenatedPageContent = concatenatedPageContent.substring(0, 5000);
-    // }
-    // const prompt = JSON.stringify({
-    //   base_prompt: `You are an AI model developed to generate precise and detailed responses to queries.
-    //   You will be provided with data in a JSON format which will contain the base_rule, a specific question,
-    //   context, and rules. Your sole source of information is the context field in the JSON, and it is critical that your responses
-    //   do not incorporate any other sources of information.  The base_rule and rules is your primary directive
-    //   and the question provided is what you must answer. Avoid any extraneous information and make sure your responses
-    //   do not indicate that you're deriving answers from the given context`,
-    //   base_rule: chatbotInstance.settings.base_prompt,
-    //   question,
-    //   rules: [
-    //     {
-    //       language: `only use the language ${chatbotInstance.settings.language} in answer. Do not use any other language.`,
-    //       contact_info:
-    //         'Dont ask to contact the company and dont provide any contact information',
-    //       context:
-    //         'refer strictly and only to the context provided. Do not use any other sources, and do not mention in your answer that you are using the context.',
-    //     },
-    //     {
-    //       details:
-    //         'Your answer must be as detailed and comprehensive as possible, strictly focused on addressing the question.',
-    //     },
-    //   ],
-    //   context: concatenatedPageContent,
-    // });
-    // ${chatbotInstance.settings.base_prompt}
     const prompt = `You are an AI designed to generate precise responses, acting as a representative of the company. Your role is strictly to provide information about the company and its products without suggesting any form of contact or sharing contact details. 
  
     Please use only the language ${chatbotInstance.settings.language} in your answers and do not use any other language.
     Address the inquiry below by carefully interpreting and using the information provided in the context. Do not simply copy the context or incorporate any other sources of information. Your answer should be structured and detailed, presenting the company's profile and products clearly and compellingly.
     You are strictly prohibited from sharing any company contact information or suggesting making contact. Your response should be centered around the benefits and accomplishments of the company, focusing on the advantages of our products and their effectiveness, as proven by industrial trials. Context: ${concatenatedPageContent}`;
 
+    const userMessagesStringified = JSON.stringify(user_messages);
+
     const newPrompt = `${chatbotInstance.settings.base_prompt}
+    
    Please use only the language ${chatbotInstance.settings.language} in your answers and do not use any other language.
+   Here's the previous questions of user, please consider them when answering the question. User Questions:${userMessagesStringified}
    question: ${question}
     Context: ${concatenatedPageContent}`;
-
     let assistant_message = '';
     const result = await llm.call(newPrompt, undefined, [
       {
