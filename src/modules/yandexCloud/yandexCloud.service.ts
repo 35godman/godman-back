@@ -17,6 +17,7 @@ import * as util from 'util';
 import * as stream from 'stream';
 import { pipeline } from 'stream';
 import { promisify } from 'util';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class YandexCloudService {
@@ -66,10 +67,6 @@ export class YandexCloudService {
 
     if (data.Contents.length) {
       for (const file of data.Contents) {
-        console.log(
-          '=>(yandexCloud.service.ts:63) data.Contents',
-          data.Contents,
-        );
         const fileExtension = path.extname(file.Key);
         if (
           fileExtension === '.txt' ||
@@ -89,10 +86,10 @@ export class YandexCloudService {
           // Ensure directory exists
           const directoryPath = path.join('docs', `${chatbot_id}`);
           fs.mkdirSync(directoryPath, { recursive: true });
-
+          const ext = file.Key.split('.').pop();
           const localFilePath = path.join(
             directoryPath,
-            path.basename(file.Key),
+            path.basename(uuidv4() + `.${ext}`),
           );
 
           const writeStream = fs.createWriteStream(localFilePath);
