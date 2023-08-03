@@ -14,6 +14,7 @@ import { FileUploadModule } from './modules/fileUpload/fileUpload.module';
 import { CrawlerModule } from './modules/crawler/crawler.module';
 import { join } from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { ConversationModule } from './modules/conversation/conversation.module';
 config();
 @Module({
   imports: [
@@ -30,6 +31,7 @@ config();
     ChatbotModule,
     FileUploadModule,
     CrawlerModule,
+    ConversationModule,
   ],
   controllers: [AppController],
   providers: [

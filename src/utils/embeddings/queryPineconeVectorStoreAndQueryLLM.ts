@@ -84,21 +84,20 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     //   ],
     //   context: concatenatedPageContent,
     // });
+    // ${chatbotInstance.settings.base_prompt}
     const prompt = `You are an AI designed to generate precise responses, acting as a representative of the company. Your role is strictly to provide information about the company and its products without suggesting any form of contact or sharing contact details. 
-    ${chatbotInstance.settings.base_prompt}
+ 
     Please use only the language ${chatbotInstance.settings.language} in your answers and do not use any other language.
     Address the inquiry below by carefully interpreting and using the information provided in the context. Do not simply copy the context or incorporate any other sources of information. Your answer should be structured and detailed, presenting the company's profile and products clearly and compellingly.
     You are strictly prohibited from sharing any company contact information or suggesting making contact. Your response should be centered around the benefits and accomplishments of the company, focusing on the advantages of our products and their effectiveness, as proven by industrial trials. Context: ${concatenatedPageContent}`;
 
-    const newPrompt = `
-    Please use only the language ${chatbotInstance.settings.language} in your answers and do not use any other language.
-   ${chatbotInstance.settings.base_prompt}
+    const newPrompt = `${chatbotInstance.settings.base_prompt}
+   Please use only the language ${chatbotInstance.settings.language} in your answers and do not use any other language.
     Context: ${concatenatedPageContent}`;
     console.log(
       '=>(queryPineconeVectorStoreAndQueryLLM.ts:97) newPrompt',
       newPrompt,
     );
-
     const result = await llm.call(newPrompt, undefined, [
       {
         handleLLMNewToken(token: string) {
