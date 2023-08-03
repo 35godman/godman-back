@@ -97,6 +97,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
 
     const newPrompt = `${chatbotInstance.settings.base_prompt}
    Please use only the language ${chatbotInstance.settings.language} in your answers and do not use any other language.
+   question: ${question}
     Context: ${concatenatedPageContent}`;
 
     let assistant_message = '';
