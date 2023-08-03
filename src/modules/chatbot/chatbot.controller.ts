@@ -17,7 +17,7 @@ import { CreateChatbotInstanceDto } from './dto/instance-create.dto';
 import { ValidateObjectIdPipe } from '../../decorators/validateObjectIdPipe.decorator';
 import { AuthJWTGuard } from '../../guards/auth.guard';
 import { ChatbotOwnerGuard } from '../../guards/chatbot-owner.guard';
-import { Chatbot } from './chatbot.schema';
+import { Chatbot } from './schemas/chatbot.schema';
 import { CreateDefaultChatbotDto } from './dto/create-default.dto';
 import { UpdateSettingsDto } from './dto/update-settings.dto';
 import { ResponseResult } from '../../enum/response.enum';

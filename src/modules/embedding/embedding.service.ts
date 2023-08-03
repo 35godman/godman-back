@@ -13,7 +13,7 @@ import { User } from '../user/user.schema';
 import { Model } from 'mongoose';
 import { YandexCloudService } from '../yandexCloud/yandexCloud.service';
 import { AskChatDto } from './dto/ask-chat.dto';
-import { Chatbot } from '../chatbot/chatbot.schema';
+import { Chatbot } from '../chatbot/schemas/chatbot.schema';
 import { ChatbotService } from '../chatbot/chatbot.service';
 import { FileUploadService } from '../fileUpload/fileUpload.service';
 import { ResponseResult } from '../../enum/response.enum';

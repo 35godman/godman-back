@@ -7,7 +7,7 @@ import { UserService } from '../user/user.service';
 import { YandexCloudService } from '../yandexCloud/yandexCloud.service';
 import { EmbeddingController } from './embedding.controller';
 import { EmbeddingService } from './embedding.service';
-import { Chatbot, ChatbotSchema } from '../chatbot/chatbot.schema';
+import { Chatbot, ChatbotSchema } from '../chatbot/schemas/chatbot.schema';
 import { ChatbotService } from '../chatbot/chatbot.service';
 import {
   ChatbotSettings,

@@ -1,19 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument, Model } from 'mongoose';
-import { User, UserDocument } from '../user/user.schema';
-import { VisibilityOptions } from './types/visibility.type';
-import { LimitState } from './types/limit.type';
-import { CustomerInfo } from './types/customer-info.type';
+import { User, UserDocument } from '../../user/user.schema';
+import { VisibilityOptions } from '../types/visibility.type';
+import { LimitState } from '../types/limit.type';
+import { CustomerInfo } from '../types/customer-info.type';
 import {
   ChatbotSettings,
   ChatbotSettingsDocument,
-} from './schemas/chatbotSettings.schema';
-import { EmbeddedCode } from './types/embed-code.type';
+} from './chatbotSettings.schema';
+import { EmbeddedCode } from '../types/embed-code.type';
 import {
   ChatbotSources,
   ChatbotSourcesDocument,
-} from './schemas/chatbotSources.schema';
-import { Conversation } from '../conversation/conversation.schema';
+} from './chatbotSources.schema';
+import { Conversation } from '../../conversation/conversation.schema';
 
 export type ChatbotDocument = HydratedDocument<Chatbot>;
 

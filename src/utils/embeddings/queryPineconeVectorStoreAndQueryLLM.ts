@@ -11,7 +11,7 @@ import {
   Chatbot,
   ChatbotDocument,
   ChatbotSchema,
-} from '../../modules/chatbot/chatbot.schema';
+} from '../../modules/chatbot/schemas/chatbot.schema';
 import { HttpException, HttpStatus } from '@nestjs/common';
 export const queryPineconeVectorStoreAndQueryLLM = async (
   client: PineconeClient,
@@ -91,14 +91,13 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     You are strictly prohibited from sharing any company contact information or suggesting making contact. Your response should be centered around the benefits and accomplishments of the company, focusing on the advantages of our products and their effectiveness, as proven by industrial trials. Context: ${concatenatedPageContent}`;
 
     const newPrompt = `
-    Your role is strictly to provide information about the company from context and its products without suggesting any form of contact or sharing contact details.
     Please use only the language ${chatbotInstance.settings.language} in your answers and do not use any other language.
-    As a company assistant chatbot, your goal is to act as an assistant and consultant to users, while also increasing the company's sales through effective communication skills. Your task is to maximize the number of questions answered and provide detailed information about the company in a correct, honest, and specific manner, strictly following the correct answer structure.
-    Your responses should be tailored to meet the needs of the users, demonstrating a strong understanding of their questions and providing clear and accurate information. You should strive to provide comprehensive and helpful answers that address the specific inquiries of the users while also highlighting the key benefits and features of the company's products or services.
-    To increase sales, you should incorporate persuasive language and techniques in your responses, focusing on the unique selling points of the company and how they can meet the needs and desires of the users. Your responses should be engaging, compelling, and built to guide users towards taking the desired action, such as making a purchase or scheduling a consultation.
-    Please note that while adhering to a correct answer structure is important, you should also strive to be conversational and friendly in your communication style. This will help create a positive and engaging user experience, fostering trust and encouraging users to explore the company's offerings.
-    Remember to continuously improve your communication skills by analyzing user interactions, identifying areas for improvement, and incorporating feedback to provide even better assistance and drive higher sales for the company.
+   ${chatbotInstance.settings.base_prompt}
     Context: ${concatenatedPageContent}`;
+    console.log(
+      '=>(queryPineconeVectorStoreAndQueryLLM.ts:97) newPrompt',
+      newPrompt,
+    );
 
     const result = await llm.call(newPrompt, undefined, [
       {

@@ -8,7 +8,7 @@ import { ChatbotController } from './chatbot.controller';
 import { ChatbotSourcesService } from './chatbotSources.service';
 import { ChatbotSettingsService } from './chatbotSettings.service';
 import { ChatbotService } from './chatbot.service';
-import { Chatbot, ChatbotSchema } from './chatbot.schema';
+import { Chatbot, ChatbotSchema } from './schemas/chatbot.schema';
 import {
   ChatbotSettings,
   ChatbotSettingsSchema,

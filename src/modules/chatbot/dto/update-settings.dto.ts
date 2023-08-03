@@ -6,7 +6,7 @@ import {
   IsObject,
   IsUUID,
 } from 'class-validator';
-import { ChatbotDocument } from '../chatbot.schema';
+import { ChatbotDocument } from '../schemas/chatbot.schema';
 
 export class UpdateSettingsDto {
   @IsObject()

@@ -3,7 +3,7 @@ import { VisibilityOptions } from '../types/visibility.type';
 import { LimitState } from '../types/limit.type';
 import { CustomerInfo } from '../types/customer-info.type';
 import mongoose, { HydratedDocument } from 'mongoose';
-import { Chatbot } from '../chatbot.schema';
+import { Chatbot } from './chatbot.schema';
 
 export type ChatbotSettingsDocument = HydratedDocument<ChatbotSettings>;
 @Schema({ timestamps: true })

@@ -7,7 +7,7 @@ import {
   ChatbotSourcesDocument,
 } from './schemas/chatbotSources.schema';
 import { ObjectId } from 'typeorm';
-import { Chatbot, ChatbotDocument } from './chatbot.schema';
+import { Chatbot, ChatbotDocument } from './schemas/chatbot.schema';
 import {
   FileUpload,
   FileUploadDocument,

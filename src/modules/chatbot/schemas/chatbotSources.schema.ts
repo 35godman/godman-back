@@ -8,7 +8,7 @@ import {
   FileUpload,
   FileUploadDocument,
 } from '../../fileUpload/fileUpload.schema';
-import { Chatbot } from '../chatbot.schema';
+import { Chatbot } from './chatbot.schema';
 
 export type ChatbotSourcesDocument = HydratedDocument<ChatbotSources>;
 @Schema({ timestamps: true })

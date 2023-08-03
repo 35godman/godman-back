@@ -10,7 +10,7 @@ import { FileUploadService } from './fileUpload.service';
 import { FileUpload, FileUploadSchema } from './fileUpload.schema';
 import { JwtModule } from '@nestjs/jwt';
 import { ChatbotService } from '../chatbot/chatbot.service';
-import { Chatbot, ChatbotSchema } from '../chatbot/chatbot.schema';
+import { Chatbot, ChatbotSchema } from '../chatbot/schemas/chatbot.schema';
 import {
   ChatbotSources,
   ChatbotSourcesSchema,

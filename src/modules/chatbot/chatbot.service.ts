@@ -5,7 +5,7 @@ import { Model } from 'mongoose';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 import { ChatbotCreateDto } from './dto/chatbot-create.dto';
-import { Chatbot, ChatbotDocument } from './chatbot.schema';
+import { Chatbot, ChatbotDocument } from './schemas/chatbot.schema';
 import { FileUpload } from '../fileUpload/fileUpload.schema';
 import { ChatbotSources } from './schemas/chatbotSources.schema';
 import { ChatbotSettingsService } from './chatbotSettings.service';
