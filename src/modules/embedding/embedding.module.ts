@@ -23,6 +23,11 @@ import { FileUpload, FileUploadSchema } from '../fileUpload/fileUpload.schema';
 import { ChatbotSettingsService } from '../chatbot/chatbotSettings.service';
 import { ChatbotSourcesService } from '../chatbot/chatbotSources.service';
 import { YandexCloudModule } from '../yandexCloud/yandexCloud.module';
+import { ConversationService } from '../conversation/conversation.service';
+import {
+  Conversation,
+  ConversationSchema,
+} from '../conversation/conversation.schema';
 
 @Module({
   imports: [
@@ -35,6 +40,7 @@ import { YandexCloudModule } from '../yandexCloud/yandexCloud.module';
       },
       { name: ChatbotSources.name, schema: ChatbotSourcesSchema },
       { name: FileUpload.name, schema: FileUploadSchema },
+      { name: Conversation.name, schema: ConversationSchema },
     ]),
     WinstonModule,
     YandexCloudModule,
@@ -46,6 +52,7 @@ import { YandexCloudModule } from '../yandexCloud/yandexCloud.module';
     FileUploadService,
     ChatbotSettingsService,
     ChatbotSourcesService,
+    ConversationService,
   ],
   exports: [],
 })

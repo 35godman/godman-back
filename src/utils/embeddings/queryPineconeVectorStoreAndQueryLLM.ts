@@ -13,13 +13,15 @@ import {
   ChatbotSchema,
 } from '../../modules/chatbot/schemas/chatbot.schema';
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { AddMessageDto } from '../../modules/conversation/dto/add-message.dto';
 export const queryPineconeVectorStoreAndQueryLLM = async (
   client: PineconeClient,
   indexName: string,
   question: string,
   chatbotInstance: ChatbotDocument,
   res: Response,
-): Promise<void> => {
+  conversation_id: string,
+): Promise<AddMessageDto> => {
   console.log('=>(utils.ts:14) question', question);
   // 1. Start query process
   console.log('Querying Pinecone vector store...');
@@ -94,14 +96,13 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     const newPrompt = `${chatbotInstance.settings.base_prompt}
    Please use only the language ${chatbotInstance.settings.language} in your answers and do not use any other language.
     Context: ${concatenatedPageContent}`;
-    console.log(
-      '=>(queryPineconeVectorStoreAndQueryLLM.ts:97) newPrompt',
-      newPrompt,
-    );
+
+    let assistant_message = '';
     const result = await llm.call(newPrompt, undefined, [
       {
         handleLLMNewToken(token: string) {
           res.write(token);
+          assistant_message += token;
         },
       },
     ]);
@@ -113,6 +114,13 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     console.log(`Tokens used: ${token_usage}`);
     console.log(`USD used ${(token_usage / 1000) * 0.0015}`);
     res.end();
+    return {
+      conversation_id,
+      assistant_message,
+      user_message: question,
+      matched_vectors: concatenatedPageContent,
+      chatbot_id: chatbotInstance._id.toString(),
+    };
   } else {
     throw new HttpException('No matches found', HttpStatus.BAD_REQUEST);
     // 11. Log that there are no matches, so GPT-3 will not be queried

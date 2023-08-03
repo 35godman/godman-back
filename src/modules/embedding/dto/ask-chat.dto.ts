@@ -1,11 +1,10 @@
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { IsMongoId, IsNotEmpty, IsString, IsUUID } from 'class-validator';
 
 export class AskChatDto {
-  // @IsString()
-  // @IsNotEmpty()
+  @IsString()
   question: string;
-  // @IsUUID()
-  user_id: string;
-  // @IsUUID()
+  @IsMongoId()
   chatbot_id: string;
+  @IsString()
+  conversation_id: string;
 }

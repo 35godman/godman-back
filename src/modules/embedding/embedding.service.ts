@@ -18,6 +18,7 @@ import { ChatbotService } from '../chatbot/chatbot.service';
 import { FileUploadService } from '../fileUpload/fileUpload.service';
 import { ResponseResult } from '../../enum/response.enum';
 import { Response } from 'express';
+import { ConversationService } from '../conversation/conversation.service';
 @Injectable()
 export class EmbeddingService {
   private client: PineconeClient;
@@ -27,6 +28,7 @@ export class EmbeddingService {
     private chatbotService: ChatbotService,
     private yandexCloudService: YandexCloudService,
     private fileUploadService: FileUploadService,
+    private conversationService: ConversationService,
   ) {}
 
   async setup(chatbot_id: string) {
@@ -55,7 +57,7 @@ export class EmbeddingService {
   }
 
   async askChat(payload: AskChatDto, response: Response): Promise<void> {
-    const { question, user_id, chatbot_id } = payload;
+    const { question, chatbot_id, conversation_id } = payload;
     this.client = await createPineconeClient();
     const chatbotInstance = await this.chatbotService.findById(chatbot_id);
     if (!chatbotInstance) {
@@ -64,12 +66,14 @@ export class EmbeddingService {
         HttpStatus.NOT_FOUND,
       );
     }
-    await queryPineconeVectorStoreAndQueryLLM(
+    const conversationData = await queryPineconeVectorStoreAndQueryLLM(
       this.client,
       indexName,
       question,
       chatbotInstance,
       response,
+      conversation_id,
     );
+    await this.conversationService.addMessage(conversationData);
   }
 }
