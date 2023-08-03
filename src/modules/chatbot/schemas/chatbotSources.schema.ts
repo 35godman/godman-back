@@ -30,7 +30,10 @@ export class ChatbotSources {
   website: FileUploadDocument[];
 
   @Prop({ default: null })
-  crawling_status: 'FAILED' | 'PENDING' | 'COMPLETED';
+  crawling_status: null | 'FAILED' | 'PENDING' | 'COMPLETED';
+
+  @Prop({ default: null })
+  last_crawled_data: Date;
 
   @Prop({ default: [] })
   QA_list: QAState[];
