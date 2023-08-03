@@ -29,6 +29,9 @@ export class ChatbotSources {
   @Prop({ default: [] })
   website: FileUploadDocument[];
 
+  @Prop({ default: null })
+  crawling_status: 'FAILED' | 'PENDING' | 'COMPLETED';
+
   @Prop({ default: [] })
   QA_list: QAState[];
 }

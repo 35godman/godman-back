@@ -8,13 +8,20 @@ import { CrawledLink, ReturnedToFrontUrl } from './types/crawledLink.type';
 import { checkIfFileUrlUtil } from '../../utils/urls/checkIfFileUrl.util';
 import { CategoryEnum } from '../../enum/category.enum';
 import { waitTillHTMLRendered } from '../../utils/puppeteer/waitTillHtmlRendered.util';
+import { ChatbotSourcesService } from '../chatbot/chatbotSources.service';
 
 dotenv.config();
 @Injectable()
 export class CrawlerService {
-  constructor(private fileUploadService: FileUploadService) {}
+  constructor(
+    private fileUploadService: FileUploadService,
+    private chatbotSourceService: ChatbotSourcesService,
+  ) {}
 
   async startCrawling(payload: CrawlDto, chatbot_id: string) {
+    const sources = await this.chatbotSourceService.findByChatbotId(chatbot_id);
+    sources.crawling_status = 'PENDING';
+    await sources.save();
     const visitedUrls = new Set<string>();
     const { weblink } = payload;
     let launchOptions = null;
@@ -56,7 +63,6 @@ export class CrawlerService {
 
       const content = await this.getPageContent(page); // Gets the HTML content of the page
       const size = content.length;
-      console.log('=>(crawler.service.ts:44) size', size);
 
       //Extract new URLs from page and queue them
       const newUrls = await this.extractNewLinks(page);
@@ -95,12 +101,16 @@ export class CrawlerService {
         returnedToFrontUrls.push(linkCrawled);
       } catch (e) {
         console.error(e);
+        sources.crawling_status = 'FAILED';
+        await sources.save();
         /**
          * @COMMENT stop the loop if error occurs in fileUploadService
          */
         return;
       }
     }
+    sources.crawling_status = 'COMPLETED';
+    await sources.save();
     return returnedToFrontUrls;
   }
 

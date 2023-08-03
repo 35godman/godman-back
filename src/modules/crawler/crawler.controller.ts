@@ -14,10 +14,6 @@ export class CrawlerController {
     @Body() crawlWeblink: CrawlDto,
     @Query('chatbot_id') chatbot_id: string,
   ) {
-    try {
-      return this.crawlerService.startCrawling(crawlWeblink, chatbot_id);
-    } catch (e) {
-      console.error(e);
-    }
+    return this.crawlerService.startCrawling(crawlWeblink, chatbot_id);
   }
 }
