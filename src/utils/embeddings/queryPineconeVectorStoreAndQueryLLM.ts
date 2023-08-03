@@ -73,9 +73,9 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     const userMessagesStringified = JSON.stringify(user_messages);
 
     const newPrompt = `${chatbotInstance.settings.base_prompt}
-    
-   Please use only the language ${chatbotInstance.settings.language} in your answers and do not use any other language.
-   Here's the previous questions of user, please consider them when answering the question. User Questions:${userMessagesStringified}
+    Please use only the language ${chatbotInstance.settings.language} in your answers and do not use any other language.
+       Below are the previous questions posed by the user. Your responses should take these into account and maintain continuity in the conversation:
+   User Questions:${userMessagesStringified}
    question: ${question}
     Context: ${concatenatedPageContent}`;
     let assistant_message = '';
