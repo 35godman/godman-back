@@ -13,15 +13,19 @@ import {
 import { WinstonModule } from 'nest-winston';
 import { EmbeddingController } from '../embedding/embedding.controller';
 import { EmbeddingService } from '../embedding/embedding.service';
-import { YandexCloudService } from '../yandexCloud/yandexCloud.service';
+import { YandexCloudService } from '../FILES/yandexCloud/yandexCloud.service';
 import { ChatbotService } from '../chatbot/chatbot.service';
 import { CrawlerController } from './crawler.controller';
 import { CrawlerService } from './crawler.service';
 import { UserModule } from '../user/user.module';
-import { FileUploadService } from '../fileUpload/fileUpload.service';
-import { FileUpload, FileUploadSchema } from '../fileUpload/fileUpload.schema';
+import { FileUploadService } from '../FILES/fileUpload/fileUpload.service';
+import {
+  FileUpload,
+  FileUploadSchema,
+} from '../FILES/fileUpload/fileUpload.schema';
 import { ChatbotSettingsService } from '../chatbot/chatbotSettings.service';
 import { ChatbotSourcesService } from '../chatbot/chatbotSources.service';
+import { PineconeService } from '../pinecone/pinecone.service';
 
 @Module({
   imports: [
@@ -46,6 +50,7 @@ import { ChatbotSourcesService } from '../chatbot/chatbotSources.service';
     FileUploadService,
     ChatbotSettingsService,
     ChatbotSourcesService,
+    PineconeService,
   ],
   exports: [],
 })

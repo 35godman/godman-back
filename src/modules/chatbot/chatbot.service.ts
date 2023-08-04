@@ -6,7 +6,7 @@ import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 import { ChatbotCreateDto } from './dto/chatbot-create.dto';
 import { Chatbot, ChatbotDocument } from './schemas/chatbot.schema';
-import { FileUpload } from '../fileUpload/fileUpload.schema';
+import { FileUpload } from '../FILES/fileUpload/fileUpload.schema';
 import { ChatbotSources } from './schemas/chatbotSources.schema';
 import { ChatbotSettingsService } from './chatbotSettings.service';
 import { ChatbotSourcesService } from './chatbotSources.service';
@@ -17,6 +17,7 @@ import { generateScriptUtil } from '../../utils/generateScripts/generateScript.u
 import { obfuscatorUtil } from '../../utils/obfuscate/obfuscator.util';
 import fs from 'fs';
 import path from 'path';
+import { PineconeService } from '../pinecone/pinecone.service';
 
 @Injectable()
 export class ChatbotService {
@@ -28,6 +29,7 @@ export class ChatbotService {
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
     private chatbotSettingsService: ChatbotSettingsService,
     private chatbotSourcesService: ChatbotSourcesService,
+    private pineconeService: PineconeService,
   ) {}
 
   async createDefault(payload: ChatbotCreateDto): Promise<ChatbotDocument> {
@@ -76,6 +78,7 @@ export class ChatbotService {
     await this.chatbotSettingsService.deleteById(settings_id);
     await this.chatbotSourcesService.deleteById(sources_id);
     await this.chatbotModel.deleteOne({ _id: id }).exec();
+    await this.pineconeService.deleteNamespace(chatbot._id.toString());
     return ResponseResult.SUCCESS;
   }
 

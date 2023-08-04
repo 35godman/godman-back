@@ -1,8 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
-import { User } from '../user/user.schema';
-import { ChatbotSources } from '../chatbot/schemas/chatbotSources.schema';
-import { Chatbot, ChatbotDocument } from '../chatbot/schemas/chatbot.schema';
+import { User } from '../../user/user.schema';
+import { ChatbotSources } from '../../chatbot/schemas/chatbotSources.schema';
+import { Chatbot, ChatbotDocument } from '../../chatbot/schemas/chatbot.schema';
 export type FileUploadDocument = HydratedDocument<FileUpload>;
 @Schema({ timestamps: true })
 export class FileUpload {

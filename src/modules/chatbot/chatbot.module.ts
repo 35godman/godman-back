@@ -17,7 +17,8 @@ import {
   ChatbotSources,
   ChatbotSourcesSchema,
 } from './schemas/chatbotSources.schema';
-import { YandexCloudService } from '../yandexCloud/yandexCloud.service';
+import { YandexCloudService } from '../FILES/yandexCloud/yandexCloud.service';
+import { PineconeService } from '../pinecone/pinecone.service';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { YandexCloudService } from '../yandexCloud/yandexCloud.service';
     ChatbotSourcesService,
     ChatbotSettingsService,
     ChatbotService,
+    PineconeService,
     YandexCloudService,
   ],
   exports: [],

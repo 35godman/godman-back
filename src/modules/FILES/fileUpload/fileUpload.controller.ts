@@ -10,18 +10,18 @@ import {
 } from '@nestjs/common';
 import { FileUploadService } from './fileUpload.service';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { AuthJWTGuard } from '../../guards/auth.guard';
+import { AuthJWTGuard } from '../../../guards/auth.guard';
 import { MultipleFileUploadDto } from './dto/multiple-file-upload.dto';
 import { RemoveWebCrawledFileDto } from './dto/RemoveWebCrawledFile.dto';
-import { globalConfig } from '../../config/global.config';
+import { globalConfig } from '../../../config/global.config';
 
-import { ResponseResult } from '../../enum/response.enum';
-import { CategoryEnum } from '../../enum/category.enum';
+import { ResponseResult } from '../../../enum/response.enum';
+import { CategoryEnum } from '../../../enum/category.enum';
 import { TextUploadDto } from './dto/text-upload.dto';
 import { FileUploadDto } from './dto/file-upload.dto';
 import { RemoveUploadedFileDto } from './dto/RemoveUploadedFile.dto';
 import { AddQnaDto } from './dto/add-qna.dto';
-import { ChatbotOwnerGuard } from '../../guards/chatbot-owner.guard';
+import { ChatbotOwnerGuard } from '../../../guards/chatbot-owner.guard';
 
 @Controller('file-upload')
 export class FileUploadController {

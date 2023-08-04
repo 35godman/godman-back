@@ -17,7 +17,8 @@ import { WinstonModule } from 'nest-winston';
 import { Conversation, ConversationSchema } from './conversation.schema';
 import { ChatbotSettingsService } from '../chatbot/chatbotSettings.service';
 import { ChatbotSourcesService } from '../chatbot/chatbotSources.service';
-import { YandexCloudService } from '../yandexCloud/yandexCloud.service';
+import { YandexCloudService } from '../FILES/yandexCloud/yandexCloud.service';
+import { PineconeService } from '../pinecone/pinecone.service';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { YandexCloudService } from '../yandexCloud/yandexCloud.service';
   ],
   controllers: [ConversationController],
   providers: [
+    PineconeService,
     ConversationService,
     ChatbotService,
     ChatbotSettingsService,

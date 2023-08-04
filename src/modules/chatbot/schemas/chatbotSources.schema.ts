@@ -7,7 +7,7 @@ import { WebContent } from '../types/web-content.type';
 import {
   FileUpload,
   FileUploadDocument,
-} from '../../fileUpload/fileUpload.schema';
+} from '../../FILES/fileUpload/fileUpload.schema';
 import { Chatbot } from './chatbot.schema';
 
 export type ChatbotSourcesDocument = HydratedDocument<ChatbotSources>;

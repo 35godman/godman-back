@@ -11,7 +11,7 @@ export const updatePinecone = async (
   docs: Record<string, any>[],
   chatbot_id: string,
 ) => {
-  console.log('=>(updatePinecone.ts:95) docs', docs);
+  console.log('=>(updatePinecone.ts:95) docs', docs.length);
   console.log('Retrieving Pinecone index...');
   // 1. Retrieve Pinecone index
   const index = client.Index(indexName);
@@ -24,7 +24,7 @@ export const updatePinecone = async (
   });
   let totalToken = 0;
   // 3. Process each document in the docs array
-
+  let docs_updated = [];
   await pMap(
     docs,
     async (doc) => {
@@ -35,9 +35,11 @@ export const updatePinecone = async (
       totalToken += encodedEmbedding.length;
       // 4. Create RecursiveCharacterTextSplitter instance
       const textSplitter = new RecursiveCharacterTextSplitter({
-        chunkSize: 512,
+        chunkSize: 128,
+        chunkOverlap: 0,
       });
       console.log('Splitting text into chunks...');
+      console.log(doc.pageContent.length);
       // 5. Split text into chunks (documents)
       const chunks = await textSplitter.createDocuments([text]);
       console.log(`Text split into ${chunks.length} chunks`);
@@ -57,7 +59,7 @@ export const updatePinecone = async (
         `Creating ${chunks.length} vectors array with id, values, and metadata...`,
       );
       // 7. Create and upsert vectors in batches of 100
-      const batchSize = 512;
+      const batchSize = 100;
       let batch: any = [];
       for (let idx = 0; idx < chunks.length; idx++) {
         const chunk = chunks[idx];
@@ -84,12 +86,13 @@ export const updatePinecone = async (
           batch = [];
         }
       }
+      docs_updated.push(doc.metadata.source);
       // 8. Log the number of vectors updated
       console.log(`USD total: ${(totalToken / 1000) * 0.001}`);
       console.log(`Pinecone index updated with ${chunks.length} vectors`);
     },
     { concurrency: 10 },
   ); // Change concurrency according to your requirements
-
+  console.log(docs_updated);
   return ResponseResult.SUCCESS;
 };

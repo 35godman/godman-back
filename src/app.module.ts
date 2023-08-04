@@ -7,14 +7,15 @@ import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { LoggerModule } from './modules/logger/logger.module';
-import { YandexCloudModule } from './modules/yandexCloud/yandexCloud.module';
 import { EmbeddingModule } from './modules/embedding/embedding.module';
 import { ChatbotModule } from './modules/chatbot/chatbot.module';
-import { FileUploadModule } from './modules/fileUpload/fileUpload.module';
 import { CrawlerModule } from './modules/crawler/crawler.module';
 import { join } from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { ConversationModule } from './modules/conversation/conversation.module';
+import { PineconeModule } from './modules/pinecone/pinecone.module';
+import { YandexCloudModule } from './modules/FILES/yandexCloud/yandexCloud.module';
+import { FileUploadModule } from './modules/FILES/fileUpload/fileUpload.module';
 config();
 @Module({
   imports: [
@@ -32,6 +33,7 @@ config();
     FileUploadModule,
     CrawlerModule,
     ConversationModule,
+    PineconeModule,
   ],
   controllers: [AppController],
   providers: [

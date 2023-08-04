@@ -9,8 +9,8 @@ import {
   S3Client,
 } from '@aws-sdk/client-s3';
 import { fromIni } from '@aws-sdk/credential-provider-ini';
-import { yandexCloudClient } from '../../config/aws.config';
-import { BUCKET_NAME } from '../../config/aws.config';
+import { yandexCloudClient } from '../../../config/aws.config';
+import { BUCKET_NAME } from '../../../config/aws.config';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as util from 'util';

@@ -3,12 +3,13 @@ import { CrawlDto } from './dto/crawl.dto';
 import { Injectable } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import * as puppeteer from 'puppeteer';
-import { FileUploadService } from '../fileUpload/fileUpload.service';
+import { FileUploadService } from '../FILES/fileUpload/fileUpload.service';
 import { CrawledLink, ReturnedToFrontUrl } from './types/crawledLink.type';
 import { checkIfFileUrlUtil } from '../../utils/urls/checkIfFileUrl.util';
 import { CategoryEnum } from '../../enum/category.enum';
 import { waitTillHTMLRendered } from '../../utils/puppeteer/waitTillHtmlRendered.util';
 import { ChatbotSourcesService } from '../chatbot/chatbotSources.service';
+import { convert } from 'html-to-text';
 
 dotenv.config();
 @Injectable()
@@ -135,7 +136,10 @@ export class CrawlerService {
   }
 
   async getPageContent(page): Promise<string> {
-    console.log('scraping');
-    return await page.$eval('*', (el) => el.innerText);
+    const pureHtml = await page.content();
+    const convertOptions = {
+      wordwrap: 130,
+    };
+    return convert(pureHtml, convertOptions);
   }
 }

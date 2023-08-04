@@ -4,7 +4,7 @@ import { User, UserSchema } from '../user/user.schema';
 import { WinstonModule } from 'nest-winston';
 import { UserController } from '../user/user.controller';
 import { UserService } from '../user/user.service';
-import { YandexCloudService } from '../yandexCloud/yandexCloud.service';
+import { YandexCloudService } from '../FILES/yandexCloud/yandexCloud.service';
 import { EmbeddingController } from './embedding.controller';
 import { EmbeddingService } from './embedding.service';
 import { Chatbot, ChatbotSchema } from '../chatbot/schemas/chatbot.schema';
@@ -17,17 +17,21 @@ import {
   ChatbotSources,
   ChatbotSourcesSchema,
 } from '../chatbot/schemas/chatbotSources.schema';
-import { FileUploadService } from '../fileUpload/fileUpload.service';
-import { FileUploadModule } from '../fileUpload/fileUpload.module';
-import { FileUpload, FileUploadSchema } from '../fileUpload/fileUpload.schema';
+import { FileUploadService } from '../FILES/fileUpload/fileUpload.service';
+import { FileUploadModule } from '../FILES/fileUpload/fileUpload.module';
+import {
+  FileUpload,
+  FileUploadSchema,
+} from '../FILES/fileUpload/fileUpload.schema';
 import { ChatbotSettingsService } from '../chatbot/chatbotSettings.service';
 import { ChatbotSourcesService } from '../chatbot/chatbotSources.service';
-import { YandexCloudModule } from '../yandexCloud/yandexCloud.module';
+import { YandexCloudModule } from '../FILES/yandexCloud/yandexCloud.module';
 import { ConversationService } from '../conversation/conversation.service';
 import {
   Conversation,
   ConversationSchema,
 } from '../conversation/conversation.schema';
+import { PineconeService } from '../pinecone/pinecone.service';
 
 @Module({
   imports: [
@@ -48,6 +52,7 @@ import {
   controllers: [EmbeddingController],
   providers: [
     EmbeddingService,
+    PineconeService,
     ChatbotService,
     FileUploadService,
     ChatbotSettingsService,

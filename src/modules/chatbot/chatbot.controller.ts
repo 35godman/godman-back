@@ -21,7 +21,7 @@ import { Chatbot } from './schemas/chatbot.schema';
 import { CreateDefaultChatbotDto } from './dto/create-default.dto';
 import { UpdateSettingsDto } from './dto/update-settings.dto';
 import { ResponseResult } from '../../enum/response.enum';
-import { AddQnaDto } from '../fileUpload/dto/add-qna.dto';
+import { AddQnaDto } from '../FILES/fileUpload/dto/add-qna.dto';
 
 @Controller('chatbot')
 export class ChatbotController {

@@ -11,12 +11,12 @@ import { Chatbot, ChatbotDocument } from './schemas/chatbot.schema';
 import {
   FileUpload,
   FileUploadDocument,
-} from '../fileUpload/fileUpload.schema';
+} from '../FILES/fileUpload/fileUpload.schema';
 import { CategoryEnum } from '../../enum/category.enum';
 import { ResponseResult } from '../../enum/response.enum';
-import { UpdateQnADto } from '../fileUpload/dto/add-qna.dto';
+import { UpdateQnADto } from '../FILES/fileUpload/dto/add-qna.dto';
 import { ChatbotSettingsService } from './chatbotSettings.service';
-import { YandexCloudService } from '../yandexCloud/yandexCloud.service';
+import { YandexCloudService } from '../FILES/yandexCloud/yandexCloud.service';
 import { ChatbotService } from './chatbot.service';
 
 @Injectable()
