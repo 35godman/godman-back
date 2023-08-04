@@ -1,7 +1,7 @@
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
 import { OpenAI } from 'langchain/llms/openai';
-import { loadQAStuffChain } from 'langchain/chains';
+import { LLMChain, loadQAStuffChain } from 'langchain/chains';
 import { Document } from 'langchain/document';
 import { timeout } from './config';
 import { encode } from 'gpt-3-encoder';
@@ -16,6 +16,11 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 import { AddMessageDto } from '../../modules/conversation/dto/add-message.dto';
 import { MessageState } from '../../modules/conversation/types/message.type';
 import { UserMessageEmbedding } from '../../modules/embedding/dto/ask-chat.dto';
+import {
+  ChatPromptTemplate,
+  HumanMessagePromptTemplate,
+  SystemMessagePromptTemplate,
+} from 'langchain/prompts';
 export const queryPineconeVectorStoreAndQueryLLM = async (
   client: PineconeClient,
   indexName: string,
@@ -37,7 +42,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
   // 4. Query Pinecone index and return top 5 matches
   const queryResponse = await index.query({
     queryRequest: {
-      topK: 10,
+      topK: 20,
       vector: queryEmbedding,
       includeMetadata: true,
       includeValues: true,
@@ -68,26 +73,46 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     }
 
     const userMessagesStringified = JSON.stringify(user_messages);
-
+    const currentYear = new Date().getFullYear();
     const newPrompt = `${chatbotInstance.settings.base_prompt}
-    Please use only the language ${chatbotInstance.settings.language} in your answers and do not use any other language.
-       Below are the previous questions posed by the user. Your responses should take these into account and maintain continuity in the conversation:
-   User Questions:${userMessagesStringified}
-   question: ${question}
+    Today is ${currentYear} year.
+   Language:  ${chatbotInstance.settings.language}
+   Previous User Questions:${userMessagesStringified}
+   Question: ${question}
     Context: ${concatenatedPageContent}`;
-    let assistant_message = '';
-    const result = await llm.call(newPrompt, undefined, [
-      {
-        handleLLMNewToken(token: string) {
-          res.write(token);
-          assistant_message += token;
-        },
-      },
+    const chatPrompt = ChatPromptTemplate.fromPromptMessages([
+      SystemMessagePromptTemplate.fromTemplate(
+        `{chatbot_prompt}
+- Language used for the conversation: {language}
+- User's past questions: {user_questions}
+- The context of the ongoing conversation: {context}
+`,
+      ),
+      HumanMessagePromptTemplate.fromTemplate(`{question}`),
     ]);
-
-    // console.log('=>(queryPineconeVectorStoreAndQueryLLM.ts:73) result', result);
+    let assistant_message = '';
+    const chainB = new LLMChain({
+      prompt: chatPrompt,
+      llm: llm,
+    });
+    const result = await chainB.call(
+      {
+        language: chatbotInstance.settings.language,
+        user_questions: userMessagesStringified,
+        context: concatenatedPageContent,
+        question,
+        chatbot_prompt: chatbotInstance.settings.base_prompt,
+      },
+      [
+        {
+          handleLLMNewToken(token: string) {
+            res.write(token);
+          },
+        },
+      ],
+    );
     const encodedQuestion = encode(concatenatedPageContent);
-    const encodedAnswer = encode(result);
+    const encodedAnswer = encode(result.text);
     const token_usage = encodedQuestion.length + encodedAnswer.length;
     console.log(`Tokens used: ${token_usage}`);
     console.log(`USD used ${(token_usage / 1000) * 0.0015}`);
