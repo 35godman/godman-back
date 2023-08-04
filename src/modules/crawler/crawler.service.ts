@@ -68,14 +68,13 @@ export class CrawlerService {
           url.includes('#') ||
           checkIfFileUrlUtil(url)
         ) {
-          console.log('link exist or incorrect');
         } else {
           visitedUrls.add(url);
           if (visitedUrls.size <= parseInt(process.env.CRAWL_LIMIT)) {
             console.log('queing task');
             await cluster.queue(url);
           } else {
-            console.log('Task stopped successfully');
+            // console.log('Task stopped successfully');
           }
         }
       }
