@@ -4,12 +4,13 @@ import { Injectable } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import * as puppeteer from 'puppeteer';
 import { FileUploadService } from '../FILES/fileUpload/fileUpload.service';
-import { CrawledLink, ReturnedToFrontUrl } from './types/crawledLink.type';
+import { CrawledLink } from './types/crawledLink.type';
 import { checkIfFileUrlUtil } from '../../utils/urls/checkIfFileUrl.util';
 import { CategoryEnum } from '../../enum/category.enum';
 import { waitTillHTMLRendered } from '../../utils/puppeteer/waitTillHtmlRendered.util';
 import { ChatbotSourcesService } from '../chatbot/chatbotSources.service';
 import { convert } from 'html-to-text';
+import * as pMap from 'p-map';
 
 dotenv.config();
 @Injectable()
@@ -45,6 +46,7 @@ export class CrawlerService {
 
     const cluster = await Cluster.launch({
       concurrency: Cluster.CONCURRENCY_CONTEXT,
+      retryLimit: 5,
       maxConcurrency: parseInt(process.env.MAX_CONCURRENCIES), // Number of parallel tasks
       puppeteerOptions: launchOptions,
     });
@@ -85,8 +87,8 @@ export class CrawlerService {
     // Shutdown after everything is done
     await cluster.idle();
     await cluster.close();
-    const returnedToFrontUrls: ReturnedToFrontUrl[] = [];
-    for (const data of crawledData) {
+    console.log('=>(crawler.service.ts:90) crawledData', crawledData);
+    const mapper = async (data) => {
       const urlWithoutSlashes = data.url.replace(/\//g, '[]');
       const uploadFilePayload = {
         fileName: `${urlWithoutSlashes}.txt`,
@@ -94,30 +96,29 @@ export class CrawlerService {
         chatbot_id,
         char_length: data.size,
       };
+      console.log('=>(crawler.service.ts:97) uploadFilePayload', data);
       try {
         const newSource = await this.fileUploadService.uploadSingleFile(
           uploadFilePayload,
           CategoryEnum.WEB,
         );
-        const linkCrawled = {
+        return {
           size: data.size,
           url: data.url,
           _id: newSource._id.toString(),
         };
-        returnedToFrontUrls.push(linkCrawled);
       } catch (e) {
         console.error(e);
         sources.crawling_status = 'FAILED';
         await sources.save();
-        /**
-         * @COMMENT stop the loop if error occurs in fileUploadService
-         */
-        return;
+        throw e; // propagate the error so p-map can stop
       }
-    }
+    };
     sources.crawling_status = 'COMPLETED';
     await sources.save();
-    return returnedToFrontUrls;
+    return await pMap(crawledData, mapper, {
+      concurrency: 10,
+    });
   }
 
   async extractNewLinks(page: puppeteer.Page): Promise<string[]> {
