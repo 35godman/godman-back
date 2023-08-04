@@ -14,15 +14,6 @@ export const waitTillHTMLRendered = async (page, timeout = 30000) => {
       () => document.body.innerHTML.length,
     );
 
-    console.log(
-      'last: ',
-      lastHTMLSize,
-      ' <> curr: ',
-      currentHTMLSize,
-      ' body html size: ',
-      bodyHTMLSize,
-    );
-
     if (lastHTMLSize != 0 && currentHTMLSize == lastHTMLSize)
       countStableSizeIterations++;
     else countStableSizeIterations = 0; //reset the counter

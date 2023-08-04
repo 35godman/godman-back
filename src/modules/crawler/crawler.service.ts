@@ -21,6 +21,9 @@ export class CrawlerService {
 
   async startCrawling(payload: CrawlDto, chatbot_id: string) {
     const sources = await this.chatbotSourceService.findByChatbotId(chatbot_id);
+    const onlyCrawledFileNames = sources.website.map(
+      (item) => item.originalName,
+    );
     sources.crawling_status = 'PENDING';
     await sources.save();
     const visitedUrls = new Set<string>();
@@ -49,6 +52,7 @@ export class CrawlerService {
     await cluster.task(async ({ page, data: url }) => {
       if (
         visitedUrls.has(url) ||
+        onlyCrawledFileNames.includes(url) ||
         urlCount >= parseInt(process.env.CRAWL_LIMIT) ||
         url.includes('?') ||
         url.includes('#') ||
@@ -59,6 +63,7 @@ export class CrawlerService {
       visitedUrls.add(url);
       urlCount++;
       console.log('=>(crawler.service.ts:40) url', url);
+      console.log(visitedUrls.size);
       await page.goto(url, { waitUntil: 'domcontentloaded' });
       await waitTillHTMLRendered(page);
 
