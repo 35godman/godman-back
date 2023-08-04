@@ -4,13 +4,12 @@ import { Injectable } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import * as puppeteer from 'puppeteer';
 import { FileUploadService } from '../FILES/fileUpload/fileUpload.service';
-import { CrawledLink } from './types/crawledLink.type';
+import { CrawledLink, ReturnedToFrontUrl } from './types/crawledLink.type';
 import { checkIfFileUrlUtil } from '../../utils/urls/checkIfFileUrl.util';
 import { CategoryEnum } from '../../enum/category.enum';
 import { waitTillHTMLRendered } from '../../utils/puppeteer/waitTillHtmlRendered.util';
 import { ChatbotSourcesService } from '../chatbot/chatbotSources.service';
 import { convert } from 'html-to-text';
-import * as pMap from 'p-map';
 
 dotenv.config();
 @Injectable()
@@ -46,23 +45,11 @@ export class CrawlerService {
 
     const cluster = await Cluster.launch({
       concurrency: Cluster.CONCURRENCY_CONTEXT,
-      retryLimit: 5,
-      maxConcurrency: parseInt(process.env.MAX_CONCURRENCIES), // Number of parallel tasks
+      maxConcurrency: 5, // Number of parallel tasks
       puppeteerOptions: launchOptions,
     });
 
     await cluster.task(async ({ page, data: url }) => {
-      if (
-        visitedUrls.has(url) ||
-        onlyCrawledFileNames.includes(url) ||
-        urlCount >= parseInt(process.env.CRAWL_LIMIT) ||
-        url.includes('?') ||
-        url.includes('#') ||
-        checkIfFileUrlUtil(url)
-      ) {
-        return;
-      }
-      visitedUrls.add(url);
       urlCount++;
       console.log('=>(crawler.service.ts:40) url', url);
       console.log(visitedUrls.size);
@@ -75,7 +62,22 @@ export class CrawlerService {
       //Extract new URLs from page and queue them
       const newUrls = await this.extractNewLinks(page);
       for (const url of newUrls) {
-        await cluster.queue(url);
+        if (
+          visitedUrls.has(url) ||
+          url.includes('?') ||
+          url.includes('#') ||
+          checkIfFileUrlUtil(url)
+        ) {
+          console.log('link exist or incorrect');
+        } else {
+          visitedUrls.add(url);
+          if (visitedUrls.size <= parseInt(process.env.CRAWL_LIMIT)) {
+            console.log('queing task');
+            await cluster.queue(url);
+          } else {
+            console.log('Task stopped successfully');
+          }
+        }
       }
 
       const pageData = { url: url, size: size, content: content };
@@ -87,8 +89,8 @@ export class CrawlerService {
     // Shutdown after everything is done
     await cluster.idle();
     await cluster.close();
-    console.log('=>(crawler.service.ts:90) crawledData', crawledData);
-    const mapper = async (data) => {
+    const returnedToFrontUrls: ReturnedToFrontUrl[] = [];
+    for (const data of crawledData) {
       const urlWithoutSlashes = data.url.replace(/\//g, '[]');
       const uploadFilePayload = {
         fileName: `${urlWithoutSlashes}.txt`,
@@ -96,29 +98,30 @@ export class CrawlerService {
         chatbot_id,
         char_length: data.size,
       };
-      console.log('=>(crawler.service.ts:97) uploadFilePayload', data);
       try {
         const newSource = await this.fileUploadService.uploadSingleFile(
           uploadFilePayload,
           CategoryEnum.WEB,
         );
-        return {
+        const linkCrawled = {
           size: data.size,
           url: data.url,
           _id: newSource._id.toString(),
         };
+        returnedToFrontUrls.push(linkCrawled);
       } catch (e) {
         console.error(e);
         sources.crawling_status = 'FAILED';
         await sources.save();
-        throw e; // propagate the error so p-map can stop
+        /**
+         * @COMMENT stop the loop if error occurs in fileUploadService
+         */
+        return;
       }
-    };
+    }
     sources.crawling_status = 'COMPLETED';
     await sources.save();
-    return await pMap(crawledData, mapper, {
-      concurrency: 10,
-    });
+    return returnedToFrontUrls;
   }
 
   async extractNewLinks(page: puppeteer.Page): Promise<string[]> {
