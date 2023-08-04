@@ -42,7 +42,7 @@ export class CrawlerService {
 
     const cluster = await Cluster.launch({
       concurrency: Cluster.CONCURRENCY_CONTEXT,
-      maxConcurrency: 10, // Number of parallel tasks
+      maxConcurrency: parseInt(process.env.MAX_CONCURRENCIES), // Number of parallel tasks
       puppeteerOptions: launchOptions,
     });
 

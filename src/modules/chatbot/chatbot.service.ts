@@ -15,8 +15,8 @@ import { ResponseResult } from '../../enum/response.enum';
 import { generateIframeUtil } from '../../utils/generateScripts/generateIframe.util';
 import { generateScriptUtil } from '../../utils/generateScripts/generateScript.util';
 import { obfuscatorUtil } from '../../utils/obfuscate/obfuscator.util';
-import fs from 'fs';
-import path from 'path';
+import * as fs from 'fs';
+import * as path from 'path';
 import { PineconeService } from '../pinecone/pinecone.service';
 
 @Injectable()
@@ -84,13 +84,13 @@ export class ChatbotService {
 
   async generateIframeCode(chatbot_id: string) {
     const chatbotEntity = await this.findById(chatbot_id);
+    console.log(process.cwd(), '/src/utils/generateScripts/iframe.js');
     const scriptEmbed = fs.readFileSync(
       path.join(process.cwd(), '/src/utils/generateScripts/iframe.js'),
     );
 
     obfuscatorUtil(scriptEmbed.toString());
     chatbotEntity.embed_code.script = generateScriptUtil();
-    // obfuscatorUtil(chatbotEntity.embed_code.script);
     chatbotEntity.embed_code.iframe = generateIframeUtil(chatbot_id);
 
     const settingEntity = await this.chatbotSettingsService.findByChatbotId(
