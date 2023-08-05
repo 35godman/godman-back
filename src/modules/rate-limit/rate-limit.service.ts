@@ -1,29 +1,21 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { RateLimiterRedis } from 'rate-limiter-flexible';
-import Redis from 'ioredis';
+import { Redis } from 'ioredis';
 
 @Injectable()
 export class RateLimitService {
-  private readonly rateLimiter: RateLimiterRedis;
-
-  constructor() {
-    const redisClient = new Redis({
-      // Fill in your Redis connection options here
-    });
-
-    this.rateLimiter = new RateLimiterRedis({
-      storeClient: redisClient,
-      keyPrefix: 'middleware',
-      points: 10, // initial limit
-      duration: 60, // duration in seconds before consumed points are reset
-    });
-  }
+  constructor(
+    @Inject('REDIS_CONNECTION') private readonly redisClient: Redis,
+  ) {}
 
   async consume(key: string, newPoints: number, newDuration: number) {
+    console.log('=>(rate-limit.service.ts:12) newDuration', newDuration);
+    console.log('=>(rate-limit.service.ts:12) newPoints', newPoints);
+    console.log('=>(rate-limit.service.ts:12) key', key);
     // Create new rate limiter with updated points and duration
     const rateLimiter = new RateLimiterRedis({
-      storeClient: this.rateLimiter.storeClient,
-      keyPrefix: this.rateLimiter.keyPrefix,
+      storeClient: this.redisClient,
+      keyPrefix: 'rate_limiter:',
       points: newPoints,
       duration: newDuration,
     });
@@ -33,7 +25,7 @@ export class RateLimitService {
       await rateLimiter.consume(key);
     } catch (rateLimiterRes) {
       // Not enough points to consume
-      throw new Error('Too many requests');
+      throw new Error();
     }
   }
 }

@@ -106,4 +106,10 @@ export class ChatbotController {
     await this.chatbotSourcesService.deleteAllSources(chatbot_id);
     return ResponseResult.SUCCESS;
   }
+
+  @UseGuards(AuthJWTGuard)
+  async getIframe(@Query('chatbot_id') chatbot_id) {
+    await this.chatbotService.getChatbotForIframe(chatbot_id);
+    return ResponseResult.SUCCESS;
+  }
 }

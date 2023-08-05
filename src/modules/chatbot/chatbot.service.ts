@@ -101,4 +101,10 @@ export class ChatbotService {
     await settingEntity.save();
     await chatbotEntity.save();
   }
+
+  async getChatbotForIframe(id: string) {
+    const chatbot = await this.findById(id);
+    chatbot.sources = null;
+    return chatbot;
+  }
 }
