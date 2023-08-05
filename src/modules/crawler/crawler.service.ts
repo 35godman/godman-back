@@ -8,7 +8,7 @@ import { CrawledLink, ReturnedToFrontUrl } from './types/crawledLink.type';
 import { checkIfFileUrlUtil } from '../../utils/urls/checkIfFileUrl.util';
 import { CategoryEnum } from '../../enum/category.enum';
 import { waitTillHTMLRendered } from '../../utils/puppeteer/waitTillHtmlRendered.util';
-import { ChatbotSourcesService } from '../chatbot/chatbotSources.service';
+import { SourcesService } from '../chatbot/sources/sources.service';
 import { convert } from 'html-to-text';
 
 dotenv.config();
@@ -16,7 +16,7 @@ dotenv.config();
 export class CrawlerService {
   constructor(
     private fileUploadService: FileUploadService,
-    private chatbotSourceService: ChatbotSourcesService,
+    private chatbotSourceService: SourcesService,
   ) {}
 
   async startCrawling(payload: CrawlDto, chatbot_id: string) {

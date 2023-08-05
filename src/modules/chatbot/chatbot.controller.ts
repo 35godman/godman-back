@@ -11,8 +11,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ChatbotService } from './chatbot.service';
-import { ChatbotSettingsService } from './chatbotSettings.service';
-import { ChatbotSourcesService } from './chatbotSources.service';
+import { SettingsService } from './settings/settings.service';
+import { SourcesService } from './sources/sources.service';
 import { CreateChatbotInstanceDto } from './dto/instance-create.dto';
 import { ValidateObjectIdPipe } from '../../decorators/validateObjectIdPipe.decorator';
 import { AuthJWTGuard } from '../../guards/auth.guard';
@@ -27,8 +27,8 @@ import { AddQnaDto } from '../FILES/fileUpload/dto/add-qna.dto';
 export class ChatbotController {
   constructor(
     private readonly chatbotService: ChatbotService,
-    private readonly chatbotSettingsService: ChatbotSettingsService,
-    private readonly chatbotSourcesService: ChatbotSourcesService,
+    private readonly chatbotSettingsService: SettingsService,
+    private readonly chatbotSourcesService: SourcesService,
   ) {}
 
   @UseGuards(AuthJWTGuard)
@@ -48,22 +48,23 @@ export class ChatbotController {
     @Query('chatbot_id') chatbot_id: string,
     @Body() payload: UpdateSettingsDto,
   ) {
-    const { chatbot } = payload;
+    const { chatbot_settings, chatbot_name } = payload;
     const currentChatbot = await this.chatbotService.findById(chatbot_id);
     if (!currentChatbot) {
       throw new HttpException('Chatbot not found', HttpStatus.NOT_FOUND);
     }
-    currentChatbot.chatbot_name = chatbot.chatbot_name;
+    currentChatbot.chatbot_name = chatbot_name;
     await currentChatbot.save();
 
     await this.chatbotSettingsService.updateSettings(
       currentChatbot.settings._id.toString(),
-      chatbot.settings,
+      chatbot_settings,
     );
     return ResponseResult.SUCCESS;
   }
 
-  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
+  //FIXME return chatbotowner guard
+  @UseGuards(AuthJWTGuard)
   @Get('find')
   async findChatbotById(
     @Query('chatbot_id', new ValidateObjectIdPipe()) id: string,
@@ -83,25 +84,6 @@ export class ChatbotController {
   @Delete('delete')
   async deleteChatbotById(@Query('chatbot_id') id: string) {
     return this.chatbotService.delete(id);
-  }
-
-  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
-  @Post('add-qna')
-  async addQnaHandler(
-    @Body() addQnaDto: AddQnaDto,
-    @Query('chatbot_id') chatbot_id: string,
-  ) {
-    const { data } = addQnaDto;
-    let text = '';
-    data.forEach((item) => {
-      text += item.answer;
-      text += item.question;
-    });
-    return await this.chatbotSourcesService.addQnA({
-      data,
-      chatbot_id,
-      char_length: text.length,
-    });
   }
 
   @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)

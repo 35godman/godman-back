@@ -5,8 +5,8 @@ import { WinstonModule } from 'nest-winston';
 import { UserController } from '../user/user.controller';
 import { UserService } from '../user/user.service';
 import { ChatbotController } from './chatbot.controller';
-import { ChatbotSourcesService } from './chatbotSources.service';
-import { ChatbotSettingsService } from './chatbotSettings.service';
+import { SourcesService } from './sources/sources.service';
+import { SettingsService } from './settings/settings.service';
 import { ChatbotService } from './chatbot.service';
 import { Chatbot, ChatbotSchema } from './schemas/chatbot.schema';
 import {
@@ -19,6 +19,8 @@ import {
 } from './schemas/chatbotSources.schema';
 import { YandexCloudService } from '../FILES/yandexCloud/yandexCloud.service';
 import { PineconeService } from '../pinecone/pinecone.service';
+import { SettingsController } from './settings/settings.controller';
+import { SourcesController } from './sources/sources.controller';
 
 @Module({
   imports: [
@@ -33,14 +35,14 @@ import { PineconeService } from '../pinecone/pinecone.service';
     ]),
     WinstonModule,
   ],
-  controllers: [ChatbotController],
+  controllers: [ChatbotController, SettingsController, SourcesController],
   providers: [
-    ChatbotSourcesService,
-    ChatbotSettingsService,
+    SourcesService,
+    SettingsService,
     ChatbotService,
     PineconeService,
     YandexCloudService,
   ],
-  exports: [],
+  exports: [MongooseModule, ChatbotService],
 })
 export class ChatbotModule {}

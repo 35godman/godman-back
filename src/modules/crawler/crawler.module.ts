@@ -23,8 +23,8 @@ import {
   FileUpload,
   FileUploadSchema,
 } from '../FILES/fileUpload/fileUpload.schema';
-import { ChatbotSettingsService } from '../chatbot/chatbotSettings.service';
-import { ChatbotSourcesService } from '../chatbot/chatbotSources.service';
+import { SettingsService } from '../chatbot/settings/settings.service';
+import { SourcesService } from '../chatbot/sources/sources.service';
 import { PineconeService } from '../pinecone/pinecone.service';
 
 @Module({
@@ -48,8 +48,8 @@ import { PineconeService } from '../pinecone/pinecone.service';
     YandexCloudService,
     ChatbotService,
     FileUploadService,
-    ChatbotSettingsService,
-    ChatbotSourcesService,
+    SettingsService,
+    SourcesService,
     PineconeService,
   ],
   exports: [],

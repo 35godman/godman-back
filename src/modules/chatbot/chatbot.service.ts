@@ -8,8 +8,8 @@ import { ChatbotCreateDto } from './dto/chatbot-create.dto';
 import { Chatbot, ChatbotDocument } from './schemas/chatbot.schema';
 import { FileUpload } from '../FILES/fileUpload/fileUpload.schema';
 import { ChatbotSources } from './schemas/chatbotSources.schema';
-import { ChatbotSettingsService } from './chatbotSettings.service';
-import { ChatbotSourcesService } from './chatbotSources.service';
+import { SettingsService } from './settings/settings.service';
+import { SourcesService } from './sources/sources.service';
 import { CategoryEnum } from '../../enum/category.enum';
 import { ResponseResult } from '../../enum/response.enum';
 import { generateIframeUtil } from '../../utils/generateScripts/generateIframe.util';
@@ -27,8 +27,8 @@ export class ChatbotService {
     @InjectModel(ChatbotSources.name)
     private chatbotSourcesModel: Model<ChatbotSources>,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
-    private chatbotSettingsService: ChatbotSettingsService,
-    private chatbotSourcesService: ChatbotSourcesService,
+    private chatbotSettingsService: SettingsService,
+    private chatbotSourcesService: SourcesService,
     private pineconeService: PineconeService,
   ) {}
 

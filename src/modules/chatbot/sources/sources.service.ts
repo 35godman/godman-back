@@ -1,31 +1,31 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { ChatbotSettings } from './schemas/chatbotSettings.schema';
+import { ChatbotSettings } from '../schemas/chatbotSettings.schema';
 import { Model } from 'mongoose';
 import {
   ChatbotSources,
   ChatbotSourcesDocument,
-} from './schemas/chatbotSources.schema';
+} from '../schemas/chatbotSources.schema';
 import { ObjectId } from 'typeorm';
-import { Chatbot, ChatbotDocument } from './schemas/chatbot.schema';
+import { Chatbot, ChatbotDocument } from '../schemas/chatbot.schema';
 import {
   FileUpload,
   FileUploadDocument,
-} from '../FILES/fileUpload/fileUpload.schema';
-import { CategoryEnum } from '../../enum/category.enum';
-import { ResponseResult } from '../../enum/response.enum';
-import { UpdateQnADto } from '../FILES/fileUpload/dto/add-qna.dto';
-import { ChatbotSettingsService } from './chatbotSettings.service';
-import { YandexCloudService } from '../FILES/yandexCloud/yandexCloud.service';
-import { ChatbotService } from './chatbot.service';
+} from '../../FILES/fileUpload/fileUpload.schema';
+import { CategoryEnum } from '../../../enum/category.enum';
+import { ResponseResult } from '../../../enum/response.enum';
+import { UpdateQnADto } from '../../FILES/fileUpload/dto/add-qna.dto';
+import { SettingsService } from '../settings/settings.service';
+import { YandexCloudService } from '../../FILES/yandexCloud/yandexCloud.service';
+import { ChatbotService } from '../chatbot.service';
 
 @Injectable()
-export class ChatbotSourcesService {
+export class SourcesService {
   constructor(
     @InjectModel(ChatbotSources.name)
     private chatbotSourcesModel: Model<ChatbotSources>,
     @InjectModel(Chatbot.name) private chatbotModel: Model<Chatbot>,
-    private chatbotSettingsService: ChatbotSettingsService,
+    private chatbotSettingsService: SettingsService,
     private yandexCloudService: YandexCloudService,
   ) {}
 

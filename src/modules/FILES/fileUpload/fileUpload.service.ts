@@ -20,12 +20,12 @@ import * as pdfParse from 'pdf-parse';
 import * as mammoth from 'mammoth';
 import * as fs from 'fs';
 import { CategoryEnum } from '../../../enum/category.enum';
-import { ChatbotSourcesService } from '../../chatbot/chatbotSources.service';
+import { SourcesService } from '../../chatbot/sources/sources.service';
 import { ChatbotSourcesDocument } from '../../chatbot/schemas/chatbotSources.schema';
 import { UploadTextFromDataSourceDto } from './dto/text-upload.dto';
 import { RemoveUploadedFileDto } from './dto/RemoveUploadedFile.dto';
 import { UpdateQnADto } from './dto/add-qna.dto';
-import { ChatbotSettingsService } from '../../chatbot/chatbotSettings.service';
+import { SettingsService } from '../../chatbot/settings/settings.service';
 import { UploadProfilePictureDto } from './dto/upload-profile-picture.dto';
 @Injectable()
 export class FileUploadService {
@@ -34,8 +34,8 @@ export class FileUploadService {
     @InjectModel(FileUpload.name)
     private fileUploadModel: Model<FileUploadDocument>,
     private chatbotService: ChatbotService,
-    private chatbotSourcesService: ChatbotSourcesService,
-    private chatbotSettingsService: ChatbotSettingsService,
+    private chatbotSourcesService: SourcesService,
+    private chatbotSettingsService: SettingsService,
   ) {}
 
   async uploadSingleFile(

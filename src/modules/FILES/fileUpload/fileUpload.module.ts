@@ -16,12 +16,12 @@ import {
   ChatbotSourcesSchema,
 } from '../../chatbot/schemas/chatbotSources.schema';
 import { UserService } from '../../user/user.service';
-import { ChatbotSettingsService } from '../../chatbot/chatbotSettings.service';
+import { SettingsService } from '../../chatbot/settings/settings.service';
 import {
   ChatbotSettings,
   ChatbotSettingsSchema,
 } from '../../chatbot/schemas/chatbotSettings.schema';
-import { ChatbotSourcesService } from '../../chatbot/chatbotSources.service';
+import { SourcesService } from '../../chatbot/sources/sources.service';
 import { PineconeService } from '../../pinecone/pinecone.service';
 
 @Module({
@@ -41,8 +41,8 @@ import { PineconeService } from '../../pinecone/pinecone.service';
     FileUploadService,
     YandexCloudService,
     ChatbotService,
-    ChatbotSettingsService,
-    ChatbotSourcesService,
+    SettingsService,
+    SourcesService,
     PineconeService,
   ],
   exports: [],

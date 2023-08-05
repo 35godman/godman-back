@@ -15,8 +15,8 @@ import {
 } from '../chatbot/schemas/chatbotSources.schema';
 import { WinstonModule } from 'nest-winston';
 import { Conversation, ConversationSchema } from './conversation.schema';
-import { ChatbotSettingsService } from '../chatbot/chatbotSettings.service';
-import { ChatbotSourcesService } from '../chatbot/chatbotSources.service';
+import { SettingsService } from '../chatbot/settings/settings.service';
+import { SourcesService } from '../chatbot/sources/sources.service';
 import { YandexCloudService } from '../FILES/yandexCloud/yandexCloud.service';
 import { PineconeService } from '../pinecone/pinecone.service';
 
@@ -39,8 +39,8 @@ import { PineconeService } from '../pinecone/pinecone.service';
     PineconeService,
     ConversationService,
     ChatbotService,
-    ChatbotSettingsService,
-    ChatbotSourcesService,
+    SettingsService,
+    SourcesService,
     YandexCloudService,
   ],
 })

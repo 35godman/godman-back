@@ -4,10 +4,10 @@ import { Model } from 'mongoose';
 import {
   ChatbotSettings,
   ChatbotSettingsDocument,
-} from './schemas/chatbotSettings.schema';
+} from '../schemas/chatbotSettings.schema';
 
 @Injectable()
-export class ChatbotSettingsService {
+export class SettingsService {
   constructor(
     @InjectModel(ChatbotSettings.name)
     private chatbotSettingsModel: Model<ChatbotSettings>,
@@ -25,9 +25,6 @@ export class ChatbotSettingsService {
 
     chatbot_settings: Partial<ChatbotSettingsDocument>,
   ) {
-    const objToUpdate = {
-      ...chatbot_settings,
-    };
     const updatedSettings = await this.chatbotSettingsModel
       .findByIdAndUpdate(
         settings_id,

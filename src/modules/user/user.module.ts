@@ -12,6 +12,6 @@ import { WinstonModule } from 'nest-winston';
   ],
   controllers: [UserController],
   providers: [UserService],
-  exports: [UserService],
+  exports: [UserService, MongooseModule],
 })
 export class UserModule {}

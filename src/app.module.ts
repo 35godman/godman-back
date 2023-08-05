@@ -16,6 +16,13 @@ import { ConversationModule } from './modules/conversation/conversation.module';
 import { PineconeModule } from './modules/pinecone/pinecone.module';
 import { YandexCloudModule } from './modules/FILES/yandexCloud/yandexCloud.module';
 import { FileUploadModule } from './modules/FILES/fileUpload/fileUpload.module';
+import { ChatbotController } from './modules/chatbot/chatbot.controller';
+import { SettingsController } from './modules/chatbot/settings/settings.controller';
+import { ChatbotService } from './modules/chatbot/chatbot.service';
+import { SettingsService } from './modules/chatbot/settings/settings.service';
+import { SourcesService } from './modules/chatbot/sources/sources.service';
+import { SourcesController } from './modules/chatbot/sources/sources.controller';
+import { PineconeService } from './modules/pinecone/pinecone.service';
 config();
 @Module({
   imports: [
@@ -35,13 +42,22 @@ config();
     ConversationModule,
     PineconeModule,
   ],
-  controllers: [AppController],
+  controllers: [
+    AppController,
+    ChatbotController,
+    SettingsController,
+    SourcesController,
+  ],
   providers: [
     AppService,
     {
       provide: 'WinstonLogger',
       useExisting: WINSTON_MODULE_PROVIDER,
     },
+    ChatbotService,
+    SettingsService,
+    SourcesService,
+    PineconeService,
   ],
   exports: ['WinstonLogger'],
 })
