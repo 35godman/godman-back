@@ -23,10 +23,17 @@ import { SettingsService } from './modules/chatbot/settings/settings.service';
 import { SourcesService } from './modules/chatbot/sources/sources.service';
 import { SourcesController } from './modules/chatbot/sources/sources.controller';
 import { PineconeService } from './modules/pinecone/pinecone.service';
+import { RateLimitService } from './modules/rate-limit/rate-limit.service';
+import { ModuleController } from './modules/rate-limit/module/module.controller';
+import { ThrottlerModule } from '@nestjs/throttler';
 config();
 @Module({
   imports: [
     MongooseModule.forRoot(process.env.MONGO_URL),
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 20,
+    }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'static'),
       serveRoot: '/static',
@@ -47,6 +54,7 @@ config();
     ChatbotController,
     SettingsController,
     SourcesController,
+    ModuleController,
   ],
   providers: [
     AppService,
@@ -58,6 +66,7 @@ config();
     SettingsService,
     SourcesService,
     PineconeService,
+    RateLimitService,
   ],
   exports: ['WinstonLogger'],
 })
