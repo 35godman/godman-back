@@ -1,0 +1,8 @@
+# redis-process.yml
+apps:
+  - name: redis-server
+    script: redis-server
+    args: "/etc/redis/redis.conf"
+    instances: 1
+    autorestart: true
+    watch: false
