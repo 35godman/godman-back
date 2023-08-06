@@ -30,7 +30,6 @@ export class AuthController {
     private userService: UserService,
   ) {}
 
-  @UseGuards(RateLimitGuard)
   @Post('login')
   login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
