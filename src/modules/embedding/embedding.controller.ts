@@ -4,6 +4,7 @@ import { EmbeddingSetupDto } from './dto/setup-pinecone.dto';
 import { AskChatDto } from './dto/ask-chat.dto';
 import { AuthJWTGuard } from '../../guards/auth.guard';
 import { ChatbotOwnerGuard } from '../../guards/chatbot-owner.guard';
+import { RateLimitGuard } from '../../guards/rate-limit.guard';
 
 @Controller('embedding')
 export class EmbeddingController {
@@ -15,6 +16,7 @@ export class EmbeddingController {
     return await this.embeddingService.setup(chatbot_id);
   }
 
+  @UseGuards(RateLimitGuard)
   @Post('/ask')
   async askChatbot(@Body() askChatDto: AskChatDto, @Res() response) {
     await this.embeddingService.askChat(askChatDto, response);

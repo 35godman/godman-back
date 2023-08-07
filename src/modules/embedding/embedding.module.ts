@@ -33,6 +33,8 @@ import {
 } from '../conversation/conversation.schema';
 import { PineconeService } from '../pinecone/pinecone.service';
 import { ChatbotModule } from '../chatbot/chatbot.module';
+import { RedisModule } from '../redis/redis.module';
+import { RateLimitService } from '../rate-limit/rate-limit.service';
 
 @Module({
   imports: [
@@ -51,9 +53,15 @@ import { ChatbotModule } from '../chatbot/chatbot.module';
     YandexCloudModule,
     ChatbotModule,
     FileUploadModule,
+    RedisModule,
   ],
   controllers: [EmbeddingController],
-  providers: [EmbeddingService, PineconeService, ConversationService],
+  providers: [
+    EmbeddingService,
+    PineconeService,
+    ConversationService,
+    RateLimitService,
+  ],
   exports: [EmbeddingService],
 })
 export class EmbeddingModule {}
