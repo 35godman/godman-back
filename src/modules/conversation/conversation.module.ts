@@ -19,6 +19,7 @@ import { SettingsService } from '../chatbot/settings/settings.service';
 import { SourcesService } from '../chatbot/sources/sources.service';
 import { YandexCloudService } from '../FILES/yandexCloud/yandexCloud.service';
 import { PineconeService } from '../pinecone/pinecone.service';
+import { ChatbotModule } from '../chatbot/chatbot.module';
 
 @Module({
   imports: [
@@ -33,15 +34,9 @@ import { PineconeService } from '../pinecone/pinecone.service';
       { name: ChatbotSources.name, schema: ChatbotSourcesSchema },
     ]),
     WinstonModule,
+    ChatbotModule,
   ],
   controllers: [ConversationController],
-  providers: [
-    PineconeService,
-    ConversationService,
-    ChatbotService,
-    SettingsService,
-    SourcesService,
-    YandexCloudService,
-  ],
+  providers: [PineconeService, ConversationService, YandexCloudService],
 })
 export class ConversationModule {}

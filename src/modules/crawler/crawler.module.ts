@@ -26,11 +26,13 @@ import {
 import { SettingsService } from '../chatbot/settings/settings.service';
 import { SourcesService } from '../chatbot/sources/sources.service';
 import { PineconeService } from '../pinecone/pinecone.service';
+import { ChatbotModule } from '../chatbot/chatbot.module';
 
 @Module({
   imports: [
     WinstonModule,
     UserModule,
+    ChatbotModule,
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
       { name: Chatbot.name, schema: ChatbotSchema },
@@ -46,10 +48,7 @@ import { PineconeService } from '../pinecone/pinecone.service';
   providers: [
     CrawlerService,
     YandexCloudService,
-    ChatbotService,
     FileUploadService,
-    SettingsService,
-    SourcesService,
     PineconeService,
   ],
   exports: [],

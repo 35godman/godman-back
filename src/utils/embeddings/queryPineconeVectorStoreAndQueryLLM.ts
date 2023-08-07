@@ -15,12 +15,15 @@ import {
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { AddMessageDto } from '../../modules/conversation/dto/add-message.dto';
 import { MessageState } from '../../modules/conversation/types/message.type';
-import { UserMessageEmbedding } from '../../modules/embedding/dto/ask-chat.dto';
+import * as moment from 'moment';
+
 import {
   ChatPromptTemplate,
   HumanMessagePromptTemplate,
   SystemMessagePromptTemplate,
 } from 'langchain/prompts';
+import { ConversationEmbedding } from '../../modules/embedding/dto/ask-chat.dto';
+import { convertConversationToPrompts } from './convertConversationToPrompts';
 export const queryPineconeVectorStoreAndQueryLLM = async (
   client: PineconeClient,
   indexName: string,
@@ -28,7 +31,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
   chatbotInstance: ChatbotDocument,
   res: Response,
   conversation_id: string,
-  user_messages: UserMessageEmbedding[],
+  messages: ConversationEmbedding[],
 ): Promise<AddMessageDto> => {
   console.log('=>(utils.ts:14) question', question);
   // 1. Start query process
@@ -42,7 +45,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
   // 4. Query Pinecone index and return top 5 matches
   const queryResponse = await index.query({
     queryRequest: {
-      topK: 100,
+      topK: 10,
       vector: queryEmbedding,
       includeMetadata: true,
       includeValues: true,
@@ -71,24 +74,23 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     if (chatbotInstance.settings.model === 'gpt-3.5-turbo') {
       concatenatedPageContent = concatenatedPageContent.substring(0, 5000);
     }
+    const conversation = convertConversationToPrompts(messages);
+    // Getting the current date and time
+    const currentDate = moment();
 
-    const userMessagesStringified = JSON.stringify(user_messages);
-    const currentYear = new Date().getFullYear();
-    const newPrompt = `${chatbotInstance.settings.base_prompt}
-    Today is ${currentYear} year.
-   Language:  ${chatbotInstance.settings.language}
-   Previous User Questions:${userMessagesStringified}
-   Question: ${question}
-    Context: ${concatenatedPageContent}`;
+    // Formatting the date and time in a specific way
+    const readableDate: string = currentDate.format('MMMM Do YYYY, h:mm:ss a');
+
     const chatPrompt = ChatPromptTemplate.fromPromptMessages([
       SystemMessagePromptTemplate.fromTemplate(
         `{chatbot_prompt}
 - Language used for the conversation: {language}
-- User's past questions: {user_questions}
 - The context of the ongoing conversation: {context}
+-Date today is {readableDate}
 `,
       ),
       HumanMessagePromptTemplate.fromTemplate(`{question}`),
+      ...conversation,
     ]);
     let assistant_message = '';
     const chainB = new LLMChain({
@@ -98,8 +100,8 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     const result = await chainB.call(
       {
         language: chatbotInstance.settings.language,
-        user_questions: userMessagesStringified,
         context: concatenatedPageContent,
+        readableDate,
         question,
         chatbot_prompt: chatbotInstance.settings.base_prompt,
       },

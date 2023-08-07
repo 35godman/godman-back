@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  forwardRef,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ChatbotSettings } from '../schemas/chatbotSettings.schema';
 import { Model } from 'mongoose';
@@ -18,6 +24,7 @@ import { UpdateQnADto } from '../../FILES/fileUpload/dto/add-qna.dto';
 import { SettingsService } from '../settings/settings.service';
 import { YandexCloudService } from '../../FILES/yandexCloud/yandexCloud.service';
 import { ChatbotService } from '../chatbot.service';
+import { FileUploadService } from '../../FILES/fileUpload/fileUpload.service';
 
 @Injectable()
 export class SourcesService {
@@ -27,6 +34,8 @@ export class SourcesService {
     @InjectModel(Chatbot.name) private chatbotModel: Model<Chatbot>,
     private chatbotSettingsService: SettingsService,
     private yandexCloudService: YandexCloudService,
+    @Inject(forwardRef(() => FileUploadService))
+    private fileUploadService: FileUploadService,
   ) {}
 
   async createDefault(chatbot_id: string): Promise<ChatbotSourcesDocument> {
@@ -107,12 +116,15 @@ export class SourcesService {
     const sources = await this.findByChatbotId(chatbot_id);
     const web_sources = sources.website;
     for (const web_source of web_sources) {
-      await this.yandexCloudService.removeWebCrawledFile(
+      await this.fileUploadService.removeCrawledFileFromYandexCloud(
+        {
+          web_link: web_source.originalName,
+          weblink_id: web_source._id.toString(),
+        },
         chatbot_id,
-        web_source.originalName,
       );
     }
-    sources.website = [];
+    //sources.website = [];
     await sources.save();
   }
 

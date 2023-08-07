@@ -89,7 +89,17 @@ export class CrawlerService {
     await cluster.idle();
     await cluster.close();
     const returnedToFrontUrls: ReturnedToFrontUrl[] = [];
-    for (const data of crawledData) {
+    const uniqueUrlsSet = new Set<string>();
+    const uniqueCrawledData = crawledData.filter((data) => {
+      // If the URL has not been seen before, add it to the set and keep the item
+      if (!uniqueUrlsSet.has(data.url)) {
+        uniqueUrlsSet.add(data.url);
+        return true;
+      }
+      // If the URL has been seen before, filter out the item
+      return false;
+    });
+    for (const data of uniqueCrawledData) {
       const urlWithoutSlashes = data.url.replace(/\//g, '[]');
       const uploadFilePayload = {
         fileName: `${urlWithoutSlashes}.txt`,

@@ -110,10 +110,6 @@ export class YandexCloudService {
       Bucket: BUCKET_NAME,
       Key: `${chatbot_id}/${urlWithoutSlashes}`,
     };
-    console.log(
-      '=>(yandexCloud.service.ts:104) `${chatbot_id}/${urlWithoutSlashes}.txt`',
-      `${chatbot_id}/${urlWithoutSlashes}`,
-    );
 
     const deleteCommand = new DeleteObjectCommand(deleteParams);
     try {

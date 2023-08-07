@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from '../user/user.schema';
 import { WinstonModule } from 'nest-winston';
@@ -21,6 +21,12 @@ import { YandexCloudService } from '../FILES/yandexCloud/yandexCloud.service';
 import { PineconeService } from '../pinecone/pinecone.service';
 import { SettingsController } from './settings/settings.controller';
 import { SourcesController } from './sources/sources.controller';
+import { FileUploadService } from '../FILES/fileUpload/fileUpload.service';
+import { FileUploadModule } from '../FILES/fileUpload/fileUpload.module';
+import {
+  FileUpload,
+  FileUploadSchema,
+} from '../FILES/fileUpload/fileUpload.schema';
 
 @Module({
   imports: [
@@ -32,8 +38,10 @@ import { SourcesController } from './sources/sources.controller';
         schema: ChatbotSettingsSchema,
       },
       { name: ChatbotSources.name, schema: ChatbotSourcesSchema },
+      { name: FileUpload.name, schema: FileUploadSchema },
     ]),
     WinstonModule,
+    forwardRef(() => FileUploadModule),
   ],
   controllers: [ChatbotController, SettingsController, SourcesController],
   providers: [
@@ -43,6 +51,6 @@ import { SourcesController } from './sources/sources.controller';
     PineconeService,
     YandexCloudService,
   ],
-  exports: [MongooseModule, ChatbotService],
+  exports: [MongooseModule, ChatbotService, SettingsService, SourcesService],
 })
 export class ChatbotModule {}

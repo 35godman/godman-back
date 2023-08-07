@@ -104,6 +104,7 @@ export class ChatbotService {
 
   async getChatbotForIframe(id: string) {
     const chatbot = await this.findById(id);
+    console.log('=>(chatbot.service.ts:107) chatbot', chatbot);
     chatbot.sources = null;
     return chatbot;
   }

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from '../../user/user.schema';
 import { WinstonModule } from 'nest-winston';
@@ -23,6 +23,7 @@ import {
 } from '../../chatbot/schemas/chatbotSettings.schema';
 import { SourcesService } from '../../chatbot/sources/sources.service';
 import { PineconeService } from '../../pinecone/pinecone.service';
+import { ChatbotModule } from '../../chatbot/chatbot.module';
 
 @Module({
   imports: [
@@ -35,16 +36,10 @@ import { PineconeService } from '../../pinecone/pinecone.service';
     ]),
     WinstonModule,
     JwtModule,
+    forwardRef(() => ChatbotModule),
   ],
   controllers: [FileUploadController],
-  providers: [
-    FileUploadService,
-    YandexCloudService,
-    ChatbotService,
-    SettingsService,
-    SourcesService,
-    PineconeService,
-  ],
-  exports: [],
+  providers: [FileUploadService, YandexCloudService, PineconeService],
+  exports: [FileUploadService],
 })
 export class FileUploadModule {}

@@ -1,6 +1,8 @@
 import {
+  forwardRef,
   HttpException,
   HttpStatus,
+  Inject,
   Injectable,
   UploadedFiles,
 } from '@nestjs/common';
@@ -30,12 +32,12 @@ import { UploadProfilePictureDto } from './dto/upload-profile-picture.dto';
 @Injectable()
 export class FileUploadService {
   constructor(
-    private yandexCloudService: YandexCloudService,
-    @InjectModel(FileUpload.name)
-    private fileUploadModel: Model<FileUploadDocument>,
-    private chatbotService: ChatbotService,
+    @Inject(forwardRef(() => SourcesService))
     private chatbotSourcesService: SourcesService,
     private chatbotSettingsService: SettingsService,
+    @InjectModel(FileUpload.name)
+    private fileUploadModel: Model<FileUpload>,
+    private yandexCloudService: YandexCloudService,
   ) {}
 
   async uploadSingleFile(
@@ -96,6 +98,10 @@ export class FileUploadService {
 
     const sourceFileIndex = sources.website.findIndex(
       (item) => item._id.toString() === weblink_id,
+    );
+    console.log(
+      '=>(fileUpload.service.ts:100) sourceFileIndex',
+      sourceFileIndex,
     );
 
     if (sourceFileIndex > -1) {

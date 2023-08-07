@@ -63,8 +63,7 @@ export class ChatbotController {
     return ResponseResult.SUCCESS;
   }
 
-  //FIXME return chatbotowner guard
-  @UseGuards(AuthJWTGuard)
+  @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
   @Get('find')
   async findChatbotById(
     @Query('chatbot_id', new ValidateObjectIdPipe()) id: string,
@@ -107,9 +106,8 @@ export class ChatbotController {
     return ResponseResult.SUCCESS;
   }
 
-  @UseGuards(AuthJWTGuard)
+  @Get('iframe')
   async getIframe(@Query('chatbot_id') chatbot_id) {
-    await this.chatbotService.getChatbotForIframe(chatbot_id);
-    return ResponseResult.SUCCESS;
+    return await this.chatbotService.getChatbotForIframe(chatbot_id);
   }
 }

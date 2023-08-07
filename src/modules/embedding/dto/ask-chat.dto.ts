@@ -6,10 +6,10 @@ import {
   IsUUID,
 } from 'class-validator';
 
-export type UserMessageEmbedding = {
+export type ConversationEmbedding = {
   _id: string;
   content: string;
-  role: 'user';
+  role: 'user' | 'assistant';
 };
 
 export class AskChatDto {
@@ -20,5 +20,5 @@ export class AskChatDto {
   @IsString()
   conversation_id: string;
   @IsArray()
-  user_messages: UserMessageEmbedding[];
+  messages: ConversationEmbedding[];
 }

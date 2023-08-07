@@ -32,6 +32,7 @@ import {
   ConversationSchema,
 } from '../conversation/conversation.schema';
 import { PineconeService } from '../pinecone/pinecone.service';
+import { ChatbotModule } from '../chatbot/chatbot.module';
 
 @Module({
   imports: [
@@ -48,17 +49,11 @@ import { PineconeService } from '../pinecone/pinecone.service';
     ]),
     WinstonModule,
     YandexCloudModule,
+    ChatbotModule,
+    FileUploadModule,
   ],
   controllers: [EmbeddingController],
-  providers: [
-    EmbeddingService,
-    PineconeService,
-    ChatbotService,
-    FileUploadService,
-    SettingsService,
-    SourcesService,
-    ConversationService,
-  ],
-  exports: [],
+  providers: [EmbeddingService, PineconeService, ConversationService],
+  exports: [EmbeddingService],
 })
 export class EmbeddingModule {}

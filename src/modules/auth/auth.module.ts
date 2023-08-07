@@ -24,6 +24,7 @@ dotenv.config();
   imports: [
     ChatbotModule,
     RedisModule,
+    ChatbotModule,
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     // Register JwtModule with your configuration
     JwtModule.register({
@@ -36,10 +37,7 @@ dotenv.config();
   providers: [
     AuthService,
     UserService,
-    ChatbotService,
     RateLimitService,
-    SettingsService,
-    SourcesService,
     PineconeService,
     YandexCloudService,
   ],
