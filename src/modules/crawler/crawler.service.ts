@@ -157,6 +157,8 @@ export class CrawlerService {
     const pureHtml = await page.content();
     const convertOptions = {
       wordwrap: 130,
+      ignoreHref: true,
+      noAnchorUrl: true,
     };
     return convert(pureHtml, convertOptions);
   }
