@@ -35,7 +35,7 @@ export const updatePinecone = async (
       totalToken += encodedEmbedding.length;
       // 4. Create RecursiveCharacterTextSplitter instance
       const textSplitter = new RecursiveCharacterTextSplitter({
-        chunkSize: 256,
+        chunkSize: 1000,
         chunkOverlap: 0,
       });
       console.log('Splitting text into chunks...');
