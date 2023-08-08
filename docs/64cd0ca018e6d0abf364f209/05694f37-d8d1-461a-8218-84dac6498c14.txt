@@ -1,0 +1,8 @@
+CMS Made Simple [https://suprotec.ru/lib/assets/images/cmsms-logo.png]
+
+
+OOPS!
+
+It looks like something went wrong and an error has occurred.
+A notification has been added to the admin log.
+

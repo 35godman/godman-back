@@ -35,7 +35,7 @@ export const updatePinecone = async (
       totalToken += encodedEmbedding.length;
       // 4. Create RecursiveCharacterTextSplitter instance
       const textSplitter = new RecursiveCharacterTextSplitter({
-        chunkSize: 512,
+        chunkSize: 256,
         chunkOverlap: 0,
       });
       console.log('Splitting text into chunks...');
@@ -59,7 +59,7 @@ export const updatePinecone = async (
         `Creating ${chunks.length} vectors array with id, values, and metadata...`,
       );
       // 7. Create and upsert vectors in batches of 100
-      const batchSize = 50;
+      const batchSize = 150;
       let batch: any = [];
       for (let idx = 0; idx < chunks.length; idx++) {
         const chunk = chunks[idx];

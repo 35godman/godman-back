@@ -45,7 +45,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
   // 4. Query Pinecone index and return top 5 matches
   const queryResponse = await index.query({
     queryRequest: {
-      topK: 10,
+      topK: 30,
       vector: queryEmbedding,
       includeMetadata: true,
       includeValues: true,
@@ -74,7 +74,8 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     if (chatbotInstance.settings.model === 'gpt-3.5-turbo') {
       concatenatedPageContent = concatenatedPageContent.substring(0, 5000);
     }
-    const conversation = convertConversationToPrompts(messages);
+    //returns only user messages
+    const userConversation = convertConversationToPrompts(messages);
     // Getting the current date and time
     const currentDate = moment();
 
@@ -82,15 +83,16 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     const readableDate: string = currentDate.format('MMMM Do YYYY, h:mm:ss a');
 
     const chatPrompt = ChatPromptTemplate.fromPromptMessages([
-      SystemMessagePromptTemplate.fromTemplate(
-        `{chatbot_prompt}
+      ...userConversation,
+      HumanMessagePromptTemplate.fromTemplate(`
+      {chatbot_prompt}
+-Use formal style of conversation
+-don't greet the user in the beginning of the conversation
+-dont say the name of the user
 - Language used for the conversation: {language}
-- The context of the ongoing conversation: {context}
+- The context for the answer: {context}
 -Date today is {readableDate}
-`,
-      ),
-      HumanMessagePromptTemplate.fromTemplate(`{question}`),
-      ...conversation,
+      {question}`),
     ]);
     let assistant_message = '';
     const chainB = new LLMChain({
