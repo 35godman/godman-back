@@ -135,7 +135,7 @@ export class YandexCloudService {
       await this.s3.send(deleteCommand);
       return `${file_name} successfully deleted`;
     } catch (e) {
-      return e.message;
+      console.error(e.message);
     }
   }
 

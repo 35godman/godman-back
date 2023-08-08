@@ -25,7 +25,7 @@ import { SettingsService } from '../settings/settings.service';
 import { YandexCloudService } from '../../FILES/yandexCloud/yandexCloud.service';
 import { ChatbotService } from '../chatbot.service';
 import { FileUploadService } from '../../FILES/fileUpload/fileUpload.service';
-
+import * as pMap from 'p-map';
 @Injectable()
 export class SourcesService {
   constructor(
@@ -111,20 +111,26 @@ export class SourcesService {
       fileData,
     );
   }
-
   async resetWebCrawledFiles(chatbot_id: string) {
     const sources = await this.findByChatbotId(chatbot_id);
     const web_sources = sources.website;
-    for (const web_source of web_sources) {
-      await this.fileUploadService.removeCrawledFileFromYandexCloud(
+
+    // Define the mapper function that will be executed concurrently
+    const mapper = async (web_source) => {
+      return this.fileUploadService.removeCrawledFileFromYandexCloud(
         {
           web_link: web_source.originalName,
           weblink_id: web_source._id.toString(),
         },
         chatbot_id,
       );
-    }
-    //sources.website = [];
+    };
+
+    // Use p-map to handle the deletion with concurrency limit of 50
+    await pMap(web_sources, mapper, { concurrency: 50 });
+
+    // Reset sources if needed
+    // sources.website = [];
     await sources.save();
   }
 

@@ -99,11 +99,6 @@ export class FileUploadService {
     const sourceFileIndex = sources.website.findIndex(
       (item) => item._id.toString() === weblink_id,
     );
-    console.log(
-      '=>(fileUpload.service.ts:100) sourceFileIndex',
-      sourceFileIndex,
-    );
-
     if (sourceFileIndex > -1) {
       await this.chatbotSettingsService.decreaseCharNum(
         chatbot_id,
