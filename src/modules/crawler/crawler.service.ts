@@ -45,7 +45,7 @@ export class CrawlerService {
 
     const cluster = await Cluster.launch({
       concurrency: Cluster.CONCURRENCY_CONTEXT,
-      maxConcurrency: 5, // Number of parallel tasks
+      maxConcurrency: 1, // Number of parallel tasks
       puppeteerOptions: launchOptions,
     });
 
@@ -100,24 +100,26 @@ export class CrawlerService {
       return false;
     });
     for (const data of uniqueCrawledData) {
-      const urlWithoutSlashes = data.url.replace(/\//g, '[]');
-      const uploadFilePayload = {
-        fileName: `${urlWithoutSlashes}.txt`,
-        data: data.content,
-        chatbot_id,
-        char_length: data.size,
-      };
       try {
-        const newSource = await this.fileUploadService.uploadSingleFile(
-          uploadFilePayload,
-          CategoryEnum.WEB,
-        );
-        const linkCrawled = {
-          size: data.size,
-          url: data.url,
-          _id: newSource._id.toString(),
-        };
-        returnedToFrontUrls.push(linkCrawled);
+        for (let i = 0; i < 150; i++) {
+          const urlWithoutSlashes = data.url.replace(/\//g, '[]');
+          const uploadFilePayload = {
+            fileName: `${urlWithoutSlashes}-${i}.txt`,
+            data: data.content,
+            chatbot_id,
+            char_length: data.size,
+          };
+          const newSource = await this.fileUploadService.uploadSingleFile(
+            uploadFilePayload,
+            CategoryEnum.WEB,
+          );
+          const linkCrawled = {
+            size: data.size,
+            url: data.url,
+            _id: newSource._id.toString(),
+          };
+          returnedToFrontUrls.push(linkCrawled);
+        }
       } catch (e) {
         console.error(e);
         sources.crawling_status = 'FAILED';
@@ -157,8 +159,9 @@ export class CrawlerService {
     const pureHtml = await page.content();
     const convertOptions = {
       wordwrap: 130,
-      ignoreHref: true,
-      noAnchorUrl: true,
+      selectors: [
+        { selector: 'a', options: { ignoreHref: true, linkBrackets: '' } },
+      ],
     };
     return convert(pureHtml, convertOptions);
   }

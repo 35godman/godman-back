@@ -21,7 +21,7 @@ window.onload = function () {
   chatbot.style.overflow = 'hidden';
   chatbot.style.left = 'unset';
   chatbot.style.right = '1rem';
-
+  chatbot.style.maxWidth = '500px';
   const chatbotIcon = document.createElement('div');
   chatbotIcon.style.position = 'fixed';
   chatbotIcon.style.bottom = '1rem';
