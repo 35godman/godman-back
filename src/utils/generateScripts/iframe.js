@@ -65,6 +65,7 @@ window.onload = function () {
       chatbot.style.display = 'none';
     } else {
       chatbot.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
     }
   });
 
