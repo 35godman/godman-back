@@ -1,7 +1,7 @@
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
 import { OpenAI } from 'langchain/llms/openai';
-import { LLMChain, loadQAStuffChain } from 'langchain/chains';
+import { LLMChain, loadQAStuffChain, VectorDBQAChain } from 'langchain/chains';
 import { Document } from 'langchain/document';
 import { timeout } from './config';
 import { encode } from 'gpt-3-encoder';
@@ -24,6 +24,8 @@ import {
 } from 'langchain/prompts';
 import { ConversationEmbedding } from '../../modules/embedding/dto/ask-chat.dto';
 import { convertConversationToPrompts } from './convertConversationToPrompts';
+import { PineconeStore } from 'langchain/vectorstores';
+
 export const queryPineconeVectorStoreAndQueryLLM = async (
   client: PineconeClient,
   indexName: string,
@@ -38,10 +40,12 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
   console.log('Querying Pinecone vector store...');
   // 2. Retrieve the Pinecone index
   const index = client.Index(indexName);
+
   // 3. Create query embedding
   const queryEmbedding = await new OpenAIEmbeddings({
     modelName: 'text-embedding-ada-002',
   }).embedQuery(question);
+
   // 4. Query Pinecone index and return top 5 matches
   const queryResponse = await index.query({
     queryRequest: {
@@ -99,6 +103,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
       prompt: chatPrompt,
       llm: llm,
     });
+
     const result = await chainB.call(
       {
         language: chatbotInstance.settings.language,

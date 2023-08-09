@@ -19,6 +19,7 @@ import { FileUploadService } from '../FILES/fileUpload/fileUpload.service';
 import { ResponseResult } from '../../enum/response.enum';
 import { Response } from 'express';
 import { ConversationService } from '../conversation/conversation.service';
+import { vectorStoreQuery } from '../../utils/embeddings/vectorStoreQuery';
 @Injectable()
 export class EmbeddingService {
   private client: PineconeClient;
@@ -58,6 +59,7 @@ export class EmbeddingService {
   async askChat(payload: AskChatDto, response: Response): Promise<void> {
     const { question, chatbot_id, conversation_id, messages } = payload;
     this.client = await createPineconeClient();
+    const pineconeIndex = this.client.Index(indexName);
     const chatbotInstance = await this.chatbotService.findById(chatbot_id);
     if (!chatbotInstance) {
       throw new HttpException(
@@ -65,15 +67,23 @@ export class EmbeddingService {
         HttpStatus.NOT_FOUND,
       );
     }
-    const conversationData = await queryPineconeVectorStoreAndQueryLLM(
-      this.client,
-      indexName,
-      question,
-      chatbotInstance,
-      response,
+    // const conversationData = await queryPineconeVectorStoreAndQueryLLM(
+    //   this.client,
+    //   indexName,
+    //   question,
+    //   chatbotInstance,
+    //   response,
+    //   conversation_id,
+    //   messages,
+    // );
+    // await this.conversationService.addMessage(conversationData);
+    await vectorStoreQuery({
       conversation_id,
       messages,
-    );
-    await this.conversationService.addMessage(conversationData);
+      chatbotInstance,
+      index: pineconeIndex,
+      res: response,
+      question,
+    });
   }
 }

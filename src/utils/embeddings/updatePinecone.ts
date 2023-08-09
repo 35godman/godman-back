@@ -4,7 +4,7 @@ import { PineconeClient } from '@pinecone-database/pinecone';
 import { encode } from 'gpt-3-encoder';
 import { ResponseResult } from '../../enum/response.enum';
 import * as pMap from 'p-map';
-
+import { v4, v4 as uuidv4 } from 'uuid';
 export const updatePinecone = async (
   client: PineconeClient,
   indexName: string,
@@ -35,7 +35,7 @@ export const updatePinecone = async (
       totalToken += encodedEmbedding.length;
       // 4. Create RecursiveCharacterTextSplitter instance
       const textSplitter = new RecursiveCharacterTextSplitter({
-        chunkSize: 1000,
+        chunkSize: 256,
         chunkOverlap: 0,
       });
       console.log('Splitting text into chunks...');
@@ -59,12 +59,12 @@ export const updatePinecone = async (
         `Creating ${chunks.length} vectors array with id, values, and metadata...`,
       );
       // 7. Create and upsert vectors in batches of 100
-      const batchSize = 150;
+      const batchSize = 50;
       let batch: any = [];
       for (let idx = 0; idx < chunks.length; idx++) {
         const chunk = chunks[idx];
         const vector = {
-          id: `${txtPath}_${idx}`,
+          id: v4(),
           values: embeddingsArrays[idx],
           metadata: {
             ...chunk.metadata,
