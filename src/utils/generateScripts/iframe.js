@@ -20,10 +20,10 @@ window.onload = function () {
       chatbot.style.width = '100%';
       chatbot.style.height = '85vh';
       chatbot.style.minHeight = '600px';
-      chatbot.style.maxHeight = '824px';
+      chatbot.style.maxHeight = '830px';
       chatbot.style.borderRadius = '0.75rem';
       chatbot.style.right = '1rem';
-      chatbot.style.maxWidth = '600px';
+      chatbot.style.maxWidth = '450px';
     } else {
       chatbot.style.right = '0';
       chatbot.style.bottom = '0';
