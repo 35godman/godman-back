@@ -39,6 +39,13 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
   // 2. Retrieve the Pinecone index
   const index = client.Index(indexName);
 
+  let vectorsCount = 0;
+  if (chatbotInstance.settings.model === 'gpt-3.5-turbo') {
+    vectorsCount = 6;
+  } else {
+    vectorsCount = 24;
+  }
+
   // 3. Create query embedding
   const queryEmbedding = await new OpenAIEmbeddings({
     modelName: 'text-embedding-ada-002',
@@ -47,7 +54,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
   // 4. Query Pinecone index and return top 5 matches
   const queryResponse = await index.query({
     queryRequest: {
-      topK: 100,
+      topK: vectorsCount,
       vector: queryEmbedding,
       includeMetadata: true,
       includeValues: true,
@@ -92,9 +99,6 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
         match.metadata.pageContent.replace(/\n/g, '').replace(/\u2001/g, ''),
       )
       .join('\n');
-    if (chatbotInstance.settings.model === 'gpt-3.5-turbo') {
-      concatenatedPageContent = concatenatedPageContent.substring(0, 5000);
-    }
     //returns chat_history (5 latest msg)
     const conversation = convertConversationToPrompts(messages);
     // Getting the current date and time
@@ -106,22 +110,25 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     const chatPrompt = ChatPromptTemplate.fromPromptMessages([
       ...conversation,
       HumanMessagePromptTemplate.fromTemplate(`
-      {chatbot_prompt}
-  
-Context:
-{context}
-rephrase the follow up question to be a standalone question.
-Follow Up Input: {question} 
-Use the following pieces of context to answer the users question.
-If you don't know the answer, just say that you don't know, don't try to make up an answer.
-----------------
-Standalone question: {question}
-\`\`\`
-Your answer:
-- Language used for the conversation: {language}
--Date today is {readableDate}
- `),
+      Base prompt: {chatbot_prompt}
+      Context:
+      {context}
+
+      Follow Up Input: {question}
+      Use the following pieces of context to answer the user's question.
+      If the answer is not found within the context, respond with 'Hmm, I am not sure.' 
+      Refuse to answer any question not about the information contained within the context. 
+      Maintain a formal tone, and always act as 'AI Assistant,' a document providing information.
+
+      ----------------
+      Standalone question: {question}
+      \`\`\`
+      Your answer:
+      - Language used for the conversation: {language}
+      - Date today is {readableDate}
+  `),
     ]);
+
     let assistant_message = '';
     const chainB = new LLMChain({
       prompt: chatPrompt,

@@ -97,17 +97,20 @@ export class ChatbotSettings {
   @Prop({ default: 'Chatbot' })
   display_name: string;
 
-  @Prop({ default: '#3d5981' })
+  @Prop({ default: '#ffffff' })
   user_message_color: string;
 
-  @Prop({ default: '#bcd4fa' })
+  @Prop({ default: '#212432' })
   bot_message_color: string;
 
-  @Prop({ default: '#bcd4fa' })
+  @Prop({ default: '#EDECEC' })
   footer_color: string;
 
   @Prop({ default: '#000000' })
-  font_color: string;
+  user_font_color: string;
+
+  @Prop({ default: '#ffffff' })
+  bot_font_color: string;
 
   @Prop({ default: 'static/icons/icons8-chatbot-96.png' })
   chat_icon_path: string;

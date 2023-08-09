@@ -11,19 +11,17 @@ window.onload = function () {
     chatbot.style.justifyContent = 'space-between';
     chatbot.style.boxShadow =
       'rgba(150, 150, 150, 0.2) 0px 10px 30px 0px, rgba(150, 150, 150, 0.2) 0px 0px 0px 1px';
-    chatbot.style.zIndex = '11';
+    chatbot.style.zIndex = '17171717';
     chatbot.style.overflow = 'hidden';
     chatbot.style.left = 'unset';
     chatbot.style.display = 'none';
     if (window.innerWidth > 800) {
       chatbot.style.bottom = '5rem';
       chatbot.style.width = '100%';
-      chatbot.style.height = '85vh';
-      chatbot.style.minHeight = '600px';
-      chatbot.style.maxHeight = '830px';
+      chatbot.style.height = '525px';
       chatbot.style.borderRadius = '0.75rem';
       chatbot.style.right = '1rem';
-      chatbot.style.maxWidth = '450px';
+      chatbot.style.maxWidth = '300px';
     } else {
       chatbot.style.right = '0';
       chatbot.style.bottom = '0';
