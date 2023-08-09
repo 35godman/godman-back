@@ -22,7 +22,7 @@ window.onload = function () {
       chatbot.style.height = '300px';
       chatbot.style.borderRadius = '1rem';
       chatbot.style.right = '1rem';
-      chatbot.style.maxWidth = '525px';
+      chatbot.style.maxWidth = '400px';
     } else {
       chatbot.style.right = '0';
       chatbot.style.bottom = '0';
