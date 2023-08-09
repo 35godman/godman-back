@@ -34,7 +34,7 @@ window.onload = function () {
   applyStyles();
 
   // Re-apply styles when the window is resized
-  window.addEventListener('resize', applyStyles);
+  //window.addEventListener('resize', applyStyles);
 
   const chatbotIcon = document.createElement('div');
   console.log('=>(iframe.js:45) chatbotIcon', chatbotIcon);
