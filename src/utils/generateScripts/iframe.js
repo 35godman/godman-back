@@ -26,7 +26,7 @@ window.onload = function () {
     } else {
       chatbot.style.right = '0';
       chatbot.style.bottom = '0';
-      chatbot.style.minHeight = '100vh';
+      chatbot.style.minHeight = '90vh';
     }
   };
 
