@@ -18,10 +18,11 @@ window.onload = function () {
     if (window.innerWidth > 800) {
       chatbot.style.bottom = '5rem';
       chatbot.style.width = '100%';
-      chatbot.style.height = '525px';
-      chatbot.style.borderRadius = '0.75rem';
+      chatbot.style.minHeight = '80vh';
+      chatbot.style.height = '300px';
+      chatbot.style.borderRadius = '1rem';
       chatbot.style.right = '1rem';
-      chatbot.style.maxWidth = '300px';
+      chatbot.style.maxWidth = '525px';
     } else {
       chatbot.style.right = '0';
       chatbot.style.bottom = '0';

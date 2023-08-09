@@ -12,7 +12,11 @@ export const convertConversationToPrompts = (
     if (item.role === 'user') {
       promptArr.push(HumanMessagePromptTemplate.fromTemplate(item.content));
     } else if (item.role === 'assistant') {
-      promptArr.push(AIMessagePromptTemplate.fromTemplate(item.content));
+      promptArr.push(
+        AIMessagePromptTemplate.fromTemplate(
+          item.content.replace(/{/g, '').replace(/}/g, ''),
+        ),
+      );
     }
   });
   // conversation.forEach((item) => {

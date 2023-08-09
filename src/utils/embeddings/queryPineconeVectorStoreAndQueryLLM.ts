@@ -96,10 +96,10 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     let concatenatedPageContent = uniqueDocuments
       .map((match) =>
         // @ts-ignore
-        match.metadata.pageContent.replace(/\n/g, '').replace(/\u2001/g, ''),
+        match.metadata.pageContent.replace(/\n/g, ' '),
       )
       .join('\n');
-    //returns chat_history (5 latest msg)
+    //returns chat_history (2 latest msg)
     const conversation = convertConversationToPrompts(messages);
     // Getting the current date and time
     const currentDate = moment();
@@ -110,22 +110,19 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     const chatPrompt = ChatPromptTemplate.fromPromptMessages([
       ...conversation,
       HumanMessagePromptTemplate.fromTemplate(`
-      Base prompt: {chatbot_prompt}
-      Context:
-      {context}
-
-      Follow Up Input: {question}
-      Use the following pieces of context to answer the user's question.
-      If the answer is not found within the context, respond with 'Hmm, I am not sure.' 
-      Refuse to answer any question not about the information contained within the context. 
-      Maintain a formal tone, and always act as 'AI Assistant,' a document providing information.
-
-      ----------------
-      Standalone question: {question}
-      \`\`\`
-      Your answer:
-      - Language used for the conversation: {language}
-      - Date today is {readableDate}
+      As an artificial intelligence assistant, your duty is to give responses rooted in the context provided. 
+      Understanding the context comprehensively and producing a thorough answer is a necessity when you answer a user's query. 
+      Ensure your interaction remains formal and concentrate solely on the specifics provided in the context.
+      It's important to consider additional factors that could shape your response, including:
+      - user's question {question}
+      - Your based prompt, may includes specific rules: {chatbot_prompt}
+      - The user’s language preference: {language}
+      - The current date: {readableDate}
+      Keeping in mind that your primary role is to offer information relevant to the context given, 
+      avoid going off-topic or providing answers that do not align with the provided context
+      - Context {context}
+      There may be instances where the given context does not clearly answer the user's question. 
+      If this occurs, express your uncertainty in this manner: 'Apologies, based on the present context, the answer to your query is unclear.' in user's language
   `),
     ]);
 
