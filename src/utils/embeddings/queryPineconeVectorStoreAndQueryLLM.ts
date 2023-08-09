@@ -2,7 +2,6 @@ import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
 import { OpenAI } from 'langchain/llms/openai';
 import { LLMChain, loadQAStuffChain, VectorDBQAChain } from 'langchain/chains';
-import { Document } from 'langchain/document';
 import { timeout } from './config';
 import { encode } from 'gpt-3-encoder';
 import { Response } from 'express';
@@ -16,7 +15,7 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 import { AddMessageDto } from '../../modules/conversation/dto/add-message.dto';
 import { MessageState } from '../../modules/conversation/types/message.type';
 import * as moment from 'moment';
-
+import { removeLinks } from '../urls/removeLinks.util';
 import {
   ChatPromptTemplate,
   HumanMessagePromptTemplate,
@@ -24,7 +23,6 @@ import {
 } from 'langchain/prompts';
 import { ConversationEmbedding } from '../../modules/embedding/dto/ask-chat.dto';
 import { convertConversationToPrompts } from './convertConversationToPrompts';
-import { PineconeStore } from 'langchain/vectorstores';
 
 export const queryPineconeVectorStoreAndQueryLLM = async (
   client: PineconeClient,
@@ -49,7 +47,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
   // 4. Query Pinecone index and return top 5 matches
   const queryResponse = await index.query({
     queryRequest: {
-      topK: 10,
+      topK: 100,
       vector: queryEmbedding,
       includeMetadata: true,
       includeValues: true,
@@ -69,7 +67,26 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
       streaming: true,
     });
 
-    let concatenatedPageContent = queryResponse.matches
+    const uniqueDocuments = queryResponse.matches
+      .filter((doc, index, self) => {
+        return (
+          index ===
+          self.findIndex(
+            // @ts-ignore
+            (t) => t.metadata.pageContent === doc.metadata.pageContent,
+          )
+        );
+      })
+      .map((doc) => ({
+        ...doc,
+        metadata: {
+          ...doc.metadata,
+          // @ts-ignore
+          pageContent: removeLinks(doc.metadata.pageContent),
+        },
+      }));
+
+    let concatenatedPageContent = uniqueDocuments
       .map((match) =>
         // @ts-ignore
         match.metadata.pageContent.replace(/\n/g, '').replace(/\u2001/g, ''),
@@ -78,8 +95,8 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     if (chatbotInstance.settings.model === 'gpt-3.5-turbo') {
       concatenatedPageContent = concatenatedPageContent.substring(0, 5000);
     }
-    //returns only user messages
-    const userConversation = convertConversationToPrompts(messages);
+    //returns chat_history (5 latest msg)
+    const conversation = convertConversationToPrompts(messages);
     // Getting the current date and time
     const currentDate = moment();
 
@@ -87,16 +104,23 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     const readableDate: string = currentDate.format('MMMM Do YYYY, h:mm:ss a');
 
     const chatPrompt = ChatPromptTemplate.fromPromptMessages([
-      ...userConversation,
+      ...conversation,
       HumanMessagePromptTemplate.fromTemplate(`
       {chatbot_prompt}
--Use formal style of conversation
--don't greet the user in the beginning of the conversation
--dont say the name of the user
+  
+Context:
+{context}
+rephrase the follow up question to be a standalone question.
+Follow Up Input: {question} 
+Use the following pieces of context to answer the users question.
+If you don't know the answer, just say that you don't know, don't try to make up an answer.
+----------------
+Standalone question: {question}
+\`\`\`
+Your answer:
 - Language used for the conversation: {language}
-- The context for the answer: {context}
 -Date today is {readableDate}
-      {question}`),
+ `),
     ]);
     let assistant_message = '';
     const chainB = new LLMChain({

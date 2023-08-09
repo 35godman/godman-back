@@ -1,4 +1,4 @@
-import { PineconeStore } from 'langchain/vectorstores';
+import { PineconeStore } from 'langchain/vectorstores/pinecone';
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { PineconeClient } from '@pinecone-database/pinecone';
 import { ChatbotDocument } from '../../modules/chatbot/schemas/chatbot.schema';
@@ -33,7 +33,7 @@ export const vectorStoreQuery = async ({
     new OpenAIEmbeddings(),
     { pineconeIndex: index, namespace: chatbotInstance._id.toString() },
   );
-  const vector = await vectorStores.similaritySearch(question, 3, {});
+  const vector = await vectorStores.similaritySearch(question, 100, {});
   console.log('=>(vectorStoreQuery.ts:36) vector', vector);
   const llm = new OpenAI({
     modelName: chatbotInstance.settings.model,

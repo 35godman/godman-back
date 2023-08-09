@@ -67,23 +67,23 @@ export class EmbeddingService {
         HttpStatus.NOT_FOUND,
       );
     }
-    // const conversationData = await queryPineconeVectorStoreAndQueryLLM(
-    //   this.client,
-    //   indexName,
-    //   question,
-    //   chatbotInstance,
-    //   response,
-    //   conversation_id,
-    //   messages,
-    // );
-    // await this.conversationService.addMessage(conversationData);
-    await vectorStoreQuery({
+    const conversationData = await queryPineconeVectorStoreAndQueryLLM(
+      this.client,
+      indexName,
+      question,
+      chatbotInstance,
+      response,
       conversation_id,
       messages,
-      chatbotInstance,
-      index: pineconeIndex,
-      res: response,
-      question,
-    });
+    );
+    await this.conversationService.addMessage(conversationData);
+    // await vectorStoreQuery({
+    //   conversation_id,
+    //   messages,
+    //   chatbotInstance,
+    //   index: pineconeIndex,
+    //   res: response,
+    //   question,
+    // });
   }
 }

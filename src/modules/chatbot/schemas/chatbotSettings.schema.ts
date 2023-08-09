@@ -106,6 +106,9 @@ export class ChatbotSettings {
   @Prop({ default: '#bcd4fa' })
   footer_color: string;
 
+  @Prop({ default: '#000000' })
+  font_color: string;
+
   @Prop({ default: 'static/icons/icons8-chatbot-96.png' })
   chat_icon_path: string;
 

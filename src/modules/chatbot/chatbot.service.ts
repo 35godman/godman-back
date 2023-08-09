@@ -84,12 +84,7 @@ export class ChatbotService {
 
   async generateIframeCode(chatbot_id: string) {
     const chatbotEntity = await this.findById(chatbot_id);
-    console.log(process.cwd(), '/src/utils/generateScripts/iframe.js');
-    const scriptEmbed = fs.readFileSync(
-      path.join(process.cwd(), '/src/utils/generateScripts/iframe.js'),
-    );
 
-    obfuscatorUtil(scriptEmbed.toString());
     chatbotEntity.embed_code.script = generateScriptUtil();
     chatbotEntity.embed_code.iframe = generateIframeUtil(chatbot_id);
 
@@ -104,7 +99,6 @@ export class ChatbotService {
 
   async getChatbotForIframe(id: string) {
     const chatbot = await this.findById(id);
-    console.log('=>(chatbot.service.ts:107) chatbot', chatbot);
     chatbot.sources = null;
     return chatbot;
   }

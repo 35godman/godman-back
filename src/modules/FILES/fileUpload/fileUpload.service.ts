@@ -106,7 +106,7 @@ export class FileUploadService {
       );
       sources.website.splice(sourceFileIndex, 1);
 
-      await sources.save();
+      await sources.updateOne({ $set: { website: sources.website } });
     } else {
       throw new HttpException('File not found', HttpStatus.NOT_FOUND);
     }
@@ -147,12 +147,15 @@ export class FileUploadService {
       name: file.originalname,
     };
     file.originalname = decodeURIComponent(file.originalname);
-    let fileNameExtension = file.originalname.split('.').pop();
+    let fileNameExtension = file.originalname.split('.').pop().toLowerCase();
     const data = file.buffer;
     switch (fileNameExtension) {
       case 'pdf':
         const textSize = await pdfParse(data);
         fileSize.textSize = textSize.length;
+        if (!textSize) {
+          throw new HttpException('Pdf corrupted', HttpStatus.BAD_REQUEST);
+        }
         fileSize.name = file.originalname;
         break;
       case 'docx':

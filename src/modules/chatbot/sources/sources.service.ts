@@ -126,8 +126,10 @@ export class SourcesService {
       );
     };
 
-    // Use p-map to handle the deletion with concurrency limit of 50
-    await pMap(web_sources, mapper, { concurrency: 50 });
+    // Use p-map to handle the deletion with concurrency limit
+    await pMap(web_sources, mapper, {
+      concurrency: Math.ceil(web_sources.length / 10),
+    });
 
     // Reset sources if needed
     // sources.website = [];

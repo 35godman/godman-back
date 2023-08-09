@@ -10,6 +10,7 @@ import { CategoryEnum } from '../../enum/category.enum';
 import { waitTillHTMLRendered } from '../../utils/puppeteer/waitTillHtmlRendered.util';
 import { SourcesService } from '../chatbot/sources/sources.service';
 import { convert } from 'html-to-text';
+import { normalizeUrl } from '../../utils/urls/normalizeUrl.util';
 
 dotenv.config();
 @Injectable()
@@ -92,7 +93,7 @@ export class CrawlerService {
     const uniqueUrlsSet = new Set<string>();
     const uniqueCrawledData = crawledData.filter((data) => {
       // If the URL has not been seen before, add it to the set and keep the item
-      if (!uniqueUrlsSet.has(data.url)) {
+      if (!uniqueUrlsSet.has(normalizeUrl(data.url))) {
         uniqueUrlsSet.add(data.url);
         return true;
       }

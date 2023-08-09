@@ -8,6 +8,9 @@ import { corsOptions, testCorsOptions } from './config/cors.config';
 import { ValidationPipe } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import { json, urlencoded } from 'express';
+import * as fs from 'fs';
+import * as path from 'path';
+import { obfuscatorUtil } from './utils/obfuscate/obfuscator.util';
 
 dotenv.config();
 
@@ -36,6 +39,13 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.use(json({ limit: '1mb' }));
   app.use(urlencoded({ extended: true, limit: '1mb' }));
+
+  const scriptEmbed = fs.readFileSync(
+    path.join(process.cwd(), '/src/utils/generateScripts/iframe.js'),
+  );
+
+  obfuscatorUtil(scriptEmbed.toString());
+
   await app.listen(5050);
 }
 bootstrap();
