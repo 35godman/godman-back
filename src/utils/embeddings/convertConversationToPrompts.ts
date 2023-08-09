@@ -14,7 +14,7 @@ export const convertConversationToPrompts = (
     } else if (item.role === 'assistant') {
       promptArr.push(
         AIMessagePromptTemplate.fromTemplate(
-          item.content.replace(/{/g, '').replace(/}/g, ''),
+          item.content.slice(0, 100).replace(/{/g, '').replace(/}/g, ''),
         ),
       );
     }
