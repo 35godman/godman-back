@@ -18,8 +18,7 @@ window.onload = function () {
     if (window.innerWidth > 800) {
       chatbot.style.bottom = '5rem';
       chatbot.style.width = '100%';
-      chatbot.style.minHeight = '80vh';
-      chatbot.style.height = '300px';
+      chatbot.style.height = '700px';
       chatbot.style.borderRadius = '25px';
       chatbot.style.right = '1rem';
       chatbot.style.maxWidth = '400px';
@@ -64,6 +63,7 @@ window.onload = function () {
     if (displayChatbotProp !== 'none') {
       chatbot.style.display = 'none';
       chatbotIcon.style.bottom = '1rem';
+      document.body.style.overflow = 'auto';
     } else {
       chatbot.style.display = 'flex';
       chatbotIcon.style.bottom = '0rem';

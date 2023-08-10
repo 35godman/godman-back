@@ -108,11 +108,11 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     const readableDate: string = currentDate.format('MMMM Do YYYY, h:mm:ss a');
 
     const chatPrompt = ChatPromptTemplate.fromPromptMessages([
-      ...conversation,
       HumanMessagePromptTemplate.fromTemplate(`
      Context: {context}
-    User's Language: {language}
+    Answer must be in language: {language}
     User's Original Question: {question}
+    User's previous messages and your previous answer {messages}
    {chatbot_prompt}`),
     ]);
 
@@ -129,6 +129,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
         readableDate,
         question,
         chatbot_prompt: chatbotInstance.settings.base_prompt,
+        messages,
       },
       [
         {
