@@ -8,9 +8,11 @@ export const convertConversationToPrompts = (
   conversation: ConversationEmbedding[],
 ) => {
   const promptArr = [];
+  const usersQuestion = [];
   conversation.forEach((item) => {
     if (item.role === 'user') {
       promptArr.push(HumanMessagePromptTemplate.fromTemplate(item.content));
+      usersQuestion.push(item.content);
     } else if (item.role === 'assistant') {
       promptArr.push(
         AIMessagePromptTemplate.fromTemplate(
@@ -24,5 +26,5 @@ export const convertConversationToPrompts = (
   //     promptArr.push(HumanMessagePromptTemplate.fromTemplate(item.content));
   //   }
   // });
-  return promptArr;
+  return { conversation: promptArr, userQuestion: usersQuestion.join(',') };
 };

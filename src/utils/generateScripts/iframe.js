@@ -20,7 +20,7 @@ window.onload = function () {
       chatbot.style.width = '100%';
       chatbot.style.minHeight = '80vh';
       chatbot.style.height = '300px';
-      chatbot.style.borderRadius = '1rem';
+      chatbot.style.borderRadius = '25px';
       chatbot.style.right = '1rem';
       chatbot.style.maxWidth = '400px';
     } else {
@@ -63,8 +63,10 @@ window.onload = function () {
     const displayChatbotProp = chatbot.style.display;
     if (displayChatbotProp !== 'none') {
       chatbot.style.display = 'none';
+      chatbotIcon.style.bottom = '1rem';
     } else {
       chatbot.style.display = 'flex';
+      chatbotIcon.style.bottom = '0rem';
       document.body.style.overflow = 'hidden';
     }
   });

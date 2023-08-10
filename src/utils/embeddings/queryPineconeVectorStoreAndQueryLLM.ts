@@ -33,7 +33,8 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
   conversation_id: string,
   messages: ConversationEmbedding[],
 ): Promise<AddMessageDto> => {
-  console.log('=>(utils.ts:14) question', question);
+  const { conversation, userQuestion } = convertConversationToPrompts(messages);
+  console.log('=>(utils.ts:14) question', question + userQuestion);
   // 1. Start query process
   console.log('Querying Pinecone vector store...');
   // 2. Retrieve the Pinecone index
@@ -49,7 +50,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
   // 3. Create query embedding
   const queryEmbedding = await new OpenAIEmbeddings({
     modelName: 'text-embedding-ada-002',
-  }).embedQuery(question);
+  }).embedQuery(`${question} ${userQuestion}`);
 
   // 4. Query Pinecone index and return top 5 matches
   const queryResponse = await index.query({
@@ -64,7 +65,6 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
   // 5. Log the number of matches
   console.log(`Found ${queryResponse.matches.length} matches...`);
   // 6. Log the question being asked
-  console.log(`Asking question: ${question}...`);
   if (queryResponse.matches.length) {
     // 7. Create an OpenAI instance and load the QAStuffChain
     const llm = new OpenAI({
@@ -100,7 +100,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
       )
       .join('\n');
     //returns chat_history (2 latest msg)
-    const conversation = convertConversationToPrompts(messages);
+
     // Getting the current date and time
     const currentDate = moment();
 
@@ -110,20 +110,10 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
     const chatPrompt = ChatPromptTemplate.fromPromptMessages([
       ...conversation,
       HumanMessagePromptTemplate.fromTemplate(`
-      As an artificial intelligence assistant, your duty is to give responses rooted in the context provided. 
-      Understanding the context comprehensively and producing a thorough answer is a necessity when you answer a user's query. 
-      Ensure your interaction remains formal and concentrate solely on the specifics provided in the context.
-      It's important to consider additional factors that could shape your response, including:
-      - user's question {question}
-      - Your based prompt, may includes specific rules: {chatbot_prompt}
-      - The user’s language preference: {language}
-      - The current date: {readableDate}
-      Keeping in mind that your primary role is to offer information relevant to the context given, 
-      avoid going off-topic or providing answers that do not align with the provided context
-      - Context {context}
-      There may be instances where the given context does not clearly answer the user's question. 
-      If this occurs, express your uncertainty in this manner: 'Apologies, based on the present context, the answer to your query is unclear.' in user's language
-  `),
+     Context: {context}
+    User's Language: {language}
+    User's Original Question: {question}
+   {chatbot_prompt}`),
     ]);
 
     let assistant_message = '';
