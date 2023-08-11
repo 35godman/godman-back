@@ -11,7 +11,7 @@ import { json, urlencoded } from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
 import { obfuscatorUtil } from './utils/obfuscate/obfuscator.util';
-
+import helmet from 'helmet';
 dotenv.config();
 
 async function bootstrap() {
@@ -45,7 +45,6 @@ async function bootstrap() {
   );
 
   obfuscatorUtil(scriptEmbed.toString());
-
   await app.listen(5050);
 }
 bootstrap();

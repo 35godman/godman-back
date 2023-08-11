@@ -7,10 +7,10 @@ export const waitTillHTMLRendered = async (page, timeout = 30000) => {
   const minStableSizeIterations = 3;
 
   while (checkCounts++ <= maxChecks) {
-    let html = await page.content();
-    let currentHTMLSize = html.length;
+    const html = await page.content();
+    const currentHTMLSize = html.length;
 
-    let bodyHTMLSize = await page.evaluate(
+    const bodyHTMLSize = await page.evaluate(
       () => document.body.innerHTML.length,
     );
 

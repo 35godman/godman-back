@@ -1,4 +1,10 @@
-import { forwardRef, Module } from '@nestjs/common';
+import {
+  forwardRef,
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from '../user/user.schema';
 import { WinstonModule } from 'nest-winston';
@@ -27,6 +33,7 @@ import {
   FileUpload,
   FileUploadSchema,
 } from '../FILES/fileUpload/fileUpload.schema';
+import { FrameAncestorsMiddleware } from '../../middlewares/frame-ancestors.middleware';
 
 @Module({
   imports: [

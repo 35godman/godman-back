@@ -22,6 +22,7 @@ import { CreateDefaultChatbotDto } from './dto/create-default.dto';
 import { UpdateSettingsDto } from './dto/update-settings.dto';
 import { ResponseResult } from '../../enum/response.enum';
 import { AddQnaDto } from '../FILES/fileUpload/dto/add-qna.dto';
+import { ChatbotDomainGuard } from '../../guards/chatbot-domain.guard';
 
 @Controller('chatbot')
 export class ChatbotController {

@@ -147,7 +147,7 @@ export class FileUploadService {
       name: file.originalname,
     };
     file.originalname = decodeURIComponent(file.originalname);
-    let fileNameExtension = file.originalname.split('.').pop().toLowerCase();
+    const fileNameExtension = file.originalname.split('.').pop().toLowerCase();
     const data = file.buffer;
     switch (fileNameExtension) {
       case 'pdf':

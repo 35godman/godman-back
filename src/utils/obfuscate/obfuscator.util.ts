@@ -2,7 +2,7 @@ import * as JavaScriptObfuscator from 'javascript-obfuscator';
 import * as fs from 'fs';
 import * as path from 'path';
 export const obfuscatorUtil = (code: string) => {
-  let obfuscationResult = JavaScriptObfuscator.obfuscate(code, {
+  const obfuscationResult = JavaScriptObfuscator.obfuscate(code, {
     compact: true,
     controlFlowFlattening: true,
     controlFlowFlatteningThreshold: 0.75,

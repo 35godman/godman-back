@@ -93,7 +93,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
         },
       }));
 
-    let concatenatedPageContent = uniqueDocuments
+    const concatenatedPageContent = uniqueDocuments
       .map((match) =>
         // @ts-ignore
         match.metadata.pageContent.replace(/\n/g, ' '),
@@ -116,7 +116,7 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
    {chatbot_prompt}`),
     ]);
 
-    let assistant_message = '';
+    const assistant_message = '';
     const chainB = new LLMChain({
       prompt: chatPrompt,
       llm: llm,

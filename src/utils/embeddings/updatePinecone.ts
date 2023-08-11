@@ -24,7 +24,7 @@ export const updatePinecone = async (
   });
   let totalToken = 0;
   // 3. Process each document in the docs array
-  let docs_updated = [];
+  const docs_updated = [];
   await pMap(
     docs,
     async (doc) => {

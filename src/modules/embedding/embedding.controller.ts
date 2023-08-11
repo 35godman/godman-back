@@ -5,6 +5,7 @@ import { AskChatDto } from './dto/ask-chat.dto';
 import { AuthJWTGuard } from '../../guards/auth.guard';
 import { ChatbotOwnerGuard } from '../../guards/chatbot-owner.guard';
 import { RateLimitGuard } from '../../guards/rate-limit.guard';
+import { ChatbotDomainGuard } from '../../guards/chatbot-domain.guard';
 
 @Controller('embedding')
 export class EmbeddingController {
