@@ -105,11 +105,12 @@ export class SourcesService {
      */
     const fileData = JSON.stringify(data, null, 2);
 
-    return await this.yandexCloudService.uploadFile(
+    const result = await this.yandexCloudService.uploadFile(
       chatbot_id,
       process.env.QNA_DATASOURCE_NAME,
       fileData,
     );
+    return result.$metadata.httpStatusCode;
   }
   async resetWebCrawledFiles(chatbot_id: string) {
     const sources = await this.findByChatbotId(chatbot_id);
@@ -147,6 +148,7 @@ export class SourcesService {
     }
     sources.files = [];
     await sources.save();
+    return ResponseResult.SUCCESS;
   }
 
   async resetQnA(chatbot_id: string) {
@@ -158,6 +160,7 @@ export class SourcesService {
     );
     sources.QA_list = [];
     await sources.save();
+    return ResponseResult.SUCCESS;
   }
 
   async resetTextSource(chatbot_id: string) {
@@ -168,6 +171,7 @@ export class SourcesService {
     );
     sources.text = '';
     await sources.save();
+    return ResponseResult.SUCCESS;
   }
 
   async deleteAllSources(chatbot_id: string) {
@@ -175,5 +179,6 @@ export class SourcesService {
     await this.resetUploadedFiles(chatbot_id);
     await this.resetTextSource(chatbot_id);
     await this.resetQnA(chatbot_id);
+    return ResponseResult.SUCCESS;
   }
 }

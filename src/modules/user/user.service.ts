@@ -41,7 +41,7 @@ export class UserService {
     return await createdUser.save();
   }
 
-  async findById(id: string): Promise<User> {
+  async findById(id: string): Promise<UserDocument> {
     return await this.userModel.findById(id).exec();
   }
 

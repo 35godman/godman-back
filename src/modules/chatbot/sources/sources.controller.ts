@@ -13,7 +13,7 @@ export class SourcesController {
   async addQnaHandler(
     @Body() addQnaDto: AddQnaDto,
     @Query('chatbot_id') chatbot_id: string,
-  ) {
+  ): Promise<number> {
     const { data } = addQnaDto;
     let text = '';
     data.forEach((item) => {

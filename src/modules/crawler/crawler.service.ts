@@ -28,7 +28,7 @@ export class CrawlerService {
     sources.crawling_status = 'PENDING';
     await sources.save();
     const visitedUrls = new Set<string>();
-    const { weblink } = payload;
+    const { weblink, filter } = payload;
     let launchOptions = null;
     let urlCount = 0;
     const crawledData: CrawledLink[] = [];
@@ -67,7 +67,9 @@ export class CrawlerService {
           visitedUrls.has(url) ||
           url.includes('?') ||
           url.includes('#') ||
-          checkIfFileUrlUtil(url)
+          checkIfFileUrlUtil(url) ||
+          onlyCrawledFileNames.includes(url) ||
+          this.checkValidUrl(url, filter)
         ) {
         } else {
           visitedUrls.add(url);
@@ -160,5 +162,12 @@ export class CrawlerService {
       selectors: [{ selector: 'a', format: 'skip' }],
     };
     return convert(pureHtml, convertOptions);
+  }
+  checkValidUrl(url: string, filter: string): boolean {
+    if (filter) {
+      return url.toLowerCase().includes(filter.toLowerCase());
+    } else {
+      return false;
+    }
   }
 }

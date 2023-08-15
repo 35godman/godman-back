@@ -4,4 +4,6 @@ export class CrawlDto {
   @IsString()
   @IsNotEmpty()
   weblink: string;
+  @IsString()
+  filter?: string;
 }

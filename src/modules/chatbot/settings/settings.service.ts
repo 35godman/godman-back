@@ -1,16 +1,25 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  forwardRef,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import {
   ChatbotSettings,
   ChatbotSettingsDocument,
 } from '../schemas/chatbotSettings.schema';
+import { ChatbotService } from '../chatbot.service';
 
 @Injectable()
 export class SettingsService {
   constructor(
     @InjectModel(ChatbotSettings.name)
     private chatbotSettingsModel: Model<ChatbotSettings>,
+    @Inject(forwardRef(() => ChatbotService))
+    private chatbotService: ChatbotService,
   ) {}
 
   async createDefault(chatbot_id: string) {
@@ -76,5 +85,10 @@ export class SettingsService {
       settingsEntity.num_of_characters = 0;
     }
     await settingsEntity.save();
+  }
+
+  async getAllowedDomains(chatbot_id: string) {
+    const chatbot = await this.chatbotService.findById(chatbot_id);
+    return chatbot.settings.domains.map((item) => item.trim().toLowerCase());
   }
 }

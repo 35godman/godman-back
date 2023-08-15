@@ -20,6 +20,7 @@ export class EmbeddingController {
   @UseGuards(RateLimitGuard)
   @Post('/ask')
   async askChatbot(@Body() askChatDto: AskChatDto, @Res() response) {
-    await this.embeddingService.askChat(askChatDto, response);
+    const res = await this.embeddingService.askChat(askChatDto, response);
+    response.send(res);
   }
 }

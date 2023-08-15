@@ -95,6 +95,7 @@ export class ChatbotService {
 
     await settingEntity.save();
     await chatbotEntity.save();
+    return ResponseResult.SUCCESS;
   }
 
   async getChatbotForIframe(id: string) {
