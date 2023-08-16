@@ -1,9 +1,15 @@
-import { IsMongoId, IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import {
+  IsArray,
+  IsMongoId,
+  IsNotEmpty,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 
 export class CrawlDto {
   @IsString()
   @IsNotEmpty()
   weblink: string;
-  @IsString()
-  filter?: string;
+  @IsArray()
+  filter?: string[];
 }

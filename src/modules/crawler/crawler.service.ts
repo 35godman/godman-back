@@ -69,7 +69,7 @@ export class CrawlerService {
           url.includes('#') ||
           checkIfFileUrlUtil(url) ||
           onlyCrawledFileNames.includes(url) ||
-          this.checkValidUrl(url, filter)
+          !this.checkValidUrl(url, filter)
         ) {
         } else {
           visitedUrls.add(url);
@@ -163,11 +163,11 @@ export class CrawlerService {
     };
     return convert(pureHtml, convertOptions);
   }
-  checkValidUrl(url: string, filter: string): boolean {
-    if (filter) {
-      return url.toLowerCase().includes(filter.toLowerCase());
-    } else {
-      return false;
-    }
+  checkValidUrl(url: string, filter: string[]): boolean {
+    if (!filter || filter.length === 0) return false;
+
+    return filter.some((filterLink) =>
+      url.toLowerCase().includes(filterLink.toLowerCase()),
+    );
   }
 }
