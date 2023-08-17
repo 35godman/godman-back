@@ -119,18 +119,23 @@ export class FileUploadService {
 
   async deleteChatbotDirectory(directory: string) {
     const resolvedDir = resolve(`docs/${directory}`);
-    const files = readdirSync(resolvedDir);
-    for (const file of files) {
-      const filePath = join(resolvedDir, file);
 
-      if (statSync(filePath).isDirectory()) {
-        await this.deleteChatbotDirectory(filePath); // Recurse if the file is a directory
-      } else {
-        unlinkSync(filePath); // Remove the file
+    try {
+      const files = readdirSync(resolvedDir);
+      for (const file of files) {
+        const filePath = join(resolvedDir, file);
+
+        if (statSync(filePath).isDirectory()) {
+          await this.deleteChatbotDirectory(filePath); // Recurse if the file is a directory
+        } else {
+          unlinkSync(filePath); // Remove the file
+        }
       }
-    }
 
-    rmdirSync(resolvedDir); // Remove the directory itself
+      rmdirSync(resolvedDir); // Remove the directory itself
+    } catch (e) {
+      console.log('no such directory');
+    }
   }
 
   async getMultipleFileTextLength(files: Express.Multer.File[]) {

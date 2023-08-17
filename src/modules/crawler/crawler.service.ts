@@ -163,8 +163,9 @@ export class CrawlerService {
     };
     return convert(pureHtml, convertOptions);
   }
+
   checkValidUrl(url: string, filter: string[]): boolean {
-    if (!filter || filter.length === 0) return false;
+    if (!filter || filter.length === 0) return true;
 
     return filter.some((filterLink) =>
       url.toLowerCase().includes(filterLink.toLowerCase()),
