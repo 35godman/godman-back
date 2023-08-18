@@ -152,15 +152,15 @@ export class EmbeddingService {
       });
 
       const uniqueDocuments = queryResponse.matches
-        // .filter((doc, index, self) => {
-        //   return (
-        //     index ===
-        //     self.findIndex(
-        //       // @ts-ignore
-        //       (t) => t.metadata.pageContent === doc.metadata.pageContent,
-        //     )
-        //   );
-        // })
+        .filter((doc, index, self) => {
+          return (
+            index ===
+            self.findIndex(
+              // @ts-ignore
+              (t) => t.metadata.pageContent === doc.metadata.pageContent,
+            )
+          );
+        })
         .map((doc) => ({
           ...doc,
           metadata: {
