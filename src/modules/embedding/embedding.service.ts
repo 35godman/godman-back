@@ -119,7 +119,7 @@ export class EmbeddingService {
 
     let vectorsCount = 0;
     if (chatbotInstance.settings.model === 'gpt-3.5-turbo') {
-      vectorsCount = 6;
+      vectorsCount = 8;
     } else {
       vectorsCount = 24;
     }
@@ -152,15 +152,15 @@ export class EmbeddingService {
       });
 
       const uniqueDocuments = queryResponse.matches
-        .filter((doc, index, self) => {
-          return (
-            index ===
-            self.findIndex(
-              // @ts-ignore
-              (t) => t.metadata.pageContent === doc.metadata.pageContent,
-            )
-          );
-        })
+        // .filter((doc, index, self) => {
+        //   return (
+        //     index ===
+        //     self.findIndex(
+        //       // @ts-ignore
+        //       (t) => t.metadata.pageContent === doc.metadata.pageContent,
+        //     )
+        //   );
+        // })
         .map((doc) => ({
           ...doc,
           metadata: {
@@ -300,7 +300,7 @@ export class EmbeddingService {
           `Creating ${chunks.length} vectors array with id, values, and metadata...`,
         );
         // 7. Create and upsert vectors in batches of 100
-        const batchSize = 100;
+        const batchSize = 50;
         let batch: any = [];
         for (let idx = 0; idx < chunks.length; idx++) {
           const chunk = chunks[idx];

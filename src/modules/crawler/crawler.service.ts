@@ -29,6 +29,8 @@ export class CrawlerService {
     await sources.save();
     const visitedUrls = new Set<string>();
     const { weblink, filter } = payload;
+
+    visitedUrls.add(weblink);
     let launchOptions = null;
     let urlCount = 0;
     const crawledData: CrawledLink[] = [];
@@ -52,8 +54,6 @@ export class CrawlerService {
 
     await cluster.task(async ({ page, data: url }) => {
       urlCount++;
-      console.log('=>(crawler.service.ts:40) url', url);
-      console.log(visitedUrls.size);
       await page.goto(url, { waitUntil: 'domcontentloaded' });
       await waitTillHTMLRendered(page);
 
