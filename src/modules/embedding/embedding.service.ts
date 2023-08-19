@@ -26,6 +26,8 @@ import * as moment from 'moment/moment';
 import {
   ChatPromptTemplate,
   HumanMessagePromptTemplate,
+  MessagesPlaceholder,
+  SystemMessagePromptTemplate,
 } from 'langchain/prompts';
 import { LLMChain } from 'langchain/chains';
 import { encode } from 'gpt-3-encoder';
@@ -36,6 +38,9 @@ import {
 import * as pMap from 'p-map';
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
 import { v4 } from 'uuid';
+import { prompts } from './prompts/system.prompts';
+import { BufferMemory, ChatMessageHistory } from 'langchain/memory';
+import { convertConversationToHistory } from '../../utils/embeddings/convertConversationToHistory';
 @Injectable()
 export class EmbeddingService {
   private client: PineconeClient;
@@ -111,7 +116,10 @@ export class EmbeddingService {
     conversation_id: string,
     messages: ConversationEmbedding[],
   ): Promise<AddMessageDto> {
-    const { userQuestion } = convertConversationToPrompts(messages);
+    const { conversation } = convertConversationToPrompts(messages);
+
+    const { chat_history } = await convertConversationToHistory(messages);
+    console.log('=>(embedding.service.ts:121) chat_history', chat_history);
     // 1. Start query process
     console.log('Querying Pinecone vector store...');
     // 2. Retrieve the Pinecone index
@@ -127,7 +135,7 @@ export class EmbeddingService {
     // 3. Create query embedding
     const queryEmbedding = await new OpenAIEmbeddings({
       modelName: 'text-embedding-ada-002',
-    }).embedQuery(`${question} ${userQuestion}`);
+    }).embedQuery(`${question}`);
 
     // 4. Query Pinecone index and return top 5 matches
     const queryResponse = await index.query({
@@ -170,12 +178,16 @@ export class EmbeddingService {
           },
         }));
 
-      const concatenatedPageContent = uniqueDocuments
-        .map((match) =>
-          // @ts-ignore
-          match.metadata.pageContent.replace(/\n/g, ' '),
-        )
-        .join('\n');
+      const concatenatedPageContent = uniqueDocuments.map(
+        (match) => {
+          return {
+            context: match.metadata.pageContent.replace(/\n/g, ' '),
+            score: match.score,
+          };
+        },
+        // @ts-ignore
+      );
+      // .join('\n');
       //returns chat_history (2 latest msg)
 
       // Getting the current date and time
@@ -187,29 +199,36 @@ export class EmbeddingService {
       );
 
       const chatPrompt = ChatPromptTemplate.fromPromptMessages([
-        HumanMessagePromptTemplate.fromTemplate(`
-     Context: {context}
-    Answer must be in language: {language}
-    User's Original Question: {question}
-    User's previous messages and your previous answer {messages}
-   {chatbot_prompt}`),
+        new MessagesPlaceholder('history'),
+        SystemMessagePromptTemplate.fromTemplate(prompts.qa),
+        HumanMessagePromptTemplate.fromTemplate(`{question}`),
       ]);
 
       const assistant_message = '';
+
+      const memory = new BufferMemory({
+        chatHistory: chat_history,
+        inputKey: 'history',
+        outputKey: 'text',
+      });
+
       const chainB = new LLMChain({
         prompt: chatPrompt,
         llm: llm,
+        memory,
       });
 
       const result = await chainB.call(
         {
+          history: chat_history,
           language: chatbotInstance.settings.language,
-          context: concatenatedPageContent,
+          context: JSON.stringify(concatenatedPageContent),
           readableDate,
           question,
-          chatbot_prompt: chatbotInstance.settings.base_prompt,
-          messages,
+          additional_prompt: chatbotInstance.settings.base_prompt,
+          conversation: JSON.stringify([]),
         },
+
         [
           {
             handleLLMNewToken(token: string) {
@@ -218,7 +237,7 @@ export class EmbeddingService {
           },
         ],
       );
-      const encodedQuestion = encode(concatenatedPageContent);
+      const encodedQuestion = encode(JSON.stringify(concatenatedPageContent));
       const encodedAnswer = encode(result.text);
       const token_usage = encodedQuestion.length + encodedAnswer.length;
       console.log(`Tokens used: ${token_usage}`);
@@ -228,7 +247,7 @@ export class EmbeddingService {
         conversation_id,
         assistant_message,
         user_message: question,
-        matched_vectors: concatenatedPageContent,
+        matched_vectors: JSON.stringify(concatenatedPageContent),
         chatbot_id: chatbotInstance._id.toString(),
       };
     } else {
