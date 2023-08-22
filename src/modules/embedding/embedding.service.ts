@@ -182,13 +182,10 @@ export class EmbeddingService {
         (match) => {
           return {
             context: match.metadata.pageContent.replace(/\n/g, ' '),
-            score: match.score,
           };
         },
         // @ts-ignore
       );
-      // .join('\n');
-      //returns chat_history (2 latest msg)
 
       // Getting the current date and time
       const currentDate = moment();
@@ -199,23 +196,15 @@ export class EmbeddingService {
       );
 
       const chatPrompt = ChatPromptTemplate.fromPromptMessages([
-        new MessagesPlaceholder('history'),
         SystemMessagePromptTemplate.fromTemplate(prompts.qa),
         HumanMessagePromptTemplate.fromTemplate(`{question}`),
       ]);
 
       const assistant_message = '';
 
-      const memory = new BufferMemory({
-        chatHistory: chat_history,
-        inputKey: 'history',
-        outputKey: 'text',
-      });
-
       const chainB = new LLMChain({
         prompt: chatPrompt,
         llm: llm,
-        memory,
       });
 
       const result = await chainB.call(
@@ -226,7 +215,7 @@ export class EmbeddingService {
           readableDate,
           question,
           additional_prompt: chatbotInstance.settings.base_prompt,
-          conversation: JSON.stringify([]),
+          conversation: JSON.stringify(conversation),
         },
 
         [
