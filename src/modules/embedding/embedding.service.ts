@@ -194,10 +194,10 @@ export class EmbeddingService {
       );
 
       const chatPrompt = ChatPromptTemplate.fromPromptMessages([
-        SystemMessagePromptTemplate.fromTemplate(prompts.optimized_qa),
+        SystemMessagePromptTemplate.fromTemplate(prompts['qa-1.1']),
         // HumanMessagePromptTemplate.fromTemplate(messages[0].content || ''),
         // AIMessagePromptTemplate.fromTemplate(messages[1].content || ''),
-        HumanMessagePromptTemplate.fromTemplate(`{question}`),
+        HumanMessagePromptTemplate.fromTemplate(`User question: {question}`),
       ]);
 
       let assistant_message = '';
