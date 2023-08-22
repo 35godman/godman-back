@@ -37,7 +37,10 @@ export const prompts = {
 9. Prioritize choices with the highest "score" when multiple correct ones exist.
 10. Identify up to 10 unique benefits but omit specific magnitude numbers.
 11. Use Markdown format and the assigned {language} for your responses. Stick to these guidelines.
-12. Context {context}
-13. Previous conversation {conversation}`,
+12. Do not use this and similar phrases at the end of message : More information about the products can be found on their website, Contact the managers for additional info
+13. NEVER provide commentary about your own answer, for example: Answer generated based on the provided context /The answer is generated based on the provided context
+14. Extra comments for answer : {additional_prompt}
+15. Context {context}
+16. Previous conversation {conversation}`,
 };
 // - ALWAYS prefer the result with the highest "score" value.
