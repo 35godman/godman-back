@@ -24,6 +24,7 @@ import { OpenAI } from 'langchain/llms/openai';
 import { removeLinks } from '../../utils/urls/removeLinks.util';
 import * as moment from 'moment/moment';
 import {
+  AIMessagePromptTemplate,
   ChatPromptTemplate,
   HumanMessagePromptTemplate,
   MessagesPlaceholder,
@@ -41,6 +42,7 @@ import { v4 } from 'uuid';
 import { prompts } from './prompts/system.prompts';
 import { BufferMemory, ChatMessageHistory } from 'langchain/memory';
 import { convertConversationToHistory } from '../../utils/embeddings/convertConversationToHistory';
+import { AIChatMessage } from 'langchain/schema';
 @Injectable()
 export class EmbeddingService {
   private client: PineconeClient;
@@ -179,11 +181,7 @@ export class EmbeddingService {
         }));
 
       const concatenatedPageContent = uniqueDocuments.map(
-        (match) => {
-          return {
-            context: match.metadata.pageContent.replace(/\n/g, ' '),
-          };
-        },
+        (match) => match.metadata.pageContent.replace(/\n/g, ' '),
         // @ts-ignore
       );
 
@@ -196,7 +194,9 @@ export class EmbeddingService {
       );
 
       const chatPrompt = ChatPromptTemplate.fromPromptMessages([
-        SystemMessagePromptTemplate.fromTemplate(prompts.qa),
+        SystemMessagePromptTemplate.fromTemplate(prompts.optimized_qa),
+        // HumanMessagePromptTemplate.fromTemplate(messages[0].content || ''),
+        // AIMessagePromptTemplate.fromTemplate(messages[1].content || ''),
         HumanMessagePromptTemplate.fromTemplate(`{question}`),
       ]);
 
@@ -211,11 +211,11 @@ export class EmbeddingService {
         {
           history: chat_history,
           language: chatbotInstance.settings.language,
-          context: JSON.stringify(concatenatedPageContent),
+          context: concatenatedPageContent,
           readableDate,
           question,
           additional_prompt: chatbotInstance.settings.base_prompt,
-          conversation: JSON.stringify(conversation),
+          conversation: JSON.stringify(messages),
         },
 
         [
