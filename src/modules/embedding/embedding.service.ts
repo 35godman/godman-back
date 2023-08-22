@@ -200,7 +200,7 @@ export class EmbeddingService {
         HumanMessagePromptTemplate.fromTemplate(`{question}`),
       ]);
 
-      const assistant_message = '';
+      let assistant_message = '';
 
       const chainB = new LLMChain({
         prompt: chatPrompt,
@@ -221,6 +221,7 @@ export class EmbeddingService {
         [
           {
             handleLLMNewToken(token: string) {
+              assistant_message += token;
               res.write(token);
             },
           },
