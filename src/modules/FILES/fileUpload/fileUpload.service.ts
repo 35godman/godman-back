@@ -157,11 +157,12 @@ export class FileUploadService {
     switch (fileNameExtension) {
       case 'pdf':
         const textSize = await pdfParse(data);
-        fileSize.textSize = textSize.length;
-        if (!textSize) {
+
+        if (!textSize.text.length) {
           throw new HttpException('Pdf corrupted', HttpStatus.BAD_REQUEST);
         }
-        fileSize.name = file.originalname;
+        (fileSize.textSize = textSize.text.length),
+          (fileSize.name = file.originalname);
         break;
       case 'docx':
         const { value } = await mammoth.extractRawText({ buffer: data });

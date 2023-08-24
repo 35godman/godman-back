@@ -37,8 +37,8 @@ async function bootstrap() {
    * вы устанавливаете в своих DTO.
    */
   app.useGlobalPipes(new ValidationPipe());
-  app.use(json({ limit: '1mb' }));
-  app.use(urlencoded({ extended: true, limit: '1mb' }));
+  app.use(json({ limit: '10mb' }));
+  app.use(urlencoded({ extended: true, limit: '10mb' }));
 
   const scriptEmbed = fs.readFileSync(
     path.join(process.cwd(), '/src/utils/generateScripts/iframe.js'),
