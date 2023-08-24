@@ -171,9 +171,9 @@ export class CrawlerService {
   }
 
   checkValidUrl(url: string, filter: string[]): boolean {
-    if (!filter || filter.length === 0) return true;
     if (url.includes('?')) return false;
     if (url.includes('#')) return false;
+    if (!filter || filter.length === 0) return true;
     return filter.some((filterLink) =>
       url.toLowerCase().includes(filterLink.toLowerCase()),
     );
