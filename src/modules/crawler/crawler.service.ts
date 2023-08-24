@@ -22,15 +22,21 @@ export class CrawlerService {
 
   async startCrawling(payload: CrawlDto, chatbot_id: string) {
     const sources = await this.chatbotSourceService.findByChatbotId(chatbot_id);
-    const onlyCrawledFileNames = sources.website.map(
-      (item) => item.originalName,
-    );
+
     sources.crawling_status = 'PENDING';
     await sources.save();
     const visitedUrls = new Set<string>();
-    const { weblink, filter } = payload;
+    const { weblink, filter, alreadyUploadedLinks } = payload;
+    const onlyCrawledFileNames = alreadyUploadedLinks.map((url) => {
+      return url.originalName.replace(/\[]/g, '/').replace('.txt', '');
+    });
+    if (
+      !onlyCrawledFileNames.includes(weblink.replace(/\/$/, '')) &&
+      !onlyCrawledFileNames.includes(weblink)
+    ) {
+      visitedUrls.add(weblink);
+    }
 
-    visitedUrls.add(weblink);
     let launchOptions = null;
     let urlCount = 0;
     const crawledData: CrawledLink[] = [];
@@ -64,17 +70,15 @@ export class CrawlerService {
       const newUrls = await this.extractNewLinks(page);
       for (const url of newUrls) {
         if (
-          visitedUrls.has(url) ||
-          url.includes('?') ||
-          url.includes('#') ||
           checkIfFileUrlUtil(url) ||
-          onlyCrawledFileNames.includes(url) ||
+          visitedUrls.has(url) ||
+          onlyCrawledFileNames.includes(url.replace(/\/$/, '')) ||
           !this.checkValidUrl(url, filter)
         ) {
         } else {
           visitedUrls.add(url);
           if (visitedUrls.size <= parseInt(process.env.CRAWL_LIMIT)) {
-            console.log('queing task');
+            console.log(`queing task ${url}`);
             await cluster.queue(url);
           } else {
             // console.log('Task stopped successfully');
@@ -86,7 +90,9 @@ export class CrawlerService {
       crawledData.push(pageData);
     });
 
-    await cluster.queue(weblink);
+    if (visitedUrls.size > 0) {
+      await cluster.queue(weblink);
+    }
 
     // Shutdown after everything is done
     await cluster.idle();
@@ -166,7 +172,8 @@ export class CrawlerService {
 
   checkValidUrl(url: string, filter: string[]): boolean {
     if (!filter || filter.length === 0) return true;
-
+    if (url.includes('?')) return false;
+    if (url.includes('#')) return false;
     return filter.some((filterLink) =>
       url.toLowerCase().includes(filterLink.toLowerCase()),
     );

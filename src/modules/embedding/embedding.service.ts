@@ -309,7 +309,7 @@ export class EmbeddingService {
           `Creating ${chunks.length} vectors array with id, values, and metadata...`,
         );
         // 7. Create and upsert vectors in batches of 100
-        const batchSize = 50;
+        const batchSize = 100;
         let batch: any = [];
         for (let idx = 0; idx < chunks.length; idx++) {
           const chunk = chunks[idx];

@@ -5,6 +5,7 @@ import {
   IsString,
   IsUUID,
 } from 'class-validator';
+import { FileUpload } from '../../FILES/fileUpload/fileUpload.schema';
 
 export class CrawlDto {
   @IsString()
@@ -12,4 +13,6 @@ export class CrawlDto {
   weblink: string;
   @IsArray()
   filter?: string[];
+  @IsArray()
+  alreadyUploadedLinks: FileUpload[];
 }
