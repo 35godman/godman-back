@@ -85,14 +85,17 @@ export class CrawlerService {
           }
         }
       }
-
-      const pageData = { url: url, size: size, content: content };
-      crawledData.push(pageData);
+      if (
+        filter.some((filterString) =>
+          url.toLowerCase().includes(filterString.toLowerCase()),
+        )
+      ) {
+        const pageData = { url: url, size: size, content: content };
+        crawledData.push(pageData);
+      }
     });
 
-    if (visitedUrls.size > 0) {
-      await cluster.queue(weblink);
-    }
+    await cluster.queue(weblink);
 
     // Shutdown after everything is done
     await cluster.idle();
@@ -174,8 +177,6 @@ export class CrawlerService {
     if (url.includes('?')) return false;
     if (url.includes('#')) return false;
     if (!filter || filter.length === 0) return true;
-    return filter.some((filterLink) =>
-      url.toLowerCase().includes(filterLink.toLowerCase()),
-    );
+    return true;
   }
 }
