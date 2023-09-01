@@ -26,10 +26,10 @@ export class PdfService {
             label: message.content,
             options: { fontSize: 10, fontFamily: 'PitagonSansMono-Medium' },
           },
-          source: {
-            label: message.source,
-            options: { fontSize: 6, fontFamily: 'PitagonSansMono-Medium' },
-          },
+          // source: {
+          //   label: message.source,
+          //   options: { fontSize: 6, fontFamily: 'PitagonSansMono-Medium' },
+          // },
           createdAt: {
             label: conversation.createdAt,
             options: { fontSize: 10, fontFamily: 'PitagonSansMono-Medium' },
@@ -45,7 +45,7 @@ export class PdfService {
             property: 'content',
             width: 200,
           },
-          { label: 'Source', property: 'source', width: 100, renderer: null },
+          // { label: 'Source', property: 'source', width: 100, renderer: null },
           { label: 'Date', property: 'createdAt', width: 100, renderer: null },
         ],
         // rows: messages,
