@@ -20,6 +20,7 @@ import { SourcesService } from '../chatbot/sources/sources.service';
 import { YandexCloudService } from '../FILES/yandexCloud/yandexCloud.service';
 import { PineconeService } from '../pinecone/pinecone.service';
 import { ChatbotModule } from '../chatbot/chatbot.module';
+import { PdfService } from './pdfService';
 
 @Module({
   imports: [
@@ -37,6 +38,11 @@ import { ChatbotModule } from '../chatbot/chatbot.module';
     ChatbotModule,
   ],
   controllers: [ConversationController],
-  providers: [PineconeService, ConversationService, YandexCloudService],
+  providers: [
+    PineconeService,
+    ConversationService,
+    YandexCloudService,
+    PdfService,
+  ],
 })
 export class ConversationModule {}

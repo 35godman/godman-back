@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument, SchemaTimestampsConfig } from 'mongoose';
 import { User } from '../user/user.schema';
 import { MessageState } from './types/message.type';
 import { Chatbot } from '../chatbot/schemas/chatbot.schema';
@@ -17,4 +17,5 @@ export class Conversation {
 }
 
 export const ConversationSchema = SchemaFactory.createForClass(Conversation);
-export type ConversationDocument = HydratedDocument<Conversation>;
+export type ConversationDocument = HydratedDocument<Conversation> &
+  SchemaTimestampsConfig;

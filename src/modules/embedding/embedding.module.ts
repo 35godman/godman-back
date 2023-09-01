@@ -34,6 +34,7 @@ import { ChatbotModule } from '../chatbot/chatbot.module';
 import { RedisModule } from '../redis/redis.module';
 import { RateLimitService } from '../rate-limit/rate-limit.service';
 import { FrameAncestorsMiddleware } from '../../middlewares/frame-ancestors.middleware';
+import { PdfService } from '../conversation/pdfService';
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { FrameAncestorsMiddleware } from '../../middlewares/frame-ancestors.midd
   ],
   controllers: [EmbeddingController],
   providers: [
+    PdfService,
     EmbeddingService,
     PineconeService,
     ConversationService,

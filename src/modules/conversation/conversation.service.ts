@@ -2,16 +2,18 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ChatbotService } from '../chatbot/chatbot.service';
-import { Conversation } from './conversation.schema';
+import { Conversation, ConversationDocument } from './conversation.schema';
 import { AddMessageDto } from './dto/add-message.dto';
 import { ResponseResult } from '../../enum/response.enum';
+import { PdfService } from './pdfService';
 
 @Injectable()
 export class ConversationService {
   constructor(
     private chatbotService: ChatbotService,
     @InjectModel(Conversation.name)
-    private conversationModel: Model<Conversation>,
+    private conversationModel: Model<ConversationDocument>,
+    private pdfService: PdfService,
   ) {}
 
   async addMessage(payload: AddMessageDto) {
@@ -81,5 +83,20 @@ export class ConversationService {
       throw new HttpException('Conversation not found', HttpStatus.NOT_FOUND);
     }
     return existingConversation.messages.pop();
+  }
+
+  async exportConversations(
+    chatbot_id: string,
+    from: string,
+    to: string,
+  ): Promise<Buffer> {
+    const conversations = await this.conversationModel.find({
+      chatbot_id,
+      createdAt: {
+        $gte: new Date(from),
+        $lte: new Date(to),
+      },
+    });
+    return await this.pdfService.generatePDF(conversations);
   }
 }

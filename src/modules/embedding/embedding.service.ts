@@ -197,7 +197,9 @@ export class EmbeddingService {
         SystemMessagePromptTemplate.fromTemplate(prompts['qa-1.1']),
         // HumanMessagePromptTemplate.fromTemplate(messages[0].content || ''),
         // AIMessagePromptTemplate.fromTemplate(messages[1].content || ''),
-        HumanMessagePromptTemplate.fromTemplate(`User question: {question}`),
+        HumanMessagePromptTemplate.fromTemplate(
+          `Main question you have to answer: {question}`,
+        ),
       ]);
 
       let assistant_message = '';

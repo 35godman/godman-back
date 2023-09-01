@@ -15,6 +15,7 @@ export const corsOptions = {
     }
   },
   credentials: true,
+  // exposedHeaders: ['Content-Disposition'],
 };
 
 export const testCorsOptions = {
@@ -26,4 +27,5 @@ export const testCorsOptions = {
     }
   },
   credentials: true,
+  exposedHeaders: ['Content-Disposition'],
 };
