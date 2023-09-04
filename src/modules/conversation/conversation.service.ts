@@ -6,6 +6,7 @@ import { Conversation, ConversationDocument } from './conversation.schema';
 import { AddMessageDto } from './dto/add-message.dto';
 import { ResponseResult } from '../../enum/response.enum';
 import { PdfService } from './pdfService';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Injectable()
 export class ConversationService {
@@ -99,4 +100,10 @@ export class ConversationService {
     });
     return await this.pdfService.generatePDF(conversations);
   }
+  //
+  // @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  // async conversationsFromToday() {
+  //   const allChatbots = await this.chatbotService.
+  //   await this.exportConversations()
+  // }
 }
