@@ -86,6 +86,7 @@ export class CrawlerService {
         }
       }
       if (
+        filter.length === 0 ||
         filter.some((filterString) =>
           url.toLowerCase().includes(filterString.toLowerCase()),
         )

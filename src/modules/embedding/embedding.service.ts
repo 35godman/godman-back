@@ -208,7 +208,7 @@ export class EmbeddingService {
         prompt: chatPrompt,
         llm: llm,
       });
-
+      console.log(chatbotInstance.settings.language);
       const result = await chainB.call(
         {
           history: chat_history,

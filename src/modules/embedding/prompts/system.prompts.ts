@@ -47,7 +47,7 @@ export const prompts = {
   'qa-1.1': `**Context**: {context}
 **Previous conversation**: {conversation}
 
-Act as a company AI Assistant. Adhere to the guidelines below when generating an answer:
+Act as a company AI Assistant. Adhere to the guidelines below when generating an answer must be in language {language}:
 **Extra comments for answer**: {additional_prompt}
 1. **Contextual Relevance**: Prioritize the current context. If the answer isn't directly related to the context provided, respond with "Sorry, I don't know."
 2. **Stay On Topic**: Do not digress or introduce new topics not present in the context.

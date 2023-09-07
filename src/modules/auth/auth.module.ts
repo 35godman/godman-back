@@ -26,7 +26,6 @@ dotenv.config();
     RedisModule,
     ChatbotModule,
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-    // Register JwtModule with your configuration
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET,
