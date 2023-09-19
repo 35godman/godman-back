@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  Res,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from '../user/user.schema';
 import { Model } from 'mongoose';
@@ -70,16 +76,17 @@ export class ChatbotService {
       .populate('owner sources settings');
   }
 
-  async delete(id: string) {
+  async delete(id: string, res) {
     const chatbot = await this.findById(id);
+    await this.chatbotModel.deleteOne({ _id: id }).exec();
+    res.status(HttpStatus.OK).json(ResponseResult.SUCCESS);
     const settings_id = chatbot.settings._id.toString();
     const sources_id = chatbot.sources._id.toString();
     await this.chatbotSourcesService.deleteAllSources(chatbot._id.toString());
     await this.chatbotSettingsService.deleteById(settings_id);
     await this.chatbotSourcesService.deleteById(sources_id);
-    await this.chatbotModel.deleteOne({ _id: id }).exec();
+
     await this.pineconeService.deleteNamespace(chatbot._id.toString());
-    return ResponseResult.SUCCESS;
   }
 
   async generateIframeCode(chatbot_id: string) {

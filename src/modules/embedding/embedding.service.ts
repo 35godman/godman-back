@@ -126,6 +126,7 @@ export class EmbeddingService {
     console.log('Querying Pinecone vector store...');
     // 2. Retrieve the Pinecone index
     const index = client.Index(indexName);
+    console.log('=>(embedding.service.ts:129) index', index);
 
     let vectorsCount = 0;
     if (chatbotInstance.settings.model === 'gpt-3.5-turbo') {
@@ -138,6 +139,7 @@ export class EmbeddingService {
     const queryEmbedding = await new OpenAIEmbeddings({
       modelName: 'text-embedding-ada-002',
     }).embedQuery(`${question}`);
+    console.log('=>(embedding.service.ts:142) queryEmbedding', queryEmbedding);
 
     // 4. Query Pinecone index and return top 5 matches
     const queryResponse = await index.query({

@@ -8,6 +8,7 @@ import {
   Param,
   Post,
   Query,
+  Res,
   UseGuards,
 } from '@nestjs/common';
 import { ChatbotService } from './chatbot.service';
@@ -82,8 +83,8 @@ export class ChatbotController {
 
   @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
   @Delete('delete')
-  async deleteChatbotById(@Query('chatbot_id') id: string) {
-    return this.chatbotService.delete(id);
+  async deleteChatbotById(@Query('chatbot_id') id: string, @Res() res) {
+    return this.chatbotService.delete(id, res);
   }
 
   @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
