@@ -7,6 +7,5 @@ export const createPineconeClient = async (): Promise<PineconeClient> => {
     apiKey: process.env.PINECONE_API_KEY || '',
     environment: process.env.PINECONE_ENVIRONMENT || '',
   });
-  console.log('=>(pinecone.config.ts:5) client', client);
   return client;
 };

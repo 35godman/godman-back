@@ -65,6 +65,16 @@ export class ChatbotController {
     return ResponseResult.SUCCESS;
   }
 
+  @Get('public')
+  async findPublicChatbot(
+    @Query('chatbot_id', new ValidateObjectIdPipe()) id: string,
+  ) {
+    if (id !== '64d4cb756deecfdc32ccc6f7') {
+      throw new HttpException('Chatbot not found', HttpStatus.NOT_FOUND);
+    }
+    return this.chatbotService.findById(id);
+  }
+
   @UseGuards(AuthJWTGuard, ChatbotOwnerGuard)
   @Get('find')
   async findChatbotById(
