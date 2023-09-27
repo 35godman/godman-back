@@ -97,16 +97,16 @@ export class EmbeddingService {
     if (isQaListed) {
       return isQaListed.answer;
     }
+    const conversationData = await this.queryPineconeVectorStoreAndQueryLLM(
+      this.client,
+      indexName,
+      question,
+      chatbotInstance,
+      response,
+      conversation_id,
+      messages,
+    );
     if (conversation_id) {
-      const conversationData = await this.queryPineconeVectorStoreAndQueryLLM(
-        this.client,
-        indexName,
-        question,
-        chatbotInstance,
-        response,
-        conversation_id,
-        messages,
-      );
       await this.conversationService.addMessage(conversationData);
     }
   }
