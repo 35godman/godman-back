@@ -2,6 +2,7 @@ import {
   IsArray,
   IsMongoId,
   IsNotEmpty,
+  IsOptional,
   IsString,
   IsUUID,
 } from 'class-validator';
@@ -18,7 +19,8 @@ export class AskChatDto {
   @IsMongoId()
   chatbot_id: string;
   @IsString()
-  conversation_id: string;
+  @IsOptional()
+  conversation_id?: string;
   @IsArray()
   messages: ConversationEmbedding[];
 }
