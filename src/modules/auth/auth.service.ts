@@ -33,8 +33,8 @@ export class AuthService {
     };
   }
   async login(payload: LoginDto): Promise<any> {
-    const { username, password } = payload;
-    const user = await this.userService.findByUsername(username);
+    const { email, password } = payload;
+    const user = await this.userService.findByEmail(email);
     if (!user) {
       throw new NotFoundException('Username not found.');
     }

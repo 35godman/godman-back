@@ -12,9 +12,6 @@ export class User {
   plan: 'premium' | 'free';
 
   @Prop({ required: true })
-  username: string;
-
-  @Prop({ required: true })
   password: string;
 
   @Prop({ default: 1 })

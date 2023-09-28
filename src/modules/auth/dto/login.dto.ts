@@ -1,10 +1,10 @@
 import { Column, PrimaryColumn } from 'typeorm';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class LoginDto {
-  @IsString()
+  @IsEmail()
   @IsNotEmpty()
-  username: string;
+  email: string;
   @IsString()
   @IsNotEmpty()
   password: string;

@@ -14,11 +14,11 @@ export class UserService {
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) {}
   async create(user: UserCreateDto): Promise<User> {
-    const { password, username, email } = user;
+    const { password, email } = user;
     const existingUser = await this.userModel
 
       .findOne({
-        $or: [{ email: email }, { username: username }],
+        $or: [{ email: email }],
       })
       .exec();
     if (existingUser) {
@@ -30,7 +30,6 @@ export class UserService {
     const hashedPassword = await bcrypt.hash(password, 10);
     this.logger.info({
       route: 'register',
-      username,
       email,
     });
     const createdUser = new this.userModel({
@@ -45,7 +44,7 @@ export class UserService {
     return await this.userModel.findById(id).exec();
   }
 
-  async findByUsername(username: string): Promise<UserDocument> {
-    return await this.userModel.findOne({ username }).exec();
+  async findByEmail(email: string): Promise<UserDocument> {
+    return await this.userModel.findOne({ email }).exec();
   }
 }
