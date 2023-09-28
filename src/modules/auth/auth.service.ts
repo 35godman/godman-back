@@ -36,7 +36,7 @@ export class AuthService {
     const { email, password } = payload;
     const user = await this.userService.findByEmail(email);
     if (!user) {
-      throw new NotFoundException('Username not found.');
+      throw new NotFoundException('Email not found.');
     }
     if (user && (await bcrypt.compare(password, user.password))) {
       const token = await this.generateJwt({ user_id: user._id.toString() });
