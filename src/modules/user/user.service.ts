@@ -14,11 +14,12 @@ export class UserService {
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) {}
   async create(user: UserCreateDto): Promise<User> {
-    const { password, email } = user;
+    const { password, email, username } = user;
+    console.log(user);
     const existingUser = await this.userModel
 
       .findOne({
-        $or: [{ email: email }],
+        $or: [{ email: email }, { username: username }],
       })
       .exec();
     if (existingUser) {
@@ -34,6 +35,7 @@ export class UserService {
     });
     const createdUser = new this.userModel({
       ...user,
+
       password: hashedPassword,
     });
 
@@ -46,5 +48,13 @@ export class UserService {
 
   async findByEmail(email: string): Promise<UserDocument> {
     return await this.userModel.findOne({ email }).exec();
+  }
+
+  async findByEmailOrUsername(emailOrUsername: string): Promise<UserDocument> {
+    return await this.userModel
+      .findOne({
+        $or: [{ email: emailOrUsername }, { username: emailOrUsername }],
+      })
+      .exec();
   }
 }
