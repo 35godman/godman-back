@@ -2,7 +2,7 @@ import { Column, PrimaryColumn } from 'typeorm';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class LoginDto {
-  @IsEmail()
+  @IsString()
   @IsNotEmpty()
   email: string;
   @IsString()
