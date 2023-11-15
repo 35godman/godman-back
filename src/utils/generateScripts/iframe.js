@@ -1,4 +1,4 @@
-window.onload = async () => {
+window.onload = () => {
   const chatbot = document.querySelector('#godman-chatbot');
   console.log('=>(iframe.js:3) chatbot', chatbot);
   const svgString = `<svg xmlns="http://www.w3.org/2000/svg" width="18.018" height="17.712" viewBox="0 0 18.018 17.712">

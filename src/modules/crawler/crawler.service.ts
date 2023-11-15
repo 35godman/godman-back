@@ -57,6 +57,7 @@ export class CrawlerService {
       maxConcurrency: parseInt(process.env.MAX_CONCURRENCIES), // Number of parallel tasks
       puppeteerOptions: launchOptions,
     });
+    const returnedToFrontUrls: ReturnedToFrontUrl[] = [];
 
     await cluster.task(async ({ page, data: url }) => {
       urlCount++;
@@ -92,7 +93,35 @@ export class CrawlerService {
         )
       ) {
         const pageData = { url: url, size: size, content: content };
-        crawledData.push(pageData);
+        const urlWithoutSlashes = pageData.url.replace(/\//g, '[]');
+
+        // crawledData.push(pageData);
+        const uploadFilePayload = {
+          fileName: `${urlWithoutSlashes}.txt`,
+          data: pageData.content,
+          chatbot_id,
+          char_length: pageData.size,
+        };
+        try {
+          const newSource = await this.fileUploadService.uploadSingleFile(
+            uploadFilePayload,
+            CategoryEnum.WEB,
+          );
+          const linkCrawled = {
+            size: pageData.size,
+            url: pageData.url,
+            _id: newSource._id.toString(),
+          };
+          returnedToFrontUrls.push(linkCrawled);
+        } catch (e) {
+          console.error(e);
+          sources.crawling_status = 'FAILED';
+          await sources.save();
+          /**
+           * @COMMENT stop the loop if error occurs in fileUploadService
+           */
+          // return;
+        }
       }
     });
 
@@ -101,46 +130,45 @@ export class CrawlerService {
     // Shutdown after everything is done
     await cluster.idle();
     await cluster.close();
-    const returnedToFrontUrls: ReturnedToFrontUrl[] = [];
-    const uniqueUrlsSet = new Set<string>();
-    const uniqueCrawledData = crawledData.filter((data) => {
-      // If the URL has not been seen before, add it to the set and keep the item
-      if (!uniqueUrlsSet.has(normalizeUrl(data.url))) {
-        uniqueUrlsSet.add(data.url);
-        return true;
-      }
-      // If the URL has been seen before, filter out the item
-      return false;
-    });
-    for (const data of uniqueCrawledData) {
-      const urlWithoutSlashes = data.url.replace(/\//g, '[]');
-      const uploadFilePayload = {
-        fileName: `${urlWithoutSlashes}.txt`,
-        data: data.content,
-        chatbot_id,
-        char_length: data.size,
-      };
-      try {
-        const newSource = await this.fileUploadService.uploadSingleFile(
-          uploadFilePayload,
-          CategoryEnum.WEB,
-        );
-        const linkCrawled = {
-          size: data.size,
-          url: data.url,
-          _id: newSource._id.toString(),
-        };
-        returnedToFrontUrls.push(linkCrawled);
-      } catch (e) {
-        console.error(e);
-        sources.crawling_status = 'FAILED';
-        await sources.save();
-        /**
-         * @COMMENT stop the loop if error occurs in fileUploadService
-         */
-        return;
-      }
-    }
+    // const uniqueUrlsSet = new Set<string>();
+    // const uniqueCrawledData = crawledData.filter((data) => {
+    //   // If the URL has not been seen before, add it to the set and keep the item
+    //   if (!uniqueUrlsSet.has(normalizeUrl(data.url))) {
+    //     uniqueUrlsSet.add(data.url);
+    //     return true;
+    //   }
+    //   // If the URL has been seen before, filter out the item
+    //   return false;
+    // });
+    // for (const data of uniqueCrawledData) {
+    //   const urlWithoutSlashes = data.url.replace(/\//g, '[]');
+    //   const uploadFilePayload = {
+    //     fileName: `${urlWithoutSlashes}.txt`,
+    //     data: data.content,
+    //     chatbot_id,
+    //     char_length: data.size,
+    //   };
+    //   // try {
+    //   //   const newSource = await this.fileUploadService.uploadSingleFile(
+    //   //     uploadFilePayload,
+    //   //     CategoryEnum.WEB,
+    //   //   );
+    //   //   const linkCrawled = {
+    //   //     size: data.size,
+    //   //     url: data.url,
+    //   //     _id: newSource._id.toString(),
+    //   //   };
+    //   //   returnedToFrontUrls.push(linkCrawled);
+    //   // } catch (e) {
+    //   //   console.error(e);
+    //   //   sources.crawling_status = 'FAILED';
+    //   //   await sources.save();
+    //   //   /**
+    //   //    * @COMMENT stop the loop if error occurs in fileUploadService
+    //   //    */
+    //   //   return;
+    //   // }
+    // }
     sources.crawling_status = 'COMPLETED';
     await sources.save();
     return returnedToFrontUrls;
