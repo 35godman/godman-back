@@ -156,7 +156,7 @@ export class EmbeddingService {
     if (queryResponse.matches.length) {
       // 7. Create an OpenAI instance and load the QAStuffChain
       const llm = new OpenAI({
-        modelName: chatbotInstance.settings.model,
+        modelName: 'gpt-4-1106-preview',
         maxTokens: chatbotInstance.settings.max_tokens,
         temperature: chatbotInstance.settings.temperature,
         streaming: true,
@@ -212,13 +212,13 @@ export class EmbeddingService {
       console.log(chatbotInstance.settings.language);
       const result = await chainB.call(
         {
-          history: chat_history,
+          // history: chat_history,
           language: chatbotInstance.settings.language,
           context: concatenatedPageContent,
           readableDate,
           question,
           additional_prompt: chatbotInstance.settings.base_prompt,
-          conversation: JSON.stringify(messages),
+          // conversation: JSON.stringify(messages),
         },
 
         [

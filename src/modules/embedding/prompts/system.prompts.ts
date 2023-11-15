@@ -45,8 +45,6 @@ export const prompts = {
 16. Previous conversation {conversation}`,
 
   'qa-1.1': `**Context**: {context}
-**Previous conversation**: {conversation}
-
 Act as a company AI Assistant. 
 Adhere to the guidelines below when generating an answer MUST be in language {language} ru for russian/en for english:
 **Extra comments for answer**: {additional_prompt}
