@@ -1,0 +1,62 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+
+WEBINAR: BUILDING DATA-DRIVEN CHAT APPS USING AIRBYTE AND PINECONE
+
+Oct 25, 202312:00 PM - 1:00 PM EDT
+
+Come learn how Airbyte & Pinecone can be used together to build a data-driven
+chatbot that is up to date with all of your data.
+
+This demo will show how our new Pinecone destination can be used with Airbyte
+and Open AI or Cohere to load data. With this ability, we can load any of
+Airbyte's 350+ Sources into Pinecone.
+This webinar will cover:
+
+ * A quick intro to Pinecone
+ * Why and how to use Airbyte & Pinecone
+ * How to chat with your data (practice)
+
+!
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fevents-7.f2b93bac.png&w=3840&q=100]
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+

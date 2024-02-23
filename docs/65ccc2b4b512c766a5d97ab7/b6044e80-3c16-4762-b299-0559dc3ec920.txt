@@ -1,0 +1,137 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+CANDIDATE GENERATION 
+
+
+MAKE RECOMMENDATIONS THAT ENGAGE
+
+Generate more relevant candidates for your recommendation and personalization
+systems using vector search in Pinecone.
+
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fhero-bg.734036df.png&w=3840&q=100]
+Gong
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F922741b641029c77fa5a88339504636782747c7f-158x56.png&w=3840&q=100]Notion
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2Faf5cca85d4867b046f6d1dec52beeb6c1585680f-158x58.png&w=3840&q=100]Microsoft
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F9f1a1e8edfb77639ee53acf49a1f8ec3673813d7-301x62.png&w=3840&q=100]Hubspot
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2Fab7219a1516e1c83a82fada65af94ee34209917e-1000x284.png&w=3840&q=100]Klarna
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F468190e8ef7ad82dcd927f1227a023c135d4b7a4-248x61.png&w=3840&q=100]clickup
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2Fdbd157379336492fae1f389f3259ad539a8bbd89-374x100.png&w=3840&q=100]CS
+DISCO
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F37aadb918940693df3c62c1ee7fa99c7adb47449-145x21.png&w=3840&q=100]Frontier
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F52c968e7d1bf98ea373f491e79a242003abcf0a6-272x65.png&w=3840&q=100]
+
+
+CANDIDATE GENERATION WITH PINECONE
+
+A key part of a recommendation system, candidate generation provides a set of
+items likely to be recommended to a user. The Pinecone vector database lets you
+index and search for the most relevant items for your users as part of your
+AI-powered RecSys stack.
+
+icon
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F65cd86fd3c39ea31e17c85948d79924b31cdc544-96x97.png&w=3840&q=100]
+
+
+REMARKABLY BETTER RECOMMENDATIONS 
+
+Deliver the most relevant and freshest recommendations with fast, fresh, and
+filtered vector search.
+
+icon
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2Faa09ce4603a22875c45bf99eab4695357adf396b-96x97.png&w=3840&q=100]
+
+
+COST-EFFECTIVE AT SCALE
+
+Reduce cost by up to 50x for most workloads with a serverless architecture that
+separates storage, reads, and writes.
+
+icon
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F7fd6f83937e3b5c3cd243ee585e5f4e203d587a0-96x97.png&w=3840&q=100]
+
+
+HASSLE-FREE AND FAST
+
+Go to production in hours, not days, with a fully managed vector database that
+is easy to use without any infrastructure to manage. 
+
+
+WHAT DEVELOPERS CAN BUILD WITH PINECONE
+
+icon
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F7b67050355d942f457a1fe668da07022e904aee7-96x97.png&w=3840&q=100]
+
+
+E-COMMERCE PRODUCT RECOMMENDATIONS
+
+icon
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F444d3d9433c87697659fcc3df2441e8ec7cf5f16-96x97.png&w=3840&q=100]
+
+
+PERSONALIZED DIGITAL ADS
+
+icon
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2Fcf699d97f7679db35ea437b7969a0bfa78c3fbca-96x97.png&w=3840&q=100]
+
+
+PERSONALIZED STREAMING CONTENT
+
+icon
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F697ea4277a740770fb070835cc030fe174134502-96x97.png&w=3840&q=100]
+
+
+PERSONALIZED NEWS
+
+
+RESOURCES FOR DEVELOPERS
+
+
+
+
+START BUILDING KNOWLEDGEABLE AI NOW
+
+Create your first index for free, then upgrade and when you're ready to scale,
+or .
+
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+

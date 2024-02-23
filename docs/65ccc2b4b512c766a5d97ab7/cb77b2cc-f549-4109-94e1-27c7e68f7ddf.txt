@@ -1,0 +1,108 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+
+
+v2
+
+Ctrl+K
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+
+PINECONE DOCUMENTATION
+
+Get started using Pinecone, explore our examples, learn Pinecone concepts and
+components, and check our reference documentation.
+
+What are you looking for?
+
+
+
+GETTING STARTED
+
+Learn Pinecone basics and get up to speed quickly.
+
+
+
+
+ORGANIZATIONS
+
+Understand how to administer your Pinecone organization.
+
+
+
+
+PROJECTS
+
+Learn how to use projects in Pinecone.
+
+
+
+
+INDEXES
+
+Learn how to use indexes in Pinecone.
+
+
+
+
+DATA
+
+Learn about working with data in your Pinecone indexes.
+
+
+
+
+OPERATIONS
+
+Learn how to tune, monitor, and troubleshoot your Pinecone deployment.
+
+
+
+
+INTEGRATIONS
+
+Learn how to integrate Pinecone with other systems.
+
+
+
+
+REFERENCE
+
+Access detailed reference information about the Pinecone API and libraries.
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+
+
+
+

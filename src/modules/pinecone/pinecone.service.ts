@@ -9,6 +9,7 @@ export class PineconeService {
   async deleteNamespace(chatbot_id: string) {
     const client = await createPineconeClient();
     const index = client.Index(indexName);
+    console.log("=>(pinecone.service.ts:12) index", index);
     // 2. Log the retrieved index name
     console.log(`Pinecone index retrieved: ${indexName}`);
     //delete all prev_indexes

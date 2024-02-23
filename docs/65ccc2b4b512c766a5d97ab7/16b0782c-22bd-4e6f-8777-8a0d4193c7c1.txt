@@ -1,0 +1,151 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+CLASSIFICATION
+
+
+CLASSIFICATION OPTIMIZED
+
+Better, faster results with streamlined classification at a lower cost
+
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fhero-bg.734036df.png&w=3840&q=100]
+Gong
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F922741b641029c77fa5a88339504636782747c7f-158x56.png&w=3840&q=100]Notion
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2Faf5cca85d4867b046f6d1dec52beeb6c1585680f-158x58.png&w=3840&q=100]Microsoft
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F9f1a1e8edfb77639ee53acf49a1f8ec3673813d7-301x62.png&w=3840&q=100]Hubspot
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2Fab7219a1516e1c83a82fada65af94ee34209917e-1000x284.png&w=3840&q=100]Klarna
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F468190e8ef7ad82dcd927f1227a023c135d4b7a4-248x61.png&w=3840&q=100]clickup
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2Fdbd157379336492fae1f389f3259ad539a8bbd89-374x100.png&w=3840&q=100]CS
+DISCO
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F37aadb918940693df3c62c1ee7fa99c7adb47449-145x21.png&w=3840&q=100]Frontier
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F52c968e7d1bf98ea373f491e79a242003abcf0a6-272x65.png&w=3840&q=100]
+
+
+CLASSIFICATION WITH PINECONE
+
+Classification with a vector database to find desired sample data for labeling
+or classification workloads.
+
+icon
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F04f487b7880030f218e2fc22e8fc3e12671aa289-96x97.png&w=3840&q=100]
+
+
+REDUCE MANUAL WORKLOADS
+
+Say no to manual labeling and use vector search to discover relevant data
+regardless of data size.
+
+icon
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F7b1cf15714d85d795e4c08c49f39a0ee2752a250-96x97.png&w=3840&q=100]
+
+
+FIND THE RIGHT DATA
+
+Train only on the data that matters with vector search. Get faster iterations of
+model fine-tuning or data classification.
+
+icon
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F7fd6f83937e3b5c3cd243ee585e5f4e203d587a0-96x97.png&w=3840&q=100]
+
+
+FASTER, LOWER COST, PERFORMANT
+
+Faster, lower cost, and higher performance compared to human labeling or
+synthetic data labeling.
+
+
+LEARN HOW CUSTOMERS ARE USING CLASSIFICATION WITH PINECONE
+
+
+
+
+WHAT DEVELOPERS CAN BUILD WITH PINECONE
+
+icon
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F1bf7a3a76847f64fabaa477a726ab82f0472e8e3-96x97.png&w=3840&q=100]
+
+
+ACTIVE LEARNING SYSTEMS
+
+icon
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2Faa44646331ffbe0a74b3486ff148e95732af983d-96x97.png&w=3840&q=100]
+
+
+FRAUD & ANOMALY DETECTION
+
+icon
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2Fb634984e6ce53f8de0d121b6b3c14d0b20f67f4e-96x97.png&w=3840&q=100]
+
+
+SENTIMENT ANALYSIS
+
+icon
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F1596278bef61881ae27095628a1afc9337e86357-96x97.png&w=3840&q=100]
+
+
+GENOMIC DATA CLASSIFICATION
+
+icon
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2Fe3a6349b408f43e5f29679a497f6a91992f1c700-96x97.png&w=3840&q=100]
+
+
+OBJECT RECOGNITION
+
+icon
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F7e0bb73050c356ef63836bad89f06bcfc5ef32b4-96x97.png&w=3840&q=100]
+
+
+TRAINING DATA LABELING
+
+
+RESOURCES FOR DEVELOPERS
+
+
+
+
+START BUILDING KNOWLEDGEABLE AI NOW
+
+Create your first index for free, then upgrade and when you're ready to scale,
+or .
+
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+

@@ -1,0 +1,129 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+
+LEARN TO LOVE VECTORS
+
+Unlock the power of vector search. Our guides will help you conquer vector
+embeddings and build better AI applications.
+
+Subscribe
+
+
+
+
+LATEST
+
+
+
+
+title
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fcourse-graphic.16fe4cb2.png&w=3840&q=75]
+
+
+SHORT COURSE: BUILDING APPLICATIONS WITH VECTOR DATABASES
+
+Learn to create six exciting applications of vector databases and implement them
+using Pinecone.
+
+--------------------------------------------------------------------------------
+
+
+CORE COMPONENTS
+
+What you need to know about vector search and vector databases.
+
+
+
+
+
+--------------------------------------------------------------------------------
+
+
+USE CASES
+
+AI in practice, from semantic search to generative chatbot agents.
+
+
+
+
+
+--------------------------------------------------------------------------------
+
+
+DEEP DIVES
+
+Tutorials and in-depth explainers on AI tools and concepts.
+
+
+
+
+
+--------------------------------------------------------------------------------
+
+
+ML FOUNDATIONS
+
+General ML topics from algorithms to z-scores.
+
+
+
+
+
+--------------------------------------------------------------------------------
+
+
+MISSING MANUALS
+
+Guides you wished existed for popular tools and libraries. Now they do.
+
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+
+
+
+DON'T MISS THE NEXT ONE...
+
+
+
+Get an email the next time we publish an article about machine learning and
+similarity search.
+
+Get Updates

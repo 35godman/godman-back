@@ -1,0 +1,185 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+
+FRONTIER MEDICINES AND PINECONE: PIONEERING THE USE OF SUPER LARGE VECTOR
+DATABASES IN HEALTHCARE
+
+logo
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2Fdb3d8a0a41d1c8ea44357b6cd1b324ff763c5f09-704x176.png&w=3840&q=75]
+
+Frontier Medicines is a precision medicine company pioneering groundbreaking
+medicines to transform treatment for genetically-defined patient populations,
+starting with oncology and immunology. They use Pinecone to supercharge their
+usage of vector embeddings— specifically impactful for similarity searches over
+billions of vectorized molecules.
+
+Industry
+
+Healthcare
+
+Use Cases
+
+Semantic Search
+
+Cloud
+
+AWS
+
+Tens of Billions
+
+molecule vectors
+
+Increased Efficiency
+
+in vector searches
+
+is a precision medicine company pioneering groundbreaking medicines to transform
+treatment for genetically-defined patient populations, starting with oncology
+and immunology. The company’s proprietary chemoproteomics powered drug discovery
+engine, the , leverages machine learning paired with covalent chemistry to
+unlock hard-to-treat disease causing proteins for drug development.
+
+The Frontier platform is powered in part by data from its mass spectrometry
+driven chemoproteomics, generating terabytes of data a day. In the last five
+years, Frontier has measured hundreds of millions of covalent molecule proteome
+interaction data and strategically invested in the generation of covalent
+chemical property data. Together, these data represent an unprecedented large
+data set for covalent drug discovery.
+
+Leveraging these high value and high quality data, Frontier has developed key AI
+algorithms to drive the discovery of novel medicines against historically
+“undruggable” targets. Chemoproteomics focused algorithms inform and guide
+targeting strategies for nearly every protein in the human proteome. In
+addition, medicinal chemistry focused algorithms including large-language-models
+and generative AI approaches drive the optimization of compounds from within
+Frontier’s highly curated library.
+
+Large scale similarity searches over billions of vectorized items including
+molecules is an important step in this process and Pinecone serverless enabled
+Frontier to perform those searches with superior performance while being cost
+effective.
+
+Solution
+
+
+PINECONE OFFERS NEXT GENERATION VECTOR EMBEDDED MOLECULE SEARCH
+
+Frontier Medicines turned to Pinecone to take advantage of Pinecone’s handling
+of vectors at a large scale with automatic resource management.
+
+With Pinecone, Frontier Medicines supercharged their usage of vector
+—specifically impactful for molecule searches. First, Frontier leveraged a
+proprietary transformer model to generate molecule specific vectors for billions
+of molecules, then Pinecone enabled optimizing the entire search process.
+
+As their usage of Pinecone evolved, Frontier Medicines wanted to explore the
+ability to search across molecular datasets. Facing the challenging requirements
+of a billion-scale complex dataset, the Frontier Machine Learning team delved
+into the capabilities of the newly introduced . During a private preview period,
+the team tested the recently available architecture, which allowed them to
+leverage vector storage at any scale while lowering costs for higher
+availability.
+
+
+
+> The introduction of Pinecone serverless has led to amazing performance and
+> efficiency improvements in our vector search capability. We will continue to
+> push forward searching Billions of vectors with Pinecone serverless at the
+> center.” - Johannes Hermann PhD, Chief Technology Officer, Frontier Medicines
+
+result
+
+
+SCALING DRUG DISCOVERY WITH PINECONE SERVERLESS
+
+Frontier Medicines wanted a more scalable solution to support the generation of
+molecular insights across billions of molecules. The team needed to store a
+large collection of vectors representing molecules to be able to process and
+find insights for their projects. Here, the query needs were not always large in
+nature, but also frequent and smaller and focused. With Pinecone serverless,
+Frontier Medicines has been able to continue rapidly:
+
+ * Building at any scale: Pinecone serverless has enabled the team to scale up
+   to tens of billions of vectors. With this advanced architecture, they could
+   substantially expand their molecular semantic search effectively, enabling
+   precise searches within specific namespaces based on molecular
+   characteristics.
+ * Accessing easiest-to-use technology: This developer-first experience allowed
+   Frontier Medicines to push the envelope in using large scale molecule vector
+   spaces for searches and machine learning. Pinecone is key to enabling that
+   large level of scale, making manual resource provisioning a thing of the
+   past.
+
+
+A VISION FOR BROADER IMPACT
+
+Frontier Medicines has continued significant enhancements in their ability to
+search large vector spaces since transitioning to Pinecone serverless:
+
+ * Scale to tens of billions of molecule vectors with precise performance:
+   sub-second searches achieved in near real-time usage
+ * Increased efficiency in vector searches
+
+Frontier’s utilization of Pinecone serverless has enabled Frontier to enter a
+new dimension of search space and laid the foundation for future scalability and
+innovation as the company continues to expand its leadership in developing
+breakthrough precision medicines.
+
+Share via:
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F395aa87bf83fb1453dcaf7708ada8b376b1ee24e-1340x1516.jpg&w=3840&q=100]
+
+Pinecone Customer Marketing
+
+Jump to section
+
+ * 
+ * 
+
+
+WHAT WILL YOU BUILD?
+
+Upgrade your search or chatbots applications with just a few lines of code.
+
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+

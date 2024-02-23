@@ -1,0 +1,362 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+
+DETECTING SIMILAR SECURITY ALERTS AT EXPEL
+
+--------------------------------------------------------------------------------
+
+Jump to section
+ * 
+ * 
+ * 
+ * 
+ * 
+
+--------------------------------------------------------------------------------
+
+Written by  and  for . Reposted with permission.
+
+Since the beginning of our journey here at Expel, we’ve invested in creating
+processes and tech that set us up for success as we grow – meaning we keep our
+analysts engaged (and help them avoid burnout as best we can) while maintaining
+the level of service our customers have come to expect from us.
+
+One of the features we recently built and released helps us do all of this:
+Alert Similarity. Why did we build it and how does it benefit our analysts and
+customers?
+
+Here’s a detailed look at how we approached the creation of Alert Similarity. If
+you’re interested in trying to develop a similar feature for your own security
+operations center (SOC), or learning about how to bring research to production,
+then read on for tips and advice.
+
+
+GETTING STARTED
+
+In our experience, it’s best to kick off with some research and experimentation
+– this is an easy way to get going and start identifying low-hanging fruit, as
+well as to find opportunities to make an impact without it being a massive
+undertaking.
+
+We began our Alert Similarity journey by using one of our favorite research
+tools: a . The first task was to validate our hypothesis: we had a strong
+suspicion that new security alerts are similar to others we’ve seen in the past.
+
+Expel Analysts Triage ~1000 Alerts/Day
+[https://cdn.sanity.io/images/vr8gru94/production/1049b4e8bb3058bf5d6ec5107f78972870ac0a5a-796x446.png]
+
+
+To test the theory, we designed an experiment in a Jupyter notebook where we:
+
+ 1. Gathered a representative sample set of alerts;
+ 2. Created vector embeddings for these alerts;
+ 3. Generated an n:n similarity matrix comparing all alerts; and
+ 4. Examined the results to see if our hypothesis held up.
+
+We then gathered a sample of alerts over a few months (approximately 40,000 in
+total). This was a relatively easy task, as our platform stores security alerts
+and we have simple mechanisms in place to retrieve them regularly.
+
+Next, we needed to decide how to create vector embeddings. For the purposes of
+testing our hypothesis, we decided we didn’t need to spend a ton of time
+perfecting how we did it. If you’re familiar with generating embeddings, you’ll
+know this usually turns into a never-ending process of improvement. To start, we
+just needed a baseline to measure our efforts against. To that end, we chose
+MinHash as a quick and easy way to turn our selected alerts into vector
+embeddings.
+
+
+WHAT IS MINHASH AND HOW DOES IT WORK?
+
+is an efficient way to approximate the between documents. The basic principle is
+that the more data shared between two documents, the more similar they are.
+Makes sense, right?
+
+Calculating the true Jaccard index between two documents is a simple process
+that looks like this:
+
+Jaccard Index = (Intersection of tokens between both documents) / (Union of tokens between both documents)
+
+
+
+
+For example, if we have two documents:
+
+ 1. The lazy dog jumped over the quick brown fox
+ 2. The quick hare jumped over the lazy dog
+
+We could calculate the Jaccard index like this:
+
+(the, dog, jumped, over, quick) / (the, lazy, dog, jumped, over, quick, brown, fox, hare)
+→ 5 / 6
+→ 0.8333
+
+
+
+
+This is simple and intuitive, but at scale it presents a problem: You have to
+store all tokens for all documents to calculate this distance metric. In order
+to calculate the result, you inevitably end up using lots of storage space,
+memory, and CPU.
+
+That’s where MinHash comes in. It solves the problem by approximating Jaccard
+similarity, yet only requires that you store a vector embedding of length K for
+each document. The larger K, the more accurate your approximation will be.
+
+By transforming our input documents (alerts) into MinHash vector embeddings,
+we’re able to efficiently store and query against millions of alerts. This
+approach allows us to take any alert and ask, “What other alerts look similar to
+this one?” Similar documents are likely good candidates for further inspection.
+
+
+VALIDATING OUR HYPOTHESIS
+
+Once we settled on our vectorization approach (thanks, MinHash!), we tested our
+hypothesis. By calculating the similarity between all alerts for a specific time
+period, we confirmed that 5-6% of alerts had similar neighbors (Fig 1.). Taking
+that even further, our metrics allowed us to estimate actual time savings for
+our analysts (Fig 2.).
+
+Percentage of alerts with similar neighbors
+[https://cdn.sanity.io/images/vr8gru94/production/0f16fdc5d6379bd42c2265b467b0d3ab5f8bf815-800x251.png]
+Fig. 1: Percentage of alerts with similar neighbors
+Estimated analyst hours saved
+[https://cdn.sanity.io/images/vr8gru94/production/c75be77c40a07f78ba21d46ab41b45af3925b7e1-800x264.png]
+Fig. 2: Estimated analyst hours saved (extrapolated)
+
+These metrics proved that we were onto something. Based on these results, we
+chose building an Alert Suggestion capability off the back of Alert Similarity
+as our first use case to target. This use case would allow us to improve
+efficiencies in our SOC and, in turn, enhance the level of service we provide to
+our customers.
+
+
+OUR JOURNEY TO PRODUCTION
+
+
+STEP 1: GETTING BUY-IN ACROSS THE ORGANIZATION
+
+Before moving full speed ahead into our project, we communicated our research
+idea and its potential benefits across the business. The TL;DR here? You can’t
+get your colleagues to buy into a new idea unless they understand it. Our R&D
+groups pride themselves on never creating “Tad-dah! It’s in production!” moments
+for Engineering or Product Management without them having the background on new
+projects first.
+
+We created a presentation that outlined the opportunity and our research, and
+allowed Expletives (anyone from Product Management to Customer Success to
+Engineering) to review our proof of concept. In this case, we used a heavily
+documented notebook to walk viewers through what we did. We discussed our
+go-forward plan and made sure our peers across the organization understood the
+opportunity and were invested in our vision.
+
+
+STEP 2: REVIEWING THE DESIGN
+
+Next, we created a design review document outlining a high-level design of what
+we wanted to build. This is a standard process at Expel and is an important part
+of any new project. This document doesn’t need to be a perfect representation of
+what you’ll end up building, nor does it need to include every last
+implementation detail, but it does need to give the audience an idea of the
+problem you’re aiming to solve and the general architectural design of the
+solution you’re proposing.
+
+Here’s a quick look at the design we mocked up to guide our project:
+
+Project Mock Up Design
+[https://cdn.sanity.io/images/vr8gru94/production/c61757ad2e8e9576b4d6233cc1091610aa6a9c11-1000x547.png]
+
+
+As part of this planning process, we identified the following goals and let
+those inform our design:
+
+ * Build new similarity-powered features with little friction
+ * Monitor the performance and accuracy of the system
+ * Limit complexity wherever possible (don’t reinvent the wheel)
+ * Avoid making the feature availability mission critical (so we can move
+   quickly without risk)
+
+As a result of this planning exercise, we concluded that we needed to build the
+following components:
+
+ * Arnie (Artifact Normalization and Intelligent Encoding): A shared library to
+   turn documents at Expel into vector embeddings
+ * Vectorizor consumer: A worker that consumes raw documents and produces vector
+   embeddings
+ * Similarity API: A grpc service that provides an interface to search for
+   similar documents
+
+We also decided that we wouldn’t build our own vector search database and
+instead decided to use to meet this need. This was a crucial decision that saved
+us a great deal of time and effort. (Remember how we said we wouldn’t reinvent
+the wheel?)
+
+Why Pinecone? At this stage, we had a good sense for our technical requirements.
+We wanted sub-second vector search across millions of alerts, an API interface
+that abstracts away the complexity, and we didn’t want to have to worry about
+database architecture or maintenance. As we examined our options, Pinecone
+quicky became our preferred partner. We were really impressed by the performance
+we were able to achieve and how quick and easy their service was to set up and
+use.
+
+
+STEP 3: IMPLEMENTING OUR ALERT SIMILARITY FEATURE
+
+We’re lucky to have an extremely talented core platform team here at Expel
+infrastructure capabilities we can reliably build on. Implementing our feature
+was as simple as using these building blocks and best practices for our use
+case.
+
+
+RELEASE DAY
+
+Once the system components were built and running in staging, we needed to
+coordinate a release in production that didn’t introduce risk into our usual
+business operations. Alert Suggestion would produce suggestions in Expel
+Workbench like this, which could inform decisions made by our SOC analysts.
+
+Release Day
+[https://cdn.sanity.io/images/vr8gru94/production/887c83296c958ef02073ea24c86e1628d5d29d89-800x469.png]
+
+
+However, if our feature didn’t work as expected – or worse, created incorrect
+suggestions – we could cause confusion or defects in our process.
+
+To mitigate these risks when moving to production, it was important to gather
+metrics on the performance and accuracy of our feature before we started putting
+suggestions in front of our analysts. We used and to accomplish this.
+LaunchDarkly feature flags allowed us to deploy to production silently – meaning
+it runs behind the scenes and is invisible to end users. This allowed us to
+build a Datadog dashboard with all kinds of useful metrics like:
+
+ * How quickly we’re able to produce a suggestion
+ * The percentage of alerts we can create suggestions for
+ * How often our suggestions are correct (we did this by comparing what the
+   analyst did with the alert versus what we suggested)
+ * Model performance (accuracy, recall, F1 score)
+ * The time it takes analysts to handle alerts with and without suggestions
+
+To say these metrics were invaluable would be an understatement. Deploying our
+feature silently for a period of time allowed us to identify several bugs and
+correct them without having any impact on our customers. This boosted confidence
+in Alert Similarity before we flipped the switch. When the time came, deployment
+was as simple as updating a single feature flag in LaunchDarkly.
+
+
+WHAT WE’VE LEARNED SO FAR
+
+We launched Alert Similarity in February 2022, and throughout the building
+process we learned (or in many cases, reaffirmed) several important things:
+
+
+COMMUNICATION IS KEY.
+
+You can’t move an organization forward with code alone. The time we spent
+sharing research, reviewing design documents, and gathering feedback was crucial
+to the success of this project.
+
+
+THERE’S NOTHING LIKE REAL PRODUCTION DATA.
+
+A silent release with feature flags and metrics allowed us to identify and fix
+bugs without affecting our analysts or customers. This approach also gave us
+data to feel confident that we were ready to release the feature. We’ll look to
+reuse this process in the future.
+
+
+IF YOU CAN’T MEASURE IT, YOU DON’T UNDERSTAND IT.
+
+This whole journey from beginning to end was driven by data, allowing us to move
+forward based on a validated hypothesis and realistic goals versus intuition.
+This is how we knew our investment was worth the time and how we were able to
+prove the value of Alert Similarity once it was live.
+
+
+WHAT’S NEXT?
+
+Although we targeted suggestions powered by Alert Similarity as our first
+feature, we anticipate an exciting road ahead filled with additional features
+and use cases. We’re interested in exploring other types of documents that are
+crucial to our success and how similarity search could unlock new value and
+efficiencies.
+
+Additionally, as we alluded to above, there’s always room for improvement when
+transforming documents into vector embeddings. We’re already exploring new ways
+to represent security alerts that improve our ability to find similar neighbors
+for alerts. We see a whole world of opportunities where similarity search can
+help us, and we’ll continue experimenting, building and sharing what we learn
+along the way.
+
+Interested in more engineering tips and tricks, and ideas for building your own
+features to enhance your service (and make your analysts’ lives easier?) to get
+the latest posts sent right to your inbox.
+
+Share via:
+
+
+Take a look at the hidden world of vector search and its incredible potential.
+(series cover image)
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2Fdfd58b57af6542487ba4145e668f633aaea245d6-1700x2192.png&w=3840&q=100]
+
+Chapters
+
+ 1. 
+ 2. 
+ 3.  * 
+     * 
+     * 
+     * 
+     * 
+
+ 4. 
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+
+
+
+DON'T MISS THE NEXT ONE...
+
+
+
+Get an email the next time we publish an article about machine learning and
+similarity search.
+
+Get Updates

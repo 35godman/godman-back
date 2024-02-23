@@ -1,0 +1,881 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+
+DEPLOYING OPEN SOURCE LLMS FOR RAG WITH SAGEMAKER
+
+Aug 23, 2023
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F8b3fb37178129c4ba2d7c68eb896ec8cea8f395b-400x400.png&w=3840&q=100]
+
+Developer Advocate
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F0e91ee410b5515c23ac97c3ee29c418e4e0071d9-72x72.jpg&w=3840&q=100]
+
+Vedant Jain
+
+AI/ML Specialist Lead at AWS
+
+--------------------------------------------------------------------------------
+
+Jump to section
+
+--------------------------------------------------------------------------------
+
+We are developing the future with Large Language Models (LLMs). Companies
+worldwide are moving fast to integrate LLMs into existing products and even
+creating entirely new products using LLMs.
+
+Despite the seemingly unstoppable adoption of LLMs across industries, they're
+just one component of a broader technology ecosystem that is powering the new AI
+wave. An LLM alone is not all that useful.
+
+Would you use Google if it was 10x slower and only allowed you to search through
+data from September 2021 or earlier? A slow, outdated Google would not be as
+compelling as the Google we use today.
+
+LLMs alone are like our slow, outdated Google. With the correct hardware, some
+of the latest LLMs, like Meta's Llama 2, will either not run or take minutes to
+generate a paragraph of text. With a knowledge base, GPT 4 (v0316) can tell us
+about the world pre-September 2021.
+
+These limitations are significant. Yet, we can overcome these issues by
+augmenting our LLM with the right components. In this article, we'll explore how
+to deploy open-access LLMs using AWS Sagemaker and keep our LLMs up to date with
+relevant information using the Pinecone vector database.
+
+--------------------------------------------------------------------------------
+
+Many conversational AI use cases require LLMs like Llama 2, Flan T5, and Bloom
+to respond to user queries. These models rely on parametric knowledge to answer
+questions.
+
+Video walkthrough of deploying open source LLMs for RAG with SageMaker
+
+Parametric knowledge is powerful but limited. The model learns this knowledge
+during training and encodes it into the model parameters. We must retrain the
+LLM to update this knowledge — which takes a lot of time and money.
+
+Fortunately, we can also use source knowledge to inform our LLMs. Source
+knowledge refers to information fed into the LLM via an input prompt.
+
+Retrieval Augmented Generation (RAG) is a popular approach to providing our LLMs
+with relevant source knowledge. Using RAG, we retrieve relevant information from
+an external data source and feed that information into the LLM.
+
+RAG allows us to augment our prompts with relevant context, improving LLM
+performance.
+[https://cdn.sanity.io/images/vr8gru94/production/12a67c2d233c2097273eb7c7a5db65c066594c3c-2282x1145.png]
+RAG allows us to augment our prompts with relevant context, improving LLM
+performance.
+
+
+DEPLOYING LLMS IN SAGEMAKER
+
+Pinecone will handle the retrieval component of RAG for us, but we still need
+two more critical components: somewhere to run our LLM inference and somewhere
+to run our embedding model.
+
+SageMaker provides inference hardware, easily deployable images for LLMs like
+Llama 2, and integrations with popular model providers like Hugging Face.
+
+SageMaker provides the ideal environment for developing RAG-enabled LLM
+pipelines. First, create a SageMaker domain and open a Jupyter Studio notebook.
+We first install prerequisite libraries:
+
+!pip install -qU \
+  sagemaker \
+  pinecone-client==2.2.1 \
+  ipywidgets==7.0.0
+
+
+
+
+DEPLOYING AN LLM
+
+There are two approaches to deploying an LLM that we will discuss here. The
+first is via the HuggingFaceModel object. We use this when deploying LLMs (and
+embedding models) directly from the Hugging Face model hub.
+
+For example, we could create a deployable config for the or
+meta-llama/Llama-2-7b models like so:
+
+import sagemaker
+from sagemaker.huggingface import (
+    HuggingFaceModel,
+    get_huggingface_llm_image_uri
+)
+
+role = sagemaker.get_execution_role()
+
+hub_config = {
+    'HF_MODEL_ID':'meta-llama/Llama-2-7b', # model_id from hf.co/models
+    'HF_TASK':'text-generation' # NLP task you want to use for predictions
+}
+
+# retrieve the llm image uri
+llm_image = get_huggingface_llm_image_uri(
+    "huggingface",
+    version="0.8.2"
+)
+
+my_model = HuggingFaceModel(
+    env=hub_config,
+    role=role, # iam role with permissions to create an Endpoint
+    image_uri=llm_image
+)
+
+
+
+When deploying models directly from Hugging Face like this, we must initialize
+the configuration my_model with:
+
+ * An env config tells us which model we want to use and for what task.
+ * Our SageMaker execution role gives us permissions to deploy our model.
+ * An image_uri is an image config specifically for deploying LLMs from Hugging
+   Face.
+
+Alternatively, SageMaker has a set of models directly compatible with a simpler
+JumpStartModel object. Many popular LLMs like Llama 2 are supported by this,
+which we initialize like so:
+
+from sagemaker.jumpstart.model import JumpStartModel
+
+my_model = JumpStartModel(
+    model_id="meta-textgeneration-llama-2-7b-f"
+)
+
+
+
+For both versions of my_model, we can go ahead and deploy them like so:
+
+llm = huggingface_model.deploy(
+    initial_instance_count=1,
+    instance_type="ml.g5.4xlarge",
+    endpoint_name="llama-2-demo"
+)
+
+
+
+
+QUERYING THE LLM
+
+With our initialized LLM endpoint, we can begin querying it. The format of our
+queries may vary (particularly between conversational and non-conversational
+LLMs), but the process is generally the same. For the Hugging Face model, we do
+the following:
+
+In[5]:
+
+question = "Which instances can I use with Managed Spot Training in SageMaker?"
+
+out = llm.predict({"inputs": question})
+out
+
+
+Out[5]:
+
+[{'generated_text': 'SageMaker and SageMaker XL.'}]
+
+(See to see an example with the Llama 2 conversational LLM)
+
+The generated answer we're receiving here doesn't make much sense — it is a .
+
+ADDING CONTEXT
+
+Llama 2 attempts to answer our question based solely on internal parametric
+knowledge. Clearly, the model parameters do not store knowledge of which
+instances we can with managed spot training in SageMaker.
+
+To answer this question correctly, we must use source knowledge. That is, we
+give additional information to the LLM via the prompt. Let's add that
+information directly as additional context for the model.
+
+In[6]:
+
+context = """Managed Spot Training can be used with all instances
+supported in Amazon SageMaker. Managed Spot Training is supported
+in all AWS Regions where Amazon SageMaker is currently available."""
+
+
+In[7]:
+
+prompt_template = """Answer the following QUESTION based on the CONTEXT
+given. If you do not know the answer and the CONTEXT doesn't
+contain the answer truthfully say "I don't know".
+
+CONTEXT:
+{context}
+
+QUESTION:
+{question}
+
+ANSWER:
+"""
+
+text_input = prompt_template.replace("{context}", context).replace("{question}", question)
+
+out = llm.predict({"inputs": text_input})
+generated_text = out[0]["generated_text"]
+print(f"[Input]: {question}\n[Output]: {generated_text}")
+
+
+Out[7]:
+
+[Input]: Which instances can I use with Managed Spot Training in SageMaker?
+[Output]: all instances supported in Amazon SageMaker
+
+
+We now see the correct answer to our question; that was easy! However, a user is
+unlikely to insert contexts into their prompts — in that case, they would
+already know the answer to their question.
+
+Rather than manually inserting a single context, we need to automatically
+identify relevant information from a more extensive database of information. For
+that, we need RAG.
+
+
+RETRIEVAL AUGMENTED GENERATION
+
+With RAG, we will encode our database of information into a vector space where
+the proximity between vectors represents their relevance / semantic similarity
+to one another. Using this vector space as a "knowledge base", we can take a new
+user query, encode it into the same vector space, and retrieve the most relevant
+records previously indexed.
+
+After retrieving these relevant records, we take a few of them and insert them
+into our LLM prompt as additional context — giving our LLM highly relevant
+source knowledge.
+
+We can break these components down into two steps:
+
+ 1. Indexing is where we populate our vector index with information from our
+    dataset.
+ 2. Retrieval happens at query time and is where we retrieve relevant
+    information from the vector index.
+
+Both steps require an embedding model to translate our human-readable plain text
+into semantic vector space. We will use the highly efficient MiniLM sentence
+transformer from Hugging Face. This model is not an LLM and therefore is not
+initialized in the same way as our Llama 2 model.
+
+hub_config = {
+    'HF_MODEL_ID': 'sentence-transformers/all-MiniLM-L6-v2', # model_id from hf.co/models
+    'HF_TASK': 'feature-extraction'
+}
+
+huggingface_model = HuggingFaceModel(
+    env=hub_config,
+    role=role,
+    transformers_version="4.6", # transformers version used
+    pytorch_version="1.7", # pytorch version used
+    py_version="py36", # python version of the DLC
+)
+
+
+
+In the hub_config, we specify the model ID as before, but for the task, we use
+'feature-extraction' because we are generating vector embeddings — not text like
+our LLM. Following this, we initialize the model config with HuggingFaceModel as
+before, but this time without the LLM image and with some version parameters.
+
+encoder = huggingface_model.deploy(
+    initial_instance_count=1,
+    instance_type="ml.t2.large",
+    endpoint_name="minilm-demo"
+)
+
+
+
+We deploy the model again with deploy, using the smaller (CPU only) instance of
+ml.t2.large. The reason for this is that the MiniLM model is tiny, so it does
+not require a lot of memory. MiniLM also doesn't need a GPU because it can
+quickly create embeddings even on a CPU. If preferred, we could run the model
+faster on GPU.
+
+To create our embeddings, we use the predict method and pass a list of contexts
+to encode via the 'inputs' key like so:
+
+
+
+out = encoder.predict({
+    "inputs": ["some text here", "some more text goes here too"]
+})
+
+
+
+We passed two input contexts here, returning two context vector embeddings:
+
+In[12]:
+
+len(out)
+
+
+Out[12]:
+
+2
+
+The embedding dimensionality of the MiniLM model is 384. That means each vector
+embedding MiniLM outputs should have a dimensionality of 384. However, if we
+take a look at the length of our embeddings, we will see something strange:
+
+In[13]:
+
+len(out[0]), len(out[1])
+
+
+Out[13]:
+
+(8, 8)
+
+We see two lists containing eight items each; what is happening?
+
+MiniLM first processes text in a tokenization step. This tokenization transforms
+our human-readable plain text into a list of model-readable token IDs. These
+token IDs each represent a word or sub-word from our input text, like this:
+
+In[8]:
+
+from transformers import AutoTokenizer  # !pip install transformers
+
+tokenizer = AutoTokenizer.from_pretrained(
+    "sentence-transformers/all-MiniLM-L6-v2"
+)
+
+# create token IDs for both sequences
+token_ids = tokenizer(
+    ["some text here", "some more text goes here too"],
+    padding=True,
+    return_attention_mask=False,
+    return_token_type_ids=False
+)
+token_ids
+
+
+Out[8]:
+
+{'input_ids': [[101, 2070, 3793, 2182, 102, 0, 0, 0], [101, 2070, 2062, 3793, 3632, 2182, 2205, 102]]}
+
+In[12]:
+
+# convert these token IDs into plain text tokens
+for token_ids_list in token_ids["input_ids"]:
+    print(tokenizer.convert_ids_to_tokens(token_ids_list))
+
+
+Out[12]:
+
+['[CLS]', 'some', 'text', 'here', '[SEP]', '[PAD]', '[PAD]', '[PAD]']
+['[CLS]', 'some', 'more', 'text', 'goes', 'here', 'too', '[SEP]']
+
+
+In the output features of the model, we get the token-level embeddings. If we
+look at one of these embeddings, we'll find the expected dimensionality of 384:
+
+In[14]:
+
+len(out[0][0])
+
+
+Out[14]:
+
+384
+
+Perfect! Now we need to transform these token-level embeddings into
+document-level embeddings. To do this, we take the mean values across each
+vector dimension.
+
+Mean pooling operation to get a single 384-dimensional vector.
+[https://cdn.sanity.io/images/vr8gru94/production/d4bf831f3df861c3910792e3bf1387ae815f6cbf-1220x910.png]
+Mean pooling operation to get a single 384-dimensional vector.
+In[15]:
+
+import numpy as np
+
+embeddings = np.mean(np.array(out), axis=1)
+embeddings.shape
+
+
+Out[15]:
+
+(2, 384)
+
+Now we have two 384-dimensional vector embeddings, one for each input text. To
+make our lives easier, we will wrap the encoding process into a single function:
+
+from typing import List
+
+def embed_docs(docs: List[str]) -> List[List[float]]:
+    out = encoder.predict({'inputs': docs})
+    embeddings = np.mean(np.array(out), axis=1)
+    return embeddings.tolist()
+
+
+
+
+DOWNLOADING THE DATASET
+
+We download the as our knowledge base. The data contains both question and
+answer columns.
+
+In[17]:
+
+s3_path = f"s3://jumpstart-cache-prod-us-east-2/training-datasets/Amazon_SageMaker_FAQs/Amazon_SageMaker_FAQs.csv"
+
+
+In[18]:
+
+# Downloading the Database
+!aws s3 cp $s3_path Amazon_SageMaker_FAQs.csv
+
+
+Out[18]:
+
+download: s3://jumpstart-cache-prod-us-east-2/training-datasets/Amazon_SageMaker_FAQs/Amazon_SageMaker_FAQs.csv to ./Amazon_SageMaker_FAQs.csv
+
+
+In[19]:
+
+import pandas as pd
+
+df_knowledge = pd.read_csv("Amazon_SageMaker_FAQs.csv", header=None, names=["Question", "Answer"])
+df_knowledge.head()
+
+
+Out[19]:
+
+                                            Question  \
+0                          What is Amazon SageMaker?   
+1  In which Regions is Amazon SageMaker available...   
+2  What is the service availability of Amazon Sag...   
+3          How does Amazon SageMaker secure my code?   
+4  What security measures does Amazon SageMaker h...   
+
+                                              Answer  
+0  Amazon SageMaker is a fully managed service to...  
+1  For a list of the supported Amazon SageMaker A...  
+2  Amazon SageMaker is designed for high availabi...  
+3  Amazon SageMaker stores code in ML storage vol...  
+4  Amazon SageMaker ensures that ML model artifac...  
+
+When performing our search, we're looking for answers, so we can drop the
+Question column.
+
+In[20]:
+
+df_knowledge.drop(["Question"], axis=1, inplace=True)
+df_knowledge.head()
+
+
+Out[20]:
+
+                                              Answer
+0  Amazon SageMaker is a fully managed service to...
+1  For a list of the supported Amazon SageMaker A...
+2  Amazon SageMaker is designed for high availabi...
+3  Amazon SageMaker stores code in ML storage vol...
+4  Amazon SageMaker ensures that ML model artifac...
+
+Our dataset and the embedding pipeline are ready. Now all we need is somewhere
+to store those embeddings.
+
+
+INDEXING
+
+We'll be using the Pinecone vector database to store our vector embeddings and
+search through them efficiently at scale. To create a database, we need .
+
+In[21]:
+
+import pinecone
+import os
+
+# add Pinecone API key from app.pinecone.io
+api_key = os.environ.get("PINECONE_API_KEY") or "YOUR_API_KEY"
+# set Pinecone environment - find next to API key in console
+env = os.environ.get("PINECONE_ENVIRONMENT") or "YOUR_ENV"
+
+pinecone.init(
+    api_key=api_key,
+    environment=env
+)
+
+
+In[22]:
+
+pinecone.list_indexes()
+
+
+Out[22]:
+
+[]
+
+With that, we have connected to our Pinecone vector database. We must create a
+single vector index (similar to a table in traditional DBs). We will name the
+index retrieval-augmentation-aws. We must align the index dimension and metric
+parameters with those required by our embedding model (MiniLM in this case).
+
+In[23]:
+
+import time
+
+index_name = 'retrieval-augmentation-aws'
+
+if index_name in pinecone.list_indexes():
+    pinecone.delete_index(index_name)
+    
+pinecone.create_index(
+    name=index_name,
+    dimension=embeddings.shape[1],
+    metric='cosine'
+)
+# wait for index to finish initialization
+while not pinecone.describe_index(index_name).status['ready']:
+    time.sleep(1)
+
+
+In[24]:
+
+pinecone.list_indexes()
+
+
+Out[24]:
+
+['retrieval-augmentation-aws']
+
+We are ready to begin inserting our data — to do this, we run the following:
+
+In[29]:
+
+from tqdm.auto import tqdm
+
+batch_size = 2  # can increase but needs larger instance size otherwise instance runs out of memory
+vector_limit = 1000
+
+answers = df_knowledge[:vector_limit]
+index = pinecone.Index(index_name)
+
+for i in tqdm(range(0, len(answers), batch_size)):
+    # find end of batch
+    i_end = min(i+batch_size, len(answers))
+    # create IDs batch
+    ids = [str(x) for x in range(i, i_end)]
+    # create metadata batch
+    metadatas = [{'text': text} for text in answers["Answer"][i:i_end]]
+    # create embeddings
+    texts = answers["Answer"][i:i_end].tolist()
+    embeddings = embed_docs(texts)
+    # create records list for upsert
+    records = zip(ids, embeddings, metadatas)
+    # upsert to Pinecone
+    index.upsert(vectors=records)
+
+
+In[30]:
+
+# check number of records in the index
+index.describe_index_stats()
+
+
+Out[30]:
+
+{'dimension': 384,
+ 'index_fullness': 0.0,
+ 'namespaces': {'': {'vector_count': 154}},
+ 'total_vector_count': 154}
+
+With that, we populated our index and can begin querying it. Let's try again
+with our earlier question.
+
+In[31]:
+
+question
+
+
+Out[31]:
+
+'Which instances can I use with Managed Spot Training in SageMaker?'
+
+In[32]:
+
+# extract embeddings for the questions
+query_vec = embed_docs(question)[0]
+
+# query pinecone
+res = index.query(query_vec, top_k=5, include_metadata=True)
+
+# show the results
+res
+
+
+Out[32]:
+
+{'matches': [{'id': '90',
+              'metadata': {'text': 'Managed Spot Training can be used with all '
+                                   'instances supported in Amazon '
+                                   'SageMaker.\r\n'},
+              'score': 0.881181657,
+              'values': []},
+             {'id': '91',
+              'metadata': {'text': 'Managed Spot Training is supported in all '
+                                   'AWS Regions where Amazon SageMaker is '
+                                   'currently available.\r\n'},
+              'score': 0.799186468,
+              'values': []},
+             {'id': '85',
+              'metadata': {'text': 'You enable the Managed Spot Training '
+                                   'option when submitting your training jobs '
+                                   'and you also specify how long you want to '
+                                   'wait for Spot capacity. Amazon SageMaker '
+                                   'will then use Amazon EC2 Spot instances to '
+                                   'run your job and manages the Spot '
+                                   'capacity. You have full visibility into '
+                                   'the status of your training jobs, both '
+                                   'while they are running and while they are '
+                                   'waiting for capacity.'},
+              'score': 0.733643115,
+              'values': []},
+             {'id': '84',
+              'metadata': {'text': 'Managed Spot Training with Amazon '
+                                   'SageMaker lets you train your ML models '
+                                   'using Amazon EC2 Spot instances, while '
+                                   'reducing the cost of training your models '
+                                   'by up to 90%.'},
+              'score': 0.722585857,
+              'values': []},
+             {'id': '87',
+              'metadata': {'text': 'Managed Spot Training uses Amazon EC2 Spot '
+                                   'instances for training, and these '
+                                   'instances can be pre-empted when AWS needs '
+                                   'capacity. As a result, Managed Spot '
+                                   'Training jobs can run in small increments '
+                                   'as and when capacity becomes available. '
+                                   'The training jobs need not be restarted '
+                                   'from scratch when there is an '
+                                   'interruption, as Amazon SageMaker can '
+                                   'resume the training jobs using the latest '
+                                   'model checkpoint. The built-in frameworks '
+                                   'and the built-in computer vision '
+                                   'algorithms with SageMaker enable periodic '
+                                   'checkpoints, and you can enable '
+                                   'checkpoints with custom models.'},
+              'score': 0.7210114,
+              'values': []}],
+ 'namespace': ''}
+
+Looks great; we're returning relevant contexts to help us answer our question.
+
+
+AUGMENTING THE PROMPT
+
+We can use the retrieved contexts to augment our prompt. To do this, we should
+decide on a maximum amount of context to feed into our LLM. We will use 1000
+characters. With this limit set, we can iteratively add each returned context to
+our prompt until we exceed the content length.
+
+In[33]:
+
+contexts = [match.metadata['text'] for match in res.matches]
+
+
+In[34]:
+
+max_section_len = 1000
+separator = "\n"
+
+def construct_context(contexts: List[str]) -> str:
+    chosen_sections = []
+    chosen_sections_len = 0
+
+    for text in contexts:
+        text = text.strip()
+        # Add contexts until we run out of space.
+        chosen_sections_len += len(text) + 2
+        if chosen_sections_len > max_section_len:
+            break
+        chosen_sections.append(text)
+    concatenated_doc = separator.join(chosen_sections)
+    print(
+        f"With maximum sequence length {max_section_len}, selected top {len(chosen_sections)} document sections: \n{concatenated_doc}"
+    )
+    return concatenated_doc
+
+
+In[35]:
+
+context_str = construct_context(contexts=contexts)
+
+
+Out[35]:
+
+With maximum sequence length 1000, selected top 4 document sections: 
+Managed Spot Training can be used with all instances supported in Amazon SageMaker.
+Managed Spot Training is supported in all AWS Regions where Amazon SageMaker is currently available.
+You enable the Managed Spot Training option when submitting your training jobs and you also specify how long you want to wait for Spot capacity. Amazon SageMaker will then use Amazon EC2 Spot instances to run your job and manages the Spot capacity. You have full visibility into the status of your training jobs, both while they are running and while they are waiting for capacity.
+Managed Spot Training with Amazon SageMaker lets you train your ML models using Amazon EC2 Spot instances, while reducing the cost of training your models by up to 90%.
+
+
+Now to feed the context_str into our LLM prompt:
+
+In[36]:
+
+text_input = prompt_template.replace("{context}", context_str).replace("{question}", question)
+
+out = llm.predict({"inputs": text_input})
+generated_text = out[0]["generated_text"]
+print(f"[Input]: {question}\n[Output]: {generated_text}")
+
+
+Out[36]:
+
+[Input]: Which instances can I use with Managed Spot Training in SageMaker?
+[Output]: all instances supported in Amazon SageMaker
+
+
+This answer looks excellent! The logic works, so let's wrap it up into a single
+function to keep things clean.
+
+def rag_query(question: str) -> str:
+    # create query vec
+    query_vec = embed_docs(question)[0]
+    # query pinecone
+    res = index.query(query_vec, top_k=5, include_metadata=True)
+    # get contexts
+    contexts = [match.metadata['text'] for match in res.matches]
+    # build the multiple contexts string
+    context_str = construct_context(contexts=contexts)
+    # create our retrieval augmented prompt
+    text_input = prompt_template.replace(
+        "{context}", context_str
+    ).replace(
+        "{question}", question
+    )
+    # make prediction
+    out = llm.predict({"inputs": text_input})
+    return out[0]["generated_text"]
+
+
+
+We can now ask questions like so:
+
+In[38]:
+
+rag_query("Which instances can I use with Managed Spot Training in SageMaker?")
+
+
+Out[38]:
+
+With maximum sequence length 1000, selected top 4 document sections: 
+Managed Spot Training can be used with all instances supported in Amazon SageMaker.
+Managed Spot Training is supported in all AWS Regions where Amazon SageMaker is currently available.
+You enable the Managed Spot Training option when submitting your training jobs and you also specify how long you want to wait for Spot capacity. Amazon SageMaker will then use Amazon EC2 Spot instances to run your job and manages the Spot capacity. You have full visibility into the status of your training jobs, both while they are running and while they are waiting for capacity.
+Managed Spot Training with Amazon SageMaker lets you train your ML models using Amazon EC2 Spot instances, while reducing the cost of training your models by up to 90%.
+
+
+Out[38]:
+
+"all instances supported in Amazon SageMaker"
+
+Let's ask questions about things that are out of context and not contained
+within the dataset. We will find that thanks to our prompt specifying to use the
+context provided, the model will not hallucinate and instead honestly tell us
+that it does not know the answer.
+
+--------------------------------------------------------------------------------
+
+That's it for our introduction to RAG with open-access LLMs on SageMaker. We've
+seen how to deploy SageMaker's Jumpstart models with Llama 2, Hugging Face LLMs,
+and even embedding models with MiniLM.
+
+We implemented a complete end-to-end RAG pipeline using our open-access models
+and a Pinecone vector index. Using this, we minimize hallucinations, keep our
+LLM knowledge up to date, and ultimately enhance the user experience and trust
+in our systems.
+
+--------------------------------------------------------------------------------
+
+
+RESOURCES
+
+, Pinecone Examples Repo
+
+, Pinecone Examples Repo
+
+Share via:
+
+
+FURTHER READING
+
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F8b3fb37178129c4ba2d7c68eb896ec8cea8f395b-400x400.png&w=3840&q=100]
+
+Developer Advocate
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F0e91ee410b5515c23ac97c3ee29c418e4e0071d9-72x72.jpg&w=3840&q=100]
+
+Vedant Jain
+
+AI/ML Specialist Lead at AWS
+
+--------------------------------------------------------------------------------
+
+Jump to section
+ * 
+ * 
+ * 
+
+Share via:
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+
+
+
+DON'T MISS THE NEXT ONE...
+
+
+
+Get an email the next time we publish an article about machine learning and
+similarity search.
+
+Get Updates

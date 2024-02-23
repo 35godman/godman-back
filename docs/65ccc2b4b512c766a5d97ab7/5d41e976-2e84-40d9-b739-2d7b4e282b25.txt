@@ -1,0 +1,94 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+
+DATA SYNC AND SEARCH: PINECONE AND AIRBYTE
+
+By Roie Schwaber-Cohen
+
+Airbyte offers a platform for creating ETL pipelines without writing integration
+code. It supports integrations with hundreds of systems, including databases,
+data warehouses, and SaaS products. The Pinecone connector for Airbyte allows
+users to hook up these systems directly into Pinecone. The connector will take
+care of fetching data from the connected source, embed it using OpenAI and
+Cohere and then upsert it into Pinecone.
+
+Share via:
+
+
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F69d2159caee9450ad91a5efe2c39c8b15260ed2b-1700x2192.png&w=750&q=75]
+
+
+INTRODUCTION
+
+Data integration often requires connecting numerous sources, each with its
+unique characteristics and requirements. At Pinecone, we recognize the value in
+having a diverse array of connectors and the flexibility to adapt to various
+data needs. That's where the Pinecone connector comes into the picture.
+
+New chapters coming soon!
+
+Get email updates when they're published:
+
+Get Updates
+
+Chapter 3
+
+MongoDB is the most popular document store. In this chapter, you'll learn how to
+use the connecter and leverage the selector feature to work with nested
+documents.
+
+Chapter 4
+
+AWS's S3 is a ubiquitous tool for storing unstructured data. In this chapter,
+we'll talk through using the S3 Airbyte connector with the Pinecone connector.
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+
+
+
+DON'T MISS THE NEXT ONE...
+
+
+
+Get an email the next time we publish an article about machine learning and
+similarity search.
+
+Get Updates

@@ -1,0 +1,193 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+Guides
+
+v1
+
+Ctrl+K
+Datadog
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+
+GETTING STARTED
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+ORGANIZATIONS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+PROJECTS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+ * 
+
+
+INDEXES
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+DATA
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+OPERATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INTEGRATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+REFERENCE
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+SUPPORT
+
+ * 
+ * 
+ * 
+
+
+DATADOG
+
+
+
+This page shows you how to use Datadog to monitor your Pinecone vector database.
+
+
+SET UP YOUR PINECONE INTEGRATION ON DATADOG
+
+Follow these steps to set up your Pinecone integration:
+
+ 1. Log in to .
+ 2. Go to > .
+ 3. In the search bar, enter 'Pinecone'.
+ 4. Click Pinecone Integration.
+ 5. Click Install.
+ 6. Under Pinecone Accounts, click Add new.
+ 7. Enter the , , and for your project.
+ 8. In the left navigation menu, click Dashboards.
+ 9. Under All Dashboards, click Pinecone Overview. This dashboard shows basic
+    monitoring data for your Pinecone vector database.
+
+
+CREATE DATADOG MONITORS FOR YOUR PINECONE VECTOR DATABASE
+
+After you set up your Pinecone integration on Datadog, you can create monitors
+for your Pinecone vector database as follows:
+
+ 1. Log in to .
+ 2. Go to > .
+ 3. In the search bar, enter 'Pinecone'.
+ 4. Click Pinecone Integration.
+ 5. Click the Monitors tab.
+ 6. using .
+
+Updated about 2 months ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+ * 
+ * * 
+   * 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

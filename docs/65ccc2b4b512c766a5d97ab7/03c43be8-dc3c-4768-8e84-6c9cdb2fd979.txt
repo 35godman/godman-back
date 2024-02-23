@@ -1,0 +1,138 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+
+ANNOUNCING OUR $100M SERIES B FUNDING TO BUILD LONG-TERM MEMORY FOR AI
+
+Apr 26, 2023 - in Company
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F5c46037688fd7e45a2ba7d034ce35ef4cefd3bcb-230x230.png&w=3840&q=100]
+
+Founder & CEO
+
+--------------------------------------------------------------------------------
+
+Dear Pinecone Community,
+
+
+
+I am thrilled to share some exciting news with you all. We raised $100 million
+in Series B funding, led by Andreessen Horowitz, with participation from ICONIQ
+Growth, and our existing investors Menlo Ventures and Wing Venture Capital. This
+funding brings our valuation to $750 million, hitting another milestone in our
+journey to revolutionize how AI applications are built.
+
+
+
+It has been an incredible ride for Pinecone since we introduced the in 2021. Our
+innovative technology and rapid growth have disrupted the $9 billion search
+infrastructure market and made us a critical component of the fast-growing $110
+billion Generative AI market. Pinecone’s vector database enables engineers to
+work with data generated and consumed by Large Language Models (LLMs) and other
+AI models, making it an essential infrastructure technology for building
+scalable, reliable, and accurate AI products.
+
+
+
+The rise of generative AI propelled Pinecone to become an integral part of the
+software stack for AI applications. In Q1 2023, we experienced explosive growth
+in AI developers and innovators building amazing applications on Pinecone’s free
+plan. We also saw a massive increase in paying customers across all industries
+and sizes, including leading companies like Shopify, Gong, HubSpot, and Zapier.
+Our success is a testament to the growing demand for AI infrastructure and our
+ability to provide scalable solutions to the most pressing challenges in the
+field.
+
+
+
+We are immensely proud to have Andreessen Horowitz lead this funding round and
+to have the continued support of our existing investors. With this funding, we
+are well-equipped to capitalize on our hypergrowth and cement our leadership
+position amidst the AI revolution that is transforming every line of business
+and creating new ones, from AI search to AI chatbots to AI agents, and beyond.
+
+
+
+Pinecone’s mission is to provide the Long Term Memory for AI, and we are well on
+our way to achieving that. Our self-onboarding product, efficient growth engine,
+and world-class team are here to power the next wave of AI-powered innovation.
+We are excited to support the fundamental shifts in the way companies approach
+data management in the era of AI.
+
+
+
+I want to express my deepest gratitude to our incredible team of deeply
+committed superstars, to our loyal and brilliant customers, to our steadfast
+partners, and to our phenomenal investors for their unwavering support. Thank
+you for your work, dedication, and belief in Pinecone’s mission. We have come a
+long way together but we are just getting started…
+
+
+
+As we look to the future, we are filled with optimism and confidence. Pinecone
+is at the forefront of the AI revolution, and we are committed to empowering
+developers with the tools they need to build groundbreaking AI applications that
+will transform industries and improve lives.
+
+Share via:
+
+
+FURTHER READING
+
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F5c46037688fd7e45a2ba7d034ce35ef4cefd3bcb-230x230.png&w=3840&q=100]
+
+Founder & CEO
+
+
+Share via:
+
+
+--------------------------------------------------------------------------------
+
+
+WHAT WILL YOU BUILD?
+
+Upgrade your search or chatbots applications with just a few lines of code.
+
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+

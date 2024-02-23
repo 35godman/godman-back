@@ -112,7 +112,6 @@ export class FileUploadController {
   ) {
     const fileName = decodeURIComponent(file.originalname);
     const charLength = await this.fileUploadService.getOneFileLength(file);
-    console.log('=>(fileUpload.controller.ts:105) charLength', charLength);
     await this.fileUploadService.uploadSingleFile(
       {
         fileName,

@@ -1,0 +1,651 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+Guides
+
+v1
+
+Ctrl+K
+Release notes
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+
+GETTING STARTED
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+ORGANIZATIONS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+PROJECTS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+ * 
+
+
+INDEXES
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+DATA
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+OPERATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INTEGRATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+REFERENCE
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+SUPPORT
+
+ * 
+ * 
+ * 
+
+
+RELEASE NOTES
+
+
+
+This document contains details about Pinecone releases. For information about
+using specific features, see our .
+
+
+JANUARY 2024
+
+
+FEATURES
+
+ * The gives you the same great vector database but with a drastically improved
+   developer experience. The most significant improvements include:
+   * : With serverless indexes, you don't configure or manage compute and
+     storage resources. You just load your data and your indexes scale
+     automatically based on usage. Likewise, you don't pay for dedicated
+     resources that may sometimes lay idle. Instead, the pricing model for
+     serverless indexes is consumption-based: You pay only for the amount of
+     data stored and operations performed, with no minimums.
+   * : On the legacy API, all indexes in a project are hosted in a single cloud
+     region. On the new API, you have the flexibility to choose a different
+     cloud region for each index. This makes it possible to consolidate related
+     work across regions in a single project.
+   * : On the new API, the global URL for all control plane operations like
+     create_index, describe_index, and list_indexes is https://api.pinecone.io.
+     You use this URL regardless of the cloud environment where an index is
+     hosted. This simplifes the experience compared to the legacy API, where
+     each environment has a unique URL:
+     https://controller.{environment}.pinecone.io.
+
+
+> ⚠️
+> 
+> WARNING
+> 
+> Serverless indexes are in public preview and are available only on AWS in the
+> us-west-2 region. Check the and test thoroughly before using serverless
+> indexes in production.
+
+
+SDKS
+
+ * To use the new Pinecone API, existing users of Pinecone clients must upgrade
+   to new client versions and adapt some code. For guidance, see the and .
+
+
+DECEMBER 2023
+
+
+FEATURES
+
+ * The free now supports up to 100 namespaces. let you partition vectors within
+   an index to speed up queries or comply with requirements.
+
+ * The new showcases a selection of the latest, most popular models to enhance
+   Retrieval Augemented Generation (RAG) pipelines, including multi-modal, open
+   source, and proprietary models.
+
+
+SDKS
+
+ * The latest version of our , v0.5.0, adds support for Cohere and Anyscale
+   Embedding models and for Anyscale Endpoints and Llama Tokenizer (v0.3.0). See
+   the in Github for more details.
+
+
+CONSOLE
+
+ * For projects on the free , you can now create an index pre-loaded with a
+   "Sample Movies" dataset directly in the Pinecone console. The dataset
+   contains data on the top 100 grossing movies of all time.
+
+
+NOVEMBER 2023
+
+
+FEATURES
+
+ * The new is an open-source, distributed system that performs
+   vector-database-enabled semantic search over Postgres records. You can use it
+   as a learning resource or as a starting point for high-scale use cases.
+
+
+SDKS
+
+ * is a new open-source Retrieval Augmented Generation (RAG) framework and
+   context engine built on top of Pinecone. It enables you to start chatting
+   with your documents or text data with a few simple commands.
+   
+   The latest version of the Canopy SDK (v0.2.0) adds support for OpenAI SDK
+   v1.2.3. See the in Github for more details.
+
+
+BILLING
+
+ * Pinecone is now registered to collect Value Added Tax (VAT) or Goods and
+   Services Tax (GST) for accounts based in various global regions. If
+   applicable, add your VAT or GST number to your account under Settings >
+   Billing.
+
+
+OCTOBER 2023
+
+
+FEATURES
+
+ * are now generally available (GA).
+
+
+REGIONS
+
+ * Pinecone Azure support via the is now generally available (GA).
+
+
+SDKS
+
+ * The latest version of our Node SDK is v1.1.2. See the in Github for more
+   details.
+
+
+CONSOLE
+
+ * The Index Browser is now available in the console. This allows you to
+   preview, query, and filter by metadata directly from the console. The Index
+   Browser can be found within the index detail page.
+
+ * We’re improved the design of our metrics page to include new charts for
+   record and error count plus additional latencies (p90, p99) to help triage
+   and understand issues.
+
+
+INTEGRATIONS
+
+ * Knowledge Base for Amazon Bedrock is now available in Private Preview.
+   Integrate your enterprise data via retrieval augmented generation (RAG) when
+   building search and GenAI applications. .
+
+ * Pinecone Sink Connector for Confluent is now available in Public Preview.
+   Gain access to data streams from across your business to build a real-time
+   knowledge base for your AI applications. .
+
+
+BILLING
+
+ * You can now .
+
+
+PRIVACY
+
+ * Pinecone is now HIPAA compliant across all of our cloud providers (AWS,
+   Azure, and GCP).
+
+
+SEPTEMBER 11, 2023
+
+Pinecone Azure support via the is now generally available (GA).
+
+
+AUGUST 14, 2023
+
+Pinecone now supports deploying projects to Azure using the new . This is a
+public preview environment, so test thoroughly before deploying to production.
+
+
+JUNE 21, 2023
+
+The new is now in public preview. This region has distinct limitations from
+other Starter Plan regions. gcp-starter is the default region for some new
+users.
+
+
+APRIL 26, 2023
+
+now support approximately 100,000 1536-dimensional embeddings with metadata.
+Capacity is proportional for other dimensionalities.
+
+
+APRIL 3, 2023
+
+Pinecone now supports .
+
+
+MARCH 21, 2023
+
+Pinecone now supports SSO for Enterprise dedicated customers. Contact us at to
+set up your integration.
+
+
+MARCH 1, 2023
+
+Pinecone now supports .
+
+
+FEBRUARY 22, 2023
+
+
+SPARSE-DENSE EMBEDDINGS ARE NOW IN PUBLIC PREVIEW.
+
+Pinecone now supports . To use sparse-dense embeddings in Python, upgrade to
+Python client version 2.2.0.
+
+
+PINECONE PYTHON CLIENT VERSION 2.2.0 IS AVAILABLE
+
+Python client version 2.2.0 with support for sparse-dense embeddings is now
+available on and .
+
+
+FEBRUARY 15, 2023
+
+
+NEW NODE.JS CLIENT IS NOW AVAILABLE IN PUBLIC PREVIEW
+
+You can now try out our new .
+
+
+FEBRUARY 14, 2023
+
+
+NEW USAGE REPORTS IN THE PINECONE CONSOLE
+
+You can now monitor your current and projected Pinecone usage with the .
+
+
+JANUARY 31, 2023
+
+
+PINECONE IS NOW AVAILABLE IN AWS MARKETPLACE
+
+You can now .
+
+
+JANUARY 3, 2023
+
+
+PINECONE PYTHON CLIENT VERSION 2.1.0 IS NOW AVAILABLE ON GITHUB.
+
+The makes the following changes:
+
+ * Fixes "Connection Reset by peer" error after long idle periods
+ * Adds typing and explicit names for arguments in all client operations
+ * Adds docstrings to all client operations
+ * Adds Support for batch upserts by passing batch_size to the upsert method
+ * Improves gRPC query results parsing performance
+
+
+DECEMBER 22, 2022
+
+
+PINECONE IS NOW AVAILABLE IN GCP MARKETPLACE
+
+You can now .
+
+
+DECEMBER 6, 2022
+
+
+ORGANIZATIONS ARE GENERALLY AVAILABLE
+
+Pinecone now features , which allow one or more users to control billing and
+project settings across multiple projects owned by the same organization.
+
+
+P2 POD TYPE IS GENERALLY AVAILABLE
+
+The is now generally available and ready for production workloads. p2 pods are
+now available in the Starter plan and support the .
+
+
+PERFORMANCE IMPROVEMENTS
+
+ * are now up to 10x faster in many circumstances.
+
+ * is now faster.
+
+
+OCTOBER 31, 2022
+
+
+HYBRID SEARCH (EARLY ACCESS)
+
+Pinecone now supports keyword-aware semantic search with the new indexes and
+endpoints. Hybrid search enables improved relevance for semantic search results
+by combining them with keyword search.
+
+This is an early access feature and is available only by .
+
+
+OCTOBER 17, 2022
+
+
+STATUS PAGE
+
+The new displays information about the status of the Pinecone service, including
+the status of individual cloud regions and a log of recent incidents.
+
+
+SEPTEMBER 16, 2022
+
+
+PUBLIC COLLECTIONS
+
+You can now , which are collections containing public data from real-world data
+sources. Currently, public collections include the Glue - SSTB collection, the
+TREC Question classification collection, and the SQuAD collection.
+
+
+AUGUST 16, 2022
+
+
+COLLECTIONS (PUBLIC PREVIEW)("BETA")
+
+You can now using . After you create a collection from an index, you can create
+a new index from that collection. The new index can use any pod type and any
+number of pods. Collections only consume storage.
+
+This is a public preview feature and is not appropriate for production
+workloads.
+
+
+VERTICAL SCALING
+
+You can now for a live index to accommodate more vectors or queries without
+interrupting reads or writes. The p1 and s1 pod types are now available in : 1x,
+2x, 4x, and 8x. Capacity and compute per pod double with each size increment.
+
+
+P2 POD TYPE (PUBLIC PREVIEW)("BETA")
+
+The new provides search speeds of around 5ms and throughput of 200 queries per
+second per replica, or approximately 10x faster speeds and higher throughput
+than the p1 pod type, depending on your data and network conditions.
+
+This is a public preview feature and is not appropriate for production
+workloads.
+
+
+IMPROVED P1 AND S1 PERFORMANCE
+
+The and pod types now offer approximately 50% higher query throughput and 50%
+lower latency, depending on your workload.
+
+
+JULY 26, 2022
+
+You can now specify a to get results for a subset of the vectors in your index
+by calling with a object.
+
+The describe_index_stats operation now uses the POST HTTP request type. The
+filter parameter is only accepted by describe_index_stats calls using the POST
+request type. Calls to describe_index_stats using the GET request type are now
+deprecated.
+
+
+JULY 12, 2022
+
+
+PINECONE CONSOLE GUIDED TOUR
+
+You can now choose to follow a guided tour in the . This interactive tutorial
+walks you through creating your first index, upserting vectors, and querying
+your data. The purpose of the tour is to show you all the steps you need to
+start your first project in Pinecone.
+
+
+JUNE 24, 2022
+
+
+UPDATED RESPONSE CODES
+
+The , , and scale_index operations now use more specific HTTP response codes
+that describe the type of operation that succeeded.
+
+
+JUNE 7, 2022
+
+
+SELECTIVE METADATA INDEXING
+
+You can now store more metadata and more unique metadata values! and which
+fields you only wish to store and retrieve. When you index metadata fields, you
+can filter vector search queries using those fields. When you store metadata
+fields without indexing them, you keep memory utilization low, especially when
+you have many unique metadata values, and therefore can fit more vectors per
+pod.
+
+
+SINGLE-VECTOR QUERIES
+
+You can now . We now encourage all users to query using a single vector rather
+than a batch of vectors, because batching queries can lead to long response
+messages and query times, and single queries execute just as fast on the server
+side.
+
+
+QUERY BY ID
+
+You can now . This is useful when you want to search for the nearest neighbors
+of a vector that is already stored in Pinecone.
+
+
+IMPROVED INDEX FULLNESS ACCURACY
+
+The index fullness metric in results is now more accurate.
+
+
+APRIL 25, 2022
+
+
+PARTIAL UPDATES (PUBLIC PREVIEW)
+
+You can now perform a by ID and individual value pairs. This allows you to
+update individual metadata fields without having to upsert a matching vector or
+update all metadata fields at once.
+
+
+NEW METRICS
+
+Users on all plans can now see metrics for the past one (1) week in the Pinecone
+console. Users on the Enterprise and Enterprise Dedicated plan now have access
+to the following metrics via the :
+
+ * pinecone_vector_count
+ * pinecone_request_count_total
+ * pinecone_request_error_count_total
+ * pinecone_request_latency_seconds
+ * pinecone_index_fullness (Public Preview)
+
+Note: The accuracy of the pinecone_index_fullness metric is improved. This may
+result in changes from historic reported values. This metric is in public
+preview.
+
+
+SPARK CONNECTOR
+
+Spark users who want to manage parallel upserts into Pinecone can now use the to
+upsert their data from a Spark dataframe.
+
+
+SUPPORT FOR BOOLEAN AND FLOAT METADATA IN PINECONE INDEXES
+
+You can now add Boolean and float64 values to
+
+
+NEW STATE FIELD IN DESCRIBE_INDEX RESULTS
+
+The operation results now contain a value for state, which describes the state
+of the index. The possible values for state are Initializing, ScalingUp,
+ScalingDown, Terminating, and Ready.
+
+
+DELETE BY METADATA FILTER
+
+The operation now supports filtering my metadata.
+
+Updated 29 days ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+ * 
+ * * * 
+     * 
+   * * 
+     * 
+     * 
+   * * 
+     * 
+     * 
+   * * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

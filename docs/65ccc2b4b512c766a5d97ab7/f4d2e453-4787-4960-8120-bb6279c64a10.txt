@@ -1,0 +1,303 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+Guides
+
+v2
+
+Ctrl+K
+Back up indexes
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+
+GETTING STARTED
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+ORGANIZATIONS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+PROJECTS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INDEXES
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+DATA
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+
+
+OPERATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INTEGRATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+REFERENCE
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+SUPPORT
+
+ * 
+ * 
+ * 
+
+
+BACK UP INDEXES
+
+
+
+This page describes how to make backup copies of your pod-based indexes using .
+
+To learn how to create a pod-based index from a collection, see .
+
+
+> ℹ️
+> 
+> NOTE
+> 
+> Serverless and starter indexes do not support collections.
+
+
+CREATE A BACKUP USING A COLLECTION
+
+To create a backup of your pod-based index, use the operation. A collection is a
+static copy of your index that only consumes storage.
+
+Example
+
+The following example creates a collection named example-collection from an
+index named example-index.
+
+PythonJavaScriptcurl
+from pinecone import Pinecone
+
+pc = Pinecone(api_key='API_KEY')
+pc.create_collection("example-collection", "example-index")
+
+
+await pc.createCollection({
+  name: "example-collection",
+  source: "example-index",
+});
+
+
+API_KEY='your-api-key' \
+ENVIRONMENT='your-environment' \
+  curl -i -X POST "https://controller.$ENVIRONMENT.pinecone.io/collections" \
+    -H "Api-Key: $API_KEY" \
+    -H 'Content-Type: application/json' \
+    -d '{
+          "name": "example-collection",
+          "source": "example-index"
+    }'
+
+
+
+CHECK THE STATUS OF A COLLECTION
+
+To retrieve the status of the process creating a collection and the size of the
+collection, use the operation. Specify the name of the collection to check. You
+can only call describe_collection on a collection in the current project.
+
+The describe_collection operation returns an object containing key-value pairs
+representing the name of the collection, the size in bytes, and the creation
+status of the collection.
+
+Example
+
+The following example gets the creation status and size of a collection named
+example-collection.
+
+PythonJavaScriptcurl
+from pinecone import Pinecone
+
+pc = Pinecone(api_key='API_KEY')
+pc.describe_collection("example-collection")
+
+
+await pc.describeCollection('example-collection');
+
+
+API_KEY='your-api-key' \
+ENVIRONMENT='your-environment' \
+COLLECTION_NAME='example-collection' \
+  curl -i -X GET "https://controller.$ENVIRONMENT.pinecone.io/collections/$COLLECTION_NAME" \
+    -H "Api-Key: $API_KEY"
+
+
+
+LIST YOUR COLLECTIONS
+
+To get a list of the collections in the current project, use the operation.
+
+Example
+
+The following example gets a list of all collections in the current project.
+
+PythonJavaScriptcurl
+from pinecone import Pinecone
+
+pc = Pinecone(api_key='API_KEY')
+pc.list_collections()
+
+
+await pc.listCollections();
+
+
+API_KEY='your-api-key' \
+ENVIRONMENT='your-environment' \
+  curl -i -X GET "https://controller.$ENVIRONMENT.pinecone.io/collections" \
+    -H "Api-Key: $API_KEY"
+
+
+
+DELETE A COLLECTION
+
+To delete a collection, use the operation. Specify the name of the collection to
+delete.
+
+Deleting the collection takes several minutes. During this time, the
+describe_collection operation returns the status "deleting".
+
+Example
+
+The following example deletes the collection example-collection.
+
+PythonJavaScriptcurl
+from pinecone import Pinecone
+
+pc = Pinecone(api_key='API_KEY')
+pc.delete_collection("example-collection")
+
+
+await pc.deleteCollection("example-collection");
+
+
+API_KEY='your-api-key' \
+ENVIRONMENT='your-environment' \
+  curl -i -X DELETE "https://controller.$ENVIRONMENT.pinecone.io/collections" \
+    -H "Api-Key: $API_KEY"
+
+
+Updated 30 days ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+ * 
+ * * 
+   * 
+   * 
+   * 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

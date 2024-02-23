@@ -1,0 +1,308 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+
+TIME SERIES ANALYSIS THROUGH VECTORIZATION
+
+Jun 30, 2023
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2Fa800979e65dc4e374b59c6010e78b8851708e013-475x512.png&w=3840&q=100]
+
+Diego Lopez Yse
+
+Data Scientist
+
+--------------------------------------------------------------------------------
+
+Jump to section
+
+--------------------------------------------------------------------------------
+
+The components and complexities of time series, and how vectorization can deal
+with them.
+
+Time series data is all around us. The daily closing price of JP Morgan’s stock,
+the monthly sales of your company, the annual GDP value of Spain, or the daily
+maximum temperature values in a given region, are all examples of times series.
+
+A time series is a sequence of observations of data points measured over a time
+interval. The concept is not new, but we are witnessing an explosion of this
+type of data as the world gets increasingly measured. Today, sensors and systems
+are continuously growing the universe of time series datasets. From wearables to
+cell phones and self-driving cars, the number of .
+
+Depending on the frequency of observations, a time series may typically be
+hourly, daily, weekly, monthly, quarterly or annual — the data is in order, with
+a fixed time difference between the occurrence of successive data points.
+
+Example of time series: temperature records.
+[https://cdn.sanity.io/images/vr8gru94/production/0ee5850dfa2acf8e89042b2813a579155e70cca0-1299x466.png]
+Example of time series: temperature records.
+Source:
+Example of time series: stock price evolution.
+[https://cdn.sanity.io/images/vr8gru94/production/16f94ece17074ab39453f1b3801b73dc1204a825-1402x936.png]
+Example of time series: stock price evolution.
+Source:
+Example of time series: health monitoring records.
+[https://cdn.sanity.io/images/vr8gru94/production/401b814bb323cf4eb3423cad9b14fe90433051b5-1037x551.png]
+Example of time series: health monitoring records.
+Source:
+
+The concept and applications of time series have become so important, that
+several tech giants had taken the lead by developing state of the art solutions
+to ingest, process and analyse them like never before:
+
+ 1. is open-source software released by Facebook’s Core Data Science team. It’s
+    used in many applications across Facebook for producing reliable forecasts
+    for planning and goal setting, and it includes many possibilities for users
+    to tweak and adjust forecasts. The solution is robust to outliers, missing
+    data, and dramatic changes in the time series.
+ 2. is a fully managed service that uses Machine Learning to deliver highly
+    accurate forecasts based on the same technology that powers Amazon.com. It
+    builds precise forecasts for virtually any business condition, including
+    cash flow projections, product demand and sales, infrastructure
+    requirements, energy needs, and staffing levels.
+ 3. Uber’s Forecasting Platform team created , which is a time series back
+    testing framework that generates efficient and accurate comparisons of
+    forecasting models across languages and streamlines the model development
+    process, thereby improving the customer experience.
+ 4. offers an automatic time series forecasting solution to perform advanced
+    statistical analysis and generate forecasts by analyzing trends,
+    fluctuations and seasonality. The algorithm works by analyzing the
+    historical data to identify the existing patterns in the data and then using
+    those patterns, projects the future values.
+
+
+TIME SERIES IS DIFFERENT
+
+The “time component” in a time series provides an internal structure that must
+be accounted for, which makes it very different to any other data type, and
+sometimes more difficult to handle than traditional datasets.
+
+This is the main difference with sequential data, where the order of the data
+matters, but the timestamp is irrelevant or doesn’t matter (as in the case of a
+DNA sequence, where the sequence is important but the concept of time is
+irrelevant).
+
+This means that, unlike other Machine Learning challenges, you can’t just plug
+in an algorithm at a time series dataset and expect to have a proper result.
+Time series data can be transformed into supervised learning problems, but the
+key step is to consider their temporal structure like trends, seasonality, and
+forecast horizon.
+
+Since there are so many prediction problems that involve time series, first we
+need to understand their main components.
+
+
+ANATOMY OF TIME SERIES
+
+Unlike other data types, time series have a strong identity on their own. This
+means that we can’t use the usual strategies to analyze and predict them, since
+traditional analytical tools fail at capturing their temporal component.
+
+A good way to get a feel of how a time series pattern behaves is to break the
+time series into its many distinct components. The decomposition of a time
+series is a task that deconstructs a time series into several pieces, each
+representing one of the underlying categories of the pattern. Time series
+decomposition is built on the assumption that data arises as the result of the
+combination of some underlying components:
+
+ * Base Level: This represents the average value in the series.
+ * Trend: is observed when there is a sustained increasing or decreasing slope
+   observed in the time series.
+ * Seasonality: Occurs when there is a distinct repeated pattern observed
+   between regular intervals due to seasonal factors, whether it is the month of
+   the year, the day of the month, weekdays, or even times of the day. For
+   example, retail stores sales will be high during weekends and festival
+   seasons.
+ * Error: The random variation in the series.
+
+All series have a base level and error, while the trend and seasonality may or
+may not exist. This way, a time series may be imagined as a combination of the
+base level, trend, seasonality, and error terms.
+
+Another aspect to consider is cyclic behavior. This happens when the rise and
+fall pattern in the series does not happen in fixed calendar-based intervals,
+like increases in retail sales that occur around December in response to
+Christmas or increases in water consumption in summer due to warmer weather.
+
+Care should be taken to not confuse the ‘cyclic’ effect with the ‘seasonal’
+effect. So, how to differentiate between a ‘cyclic’ vs ‘seasonal’ pattern?
+
+If patterns are not of fixed calendar-based frequencies, then it is cyclic.
+Because, unlike seasonality, cyclic effects are typically influenced by the
+business and other socio-economic factors.
+
+Time series components
+[https://cdn.sanity.io/images/vr8gru94/production/ea6538b6112c9e71d15a33b750a98a4447ca4764-1298x1225.png]
+A number of components can be extracted from a time series: Seasonality, Trend,
+Cycle and Error (Irregular).
+Source:
+
+
+FORECASTING
+
+What if besides analyzing a time series, we could predict it? Forecasting is the
+process of predicting future behaviors based on current and past data.
+
+A time series represents the relationship between two variables: time is one of
+them, and the measured value is the second one. From a statistical point of
+view, we can think of the value we want to forecast as a “random variable”.
+
+A random variable is a variable that is subject to random variations so it can
+take on multiple different values, each with an associated probability.
+
+A random variable doesn’t have a specific value, but rather a collection of
+potential values. After a measurement is taken and the specific value is
+revealed, then the random variable ceases to be a random variable and becomes
+data.
+
+The set of values that this random variable could take, along with their
+relative probabilities, is known as the “probability distribution”. When
+forecasting, we call this the . This way, when referring to the “forecast,” we
+usually mean the average value of the forecast distribution.
+
+Time series forecast
+[https://cdn.sanity.io/images/vr8gru94/production/3296598d0496eb1ba3f5fa4bf0652541de5ceee9-1144x660.png]
+A forecast example: the black line after the real data (in green) represents the
+forecasted value, and the shaded grey area the confidence interval of the
+forecast.
+Source:
+
+The example on the image above highlights the importance of considering
+uncertainty. Can we assure how the future will unfold? Of course not, and for
+this reason it’s important to define prediction intervals (lower and upper
+boundaries) in which the forecast value is expected to fall.
+
+Statistical time series methods have dominated the forecasting landscape because
+they are heavily studied and understood, robust, and effective on many problems.
+Some popular examples of these are ARIMA (autoregressive integrated moving
+average), Exponential Smoothing methods such as Holt-Winters, and Theta.
+
+However, recent impressive results of Machine Learning methods on time series
+forecasting tasks triggered a big shift towards these types of models. The year
+2018 marked a crucial year when the was won for the first time with a model
+using Machine Learning techniques. Using this kind of approach, models are able
+to extract patterns not just from a single time series, but from collections of
+them. Machine Learning models like Artificial Neural Networks can ingest
+multiple time series and produce tremendous performances. Nevertheless, these
+models are “black boxes” that become challenging when interpretability is
+required.
+
+Decomposing a time series into its different elements allows us to perform
+unbiased forecasting and brings insights into what might happen in the future.
+Forecasting is a key activity through different industries and sectors, and
+those who get it right have a competitive advantage over those who don’t.
+
+By now it becomes clear that we need more than standard techniques to deal with
+time series. Time series embeddings represent a novel way to uncover insights
+and perform Machine Learning tasks.
+
+
+EMBEDDINGS TO THE RESCUE
+
+Distance measurement between data examples is a key component of many
+classification, regression, clustering, and anomaly detection algorithms for
+time series. For this reason, it’s critical to develop time series
+representations that can be used to improve the results over these tasks.
+
+Time series embeddings are a representation of time data in the form of vector
+embeddings that can be used by different models, improving their performance.
+Vector embeddings are well known and pretty successful in domains like Natural
+Language Processing and Graphs, but uncommon within time series. Why? Because
+time series can be challenging to vectorize. Sequential data elude a
+straightforward definition of similarity because of the necessity of alignment
+between examples, but , further complicating the matter.
+
+Fortunately, there are methods that make time-series vectorization a
+straightforward process. For example, serves as a vector representation for time
+series that can be used by many models and Artificial Neural Networks
+architectures like Long Short Term Memory (LSTM), which excel at time series
+challenges. Time2Vec can be reproduced and used .
+
+Time series embedding with time2vec
+[https://cdn.sanity.io/images/vr8gru94/production/23d382c2126accfa3e06854cd8078a9442d649e8-270x148.png]
+The red dots on the figure represent multiples of 7. In this example, it can be
+observed that Time2Vec successfully learns the correct period of the time series
+and oscillates every 7 days. The phase-shifts have been learned in a way that
+all multiples of 7 are placed on the positive peaks of the signal to facilitate
+separating them from the other days.
+Source:
+
+Once your time series are vectorized, you can use to store and search for them
+in an easy-to-use and efficient environment. Check out showing how to perform
+time-series “pattern” matching to find out the most similar stock trends.
+
+Share via:
+
+
+FURTHER READING
+
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2Fa800979e65dc4e374b59c6010e78b8851708e013-475x512.png&w=3840&q=100]
+
+Diego Lopez Yse
+
+Data Scientist
+
+--------------------------------------------------------------------------------
+
+Jump to section
+ * 
+ * 
+ * 
+ * 
+
+Share via:
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+
+
+
+DON'T MISS THE NEXT ONE...
+
+
+
+Get an email the next time we publish an article about machine learning and
+similarity search.
+
+Get Updates

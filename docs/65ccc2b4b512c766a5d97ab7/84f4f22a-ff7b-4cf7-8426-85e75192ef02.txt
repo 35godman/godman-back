@@ -1,0 +1,479 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+Guides
+
+v2
+
+Ctrl+K
+LangChain
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+
+GETTING STARTED
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+ORGANIZATIONS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+PROJECTS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INDEXES
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+DATA
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+
+
+OPERATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INTEGRATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+REFERENCE
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+SUPPORT
+
+ * 
+ * 
+ * 
+
+
+LANGCHAIN
+
+
+
+Welcome to the integration guide for Pinecone and LangChain. This documentation
+covers the steps to integrate Pinecone, a high-performance vector database, with
+LangChain, a framework for building applications powered by large language
+models (LLMs).
+
+Pinecone enables developers to build scalable, real-time recommendation and
+search systems based on vector similarity search. LangChain, on the other hand,
+provides modules for managing and optimizing the use of language models in
+applications. Its core philosophy is to facilitate data-aware applications where
+the language model interacts with other data sources and its environment.
+
+By integrating Pinecone with LangChain, you can develop sophisticated
+applications that leverage both the platforms' strengths. Allowing us to add
+"long-term memory" to LLMs, greatly enhancing the capabilities of autonomous
+agents, chatbots, and question answering systems, among others.
+
+There are naturally many ways to use these two tools together. We have covered
+the process in detail across our many examples and learning material, including:
+
+ * 
+ * 
+ * 
+
+The remainder of this guide will walk you through a simple retrieval
+augmentation example using Pinecone and LangChain.
+
+
+RETRIEVAL AUGMENTATION IN LANGCHAIN
+
+LLMs have a data freshness problem. The most powerful LLMs in the world, like
+GPT-4, have no idea about recent world events.
+
+The world of LLMs is frozen in time. Their world exists as a static snapshot of
+the world as it was within their training data.
+
+A solution to this problem is retrieval augmentation. The idea behind this is
+that we retrieve relevant information from an external knowledge base and give
+that information to our LLM. In this notebook we will learn how to do that.
+
+To begin, we must install the prerequisite libraries that we will be using in
+this notebook.
+
+Python
+!pip install -qU \
+  langchain==0.1.1 \
+  langchain-community==0.0.13 \
+  openai==0.27.7 \
+  tiktoken==0.4.0 \
+  pinecone-client==3.0.0 \
+  pinecone-datasets==0.7.0
+
+
+--------------------------------------------------------------------------------
+
+🚨 Note: the above pip install is formatted for Jupyter notebooks. If running
+elsewhere you may need to drop the !.
+
+--------------------------------------------------------------------------------
+
+
+BUILDING THE KNOWLEDGE BASE
+
+Python
+import pinecone_datasets
+
+dataset = pinecone_datasets.load_dataset('wikipedia-simple-text-embedding-ada-002-100K')
+len(dataset)
+
+
+100000
+
+
+We'll format the dataset ready for upsert and reduce what we use to a subset of
+the full dataset.
+
+Python
+# we drop sparse_values as they are not needed for this example
+dataset.documents.drop(['metadata'], axis=1, inplace=True)
+dataset.documents.rename(columns={'blob': 'metadata'}, inplace=True)
+# we will use rows of the dataset up to index 30_000
+dataset.documents.drop(dataset.documents.index[30_000:], inplace=True)
+
+
+Now we move on to initializing our Pinecone vector database.
+
+
+VECTOR DATABASE
+
+
+SERVERLESS OR POD-BASED?
+
+Before getting started, decide whether to use or index. Pod-based indexes are
+the traditional Pinecone architecture, they are available on Pinecone's (free)
+starter tier. Serverless is the new Pinecone architecture offering large cost
+savings, easier scaling, and more — there is no free tier available for
+Serverless yet, but when signing up you can get $100 in free credits.
+
+Python
+import os
+
+use_serverless = True
+
+
+
+CREATING AN INDEX
+
+Once we have our data we must set up an index to store it.
+
+We begin by initializing our connection to Pinecone. To do this we need a .
+Note: The free tier is not yet available for Serverless. However, you can claim
+$100 free credits when signing up!
+
+Python
+from pinecone import Pinecone
+
+# initialize connection to pinecone (get API key at app.pinecone.io)
+api_key = 'PINECONE_API_KEY'
+
+# configure client
+pc = Pinecone(api_key=api_key)
+
+
+Now we setup our index specification. This allows us to define the cloud
+provider and region where we want to deploy our index. You can find a list of
+all .
+
+Python
+from pinecone import ServerlessSpec, PodSpec
+import time
+
+if use_serverless:
+    spec = ServerlessSpec(cloud='aws', region='us-west-2')
+else:
+    # if not using a starter index, you should specify a pod_type too
+    spec = PodSpec()
+
+# check for and delete index if already exists
+index_name = 'langchain-retrieval-augmentation-fast'
+if index_name in pc.list_indexes().names():
+    pc.delete_index(index_name)
+
+# we create a new index
+pc.create_index(
+        index_name,
+        dimension=1536,  # dimensionality of text-embedding-ada-002
+        metric='dotproduct',
+        spec=spec
+    )
+
+# wait for index to be initialized
+while not pc.describe_index(index_name).status['ready']:
+    time.sleep(1)
+
+
+Then we connect to the index:
+
+Python
+index = pc.Index(index_name)
+index.describe_index_stats()
+
+
+{'dimension': 1536,
+ 'index_fullness': 0.0,
+ 'namespaces': {},
+ 'total_vector_count': 0}
+ 
+
+
+We should see that the new Pinecone index has a total_vector_count of 0, as we
+haven't added any vectors yet.
+
+Now we upsert the data to Pinecone:
+
+Python
+for batch in dataset.iter_documents(batch_size=100):
+    index.upsert(batch)
+
+
+We've now indexed everything. We can check the number of vectors in our index
+like so:
+
+Python
+index.describe_index_stats()
+
+
+{'dimension': 1536,
+ 'index_fullness': 0.0,
+ 'namespaces': {},
+ 'total_vector_count': 70000}
+
+
+
+CREATING A VECTOR STORE AND QUERYING
+
+Now that we've built our index we can switch over to LangChain. We need to
+initialize a LangChain vector store using the same index we just built. For this
+we will also need a LangChain embedding object, which we initialize like so:
+
+Python
+from langchain.embeddings.openai import OpenAIEmbeddings
+
+# get openai api key from platform.openai.com
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY') or 'OPENAI_API_KEY'
+
+model_name = 'text-embedding-ada-002'
+
+embed = OpenAIEmbeddings(
+    model=model_name,
+    openai_api_key=OPENAI_API_KEY
+)
+
+
+(Note that OpenAI is a paid service and so running the remainder of this
+notebook may incur some small cost)
+
+Now initialize the vector store:
+
+Python
+from langchain.vectorstores import Pinecone
+
+text_field = "text"
+
+# switch back to normal index for langchain
+index = pc.Index(index_name)
+
+vectorstore = Pinecone(
+    index, embed.embed_query, text_field
+)
+
+
+Now we can query the vector store directly using vectorstore.similarity_search:
+
+Python
+query = "who was Benito Mussolini?"
+
+vectorstore.similarity_search(
+    query,  # our search query
+    k=3  # return 3 most relevant docs
+)
+
+
+[Document(page_content='Benito Amilcare Andrea Mussolini KSMOM GCTE (29 July 1883 – 28 April 1945) was an Italian politician and journalist...', metadata={'chunk': 0.0, 'source': 'https://simple.wikipedia.org/wiki/Benito%20Mussolini', 'title': 'Benito Mussolini', 'wiki-id': '6754'}),
+ Document(page_content='Fascism as practiced by Mussolini\nMussolini\'s form of Fascism, "Italian Fascism"- unlike Nazism, the racist ideology...', metadata={'chunk': 1.0, 'source': 'https://simple.wikipedia.org/wiki/Benito%20Mussolini', 'title': 'Benito Mussolini', 'wiki-id': '6754'}),
+ Document(page_content='Veneto was made part of Italy in 1866 after a war with Austria. Italian soldiers won Latium in 1870. That was when...', metadata={'chunk': 5.0, 'source': 'https://simple.wikipedia.org/wiki/Italy', 'title': 'Italy', 'wiki-id': '363'})]
+
+
+All of these are good, relevant results. But what can we do with this? There are
+many tasks, one of the most interesting (and well supported by LangChain) is
+called "Generative Question-Answering" or GQA.
+
+
+RETRIEVAL AUGMENTED GENERATION
+
+In RAG we take the query as a question that is to be answered by a LLM, but the
+LLM must answer the question based on the information it is seeing being
+returned from the vectorstore.
+
+To do this we initialize a RetrievalQA object like so:
+
+Python
+from langchain.chat_models import ChatOpenAI
+from langchain.chains import RetrievalQA
+
+# completion llm
+llm = ChatOpenAI(
+    openai_api_key=OPENAI_API_KEY,
+    model_name='gpt-3.5-turbo',
+    temperature=0.0
+)
+
+qa = RetrievalQA.from_chain_type(
+    llm=llm,
+    chain_type="stuff",
+    retriever=vectorstore.as_retriever()
+)
+
+qa.run(query)
+
+
+Benito Mussolini was an Italian politician and journalist who served as the Prime Minister of Italy from 1922 until 1943. He was the leader of the National Fascist Party and played a significant role in the rise of fascism in Italy...
+
+
+We can also include the sources of information that the LLM is using to answer
+our question. We can do this using a slightly different version of RetrievalQA
+called RetrievalQAWithSourcesChain:
+
+Python
+from langchain.chains import RetrievalQAWithSourcesChain
+
+qa_with_sources = RetrievalQAWithSourcesChain.from_chain_type(
+    llm=llm,
+    chain_type="stuff",
+    retriever=vectorstore.as_retriever()
+)
+
+qa_with_sources(query)
+
+
+{'question': 'who was Benito Mussolini?',
+ 'answer': "Benito Mussolini was an Italian politician and journalist who served as the Prime Minister of Italy from 1922 until 1943. He was the leader of the National Fascist Party and played a significant role in the rise of fascism in Italy...",
+ 'sources': 'https://simple.wikipedia.org/wiki/Benito%20Mussolini'}
+
+
+Now we answer the question being asked, and return the source of this
+information being used by the LLM.
+
+Once done, we can delete the index to save resources.
+
+Python
+pc.delete_index(index_name)
+
+
+Updated 23 days ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+ * 
+ * * * 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

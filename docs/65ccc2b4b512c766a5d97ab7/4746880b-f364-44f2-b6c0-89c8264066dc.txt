@@ -1,0 +1,973 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+Guides
+
+v2
+
+Ctrl+K
+Manage indexes
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+
+GETTING STARTED
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+ORGANIZATIONS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+PROJECTS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INDEXES
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+DATA
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+
+
+OPERATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INTEGRATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+REFERENCE
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+SUPPORT
+
+ * 
+ * 
+ * 
+
+
+MANAGE INDEXES
+
+
+
+This page shows you how to get a list of your indexes, create an index, delete
+an index, and describe an index.
+
+To learn about the concepts related to indexes, see .
+
+
+LIST ALL INDEXES IN A PROJECT
+
+Use the operation to get a complete description of all indexes in a project:
+
+PythonJavaScriptcurl
+from pinecone import Pinecone
+
+pc = Pinecone(api_key="YOUR_API_KEY")
+pc.list_indexes()
+
+# Response:
+# {'indexes': [{'dimension': 1536,
+#               'host': 'serverless-index-4zo0ijk.svc.us-west2-aws.pinecone.io',
+#               'metric': 'cosine',
+#               'name': 'serverless-index',
+#               'spec': {'serverless': {'cloud': 'aws', 'region': 'us-west-2'}},
+#               'status': {'ready': True, 'state': 'Ready'}},
+#              {'dimension': 1536,
+#               'host': 'pod-index-4zo0ijk.svc.us-west2-aws.pinecone.io',
+#               'metric': 'cosine',
+#               'name': 'pod-index',
+#               'spec': {'pod': {'environment': 'us-west2-aws',
+#                                'pod_type': 'p1.x1',
+#                                'pods': 1,
+#                                'replicas': 1,
+#                                'shards': 1}},
+#               'status': {'ready': True, 'state': 'Ready'}}]}
+
+
+import { Pinecone } from '@pinecone-database/pinecone'
+
+const pc = new Pinecone({ apiKey: 'YOUR_API_KEY' })
+
+await pc.listIndexes();
+
+// Response:
+// {
+//    "indexes": [
+//       {
+//          "name": "serverless-index",
+//          "dimension": 1536,
+//          "metric": "cosine",
+//          "host": "serverless-index-4zo0ijk.svc.us-west2-aws.pinecone.io",
+//          "spec": {
+//             "serverless": {
+//                "cloud": "aws",
+//                "region": "us-west-2"
+//             }
+//          },
+//          "status": {
+//             "ready": true,
+//             "state": "Ready"
+//          }
+//       },
+//       {
+//          "name": "pod-index",
+//          "dimension": 1536,
+//          "metric": "cosine",
+//          "host": "pod-index-4zo0ijk.svc.us-west2-aws.pinecone.io",
+//          "spec": {
+//             "pod": {
+//                "environment": "us-west2-aws",
+//                "replicas": 1,
+//                "shards": 1,
+//                "podType": "p1.x1",
+//                "pods": 1
+//             }
+//          },
+//          "status": {
+//             "ready": true,
+//             "state": "Ready"
+//          }
+//       }
+//    ]
+// }
+
+
+PINECONE_API_KEY="YOUR_API_KEY"
+
+curl -i -X GET "https://api.pinecone.io/indexes" \
+  -H "Api-Key: $PINECONE_API_KEY"
+
+# Response:
+# {
+#    "indexes": [
+#       {
+#          "name": "serverless-index",
+#          "metric": "cosine",
+#          "dimension": 1536,
+#          "status": {
+#             "ready": true,
+#             "state": "Ready"
+#          },
+#          "host": "serverless-index-4zo0ijk.svc.dev-us-west2-aws.pinecone.io",
+#          "spec": {
+#             "serverless": {
+#                "region": "us-west-2",
+#                "cloud": "aws"
+#             }
+#          }
+#       },
+#       {
+#          "name": "pod-index",
+#          "metric": "cosine",
+#          "dimension": 1536,
+#          "status": {
+#             "ready": true,
+#             "state": "Ready"
+#          },
+#          "host": "pod-index-4zo0ijk.svc.us-west2-aws.pinecone.io",
+#          "spec": {
+#             "pod": {
+#                "replicas": 1,
+#                "shards": 1,
+#                "pods": 1,
+#                "pod_type": "p1.x1",
+#                "environment": "us-west2-aws"
+#             }
+#          }
+#       }
+#    ]
+# }
+
+
+With the Python client, you can use the .names() helper function to iterate over
+the index names in the list_indexes() response, for example:
+
+Python
+from pinecone import Pinecone, ServerlessSpec
+
+pc = Pinecone(api_key="YOUR_API_KEY")
+
+index_name = "new-index"
+if index_name not in pc.list_indexes().names():
+  # Do something, such as create the index
+  pc.create_index(
+    name=index_name,
+    dimension=1536,
+    metric='cosine',
+    spec=ServerlessSpec(
+      cloud="aws",
+      region="us-west-2"
+    )
+  )
+
+
+
+GET INFORMATION ABOUT AN INDEX
+
+Use the operation to get a complete description of a specific index:
+
+PythonJavaScriptcurl
+from pinecone import Pinecone
+
+pc = Pinecone(api_key="YOUR_API_KEY")
+
+pc.describe_index("serverless-index")
+
+# Response:
+# {'dimension': 1536,
+#  'host': 'serverless-index-4zo0ijk.svc.us-weset2-aws.pinecone.io',
+#  'metric': 'cosine',
+#  'name': 'serverless-index',
+#  'spec': {'serverless': {'cloud': 'aws', 'region': 'us-west-2'}},
+#  'status': {'ready': True, 'state': 'Ready'}}
+
+
+import { Pinecone } from '@pinecone-database/pinecone';
+
+const pc = new Pinecone({ apiKey: 'YOUR_API_KEY' });
+
+await pc.describeIndex('serverless-index');
+
+// Response:
+// {
+//    "name": "serverless-index",
+//    "dimension": 1536,
+//    "metric": "cosine",
+//    "host": "serverless-index-4zo0ijk.svc.us-west2-aws.pinecone.io",
+//    "spec": {
+//       "serverless": {
+//          "cloud": "aws",
+//          "region": "us-west-2"
+//       }
+//    },
+//    "status": {
+//       "ready": true,
+//       "state": "Ready"
+//    }
+// }
+
+
+PINECONE_API_KEY = "YOUR_API_KEY"
+
+curl -i -X GET "https://api.pinecone.io/indexes/serverless-index" \
+    -H "Api-Key: $PINECONE_API_KEY"
+
+# Response:
+# {
+#    "name": "serverless-index",
+#    "metric": "cosine",
+#    "dimension": 1536,
+#    "status": {
+#       "ready": true,
+#       "state": "Ready"
+#    },
+#    "host": "serverless-index-4zo0ijk.svc.us-west1-aws.pinecone.io",
+#    "spec": {
+#       "serverless": {
+#          "region": "us-west-2",
+#          "cloud": "aws"
+#       }
+#    }
+# }
+
+
+
+CREATE A SERVERLESS INDEX
+
+
+> ⚠️
+> 
+> WARNING
+> 
+> Serverless indexes are in public preview and are available only on AWS in the
+> us-west-2 region. Check the and test thoroughly before using it in production.
+
+To create a , import the ServerlessSpec class and use the spec parameter to
+define the cloud and region where the index should be deployed:
+
+PythonJavaScriptcurl
+from pinecone import Pinecone, ServerlessSpec
+
+pc = Pinecone(api_key="YOUR_API_KEY")
+
+pc.create_index(
+  name="serverless-index",
+  dimension=1536,
+  metric="cosine",
+  spec=ServerlessSpec(
+    cloud="aws",
+    region="us-west-2"
+  )
+)
+
+
+import { Pinecone } from '@pinecone-database/pinecone'
+
+const pc = new Pinecone({
+  apiKey: 'YOUR_API_KEY'
+});
+
+await pc.createIndex({
+  name: 'severless-index',
+  dimension: 1536,
+  metric: 'cosine',
+  spec: {
+    serverless: {
+      cloud: 'aws',
+      region: 'us-west-2'
+    }
+  }
+});
+
+
+PINECONE_API_KEY = "YOUR_API_KEY"
+
+curl -s -X POST "https://api.pinecone.io/indexes" \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -H "Api-Key: $PINECONE_API_KEY" \
+  -d '{
+         "name": "serverless-index",
+         "dimension": 1536,
+         "metric": "cosine",
+         "spec": {
+            "serverless": {
+               "cloud": "aws",
+               "region": "us-west-2"
+            }
+         }
+      }'
+
+
+
+CREATE A POD-BASED INDEX
+
+To create a , import the PodSpec class and use the spec parameter to define the
+where the index should be deployed, the and to use, and other index
+characteristics:
+
+PythonJavaScriptcurl
+from pinecone import Pinecone, PodSpec
+
+pc = Pinecone(api_key="YOUR_API_KEY")
+
+pc.create_index(
+  name="pod-index",
+  dimension=1536,
+  metric="cosine",
+  spec=PodSpec(
+    environment="us-west-1-gcp",
+    pod_type="p1.x1",
+    pods=1
+  )
+)
+
+
+import { Pinecone } from '@pinecone-database/pinecone'
+
+const pc = new Pinecone({
+  apiKey: 'YOUR_API_KEY'
+});
+
+await pc.createIndex({
+  name: 'pod-index',
+  dimension: 1536,
+  metric: 'cosine',
+  spec: {
+    pod: {
+      environment: 'us-west-1-gcp',
+      podType: 'p1.x1',
+      pods: 1
+    }
+  }
+});
+
+
+PINECONE_API_KEY = "YOUR_API_KEY"
+
+curl -s -X POST "https://api.pinecone.io/indexes" \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -H "Api-Key: $PINECONE_API_KEY" \
+  -d '{
+         "name": "pod-index",
+         "dimension": 1536,
+         "metric": "cosine",
+         "spec": {
+            "pod": {
+               "environment": "us-west-1-gcp",
+               "pod_type": "p1.x1",
+               "pods": 1
+            }
+         }
+      }'
+
+
+For the full list of parameters available to customize an index, see the .
+
+
+CREATE A STARTER INDEX
+
+On the free Starter plan, you get one project and one pod-based starter index
+with enough resources to support 100,000 vectors. Although , it's easy to .
+
+Starter indexes are hosted in the gcp-starter environment, which is us-central-1
+(Iowa) region of the GCP cloud.
+
+To create a free starter index, import the PodSpec class and set
+environment="gcp-starter" in the spec parameter:
+
+PythonJavaScriptcurl
+from pinecone import Pinecone, PodSpec
+
+pc = Pinecone(api_key="YOUR_API_KEY")
+
+pc.create_index(
+  name="starter-index",
+  dimension=1536,
+  metric="cosine",
+  spec=PodSpec(
+    environment="gcp-starter"
+  )
+)
+
+
+import { Pinecone } from '@pinecone-database/pinecone'
+
+const pc = new Pinecone({
+  apiKey: 'YOUR_API_KEY'
+});
+
+await pc.createIndex({
+  name: 'starter-index',
+  dimension: 1536,
+  metric: 'cosine',
+  spec: {
+    pod: {
+      environment: 'gcp-starter'
+    }
+  }
+});
+
+
+PINECONE_API_KEY = "YOUR_API_KEY"
+
+curl -s -X POST "https://api.pinecone.io/indexes" \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -H "Api-Key: $PINECONE_API_KEY" \
+  -d '{
+         "name": "starter-index",
+         "dimension": 1536,
+         "metric": "cosine",
+         "spec": {
+            "pod": {
+               "environment": "gcp-starter"
+            }
+         }
+      }'
+
+
+
+CREATE AN INDEX FROM A COLLECTION
+
+
+> ℹ️
+> 
+> NOTE
+> 
+> Serverless and starter indexes do not support collections.
+
+To create a pod-based index from a , use the operation and provide a parameter
+containing the name of the collection from which you wish to create an index.
+The new index is queryable and writable.
+
+Creating an index from a collection generally takes about 10 minutes. Creating a
+p2 index from a collection can take several hours when the number of vectors is
+on the order of 1M.
+
+Example
+
+The following example creates an index named example-index with 128 dimensions
+from a collection named example-collection.
+
+PythonJavaScriptcurl
+from pinecone import Pinecone, PodSpec
+
+pc = Pinecone(api_key="YOUR_API_KEY")
+
+pc.create_index(
+  name="example-index",
+  dimension=128,
+  metric="cosine",
+  spec=PodSpec(
+    environment="us-west-1-gcp",
+    pod_type="p1.x1",
+    pods=1,
+    source_collection="example-collection"
+  )
+)
+
+
+import { Pinecone } from '@pinecone-database/pinecone'
+
+const pc = new Pinecone({
+  apiKey: 'YOUR_API_KEY'
+});
+
+await pc.createIndex({
+  name: 'example-index',
+  dimension: 128,
+  metric: 'cosine',
+  spec: {
+    pod: {
+      environment: 'us-west-1-gcp',
+      podType: 'p1.x1',
+      pods: 1,
+      sourceCollection: 'example-collection'
+    }
+  }
+});
+
+
+PINECONE_API_KEY = "YOUR_API_KEY"
+
+curl -s -X POST "https://api.pinecone.io/indexes" \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -H "Api-Key: $PINECONE_API_KEY" \
+  -d '{
+         "name": "example-index",
+         "dimension": 128,
+         "metric": "cosine",
+         "spec": {
+            "pod": {
+               "environment": "us-west-1-gcp",
+               "pod_type": "p1.x1",
+               "pods": 1,
+               "source_collection": "example-collection"
+            }
+         }
+      }'
+
+
+
+CONFIGURE POD-BASED INDEXES
+
+
+> ℹ️
+> 
+> NOTE
+> 
+> This section applies to only. With serverless indexes, you don't configure any
+> compute or storage resources. Instead, serverless indexes scale automatically
+> based on usage.
+
+
+CHANGE POD SIZES
+
+The default is x1. After index creation, you can increase the pod size for an
+index.
+
+Increasing the pod size of your index does not result in downtime. Reads and
+writes continue uninterrupted during the scaling process. Currently, you cannot
+reduce the pod size of your indexes. Your number of replicas and your total
+number of pods remain the same, but each pod changes size. Resizing completes in
+about 10 minutes.
+
+To change the pod size of an existing index, use the operation and append the
+new size to the pod_type parameter, separated by a period (.).
+
+Example
+
+The following example assumes that example-index has size x1 and changes the
+size to x2.
+
+PythonJavaScriptcurl
+from pinecone import Pinecone
+
+pc = Pinecone(api_key="YOUR_API_KEY")
+
+pc.configure_index("example-index", pod_type="s1.x2")
+
+
+import { Pinecone } from '@pinecone-database/pinecone'
+
+const pinecone = new Pinecone({
+  apiKey: 'YOUR_API_KEY'
+});
+
+await pinecone.configureIndex('example-index', { podType: 's1.x2' });
+
+
+PINECONE_API_KEY = "YOUR_API_KEY"
+
+curl -s -X PATCH "https://api.pinecone.io/indexes/example-index" \
+  -H "Content-Type: application/json" \
+  -H "Api-Key: $PINECONE_API_KEY" \
+  -d '{
+         "pod_type": "s1.x2"
+      }'
+
+
+
+CHECK THE STATUS OF A POD SIZE CHANGE
+
+To check the status of a pod size change, use the operation. The status field in
+the results contains the key-value pair "state":"ScalingUp" or
+"state":"ScalingDown" during the resizing process and the key-value pair
+"state":"Ready" after the process is complete.
+
+The index fullness metric provided by may be inaccurate until the resizing
+process is complete.
+
+Example
+
+The following example uses describe_index to get the index status of the index
+example-index. The status field contains the key-value pair "state":"ScalingUp",
+indicating that the resizing process is still ongoing.
+
+PythonJavaScriptcurl
+from pinecone import Pinecone
+
+pc = Pinecone(api_key="YOUR_API_KEY")
+
+pc.describe_index("example-index")
+
+
+import { Pinecone } from '@pinecone-database/pinecone'
+
+const pc = new Pinecone({
+  apiKey: 'YOUR_API_KEY'
+});
+
+await pc.describeIndex({
+  name: "example-index",
+});
+
+
+PINECONE_API_KEY = "YOUR_API_KEY"
+
+curl -s -X GET "https://api.pinecone.io/indexes/example-index" \
+  -H "Api-Key: $PINECONE_API_KEY" \
+
+
+
+ADD REPLICAS
+
+You can increase the number of replicas for your pod-based index to increase
+throughput (QPS). All pod-based indexes start with replicas=1.
+
+Example
+
+The following example uses the operation to set the number of replicas for the
+index example-index to 4.
+
+PythonJavaScriptcurl
+from pinecone import Pinecone
+
+pc = Pinecone(api_key="YOUR_API_KEY")
+
+pc.configure_index("example-index", replicas=4)
+
+
+import { Pinecone } from '@pinecone-database/pinecone'
+
+const pc = new Pinecone({
+  apiKey: 'YOUR_API_KEY'
+});
+
+await pc.configureIndex('example-index', { replicas: 4 });
+
+
+PINECONE_API_KEY = "YOUR_API_KEY"
+
+curl -s -X PATCH "https://api.pinecone.io/indexes/example-index" \
+  -H "Content-Type: application/json" \
+  -H "Api-Key: $PINECONE_API_KEY" \
+  -d '{
+         "replicas": 4
+      }'
+
+
+See the for more details.
+
+
+SELECTIVE METADATA INDEXING
+
+
+> ℹ️
+> 
+> NOTE
+> 
+> Serverless and starter indexes do not support selective metadata indexing. For
+> fast operations on subsets of records in serverless indexes, .
+
+For pod-based indexes, Pinecone indexes all metadata fields by default. When
+metadata fields contains many unique values, pod-based indexes will consume
+significantly more memory, which can lead to performance issues, pod fullness,
+and a reduction in the number of possible vectors that fit per pod.
+
+To avoid indexing high-cardinality metadata that is not needed for and keep
+memory utilization low, specify which metadata fields to index using the
+metadata_config parameter.
+
+The value for the metadata_config parameter is a JSON object containing the
+names of the metadata fields to index.
+
+JSON
+{
+    "indexed": [
+        "metadata-field-1",
+        "metadata-field-2",
+        "metadata-field-n"
+    ]
+}
+
+
+Example
+
+The following example creates a pod-based index that only indexes the genre
+metadata field. Queries against this index that filter for the genre metadata
+field may return results; queries that filter for other metadata fields behave
+as though those fields do not exist.
+
+PythonJavaScriptcurl
+from pinecone import Pinecone, PodSpec
+
+pc = Pinecone(api_key="YOUR_API_KEY")
+
+pc.create_index(
+  name="pod-index",
+  dimension=1536,
+  metric="cosine",
+  spec=PodSpec(
+    environment="us-west-1-gcp",
+    pod_type="p1.x1",
+    pods=1,
+    metadata_config = {
+      "indexed": ["genre"]
+    }
+  )
+)
+
+
+import { Pinecone } from '@pinecone-database/pinecone'
+
+const pc = new Pinecone({
+  apiKey: 'YOUR_API_KEY'
+});
+
+await pc.createIndex({
+  name: 'pod-index',
+  dimension: 1536,
+  metric: 'cosine',
+  spec: {
+    pod: {
+      environment: 'us-west-1-gcp',
+      podType: 'p1.x1',
+      pods: 1,
+      metadata_config: {
+        indexed: ["genre"]
+      }
+    }
+  }
+});
+
+
+PINECONE_API_KEY = "YOUR_API_KEY"
+
+curl -s -X POST "https://api.pinecone.io/indexes" \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -H "Api-Key: $PINECONE_API_KEY" \
+  -d '{
+         "name": "serverless-index",
+         "dimension": 1536,
+         "metric": "cosine",
+         "spec": {
+            "pod": {
+               "environment": "us-west-1-gcp",
+               "pod_type": "p1.x1",
+               "pods": 1,
+               "metadata_config": {
+                  "indexed": ["genre"]
+               }
+            }
+         }
+      }'
+
+
+
+DELETE AN INDEX
+
+The delete_index operation deletes all of the data and the computing resources
+associated with the index.
+
+
+> ℹ️
+> 
+> NOTE
+> 
+> When you create a pod-based index, it runs as a service until you delete it.
+> Users are
+> billed for running pod-based indexes, so we recommend you delete any you're
+> not
+> using. This will minimize your costs.
+> 
+> For serverless indexes, you only pay for what you use, so there’s no extra
+> cost for having additional indexes.
+
+Example
+
+The following example deletes a Pinecone index named "example-index":
+
+PythonJavaScriptcurl
+from pinecone import Pinecone, PodSpec
+
+pc = Pinecone(api_key="YOUR_API_KEY")
+
+pc.delete_index("example-index")
+
+
+import { Pinecone } from '@pinecone-database/pinecone'
+
+const pc = new Pinecone({
+  apiKey: 'YOUR_API_KEY'
+});
+
+await pc.deleteIndex('example-index');
+
+
+PINECONE_API_KEY = "YOUR_API_KEY"
+
+curl -i -X DELETE "https://api.pinecone.io/indexes/example-index" \
+  -H "Api-Key: $PINECONE_API_KEY" 
+
+
+Updated 2 days ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * * 
+     * 
+     * 
+   * 
+   * 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

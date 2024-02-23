@@ -19,7 +19,7 @@ import { Response } from 'express';
 import { ConversationService } from '../conversation/conversation.service';
 import { AddMessageDto } from '../conversation/dto/add-message.dto';
 import { convertConversationToPrompts } from '../../utils/embeddings/convertConversationToPrompts';
-import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
+import { OpenAIEmbeddings } from '@langchain/openai';
 import { OpenAI } from 'langchain/llms/openai';
 import { removeLinks } from '../../utils/urls/removeLinks.util';
 import * as moment from 'moment/moment';
@@ -267,13 +267,19 @@ export class EmbeddingService {
     console.log('Retrieving Pinecone index...');
     // 1. Retrieve Pinecone index
     const index = client.Index(indexName);
+    console.log("=>(embedding.service.ts:270) index", index);
     // 2. Log the retrieved index name
     console.log(`Pinecone index retrieved: ${indexName}`);
-    //delete all prev_indexes
-    await index.delete1({
-      deleteAll: true,
-      namespace: chatbot_id,
-    });
+    //delete all prev_indexest
+    try {
+      await index.delete1({
+        deleteAll: true,
+        namespace: chatbot_id,
+      });
+    }catch (e){
+      console.log(e);
+    }
+
     let totalToken = 0;
     const totalDocsSetup = [];
     // 3. Process each document in the docs array

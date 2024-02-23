@@ -1,0 +1,188 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+Guides
+
+v1
+
+Ctrl+K
+Setting up billing through AWS Marketplace
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+
+GETTING STARTED
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+ORGANIZATIONS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+PROJECTS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+ * 
+
+
+INDEXES
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+DATA
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+OPERATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INTEGRATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+REFERENCE
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+SUPPORT
+
+ * 
+ * 
+ * 
+
+
+SETTING UP BILLING THROUGH AWS MARKETPLACE
+
+
+
+This document describes how to configure pay-as-you-go billing for your Pinecone
+organization through Amazon Web Services (AWS) Marketplace. To commit to annual
+spending, .
+
+
+> ℹ️
+> 
+> NOTE
+> 
+> This workflow creates a new Pinecone . If you already have an organization,
+> signing up through AWS Marketplace creates an additional organization.
+
+To configure Pinecone billing through the AWS Marketplace, follow these steps:
+
+ 1. Log in to the . Your project must be enabled for purchase by your billing
+    administrator.
+ 2. Search for .
+ 3. Click Subscribe.
+ 4. Read and agree to the terms and conditions.
+ 5. Click Subscribe.
+ 6. Click the Set up your account button.
+ 7. Sign in to Pinecone.io.
+
+When you sign in, Pinecone creates a new organization linked to your AWS
+billing.
+
+If you already have a Pinecone organization, you can select the new "AWS Linked"
+organization in the organization drop-down menu in the console.
+
+Updated about 2 months ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

@@ -1,0 +1,319 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+Guides
+
+v2
+
+Ctrl+K
+Understanding indexes
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+
+GETTING STARTED
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+ORGANIZATIONS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+PROJECTS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INDEXES
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+DATA
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+
+
+OPERATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INTEGRATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+REFERENCE
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+SUPPORT
+
+ * 
+ * 
+ * 
+
+
+UNDERSTANDING INDEXES
+
+
+
+An index is the highest-level organizational unit of vector data in Pinecone. It
+accepts and stores vectors, serves queries over the vectors it contains, and
+does other vector operations over its contents.
+
+on the Standard and Enterprise plans can create serverless indexes and pod-based
+indexes. Organizations on the free Starter plan can create only one starter
+pod-based index.
+
+To learn how to create or modify an index, see .
+
+
+SERVERLESS INDEXES
+
+
+> ⚠️
+> 
+> WARNING
+> 
+> This feature is in public preview and is available only on AWS in the
+> us-west-2 region. Check the and test thoroughly before using it in production.
+
+With serverless indexes, you don't configure or manage any compute or storage
+resources. Instead, based on a , serverless indexes scale automatically based on
+usage, and you pay only for the amount of data stored and operations performed,
+with no minimums. This means that there’s no extra cost for having additional
+indexes.
+
+For more details about how costs are calculated for a serverless index, see .
+
+
+POD-BASED INDEXES
+
+With pod-based indexes, you choose one or more pre-configured units of hardware
+(pods). Depending on the pod type, pod size, and number of pods used, you get
+different amounts of storage and higher or lower latency and throughput. Be sure
+to for your dataset and workload.
+
+
+POD TYPES
+
+Once a pod-based index is created, you cannot change its pod type. However, you
+can with a different pod type.
+
+Different pod types are priced differently. See for more details.
+
+
+S1 PODS
+
+These storage-optimized pods provide large storage capacity and lower overall
+costs with slightly higher query latencies than p1 pods. They are ideal for very
+large indexes with moderate or relaxed latency requirements.
+
+Each s1 pod has enough capacity for around 5M vectors of 768 dimensions.
+
+
+P1 PODS
+
+These performance-optimized pods provide very low query latencies, but hold
+fewer vectors per pod than s1 pods. They are ideal for applications with low
+latency requirements (<100ms).
+
+Each p1 pod has enough capacity for around 1M vectors of 768 dimensions.
+
+
+P2 PODS
+
+The p2 pod type provides greater query throughput with lower latency. For
+vectors with fewer than 128 dimension and queries where topK is less than 50, p2
+pods support up to 200 QPS per replica and return queries in less than 10ms.
+This means that query throughput and latency are better than s1 and p1.
+
+Each p2 pod has enough capacity for around 1M vectors of 768 dimensions.
+However, capacity may vary with dimensionality.
+
+The data ingestion rate for p2 pods is significantly slower than for p1 pods;
+this rate decreases as the number of dimensions increases. For example, a p2 pod
+containing vectors with 128 dimensions can upsert up to 300 updates per second;
+a p2 pod containing vectors with 768 dimensions or more supports upsert of 50
+updates per second. Because query latency and throughput for p2 pods vary from
+p1 pods, test p2 pod performance with your dataset.
+
+The p2 pod type does not support sparse vector values.
+
+
+POD SIZE AND PERFORMANCE
+
+Each pod type supports four pod sizes: x1, x2, x4, and x8. Your index storage
+and compute capacity doubles for each size step. The default pod size is x1. You
+can increase the size of a pod after index creation.
+
+To learn about changing the pod size of an index, see .
+
+
+POD ENVIRONMENTS
+
+When creating a pod-based index, you must choose the cloud environment where you
+want the index to be hosted. The project environment can affect your . The
+following table lists the available cloud regions and the corresponding values
+of the environment parameter for the :
+
+CloudRegionEnvironmentGCPus-west-1 (N. California)us-west1-gcpGCPus-central-1
+(Iowa)us-central1-gcpGCPus-west-4 (Las Vegas)us-west4-gcpGCPus-east-4
+(Virginia)us-east4-gcpGCPnorthamerica-northeast-1northamerica-northeast1-gcpGCPasia-northeast-1
+(Japan)asia-northeast1-gcpGCPasia-southeast-1
+(Singapore)asia-southeast1-gcpGCPus-east-1 (South
+Carolina)us-east1-gcpGCPeu-west-1 (Belgium)eu-west1-gcpGCPeu-west-4
+(Netherlands)eu-west4-gcpAWSus-east-1 (Virginia)us-east-1-awsAzureeastus
+(Virginia)eastus-azure
+
+if you need a dedicated deployment in other regions.
+
+The environment cannot be changed after the index is created.
+
+
+STARTER INDEXES
+
+On the free Starter plan, you get one project and one pod-based starter index
+with enough resources to support 100,000 vectors. Although , it's easy to .
+
+Starter indexes are hosted in the gcp-starter environment, which is us-central-1
+(Iowa) region of the GCP cloud.
+
+
+DISTANCE METRICS
+
+You can choose from different metrics when creating a vector index:
+
+ * euclidean
+   * This is used to calculate the distance between two data points in a plane.
+     It is one of the most commonly used distance metric. For an example, see
+     our .
+   * When you use metric='euclidean', the most similar results are those with
+     the lowest score.
+ * cosine
+   * This is often used to find similarities between different documents. The
+     advantage is that the scores are normalized to [-1,1] range. For an
+     example, see our .
+ * dotproduct
+   * This is used to multiply two vectors. You can use it to tell us how similar
+     the two vectors are. The more positive the answer is, the closer the two
+     vectors are in terms of their directions. For an example, see our .
+
+For the full list of parameters available to customize an index, see the .
+
+Depending on your application, some metrics have better recall and precision
+performance than others. For more information, see
+
+Updated 16 days ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+ * 
+ * * 
+   * * 
+     * 
+     * 
+   * 
+   * 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

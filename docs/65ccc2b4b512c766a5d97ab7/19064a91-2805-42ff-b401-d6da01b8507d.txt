@@ -1,0 +1,215 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+
+DISCO REVOLUTIONIZES LEGAL TECHNOLOGY WITH PINECONE
+
+logo
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2Fde8ddac343be5780366e04587120eac30d7fa74a-1517x212.png&w=3840&q=75]
+
+DISCO provides a cloud-native legal solution that simplifies legal hold, legal
+requests, ediscovery, legal document review, and case management for
+enterprises, law firms, legal services providers, and governments. They use
+Pinecone to achieve efficient vector searches and accurately retrieve
+information from vast legal datasets, both new and old.
+
+Industry
+
+Legal Technology
+
+Use Cases
+
+RAG
+
+Cloud
+
+AWS
+
+provides a cloud-native legal solution that simplifies legal hold, legal
+request, ediscovery, legal document review and case management for enterprises,
+law firms, legal services providers, and governments. DISCO’s solution is
+designed to empower legal professionals with cutting-edge tools that streamline
+their workflows, enhance data analysis, and provide unparalleled insights.
+
+Leading the charge at DISCO is a team of engineers committed to reshaping how
+legal professionals navigate the intricacies of the legal landscape. Rick
+Vestal, Director of Engineering, and Matt Hinze, Principal Software Architect,
+are crafting solutions designed not only to meet but surpass the expectations of
+legal professionals in an industry where precision and speed are of utmost
+importance.
+
+Challenge
+
+
+TRANSFORMING FACT FINDINGS FOR LEGAL PROFESSIONALS
+
+Legal professionals need access to a comprehensive and diverse set of data to
+build compelling cases or to respond effectively to legal inquiries. To
+investigate facts related to litigation or investigation workflows, they need to
+identify, collect, and analyze relevant information to support these cases.
+However, legal datasets are inherently dynamic, with volumes fluctuating based
+on case sizes and information complexities.
+
+DISCO has developed an AI-powered platform designed to empower legal
+professionals by offering immediate access to case facts, reducing manual tasks,
+and amplifying their ability to deliver results. A standout feature within
+Cecilia AI is Cecilia Q&A, a purpose-built AI fact expert facilitating seamless
+natural language interactions. Users can query and analyze large datasets, in an
+effort to streamline their workflow and enrich their overall experience.
+
+Cecilia Q&A acts on the information stored in a customer's database to deliver
+insights for legal professionals working with case-related data. During the
+initial stages of legal discovery, legal experts grapple with substantial
+volumes of unstructured data like documents, messages, emails, etc., that may
+contain vital information for ongoing cases. At this crucial stage, Cecilia Q&A
+is intended to provide a detailed and context-dependent view of the legal
+content with the goal of providing a more advanced approach than conventional
+keyword searches, for a more accurate and comprehensive analysis.
+
+Given the urgency for legal teams to swiftly interpret unfamiliar data, DISCO
+needed a vector database for Cecilia Q&A that could adeptly navigate the
+intricate complexities of legal information on an expanding scale. Crucially,
+this vector database had to possess the dual capability of seamlessly ingesting
+new data while retaining the capacity to address queries related to older
+datasets.
+
+Solution
+
+
+SETTING THE FOUNDATION WITH PINECONE’S ARCHITECTURE
+
+The DISCO team recognized the need for a vector database that would support
+relevant searches across a massive volume of legal data. While other options
+were available, DISCO selected Pinecone as their vector database partner to
+support the development of Cecilia Q&A.
+
+As users engage with Cecilia Q&A by posing natural language questions, Pinecone
+helps facilitate the creation of to capture the semantic nuances of these
+queries. The information obtained undergoes enrichment through DISCO's databases
+for the purpose of creating a comprehensive knowledge base. Through the use of a
+large language model, the system is designed to generate coherent and relevant
+responses to complex legal inquiries. By leveraging Pinecone, DISCO sought to
+achieve efficient vector searches, enabling real-time adaptability, query
+performance for rapidly and accurately from vast legal datasets, from new and
+old data.
+
+To enhance efficiency, DISCO wanted to explore an alternative to pod-based
+structure as it demanded a proactive approach to resource provisioning, often
+resulting in over-provisioning to mitigate potential surges. Since legal cases
+are inherently unpredictable, the team was looking for the flexibility to adapt
+to varying data loads, only paying for the resources used, and eliminating the
+need for complex pre-provisioning strategies. The team tested the recently
+available , allowing them to eliminate the need for complex pre-provisioning
+strategies, aligning with the scaling of infrastructure based on customer data
+ingests.
+
+> "Serverless gives us the ability to rethink what we can do with Pinecone for
+> our customers." - Rick Vestal, Director of Engineering, DISCO
+
+result
+
+
+TRANSITIONING TO PINECONE SERVERLESS IS PROJECTED TO REDUCE COSTS WHILE
+MAINTAINING OPTIMAL PERFORMANCE
+
+The decision to transition to Pinecone serverless was prompted by the challenge
+of managing unanticipated customer ingests. In the pod architecture, the scaling
+process resulted in doubling resources with each ingest, making it challenging
+to predict and provision accurately. If a customer ingested a gigabyte of data,
+it could lead to the creation of one pod. Subsequent data ingests, doubling the
+volume, would require provisioning two pods, then four, and so on, creating cost
+inefficiencies. The unpredictability of customer data ingests made it difficult
+to pre-provision the exact number of pods needed.
+
+With Pinecone serverless, DISCO expects to:
+
+ * Reduce costs: The newly architected design of Pinecone serverless should
+   empower DISCO to have the flexibility to adapt to varying legal data loads,
+   only paying for the resources used.
+ * Build at scale: With Pinecone serverless, DISCO should be able to scale the
+   number of vectors as needed increasing the wealth of information extracted
+   from legal documents.
+ * Access easiest-to-use technology: The transition to a serverless architecture
+   empowers DISCO to focus on building technology that should always remain
+   up-to-date with the latest legal information without the burdens of
+   provisioning, sharding, and rebuilding indexes.
+
+> "The transition to Pinecone serverless was seamless. The APIs and contracts
+> remained unchanged for our core interactions, simplifying baseline
+> compatibility testing." - Rick Vestal, Director of Engineering, DISCO
+
+SCALING UP FOR BROADER IMPACT
+
+The strategic partnership with Pinecone has laid the foundation for future plans
+for scalability and innovation. This ongoing partnership underscores DISCO's
+commitment to staying at the forefront of legal technology, with plans to use
+Pinecone as a key enabler for future advancements in their offerings.
+
+Matt shares, “Our collaboration with Pinecone has been incredibly beneficial.
+We've enjoyed direct access to their product team, receiving valuable insights,
+well-documented guidance, and useful tips. The expertise of the Pinecone team
+should play a pivotal role in steering us in the right direction, fostering a
+strong and productive partnership."
+
+> "Pinecone serverless opened up possibilities we hadn't considered before and
+> allows us to invest even more in our long-term product capabilities."- Rick
+> Vestal, Director of Engineering, DISCO
+
+Share via:
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F395aa87bf83fb1453dcaf7708ada8b376b1ee24e-1340x1516.jpg&w=3840&q=100]
+
+Pinecone Customer Marketing
+
+Jump to section
+
+ * 
+ * 
+ * 
+
+
+WHAT WILL YOU BUILD?
+
+Upgrade your search or chatbots applications with just a few lines of code.
+
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+

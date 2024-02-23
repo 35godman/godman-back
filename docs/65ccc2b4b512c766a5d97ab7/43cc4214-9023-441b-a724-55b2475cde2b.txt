@@ -1,0 +1,191 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+
+INTRODUCING CANOPY: AN EASY, FREE, AND FLEXIBLE RAG FRAMEWORK POWERED BY
+PINECONE
+
+Nov 8, 2023 - in Product
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F019f2985c40a0ed2cfca739bc92996133cb07a6c-200x200.jpg&w=3840&q=100]
+
+Senior Product Marketing Manager
+
+--------------------------------------------------------------------------------
+
+We’re launching (V.0.1.2) to let developers quickly and easily build GenAI
+applications using . Canopy is an open-source framework and context engine built
+on top of the Pinecone vector database so you can build and host your own
+production-ready chat assistant at any scale.
+
+From chunking and embedding your text data to chat history management, query
+optimization, context retrieval (including prompt engineering), and augmented
+generation, Canopy takes on the heavy lifting so you can focus on building and
+experimenting with RAG. As a fully open-source framework, you can easily extend
+or modify each component of Canopy to accommodate your use case.
+
+Canopy uses the Pinecone for storage and retrieval, which is free for up to 100K
+vectors (around 15M words or 30K pages of text) and can scale to billions of
+embeddings on paid plans.
+
+
+
+
+
+TRANSFORM YOUR TEXT DATA INTO A RAG-POWERED APPLICATION IN UNDER AN HOUR
+
+With many components to manage (e.g. LLM, embedding model, vector database) and
+levers to pull (e.g. chunk size, index configuration), implementing a RAG
+workflow from scratch can be resource and time intensive, and is often hard to
+evaluate. And without a certain level of AI expertise, you can get bogged down
+by the trial-and-error that comes with designing and building a reliable, highly
+effective RAG pipeline.
+
+
+
+With Canopy, you can get a production-ready RAG-powered application up and
+running in under an hour. And because it’s built and backed by Pinecone, you get
+the same great developer experience and performance of our fully managed vector
+database.
+
+
+For developers wanting to get started and experiment with RAG, Canopy provides a
+solution that is:
+
+ * Free: Store up to 100K embeddings in Pinecone for free. That’s enough for
+   around 15M words or 30K pages of documents. Free options for LLMs and
+   embedding models are coming soon.
+ * Easy to implement: Bring your text data in plain text (.txt), Parquet, or
+   JSONL formats (support for PDF files coming soon), and Canopy will handle the
+   rest. Canopy is currently compatible with any OpenAI LLM (including GPT-4
+   Turbo), with support for additional LLMs and embedding models, including
+   popular open source models from Anyscale Endpoints, coming soon. (Note: You
+   can use our to easily transform your text data into JSONL format.)
+
+#create a new Pinecone index configured for Canopy
+canopy new
+
+#upsert your data
+canopy upsert /path/to/data_directory
+
+#start the Canopy server
+canopy start
+
+
+ * Reliable at scale: Build fast, accurate, and reliable GenAI applications that
+   are production-ready and backed by Pinecone’s vector database.
+ * Modular and extensible: Choose to run Canopy as a web service or application
+   via a simple REST API, or use the Canopy library to build your own custom
+   application. Easily add Canopy to your existing OpenAI application by
+   replacing the with Canopy’s server endpoint.
+ * Interactive and iterative: Chat with your text data using a simple command in
+   the Canopy CLI. Easily compare RAG vs. non-RAG workflows side-by-side to
+   interactively evaluate the augmented results before moving to production.
+
+#start chatting with you data
+canopy chat
+
+#add a flag to compare RAG and non-RAG results 
+canopy chat --no-rag
+
+
+
+Getting started with Canopy is a breeze. Just bring your data, your OpenAI and
+Pinecone API keys, and you’re ready to start building with RAG.
+
+
+GET STARTED WITH CANOPY’S BUILT-IN SERVER OR USE THE UNDERLYING LIBRARY
+
+Canopy is packaged as a web service (via the Canopy Server) and a so you can
+build your own custom application. The library has three components (or classes)
+which can be run individually or as a complete package. Each component is
+responsible for different parts of the RAG workflow:
+
+ * The Knowledge Base prepares your data for the RAG workflow. It automatically
+   chunks and transforms your text data into text embeddings before upserting
+   them into the Pinecone vector database.
+ * The Context Engine performs the “retrieval” part of RAG. It finds the most
+   relevant documents from Pinecone (via the Knowledge Base) and structures them
+   as context to be used as an LLM prompt.
+ * The Canopy Chat Engine implements the full RAG workflow. It understands your
+   chat history and identifies multi-part questions, generates multiple relevant
+   queries from one prompt, and transforms those queries into embeddings. It
+   then uses the context generated for the LLM (via Context Engine) to present a
+   highly relevant response to the end user.
+
+[https://cdn.sanity.io/images/vr8gru94/production/878c50ffb2783e0dd8fddc78f40fa4ef444c23a9-2036x820.png]
+The Canopy Chat Engine implements the full RAG workflow.
+
+
+START BUILDING TODAY
+
+Canopy is now available for anyone looking to build and experiment with RAG. For
+Pinecone users, existing indexes are currently not compatible with Canopy so you
+will need to create a new index using Canopy to get started.
+
+Future versions of Canopy will support more data formats, new LLMs and embedding
+models, and more. Star the to follow our progress, make contributions, and start
+building today!
+
+Share via:
+
+
+FURTHER READING
+
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F019f2985c40a0ed2cfca739bc92996133cb07a6c-200x200.jpg&w=3840&q=100]
+
+Senior Product Marketing Manager
+
+
+Share via:
+
+
+--------------------------------------------------------------------------------
+
+
+WHAT WILL YOU BUILD?
+
+Upgrade your search or chatbots applications with just a few lines of code.
+
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+

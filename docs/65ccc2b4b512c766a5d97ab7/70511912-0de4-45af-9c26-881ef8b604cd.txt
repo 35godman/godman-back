@@ -1,0 +1,270 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+Guides
+
+v1
+
+Ctrl+K
+Understanding projects
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+
+GETTING STARTED
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+ORGANIZATIONS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+PROJECTS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+ * 
+
+
+INDEXES
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+DATA
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+OPERATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INTEGRATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+REFERENCE
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+SUPPORT
+
+ * 
+ * 
+ * 
+
+
+UNDERSTANDING PROJECTS
+
+
+
+OVERVIEW
+
+This document explains the concepts related to Pinecone projects.
+
+
+PROJECTS CONTAIN INDEXES AND USERS
+
+Each Pinecone project contains a number of and users. Only a user who belongs to
+the project can access the indexes in that project. Each project also has at
+least one project owner. All of the pods in a single project are located in a
+single environment.
+
+
+PROJECT SETTINGS
+
+When you create a new project, you can choose the name, deployment environment,
+and pod limit.
+
+
+PROJECT ENVIRONMENT
+
+When creating a project, you must choose a cloud environment for the indexes in
+that project. Your project environment can affect your . The following table
+lists the available cloud regions, the corresponding values of the environment
+parameter for the , and which billing tier has access to each environment:
+
+CloudRegionEnvironmentTier AvailabilityGCPus-central-1
+(Iowa)gcp-starterStarterGCPus-west-1 (N.
+California)us-west1-gcp-freeStarterGCPasia-southeast-1
+(Singapore)asia-southeast1-gcp-freeStarterGCPus-west-4 (Las
+Vegas)us-west4-gcp-freeStarterGCPus-west-1 (N. California)us-west1-gcpStandard /
+EnterpriseGCPus-central-1 (Iowa)us-central1-gcpStandard / EnterpriseGCPus-west-4
+(Las Vegas)us-west4-gcpStandard / EnterpriseGCPus-east-4
+(Virginia)us-east4-gcpStandard /
+EnterpriseGCPnorthamerica-northeast-1northamerica-northeast1-gcpStandard /
+EnterpriseGCPasia-northeast-1 (Japan)asia-northeast1-gcpStandard /
+EnterpriseGCPasia-southeast-1 (Singapore)asia-southeast1-gcpStandard /
+EnterpriseGCPus-east-1 (South Carolina)us-east1-gcpStandard /
+EnterpriseGCPeu-west-1 (Belgium)eu-west1-gcpStandard / EnterpriseGCPeu-west-4
+(Netherlands)eu-west4-gcpStandard / EnterpriseAWSus-east-1
+(Virginia)us-east-1-awsStandard / EnterpriseAzureeastus
+(Virginia)eastus-azureStandard / Enterprise
+
+* This environment has unique features and limitations. See for more
+information.
+
+if you need a dedicated deployment in other regions.
+
+The environment cannot be changed after the project is created.
+
+
+PROJECT POD LIMIT
+
+You can set the maximum number of pods that can be used in total across all
+indexes in a project. Use this to control costs.
+
+The pod limit can be changed only by the project owner.
+
+
+PROJECT ROLES
+
+There are two project roles: Project owner and project member. Table 1 below
+summarizes the permissions for each role.
+
+Table 1: Project roles and permissions
+
+Project rolePermissions in organizationProject ownerManage project membersManage
+project API keysManage pod limitsProject memberAccess API keysCreate indexes in
+projectUse indexes in project
+
+
+API KEYS
+
+Each Pinecone has one or more API keys. In order to , a user must provide a
+valid API key for the relevant Pinecone project.
+
+To view the API key for your project, open the , select the project, and click
+API Keys.
+
+
+PROJECT ID
+
+Each Pinecone project has a project ID. This hexadecimal string appears as part
+of the URL for API calls.
+
+To find a project's ID, follow these steps:
+
+ 1. Go to the .
+
+ 2. In the upper-left corner, select your project.
+
+ 3. Click Indexes.
+
+ 4. Under the name of your indexes, find the index URL. For example:
+    
+    example-index-1e3g52e.svc.us-east1-gcp.pinecone.io
+
+The portion of the index URL after the index name and before the dot is the
+project ID.
+
+For example, in the index URL test-index-3e2f43f.svc.us-east1-gcp.pinecone.io,
+the project ID is 3e2f43f.
+
+Updated about 2 months ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+ * 
+ * * 
+   * 
+   * * 
+     * 
+     * 
+   * 
+   * 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

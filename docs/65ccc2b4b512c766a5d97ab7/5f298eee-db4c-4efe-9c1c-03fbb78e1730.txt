@@ -1,0 +1,184 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+
+MANAGE SERVERLESS COSTS WITH READ UNITS
+
+Feb 1, 2024
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F060a591e7197c2c61b0bc15f6a6b9f61d6340dca-800x800.jpg&w=3840&q=100]
+
+Senior Developer Advocate
+
+--------------------------------------------------------------------------------
+
+Jump to section
+
+--------------------------------------------------------------------------------
+
+With , you only . The separation of read and write paths inside the DB enables
+this dynamic cost structure. This article illustrates how (RUs) work, so you can
+better understand billing and monitor your usage.
+
+
+
+In the future, we will take a deep dive into understanding RUs’ counterparts:
+Write Units and Storage.
+
+
+
+to explore the information in this article live.
+
+
+WHAT ARE READ UNITS (RUS)?
+
+RUs measure the resources consumed by read operations such as , , and .
+
+
+
+An example of a query request would be sending a question to the DB (e.g., “What
+is a dog?”) and getting vectors (and, optionally, metadata) returned. An example
+of a fetch request would be sending a string of vector IDs to the DB to get
+their associated vectors returned; and an example of a list request would be
+requesting `n` number of vector IDs be returned.
+
+
+
+Usage notes per endpoint:
+
+ * Query
+    * A query request uses a number of RUs that to the size of your .
+
+ * Fetch
+    * A fetch request , with a minimum of 1 RU.
+
+ * List
+    * Each list request (and each subsequent paginated list request) costs 1 RU.
+
+
+HOW TO INSPECT RUS
+
+Every read operation will have its . An example response would look like this:
+
+{'matches': [{'id': 'c1eb2875-bd4e-449d-a059-232edb62c62a',
+              'metadata': None,
+              'score': 0.0,
+              'sparse_values': {'indices': [], 'values': []},
+              'values': []}],
+'namespace': '50k',
+ 'usage': {'read_units': 5}}  # >>> Here are your RUs!
+
+
+
+
+You can see above that whatever read operation produced the above result, it
+consumed 5 RUs (“usage”: {“read_units”: 5}}).
+
+
+
+See our to gain a deeper understanding of how different query configurations
+lead to different RU spend.
+
+
+
+To project future overall costs, use our .
+
+
+SUBLINEAR COST GROWTH
+
+While RUs are a function of the size of your namespace (the sheer number of
+vectors, the dimensionality of those vectors, and the presence of any metadata),
+they grow sublinearly with your namespace.
+
+
+
+For example, if it costs 5 RUs to query a namespace with 50k, 1536-dimensional
+vectors, the cost of querying an index 4x that size is not 20 RUs. Instead, it
+will be approximately 8 RUs. This sublinear growth keeps costs low while
+allowing you to scale quickly.
+
+
+
+Pinecone’s specialized indexing and retrieval algorithms enable this sublinear
+growth by clustering similar vectors together. At query time, only a subset of
+the total namespace is searched. The result is sublinear growth of RU cost as
+the total number of vectors in the namespace increases.
+
+
+
+--------------------------------------------------------------------------------
+
+
+
+Let us know what you think at .
+
+Share via:
+
+
+FURTHER READING
+
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F060a591e7197c2c61b0bc15f6a6b9f61d6340dca-800x800.jpg&w=3840&q=100]
+
+Senior Developer Advocate
+
+--------------------------------------------------------------------------------
+
+Jump to section
+ * 
+ * 
+ * 
+
+Share via:
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+
+
+
+DON'T MISS THE NEXT ONE...
+
+
+
+Get an email the next time we publish an article about machine learning and
+similarity search.
+
+Get Updates

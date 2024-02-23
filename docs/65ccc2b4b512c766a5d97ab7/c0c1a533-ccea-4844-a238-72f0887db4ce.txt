@@ -1,0 +1,247 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+Guides
+
+v1
+
+Ctrl+K
+Moving to production
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+
+GETTING STARTED
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+ORGANIZATIONS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+PROJECTS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+ * 
+
+
+INDEXES
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+DATA
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+OPERATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INTEGRATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+REFERENCE
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+SUPPORT
+
+ * 
+ * 
+ * 
+
+
+MOVING TO PRODUCTION
+
+
+
+This page provides recommendations and best practices for preparing your
+Pinecone indexes for production, anticipating production issues, and enabling
+reliability and growth.
+
+
+> ℹ️
+> 
+> NOTE
+> 
+> For high-scale use cases, consider using the as a starting point.
+
+
+PREPARE YOUR PROJECT STRUCTURE
+
+One of the first steps towards a production-ready Pinecone index is configuring
+your project correctly. Consider for your development and production indexes, to
+allow for testing changes to your index before deploying them to production.
+Ensure that you have properly to your production environment so that only those
+users who need to access the production index can do so. Consider how best to
+manage the API key associated with your production project.
+
+
+TEST YOUR QUERY RESULTS
+
+Before you move your index to production, make sure that your index is returning
+accurate results in the context of your application. Consider for evaluating
+your results.
+
+
+ESTIMATE THE APPROPRIATE NUMBER AND SIZE OF PODS AND REPLICAS
+
+Depending on your data and the types of workloads you intend to run, your
+project may require a different and . Factors to consider include the number of
+vectors, the dimensions per vector, the amount and cardinality of metadata, and
+the acceptable queries per second (QPS). Use the to identify how much of your
+current resources your indexes are using. You can with different pod types and
+sizes to experiment.
+
+
+LOAD TEST YOUR INDEXES
+
+Before moving your project to production, consider determining whether your
+index configuration can serve the load of queries you anticipate from your
+application. You can write load tests in Python from scratch or using a load
+testing framework like .
+
+
+BACK UP YOUR INDEXES
+
+In order to enable long-term retention, compliance archiving, and deployment of
+new indexes, consider backing up your production indexes by .
+
+
+TUNE FOR PERFORMANCE
+
+Before serving production workloads, identify ways to by making changes to your
+deployment, project configuration, or client.
+
+
+CONFIGURE MONITORING
+
+Prepare to .
+
+
+PLAN FOR SCALING
+
+Before going to production, consider planning ahead for how you might scale your
+indexes when the need arises. Identify metrics that may indicate the need to
+scale, such as and . Plan for increasing the number of pods, changing to a more
+performant , the , increasing the number of , or increasing storage capacity
+with a .
+
+
+KNOW HOW TO GET SUPPORT
+
+If you need help, visit , or talk to the . Ensure that your matches the support
+and availability SLAs you need. This may require you to upgrade to Enterprise.
+
+Updated about 1 month ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

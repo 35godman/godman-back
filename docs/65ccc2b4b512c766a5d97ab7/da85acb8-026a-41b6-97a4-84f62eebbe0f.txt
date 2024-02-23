@@ -1,0 +1,282 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+
+INTRODUCING PINECONE SERVERLESS
+
+Jan 16, 2024 - in Company
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F5c46037688fd7e45a2ba7d034ce35ef4cefd3bcb-230x230.png&w=3840&q=100]
+
+Founder & CEO
+
+--------------------------------------------------------------------------------
+
+Jump to section
+
+--------------------------------------------------------------------------------
+
+We are announcing Pinecone serverless, a completely reinvented vector database
+that lets you easily build fast and accurate GenAI applications at up to 50x
+lower cost. It’s available today in public preview — .
+
+
+HELPING DEVELOPERS BUILD REMARKABLE AI APPLICATIONS
+
+From the beginning, our mission has been to help engineers build better AI
+products. We created the vector database to put vector search in the hands of
+every developer so they could build AI-powered applications like semantic
+search, recommenders, data labeling, anomaly detectors, candidate generation,
+and many others.
+
+With the rise of GenAI, our mission became more important and relevant than ever
+before. Using a for Retrieval Augmented Generation () emerged as the way to
+improve GenAI quality and reduce hallucinations while retaining control over
+proprietary data. Because of our original focus on ease of use, reliability, and
+scalability, Pinecone became for developers building RAG applications. Hundreds
+of thousands of developers have used Pinecone, and over 5,000 customers are
+running Pinecone in pilots or production applications.
+
+After a year of widespread experimentation with GenAI and vector databases, the
+bar for “remarkable” is higher, and so are the stakes. Developers and their
+companies are racing to build differentiated and commercially viable AI
+applications, and they need more than just access to LLMs and vector search to
+achieve that. But what, exactly?
+
+
+KNOWLEDGE MAKES THE DIFFERENCE
+
+After working with thousands of engineering teams and conducting a study that
+measured the effect of RAG and data sizes on LLM quality, we found the answer:
+Knowledge. Give the AI application differentiated knowledge by giving it
+on-demand (and secure) access to your data. The more data it can search through
+semantically to find the right context, the better the application performs in
+terms of answer quality.
+
+The chart below shows the qualitative improvements in RAG answer quality as a
+function of the amount of data made available to the LLM using Pinecone.
+
+[https://cdn.sanity.io/images/vr8gru94/production/5ca76ea87c23a8344f05a4a352c72398cc288e47-1009x820.jpg]
+
+
+After a certain threshold, using the LLM with RAG led to more “faithful” —
+roughly speaking: more useful and accurate — answers than using the LLM alone,
+and it kept improving with larger index sizes. By the 1B mark, using RAG reduced
+unfaithful answers from GPT-4 by around 50%. The effect on other LLMs was even
+greater, actually making up for any original difference in quality between them
+and GPT-4.
+
+(This test was done on a public dataset the models were already trained on. When
+using RAG for proprietary data, the threshold for RAG outperforming non-RAG
+would be lower and the quality improvement would be significantly greater.)
+
+by our research team.
+
+With this insight, the next step in our mission became clear: In order to build
+remarkable GenAI applications, developers need an even easier and cost-effective
+solution for searching through massive, ever-growing amounts of vector data.
+Helping them do that would require a complete reimagination of the vector
+database and everything inside it, from indexing algorithms to the storage
+architecture to the APIs and more. So that’s what we did.
+
+
+PINECONE SERVERLESS: ADD UNLIMITED KNOWLEDGE TO YOUR AI APPLICATIONS
+
+Pinecone serverless is the next generation of our vector database. It costs up
+to 50x less, is incredibly easy to use (without any pod configuration), and
+provides even better vector-search performance at any scale. All to let you ship
+GenAI applications easier and faster.
+
+“To make our newest Notion AI products available to tens of millions of users
+worldwide we needed to support RAG over billions of documents while meeting
+strict performance, security, cost, and operational requirements. This simply
+wouldn’t be possible without Pinecone.”
+
+— Akshay Kothari, Co-Founder of Notion.
+
+[https://cdn.sanity.io/images/vr8gru94/production/e895729bad564683c272e10d2cead68b515a557b-1105x725.png]
+
+
+These are some of the new features of the purpose-built cloud database:
+
+ * Separation of reads, writes, and storage significantly reduces costs for all
+   types and sizes of workloads.
+ * Industry-first architecture with vector clustering on top of blob storage
+   provides low-latency, always-fresh vector search over a practically unlimited
+   number of records at a low cost.
+ * Innovative indexing and retrieval algorithms built from scratch to enable
+   fast and memory-efficient vector search from blob storage without sacrificing
+   retrieval quality.
+ * Multi-tenant compute layer provides powerful and efficient retrieval for
+   thousands of users, on demand. This enables a serverless experience in which
+   developers don’t need to provision, manage, or even think about
+   infrastructure, as well as usage-based billing that lets companies pay only
+   for what they use.
+
+from our VP of R&D, Ram Sriharsha, to learn a lot more about the design
+decisions, architecture, performance, and sample costs of Pinecone serverless.
+
+Here’s what Pinecone serverless gives you:
+
+
+1. UP TO 50X LOWER COSTS
+
+Most users will see a lower cost with Pinecone serverless compared to Pinecone
+pod-based indexes for several reasons:
+
+ * Separated pricing for reads (queries) means you don’t have to pay for compute
+   resources when you’re not using them.
+ * Separated pricing for storage means you can pay for exactly the number of
+   records you have, regardless of your query needs.
+ * Usage-based pricing reduces cost for variable or unpredictable workloads. You
+   will only pay for what you use, and not for peak capacity.
+ * Significantly more efficient indexing and searching that consumes far less
+   memory and compute. We pass the savings to you.
+ * And finally, there is no minimum cost per index. Whether you have one index
+   or ten thousand, you still only pay for total reads, writes, and storage.
+
+Here’s a sample comparison of monthly costs between our serverless and pod-based
+indexes, assuming a typical volume of 500K monthly queries. There is no change
+in recall between the two index types.
+
+[https://cdn.sanity.io/images/vr8gru94/production/3735c2c9d291430cbbc1df872d775e19680b70d1-1043x834.png]
+
+
+A word of caution about Public Preview pricing: The packaging and pricing during
+public preview is not yet optimized for high-throughput applications, such as
+recommender systems. We will introduce updated pricing for such use cases in the
+future. In the meantime, if you have a high-throughput application you may see
+reads throttled, and we recommend comparing the costs of both index types.
+
+Your actual costs will vary depending on your exact workload. before you begin,
+test actual costs while building, and monitor your spend in production.
+
+
+2. EFFORTLESS STARTING AND SCALING
+
+There are no pods, shards, replicas, sizes, or storage limits to think about or
+manage. Simply name your index, load your data, and start querying through the
+API or the client. There’s nothing more to it. So, you can get back to focusing
+on the rest of your application.
+
+[https://cdn.sanity.io/images/vr8gru94/production/50b942c6386043f472f832d293a7bc99fce5022d-1999x1199.png]
+
+
+
+3. FAST, FRESH, FILTERED, AND RELEVANT VECTOR SEARCH RESULTS
+
+You might think that cost savings come at the expense of functionality,
+accuracy, or performance. It does not.
+
+Just like the pod-based indexes, Pinecone serverless supports live index
+updates, metadata filtering, hybrid search, and namespaces to let you have the
+most control of your data.
+
+Performance is also preserved. In fact, for warm namespaces, serverless indexes
+provide significantly lower latencies compared to pod-based indexes, with
+roughly the same level of recall. Warm namespaces are namespaces that receive
+queries regularly and, as a result, are cached locally in the multi-tenant
+workers. Cold-start queries will have higher latencies.
+
+[https://cdn.sanity.io/images/vr8gru94/production/693154d31b3b6814eb67d74aa3f3a9ccbb99167e-1036x684.png]
+
+
+
+START BUILDING KNOWLEDGEABLE AI WITH PINECONE SERVERLESS
+
+Pinecone serverless is in public preview starting today.
+
+Companies like Notion, Gong, CS Disco, and many others have already started
+using Pinecone serverless with billions of embeddings serving millions of users.
+And other parts of your AI stack already integrate with Pinecone serverless to
+make getting started even easier: , , , , , , and .
+
+and unlock $100 in free usage credits. (Also available through the .)
+
+You can also , , or with questions. We always value your feedback; if you find a
+bug, experience something confusing or difficult, or just have an idea on how to
+make Pinecone better, we’d love to hear from you.
+
+During the public preview period:
+
+ * Pod-based indexes continue to be fully supported.
+ * Serverless indexes are only available in AWS regions; availability in GCP and
+   Azure regions is coming soon.
+ * The free plan is not fully migrated to the new architecture. To experience
+   Pinecone serverless, you must upgrade to a paid account.
+ * We have you covered: All users on paid accounts receive $100 in free usage
+   for Pinecone serverless to try it before incurring charges.
+ * A migration mechanism to help you move data from pod-based indexes to
+   serverless indexes is in development.
+ * Performance may fluctuate. We recommend testing thoroughly before using in
+   production.
+
+Share via:
+
+
+FURTHER READING
+
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F5c46037688fd7e45a2ba7d034ce35ef4cefd3bcb-230x230.png&w=3840&q=100]
+
+Founder & CEO
+
+--------------------------------------------------------------------------------
+
+Jump to section
+ * 
+ * 
+ * 
+ * 
+
+Share via:
+
+
+--------------------------------------------------------------------------------
+
+
+WHAT WILL YOU BUILD?
+
+Upgrade your search or chatbots applications with just a few lines of code.
+
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+

@@ -1,0 +1,318 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+API Reference
+
+v2
+
+Ctrl+K
+Delete vectors
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+JUMP TOCTRL-/
+
+
+PINECONE API
+
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+
+PINECONE CONTROL PLANE API
+
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+JUMP TOCTRL-/
+
+
+PINECONE API
+
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+
+PINECONE CONTROL PLANE API
+
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+
+DELETE VECTORS
+
+post https://{index_host}/vectors/delete
+
+The delete operation deletes vectors, by id, from a single namespace.
+
+For guidance and examples, see .
+
+Body Params
+ids
+array of strings
+
+Vectors to delete.
+
+ids
+ADD string
+deleteAll
+boolean
+
+This indicates that all vectors in the index namespace should be deleted.
+
+truefalse
+namespace
+string
+
+The namespace to delete vectors from, if applicable.
+
+
+filter
+object
+
+If specified, the metadata filter here will be used to select the vectors to
+delete. This is mutually exclusive with specifying IDs to delete in the ids
+param or using delete_all=True. See .
+
+Serverless indexes do not support delete by metadata. Instead, you can use the
+list operation to fetch the vector IDs based on their common ID prefix and then
+delete the records by ID.
+
+filter object
+Responses
+200
+
+A SUCCESSFUL RESPONSE.
+
+
+
+Response body
+object
+
+The response for the delete operation.
+
+
+
+View Additional Properties
+DEFAULT
+
+AN UNEXPECTED ERROR RESPONSE.
+
+
+
+Response body
+object
+code
+int32
+
+message
+string
+
+details
+array of objects
+details
+object
+typeUrl
+string
+
+value
+string
+
+
+
+Updated 8 days ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+Language
+ShellPythonNode
+
+Authorization
+Header
+Header
+
+
+URL
+Base URL
+https://{index_host}/vectors/delete
+Request
+Examples
+
+xxxxxxxxxx
+
+
+
+
+1
+
+curl --request POST \
+
+2
+
+     --url https://index_host/vectors/delete \
+
+3
+
+     --header 'accept: application/json' \
+
+4
+
+     --header 'content-type: application/json' \
+
+5
+
+     --data '
+
+6
+
+{
+
+7
+
+  "deleteAll": "false"
+
+8
+
+}
+
+9
+
+'
+
+
+
+
+
+RESPONSE
+Examples
+Choose an example:
+application/json
+200default
+
+Updated 8 days ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+
+
+ 1.  Pinecone API
+ 2.  
+ 3.  
+ 4.  
+ 5.  
+ 6.  
+ 7.  
+ 8.  
+ 9.  
+ 10. 
+ 11. 
+
+ 1.  Pinecone Control Plane API
+ 2.  
+ 3.  
+ 4.  
+ 5.  
+ 6.  
+ 7.  
+ 8.  
+ 9.  
+ 10. 
+ 11. 
+
+
+ 1.  Pinecone API
+ 2.  
+ 3.  
+ 4.  
+ 5.  
+ 6.  
+ 7.  
+ 8.  
+ 9.  
+ 10. 
+ 11. 
+
+ 1.  Pinecone Control Plane API
+ 2.  
+ 3.  
+ 4.  
+ 5.  
+ 6.  
+ 7.  
+ 8.  
+ 9.  
+ 10. 
+ 11. 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

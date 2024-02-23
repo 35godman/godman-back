@@ -1,4 +1,4 @@
-import path, { join } from 'path';
+import * as path from 'path';
 import { diskStorage } from 'multer';
 import { v4 } from 'uuid';
 // export const multerConfig = {

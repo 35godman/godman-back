@@ -1,0 +1,301 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+
+INTRODUCTION TO AIRBYTE AND THE PINECONE CONNECTOR
+
+--------------------------------------------------------------------------------
+
+Jump to section
+ * 
+ * 
+ * 
+ * 
+ * 
+
+--------------------------------------------------------------------------------
+
+The Pinecone connector for is all about leveraging the extensive range of
+Airbyte's source connectors and bringing them together with Pinecone's
+capabilities. It's about creating a seamless flow of data, with the ability to
+embed and upsert information, all in a way that's tailored to your specific use
+cases.
+
+This post aims to provide a clear and practical overview of the Pinecone Airbyte
+connector. From enhancing semantic search capabilities to building intelligent
+recommendation systems, the Pinecone Airbyte connector offers a versatile
+solution. By tapping into Airbyte's extensive array of source connectors, you
+can explore new ways to enrich your data-driven projects and achieve your
+specific goals.
+
+So let's dive in and explore what makes this connector a valuable addition to
+your data integration toolbox, without the complexity or constraints of a
+one-size-fits-all solution.
+
+
+FEATURES AND TECHNICAL DETAILS
+
+The Pinecone connector is easy to use, yet very powerful. Here's what you need
+to know:
+
+
+INTEGRATION WITH AIRBYTE
+
+ * Source Connectors: Airbyte's extensive selection of hundreds of source
+   connectors is at the heart of this integration. The Pinecone Airbyte
+   connector enables you to tap into various data sources, creating a seamless
+   flow of information into Pinecone's vector database.
+ * Configuration Simplicity: Setting up the connector requires only some basic
+   configuration details, such as the Pinecone API key and the specifications of
+   your source system. No need for complex integration steps or on-premises
+   deployment.
+ * Column Embedding and Metadata Upsert: You can specify which column to use for
+   embedding and define the chunk size and metadata fields. The connector will
+   then embed the indicated column for each row and upsert the embeddings along
+   with the metadata as defined.
+ * Incremental sync: Airbyte supports syncing data incrementally, which means
+   only new data will be processed - instead of reprocessing the entire dataset
+   whenever any change is made in the connection source. When enabled,
+   incremental sync will ensure only new data is embedded and upserted which
+   could greatly optimize cost.
+
+
+
+Airbyte diagram
+[https://cdn.sanity.io/images/vr8gru94/production/d7240f4d4a20c599e4a960fbe98287cf6e003fbb-762x628.png]
+
+
+
+
+
+FLEXIBILITY AND ADAPTABILITY
+
+ * Free and Open Source: The connector is available to everyone, offering a free
+   and open-source solution to handle specific data integration needs.
+ * Extensible: Designed with adaptability in mind, the Pinecone Airbyte
+   connector will allow users to utilize other embedding models hosted elsewhere
+   in the future.
+
+
+USE CASES
+
+Here are some of the use cases and industry applications for the Pinecone
+Airbyte connector, categorized by specific source connectors. This is by no
+means an extensive list, but it will give us a good idea of how these systems
+could be used in conjunction with Pinecone.
+
+Source Connector Use Cases PostgreSQL Data analytics; Real-time reporting.
+BigQuery Large-scale data analysis; Machine learning integration. Salesforce
+Customer relationship management; Lead scoring. HubSpot Marketing automation;
+Customer segmentation. Shopify Personalized product recommendations;
+
+This table showcases the wide range of applications that the Pinecone Airbyte
+connector can enable by leveraging different source connectors. It illustrates
+how you can address unique challenges and opportunities across various
+industries, making the most of Airbyte's rich selection of source connectors. In
+this upcoming series, we will explore these use-cases in greater depth.
+
+
+WHAT DOES THE CONNECTOR DO?
+
+The connector iterates over the rows in the source connection, embeds one
+selected column and optionally adds metadata based on a subset of selected
+columns. The embedding is done using one of the following methods:
+
+ 1. OpenAI - using the OpenAI API, the connector will produce embeddings using
+    the text-embedding-ada-002 model.
+ 2. Cohere - using the Cohere API, the connector will produce embeddings using
+    the embed-english-light-v2.0 model.
+
+Once a connection is created, the connector will pull data from the configured
+source and then pass it to the Pinecone destination, which includes the
+embedding process and synchronizing the data with the configured Pinecone index.
+
+
+HOW DO I USE THE CONNECTOR?
+
+To use the connector, we’ll create a new connection between a simple source and
+the Pinecone destination.
+
+
+CONFIGURE A SOURCE CONNECTOR
+
+For the purpose of this example, we’ll use a as the source data for our
+connection.
+
+configure-source
+[https://cdn.sanity.io/images/vr8gru94/production/a8faa0a68f5b814cab4c0d4764b09a2112f1c0b2-2000x1864.png]
+
+
+
+CONFIGURE A NEW “PINECONE” DESTINATION
+
+From the list of connectors, select “Pinecone”. You’ll then see a configuration
+screen. The configuration for the connector has three sections:
+
+ 1. Processing: handles how the records will be processed, which fields of the
+    records will be embedded and which will be used as metadata.
+ 2. Pinecone configuration: this is where you’ll provide the connector with
+    configuration information for your Pinecone index.
+ 3. Embedding: this is where you’ll provide the connector with the API key for
+    your embedding provider.
+
+PROCESSING
+
+processing
+[https://cdn.sanity.io/images/vr8gru94/production/4c6e1646fd154ce0b8f902f8a3ba26df63294992-2000x586.png]
+
+ 1. Chunk size: If the intended content you want to embed is long, you may
+    choose a specific chunk size. The connector will split the selected text
+    field into chunks in the specified size and then embed and upsert each
+    chunk. Each chunk will include the metadata field _ab_record_id which
+    references the original record from which the chunk was created.
+ 2. Metadata fields: for each embedding you create, you can associate some or
+    all of the columns as metadata. Please note that there is a 40kb size limit
+    to the metadata stored.
+ 3. Text fields to embed: you can choose one or more fields to use as the source
+    for the embeddings. If more than one field is selected, the text from each
+    will be combined before embedding.
+
+PINECONE CONFIGURATION
+
+pinecone-configuration
+[https://cdn.sanity.io/images/vr8gru94/production/68513bd871216bde259d0a73c6f1a03b96cf4a73-2000x449.png]
+
+ 1. Index: the name of the index you’ll use. You’ll need to create the index
+    either in the or prior to setting up the connector.
+ 2. Pinecone environment: the environment for your Pinecone project. This may be
+    found in the .
+ 3. Pinecone API key: you can retrieve the API key from the .
+
+EMBEDDING
+
+As mentioned above, you’ll be able to choose between OpenAI and Cohere as your
+providers. You’ll have to provide the API key for your embedding provider.
+
+embedding
+[https://cdn.sanity.io/images/vr8gru94/production/aa55451fa46c4487b1feb4f0b35e72a163d895d7-2000x383.png]
+
+
+TESTING
+
+Once you created the destination, you’ll click “Test and save” to make sure
+everything is configured properly and all the connections are working.
+
+
+CREATE A NEW CONNECTION
+
+Once we set up our source and destination, we’ll set up a new connection.
+Assuming this is our first connection, we’ll see this dialog:
+
+new-connection
+[https://cdn.sanity.io/images/vr8gru94/production/1e052b475817e016613b07ec22e008b3c5ca5dee-2000x1704.png]
+
+
+We’ll start by selecting the source:
+
+define-source
+[https://cdn.sanity.io/images/vr8gru94/production/5ff9264212e1a2e9bf644019d932b6a18e5fda90-2000x518.png]
+
+
+Then select Pinecone as the destination:
+
+define-destination
+[https://cdn.sanity.io/images/vr8gru94/production/eef0df73d1205f1a78182b2963a5dcc734839c25-2000x632.png]
+
+
+Next, we’ll set up the connection configuration. For the purposes of this
+example, we’ll set the replication frequency to “Manual”.
+
+connection-manual
+[https://cdn.sanity.io/images/vr8gru94/production/ef3107f92a29393d75cfb0ade281760dd39110ba-2000x1313.png]
+
+
+Once the connection is set up, we’ll hit “Sync now” to test our connector end to
+end.
+
+sync-now
+[https://cdn.sanity.io/images/vr8gru94/production/a7524abf24ba0bf9bcf24689408a4adee800f0e2-2000x657.png]
+
+
+Once the synchronization process has completed, we should see the following:
+
+done
+[https://cdn.sanity.io/images/vr8gru94/production/2f983141d38daad2ca672419a8ec45c1902c8597-2000x662.png]
+
+
+
+SUMMARY
+
+In this first look at the Pinecone connector for Airbyte, we reviewed some of
+the possible use cases for the connector, and saw how to set up the connector
+and how it works end to end. In the upcoming parts of this series, we’ll delve
+deeper into more complex integrations, and discuss the various features of
+Airbyte and how they interact with Pinecone.
+
+Share via:
+
+
+Syncing data from a variety of sources to Pinecone is made easy with Airbyte
+(series cover image)
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F69d2159caee9450ad91a5efe2c39c8b15260ed2b-1700x2192.png&w=3840&q=100]
+
+Chapters
+
+ 1.  * 
+     * 
+     * 
+     * 
+     * 
+
+ 2. 
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+
+
+
+DON'T MISS THE NEXT ONE...
+
+
+
+Get an email the next time we publish an article about machine learning and
+similarity search.
+
+Get Updates

@@ -1,0 +1,266 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+Guides
+
+v2
+
+Ctrl+K
+Get an index endpoint
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+
+GETTING STARTED
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+ORGANIZATIONS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+PROJECTS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INDEXES
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+DATA
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+
+
+OPERATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INTEGRATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+REFERENCE
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+SUPPORT
+
+ * 
+ * 
+ * 
+
+
+GET AN INDEX ENDPOINT
+
+
+
+For each Pinecone index, there is a unique DNS endpoint for performing data
+operations such as , , , and . The Python and Node clients construct these index
+endpoints for you. However, when using the API directly, you need to explicitly
+specify these endpoints.
+
+There are two ways to get an index endpoint for direct API calls: the Pinecone
+console or use the operation.
+
+
+USE THE PINECONE CONSOLE
+
+To get an index endpoint from the Pinesone Console:
+
+ 1. Log in to the .
+ 2. Select the index.
+ 3. Copy the URL under HOST.
+
+
+USE DESCRIBE_INDEX
+
+
+> ⚠️
+> 
+> WARNING
+> 
+> The describe_index operation uses a different API (api.pinecone.io) than data
+> plane operations such as upsert and query. In production, you should therefore
+> not rely on describe_index to programmatically get an index endpoint for data
+> manipulation operations. Instead, you should get an index endpoint once and
+> cache it for reuse or specify the endpoint directly.
+
+The describe_index operation returns the index endpoint as the host value:
+
+PythonJavaScriptcurl
+from pinecone import Pinecone
+
+pc = Pinecone(api_key="YOUR_API_KEY")
+
+pc.describe_index("serverless-index")
+
+# Response:
+# {'dimension': 1536,
+#  'host': 'serverless-index-4zo0ijk.svc.us-weset2-aws.pinecone.io',
+#  'metric': 'cosine',
+#  'name': 'serverless-index',
+#  'spec': {'serverless': {'cloud': 'aws', 'region': 'us-west-2'}},
+#  'status': {'ready': True, 'state': 'Ready'}}
+
+
+import { Pinecone } from '@pinecone-database/pinecone';
+
+const pc = new Pinecone({ apiKey: 'YOUR_API_KEY' });
+
+await pc.describeIndex('serverless-index');
+
+// Response:
+// {
+//    "name": "serverless-index",
+//    "dimension": 1536,
+//    "metric": "cosine",
+//    "host": "serverless-index-4zo0ijk.svc.us-west2-aws.pinecone.io",
+//    "spec": {
+//       "serverless": {
+//          "cloud": "aws",
+//          "region": "us-west-2"
+//       }
+//    },
+//    "status": {
+//       "ready": true,
+//       "state": "Ready"
+//    }
+// }
+
+
+PINECONE_API_KEY = "YOUR_API_KEY"
+
+curl -i -X GET "https://api.pinecone.io/indexes/serverless-index" \
+    -H "Api-Key: $PINECONE_API_KEY"
+
+# Response:
+# {
+#    "name": "serverless-index",
+#    "metric": "cosine",
+#    "dimension": 1536,
+#    "status": {
+#       "ready": true,
+#       "state": "Ready"
+#    },
+#    "host": "serverless-index-4zo0ijk.svc.us-west1-aws.pinecone.io",
+#    "spec": {
+#       "serverless": {
+#          "region": "us-west-2",
+#          "cloud": "aws"
+#       }
+#    }
+# }
+
+
+Updated 23 days ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+ * 
+ * * 
+   * 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

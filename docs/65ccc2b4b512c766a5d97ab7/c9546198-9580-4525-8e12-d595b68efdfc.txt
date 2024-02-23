@@ -1,0 +1,126 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+
+FALCON 180B: MODEL OVERVIEW
+
+Sep 7, 2023
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F8b3fb37178129c4ba2d7c68eb896ec8cea8f395b-400x400.png&w=3840&q=100]
+
+Developer Advocate
+
+--------------------------------------------------------------------------------
+
+Jump to section
+
+--------------------------------------------------------------------------------
+
+Falcon 180B is a 180-billion-parameter Large Language Model (LLM). It has
+comparable performance to Google's PaLM 2 (Bard) and is not far behind GPT-4.
+
+It is touted as the "Llama 2" killer due to its higher performance as a
+pretrained-only model. As of September 2023, Falcon 180B ranked as the
+highest-performing pretrained LLM on the Hugging Face .
+
+The model is big. Inference requires 640GB of memory — a mere eight A100 80GB
+GPUs — when quantized to half-precision (FP16). Alternatively, we can quantize
+down to int4, requiring eight A100 40GB GPUs (320GB memory). That can easily put
+you back $20K / month if you keep it online.
+
+For some, this price tag may be worth it. Falcon 180B's license permits
+commercial usage and allows organizations to keep their data on their chosen
+infrastructure, control training, and maintain more ownership over their model
+than alternatives like OpenAI's GPT-4 can provide.
+
+Performance-wise, Falcon 180B is impressive. It is the highest-performing
+open-access LLM and is comparable the PaLM-2 Large (which powers Bard).
+
+[https://cdn.sanity.io/images/vr8gru94/production/add776e00a50b6a8dd39c22276f57fe0ec69482d-1638x1299.png]
+Falcon 180B performance against PaLM models, source [1].
+
+Compared to OpenAI's models, Falcon 180B outperforms GPT-3.5 on some benchmarks.
+For the majority of benchmarks, Falcon 180B scores between GPT-3.5 and GPT-4
+[1].
+
+Video walkthrough of the Falcon 180B LLM.
+
+We will be adding further information and guides surrounding Falcon 180B to this
+page — so stay tuned!
+
+--------------------------------------------------------------------------------
+
+
+REFERENCES
+
+[1] P. Schmid, O. Sanseviero, P. Cuenca, L. von Werra, J. Launay, (2023),
+Hugging Face Blog
+
+Share via:
+
+
+FURTHER READING
+
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F8b3fb37178129c4ba2d7c68eb896ec8cea8f395b-400x400.png&w=3840&q=100]
+
+Developer Advocate
+
+--------------------------------------------------------------------------------
+
+Jump to section
+ * 
+
+Share via:
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+
+
+
+DON'T MISS THE NEXT ONE...
+
+
+
+Get an email the next time we publish an article about machine learning and
+similarity search.
+
+Get Updates

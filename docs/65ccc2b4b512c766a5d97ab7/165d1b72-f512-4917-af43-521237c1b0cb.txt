@@ -1,0 +1,253 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+
+MEET PINECONE
+
+We are engineers and scientists on a mission to build the search and database
+technology to power AI/ML applications for the next decade and beyond. We
+provide customers with capabilities that until now have only been in the hands
+of a few tech giants.
+
+
+Pinecone team
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fteam-greece.f51e2944.png&w=3840&q=100]
+
+
+ORIGIN STORY
+
+Pinecone was founded in 2019 by Edo Liberty. As a research director at AWS and
+at Yahoo! before that, Edo saw the tremendous power of combining AI models and
+vector search to dramatically improve applications such as spam detectors and
+recommendation systems.
+
+While he was working on custom vector search systems at enormous scales, he
+assumed there was already a packaged solution out there for everyone else who
+didn’t have the same engineering and data-science resources available. To his
+surprise, there wasn’t. Thus Pinecone and the category of solutions was born.
+
+Pinecone was created to provide the critical storage and retrieval
+infrastructure needed for building and running state-of-the-art AI applications.
+The founding principle was to make the solution accessible to engineering teams
+of all sizes and levels of AI expertise, which led to the fully managed service
+and ease of use that Pinecone is known for today.
+
+
+LEADERSHIP
+
+Edo Liberty
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fteam-edo-liberty.1d56fc81.jpg&w=3840&q=100]
+
+
+EDO LIBERTY
+
+CEO
+
+Lior Ehrenfeld
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fteam-lior-ehrenfeld-2.fee83c1f.jpg&w=3840&q=100]
+
+
+LIOR EHRENFELD
+
+VP Finance & Ops
+
+Ram Sriharsha
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fteam-ram-sriharsha-2.ee6c0649.jpg&w=3840&q=100]
+
+
+RAM SRIHARSHA
+
+VP Engineering
+
+Greg Kogan
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fteam-greg-kogan-2.f3a60e2c.jpg&w=3840&q=100]
+
+
+GREG KOGAN
+
+VP Marketing
+
+Elan Dekel
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fteam-elan-dekel.ece25265.jpg&w=3840&q=100]
+
+
+ELAN DEKEL
+
+VP Product
+
+David Haikney
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fteam-david-haikney.0ccfa0a0.jpg&w=3840&q=100]
+
+
+DAVID HAIKNEY
+
+VP Field Engineering
+
+Chuck Fontana
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fteam-chuck-fontana.ebc39663.jpg&w=3840&q=100]
+
+
+CHUCK FONTANA
+
+VP Business Development
+
+Tomer Weisberg
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fteam-tomer-weisberg.43e3c3dc.jpg&w=3840&q=100]
+
+
+TOMER WEISBERG
+
+VP Engineering, TLV Site Lead
+
+Kyle Himmelwright
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fteam-kyle-himmelwright-2.c1818040.jpg&w=3840&q=100]
+
+
+KYLE HIMMELWRIGHT
+
+Director of Sales Ops
+
+Ifat Villaret
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fteam-ifat-villaret.8b19e1be.jpg&w=3840&q=100]
+
+
+IFAT VILLARET
+
+Director of Finance
+
+Amie Ernst
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fteam-amie-ernst-2.0f9a4ed5.jpg&w=3840&q=100]
+
+
+AMIE ERNST
+
+Director of Talent Acquisition
+
+Travis Donia
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fteam-travis-donia.dbb05384.jpg&w=3840&q=100]
+
+
+TRAVIS DONIA
+
+Director of Engineering, Experience
+
+Kristen Werner
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fteam-kristen-werner.9007e5c3.jpg&w=3840&q=100]
+
+
+KRISTEN WERNER
+
+Director of Data
+
+Bear Douglas
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fteam-bear-douglas.64c68291.jpg&w=3840&q=100]
+
+
+BEAR DOUGLAS
+
+Director of Developer Relations
+
+Hien Phan
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fteam-hien-phan.ebb818c8.jpg&w=3840&q=100]
+
+
+HIEN PHAN
+
+Director of Product Marketing
+
+Brian Bailey
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fteam-brian-bailey.c2635fd1.jpg&w=3840&q=100]
+
+
+BRIAN BAILEY
+
+Director of Sales, Enterprise Accounts
+
+Jake Kokos
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fteam-jake-kokos.0a00ba3c.jpg&w=3840&q=100]
+
+
+JAKE KOKOS
+
+Director of Sales, Commercial Accounts
+
+
+BACKED BY INDUSTRY GIANTS
+
+a16z
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fa16z.b409d313.png&w=3840&q=100]
+iconiq
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Ficoniq.293a8b69.png&w=3840&q=100]
+Menlo Ventures
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fmenlo-ventures.658cd349.png&w=3840&q=100]
+Wing
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fwing.c054cf73.png&w=3840&q=100]
+
+
+OUR GLOBAL OFFICE LOCATIONS
+
+We listen and learn and contribute to the communities around us.
+
+NYC Office
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Foffice3.1474c27f.png&w=3840&q=100]
+
+
+NEW YORK CITY HQ
+
+1375 Broadway, Floor 11, New York, NY 10018
+
+Tel Aviv Office
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Foffice-israel.a7732850.png&w=3840&q=100]
+
+
+TEL AVIV OFFICE
+
+94 Igal Alon Street, Tel Aviv Alon Tower 2, Floor 18
+
+San Francisco Office
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Foffice5.b9a5ff79.png&w=3840&q=100]
+
+
+SAN FRANCISCO OFFICE
+
+Coming Soon!
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+

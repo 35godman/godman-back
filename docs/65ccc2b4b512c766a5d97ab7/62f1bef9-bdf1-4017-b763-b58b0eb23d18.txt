@@ -1,0 +1,277 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+Guides
+
+v2
+
+Ctrl+K
+Encode sparse vectors
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+
+GETTING STARTED
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+ORGANIZATIONS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+PROJECTS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INDEXES
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+DATA
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+
+
+OPERATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INTEGRATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+REFERENCE
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+SUPPORT
+
+ * 
+ * 
+ * 
+
+
+ENCODE SPARSE VECTORS
+
+
+
+This page shows you how to use the to encode sparse vectors for use in .
+
+To convert your own text corpus to sparse vectors, you can either use BM25 or
+SPLADE. This guide uses BM25, which is more common.
+
+For examples of sparse vector generation, see , our , and our .
+
+
+> ⚠️
+> 
+> WARNING
+> 
+> Hybrid search is in public preview. Consider the and , and test thoroughly
+> before using it in production.
+
+
+INSTALL THE PINECONE TEXT CLIENT
+
+The is a public Python package that provides text utilities designed for
+seamless integration with Pinecone's sparse-dense (hybrid) search.
+
+To install the Pinecone Text Client, use the following command:
+
+Python
+pip install pinecone-text
+
+
+
+INITIALIZE THE ENCODER AND FIT THE CORPUS
+
+Before encoding sparse vectors for use in hybrid search, you must initialize the
+BM25 encoder and fit it to your corpus of documents.
+
+Example
+
+The following example initializes a BM25Encoder object and calls the fit()
+function on the corpus, formatted as an array of strings.
+
+Python
+from pinecone_text.sparse import BM25Encoder
+
+corpus = ["The quick brown fox jumps over the lazy dog",
+          "The lazy dog is brown",
+          "The fox is brown"]
+
+# Initialize BM25 and fit the corpus.
+bm25 = BM25Encoder()
+bm25.fit(corpus)
+
+
+If you want to use the default parameters for BM25Encoder, you can call the
+default method. The default parameters were fitted on the MS MARCO passage
+ranking dataset.
+
+Example
+
+Python
+bm25 = BM25Encoder.default()
+
+
+
+ENCODE DOCUMENTS FOR PINECONE
+
+After the encoder is initialized and fit, you can encode documents as sparse
+vectors.
+
+Example
+
+The following example encodes a new document as a sparse vector for upsert to a
+Pinecone index.
+
+Python
+doc_sparse_vector = bm25.encode_documents("The brown fox is quick")
+
+
+Now, the contents of doc_sparse_vector are like the following:
+
+JSON
+{"indices": [102, 18, 12, ...], "values": [0.21, 0.38, 0.15, ...]}
+
+
+You can encode a string as a sparse vector for use in a hybrid search query in
+the same way.
+
+Example
+
+The following example encodes a string as a sparse vector for use in a hybrid
+search query.
+
+Python
+query_sparse_vector = bm25.encode_queries("Which fox is brown?")
+
+
+Now, the contents of query_sparse_vector are like the following:
+
+JSON
+{"indices": [102, 16, 18, ...], "values": [0.21, 0.11, 0.15, ...]}
+
+
+
+NEXT STEPS
+
+ * 
+ * 
+ * Learn more about the
+ * Learn more about
+
+Updated 27 days ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+ * 
+ * * 
+   * 
+   * 
+   * 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

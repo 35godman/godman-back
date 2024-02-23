@@ -1,0 +1,208 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+Guides
+
+v2
+
+Ctrl+K
+Understanding subscription status
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+
+GETTING STARTED
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+ORGANIZATIONS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+PROJECTS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INDEXES
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+DATA
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+
+
+OPERATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INTEGRATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+REFERENCE
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+SUPPORT
+
+ * 
+ * 
+ * 
+
+
+UNDERSTANDING SUBSCRIPTION STATUS
+
+
+
+OVERVIEW
+
+This document describes the different subscription statuses for your Pinecone
+organization.
+
+
+SUBSCRIPTION STATUSES FOR ACCOUNTS WITH PAST DUE PAYMENTS
+
+Users on the pay regular payments . When a payment is past due, Pinecone may
+restrict your account.
+
+Past due accounts have one of the following subscription statuses:
+
+ * Restricted. This organization is now on the Starter Plan and can no longer
+   create new resources.
+ * Suspended. The API keys for this organization are no longer valid; calls to
+   the Pinecone API fail.
+ * Deactivated. Pinecone archives this organization's indexes.
+
+
+REINSTATING A DEACTIVATED ORGANIZATION
+
+If your organization is deactivated, follow these steps to reinstate your
+subscription and reactivate your indexes:
+
+ 1. Pay all past due invoices.
+ 2. (For organizations with cloud marketplace billing) Reenable cloud
+    marketplace billing for or .
+ 3. In the Pinecone console, back to the desired plan.
+ 4. Click API Keys. This view displays your new API keys.
+ 5. Update all queries to use these new keys.
+ 6. that contain the backup of your old indexes.
+
+
+WHAT'S NEXT
+
+ * Learn how to
+
+Updated 5 months ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+ * 
+ * * 
+   * 
+   * 
+   * 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

@@ -1,0 +1,269 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+
+REVOLUTIONIZING REVENUE INTELLIGENCE: GONG'S STRATEGIC PARTNERSHIP WITH PINECONE
+
+logo
+[https://cdn.sanity.io/images/vr8gru94/production/5023ed432a7a2ec81b93c9aafaed730e4c0eb766-86x30.svg]
+
+Gong selected Pinecone as the core database infrastructure for Gong's innovative
+AI system, Smart Trackers. It plays a crucial role in storing and processing
+vector embeddings, enabling efficient tracking and classification of concepts
+within user conversations. Through Pinecone, Gong achieves efficient vector
+searches, empowering Smart Trackers to offer users precise and relevant examples
+for concept tracking in conversations.
+
+Industry
+
+Technology
+
+Use Cases
+
+Classification
+
+Cloud
+
+AWS
+
+Billions
+
+vectors representing sentences
+
+10x
+
+cost savings with Pinecone serverless
+
+is a revenue intelligence platform that transforms organizations by harnessing
+customer interactions to increase business efficiency, improve decision-making,
+and accelerate revenue growth. Gong's commitment to innovation led to developing
+proprietary artificial intelligence technology to enable teams to capture,
+understand, and act on all customer interactions in a single, integrated
+platform.
+
+In early 2020, Gong was a trailblazer in adopting a vector database for semantic
+search. Spearheading this endeavor was Jacob Eckel, VP, R&D Division Manager,
+who has played a pivotal role in Gong's journey from its early days. From being
+the first Gong hire to now leading Gong's AI Platform R&D division, Jacob’s team
+is dedicated to supporting Gong's platform through cutting-edge AI technology.
+
+Challenge
+
+
+REVOLUTIONIZING CONVERSATIONAL ANALYSIS WITH AI
+
+To transform revenue intelligence, Gong relies on effectively processing and
+analyzing the wealth of data collected from customer conversations. To perform a
+comprehensive analysis for these conversations, it is necessary to track and
+extract relevant concepts from sentences and capture the nuanced expressions in
+order to provide valuable insights and actionable intelligence for users. Gong’s
+market-leading insights and intelligence, based on billions of customer
+interactions, enable organizations to develop high-performing revenue teams that
+are more productive and effective through advanced coaching and deal execution.
+
+Gong developed an innovative "active learning system" called , a patented
+technology that leverages AI allowing it to detect and track complex concepts in
+conversations. Smart Trackers leverages AI algorithms and to dynamically analyze
+conversations. With Smart Trackers, Gong users contribute to the model creation
+process without the need for technical proficiency and specialized skills for
+algorithm building and data management. In this system:
+
+ * Users provide examples of sentences that express a specific concept and
+   classify them as relevant or not.
+ * Each model represents a concept in the user conversation. For example, a
+   sales manager wants to track when a competitor is mentioned during a sales
+   call — now, the competitor becomes a concept.
+ * The system retrieves many more examples from real conversations based on the
+   user-provided examples.
+
+Smart Trackers depend on real-world examples from conversations for continuous
+learning and adaptation from users' feedback. "Users want to track different
+concepts that occur in conversations, and simple keywords do not work,” shared
+Jacob. Using traditional keyword-based methods wouldn't be effective with this
+system because conversations are dynamic and rich with nuances, contextual
+variations, and subtle expressions.
+
+Because of keyword search limitations, Gong needed a capable of supporting the
+tracking and classification of concepts without being computationally heavy,
+delivering prompt results to users.
+
+Solution
+
+
+LEVERAGING PINECONE TO FINE-TUNE SMART TRACKERS
+
+As Gong delved into the complex world of concept detection, Gong’s ML team
+recognized the need for a vector database solution that would support searches
+across a vast corpus of conversational data. While other options were available,
+including open-source alternatives, Gong selected Pinecone as their vector
+database partner to support the development of Smart Trackers.
+
+The decision wasn't merely about addressing immediate needs; it was a
+forward-looking move. Gong saw Pinecone as a partner with the capability to lead
+in the market, aligning with their own aspirations for growth and technological
+advancement. Early in Pinecone's development, Gong recognized the potential for
+a lasting partnership that would go beyond a transactional vendor relationship.
+“We decided to be both a customer and design partner of Pinecone," said Jacob.
+The partnership with Pinecone not only provided the necessary infrastructure but
+also a trusted ally that understood Gong's use case.
+
+Pinecone serves as the core database infrastructure for Gong’s technology
+underlying Smart Trackers, playing a crucial role in storing and processing
+vector for tracking and classifying concepts within user conversations. At the
+end of each user conversation, Gong processes each conversation and converts
+them into sentences. Gong anonymizes the data by embedding each sentence in a
+768-size vector, along with metadata. The resulting information is encrypted and
+then stored in Pinecone. Using encryption and namespaces ensures a secure and
+efficient storage mechanism for the vast array of conversations processed by
+Gong.
+
+Once sentences are embedded, Gong uses Pinecone for vector searches to identify
+sentences similar to the provided examples. Here is how the workflow works:
+
+ * Smart Trackers Processing: Smart Trackers process the search results,
+   analyzing and classifying sentences based on their relevance to the tracked
+   concept.
+ * User Presentation: The processed results are then presented to the user. This
+   step allows users to track and monitor the identified instances of the
+   specified concept in conversations.
+ * Accurate Labeling: Using a vectorized representation of the concept enables
+   the system to efficiently capture the nuances and contextual variations
+   present in user conversations, facilitating the accurate labeling of each
+   concept.
+ * Fine-tuning: Pinecone helps fine-tune the system by identifying specific
+   concepts that can be applied to all conversations or subsets of conversations
+   chosen by the user.
+
+[https://cdn.sanity.io/images/vr8gru94/production/36ab84893b19a056f57a557da3960a1f5a599173-1720x888.png]
+High level Diagram: Classification Use Case
+
+By integrating Pinecone into this process, Gong achieves efficient vector
+searches, enabling Gong’s Smart Trackers to provide users with precise and
+relevant examples for concept tracking in user conversations.
+
+As the partnership with Pinecone evolved, the requirements to support Gong's
+needs also evolved. Gong already knew that Pinecone was the leading vector
+database in the market and wanted to continue exploring an alternative to its
+existing Pinecone architecture for enhanced efficiency. Even after comparing it
+to other vendors, they trusted Pinecone to address their evolving requirements.
+Gong's use case is one of the primary inspirations for the recently available ,
+enabling Gong to seamlessly leverage vector storage at any scale while achieving
+substantial cost reductions.
+
+> “Our choice to work with Pinecone wasn’t just based on technology; it was
+> rooted in their commitment to our success. They listened, understood, and
+> delivered beyond our expectations.” - Jacob Eckel, VP, R&D Division Manager at
+> Gong
+
+result
+
+
+TRANSITION TO PINECONE SERVERLESS RESULTS IN 10X COST REDUCTION WHILE
+MAINTAINING PEAK PERFORMANCE
+
+Gong tested the recently available Pinecone serverless as a design partner
+during the development period. The transition to serverless wasn't just about
+cutting costs; it was a deliberate step towards achieving optimal performance
+and scalability. Pinecone’s approach to Gong's specific requirements prioritizes
+storage efficiency, allowing Smart Trackers to handle large-scale vector
+searches while maintaining adaptability to latency needs. With a focus on
+delivering optimal storage capabilities, Pinecone ensures that Gong can
+efficiently store and process the vast amount of vectors in their Smart Trackers
+without compromising performance. With Pinecone serverless, Gong has been able
+to:
+
+ * Substantially reduce costs: The newly architected design of Pinecone
+   serverless empowers Gong to leverage limitless storage and efficient
+   computing capabilities specifically tailored to their workload, resulting in
+   significant cost reduction. Since the transition, Gong's team has experienced
+   a remarkable 10x reduction in costs.
+ * Build at any scale: With Pinecone serverless, Gong can now store billions of
+   vectors, representing a wealth of information extracted from diverse customer
+   conversations. With this new architecture, Gong can substantially reduce cost
+   at scale enabling precise searches with rich metadata.
+ * Access easiest-to-use technology: The transition to a serverless architecture
+   empowers Gong to focus on crafting cutting-edge tools and models to reshape
+   their revenue intelligence strategy without the burdens of provisioning,
+   sharding, and rebuilding indexes.
+
+> "Pinecone development of serverless showcases the power of a true strategic
+> design partnership" - Jacob Eckel, VP, R&D Division Manager at Gong
+
+A VISION FOR THE FUTURE
+
+Gong has experienced substantial enhancements in their concept detection process
+since adopting Pinecone serverless:
+
+ * Scale: Billions of vectors representing sentences in Pinecone
+ * 10x cost savings with Pinecone serverless
+
+The strategic partnership with Pinecone has laid the foundation for future
+innovation, and Gong is exploring new use cases. The team is also planning to
+increase the number of vectors and incorporate additional functionalities,
+ensuring Gong stays at the forefront of technological advancements in revenue
+intelligence. Jacob shares, "Pinecone has proven to be a valuable partner in
+advancing our technology. We are excited about future functionalities."
+
+
+> “Pinecone serverless wasn't just a cost-cutting move for us; it was a
+> strategic shift towards a more efficient, scalable, and resource-effective
+> solution.” - Jacob Eckel, VP, R&D Division Manager at Gong
+
+Share via:
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F395aa87bf83fb1453dcaf7708ada8b376b1ee24e-1340x1516.jpg&w=3840&q=100]
+
+Pinecone Customer Marketing
+
+Jump to section
+
+ * 
+ * 
+ * 
+
+
+WHAT WILL YOU BUILD?
+
+Upgrade your search or chatbots applications with just a few lines of code.
+
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+

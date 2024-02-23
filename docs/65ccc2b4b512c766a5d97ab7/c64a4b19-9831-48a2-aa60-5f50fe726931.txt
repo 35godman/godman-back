@@ -1,0 +1,290 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+API Reference
+
+v2
+
+Ctrl+K
+Fetch vectors
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+JUMP TOCTRL-/
+
+
+PINECONE API
+
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+
+PINECONE CONTROL PLANE API
+
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+JUMP TOCTRL-/
+
+
+PINECONE API
+
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+
+PINECONE CONTROL PLANE API
+
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+
+FETCH VECTORS
+
+get https://{index_host}/vectors/fetch
+
+The fetch operation looks up and returns vectors, by ID, from a single
+namespace. The returned vectors include the vector data and/or metadata.
+
+For guidance and examples, see
+
+Query Params
+ids
+array of strings
+required
+
+The vector IDs to fetch. Does not accept values containing spaces.
+
+ids*
+ADD string
+namespace
+string
+
+Responses
+200
+
+A SUCCESSFUL RESPONSE.
+
+
+
+Response body
+object
+
+The response for the fetch operation.
+
+
+
+vectors
+object
+View Additional Properties
+namespace
+string
+
+The namespace of the vectors.
+
+
+usage
+object
+readUnits
+int64
+
+The number of read units consumed by this operation.
+
+
+DEFAULT
+
+AN UNEXPECTED ERROR RESPONSE.
+
+
+
+Response body
+object
+code
+int32
+
+message
+string
+
+details
+array of objects
+details
+object
+typeUrl
+string
+
+value
+string
+
+
+
+Updated 8 days ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+Language
+ShellPythonNode
+
+Authorization
+Header
+Header
+
+
+URL
+Base URL
+https://{index_host}/vectors/fetch
+Request
+
+xxxxxxxxxx
+
+
+
+
+1
+
+curl --request GET \
+
+2
+
+     --url https://index_host/vectors/fetch \
+
+3
+
+     --header 'accept: application/json'
+
+
+
+
+
+RESPONSE
+Examples
+Choose an example:
+application/json
+200default
+
+Updated 8 days ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+
+
+ 1.  Pinecone API
+ 2.  
+ 3.  
+ 4.  
+ 5.  
+ 6.  
+ 7.  
+ 8.  
+ 9.  
+ 10. 
+ 11. 
+
+ 1.  Pinecone Control Plane API
+ 2.  
+ 3.  
+ 4.  
+ 5.  
+ 6.  
+ 7.  
+ 8.  
+ 9.  
+ 10. 
+ 11. 
+
+
+ 1.  Pinecone API
+ 2.  
+ 3.  
+ 4.  
+ 5.  
+ 6.  
+ 7.  
+ 8.  
+ 9.  
+ 10. 
+ 11. 
+
+ 1.  Pinecone Control Plane API
+ 2.  
+ 3.  
+ 4.  
+ 5.  
+ 6.  
+ 7.  
+ 8.  
+ 9.  
+ 10. 
+ 11. 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

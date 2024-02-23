@@ -1,0 +1,290 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+API Reference
+
+v1
+
+Ctrl+K
+DescribeIndexStats
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+JUMP TOCTRL-/
+
+
+PINECONE API
+
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+
+PINECONE API
+
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+JUMP TOCTRL-/
+
+
+PINECONE API
+
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+
+PINECONE API
+
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+
+DESCRIBEINDEXSTATS
+
+post
+https://{index_name-project_id.svc.environment.pinecone.io}/describe_index_stats
+
+The DescribeIndexStats operation returns statistics about the index's contents,
+including the vector count per and the number of dimensions.
+
+Body Params
+filter
+object
+
+If this parameter is present, the operation only returns statistics
+for vectors that satisfy the filter.
+See .
+
+filter object
+Responses
+200
+
+A SUCCESSFUL RESPONSE.
+
+
+
+Response body
+object
+
+The response for the DescribeIndexStats operation.
+
+
+
+namespaces
+object
+
+A mapping for each in the index from the namespace name to a
+summary of its contents. If a metadata filter expression is present, the
+summary will reflect only vectors matching that expression.
+
+View Additional Properties
+dimension
+int64
+
+The dimension of the indexed vectors.
+
+
+indexFullness
+float
+
+The fullness of the index, regardless of whether a metadata filter expression
+was passed. The granularity of this metric is 10%.
+
+
+totalVectorCount
+int64
+
+The total number of vectors in the index, regardless of whether a metadata
+filter expression was passed
+
+
+DEFAULT
+
+AN UNEXPECTED ERROR RESPONSE.
+
+
+
+Response body
+object
+code
+int32
+
+message
+string
+
+details
+array of objects
+details
+object
+typeUrl
+string
+
+value
+string
+
+
+
+Updated 2 months ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+Language
+ShellPythonHTTPNode
+
+Authorization
+Header
+Header
+
+
+URL
+Base URL
+https://index_name-project_id.svc.environment.pinecone.io/describe_index_stats
+Request
+Examples
+
+xxxxxxxxxx
+
+
+
+
+1
+
+curl --request POST \
+
+2
+
+     --url https://index_name-project_id.svc.environment.pinecone.io/describe_index_stats \
+
+3
+
+     --header 'accept: application/json' \
+
+4
+
+     --header 'content-type: application/json'
+
+
+
+
+
+RESPONSE
+Examples
+Choose an example:
+application/json
+200default
+
+Updated 2 months ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+
+
+ 1. Pinecone API
+ 2. 
+ 3. 
+ 4. 
+ 5. 
+ 6. 
+ 7. 
+ 8. 
+
+ 1.  Pinecone API
+ 2.  
+ 3.  
+ 4.  
+ 5.  
+ 6.  
+ 7.  
+ 8.  
+ 9.  
+ 10. 
+ 11. 
+
+
+ 1. Pinecone API
+ 2. 
+ 3. 
+ 4. 
+ 5. 
+ 6. 
+ 7. 
+ 8. 
+
+ 1.  Pinecone API
+ 2.  
+ 3.  
+ 4.  
+ 5.  
+ 6.  
+ 7.  
+ 8.  
+ 9.  
+ 10. 
+ 11. 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

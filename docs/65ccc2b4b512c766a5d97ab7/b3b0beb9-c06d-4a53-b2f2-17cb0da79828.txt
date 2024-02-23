@@ -1,0 +1,582 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+API Reference
+
+v2
+
+Ctrl+K
+Create a collection
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+JUMP TOCTRL-/
+
+
+PINECONE API
+
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+
+PINECONE CONTROL PLANE API
+
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+JUMP TOCTRL-/
+
+
+PINECONE API
+
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+
+PINECONE CONTROL PLANE API
+
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+
+CREATE A COLLECTION
+
+
+post https://api.pinecone.io/collections
+
+This operation creates a Pinecone collection.
+
+Serverless and starter indexes do not support collections.
+
+Body Params
+
+The desired configuration for the collection.
+
+name
+string
+required
+
+The name of the collection to be created. Resource name must be 1-45 characters
+long, start and end with an alphanumeric character, and consist only of lower
+case alphanumeric characters or '-'.
+
+
+source
+string
+required
+
+The name of the index to be used as the source for the collection.
+
+
+Responses
+201
+
+THE COLLECTION HAS BEEN SUCCESSFULLY CREATED.
+
+
+
+Response body
+object
+
+The CollectionModel describes the configuration and status of a Pinecone
+collection.
+
+
+
+name
+string
+required
+
+size
+int64
+
+The size of the collection in bytes.
+
+
+status
+string
+required
+
+The status of the collection.
+
+Initializing Ready Terminating
+
+
+dimension
+int32
+
+The dimension of the vectors stored in each record held in the collection.
+
+
+vector_count
+int32
+
+The number of records stored in the collection.
+
+
+environment
+string
+required
+
+The environment where the collection is hosted.
+
+
+400
+
+BAD REQUEST. THE REQUEST BODY INCLUDED INVALID REQUEST PARAMETERS.
+
+
+
+Response body
+object
+
+The response shape used for all error responses.
+
+
+
+status
+integer
+required
+
+The HTTP status code of the error.
+
+
+error
+object
+required
+
+Detailed information about the error that occurred.
+
+code
+string
+required
+
+OK UNKNOWN INVALID_ARGUMENT DEADLINE_EXCEEDED QUOTA_EXCEEDED NOT_FOUND
+ALREADY_EXISTS PERMISSION_DENIED UNAUTHENTICATED RESOURCE_EXHAUSTED
+FAILED_PRECONDITION ABORTED OUT_OF_RANGE UNIMPLEMENTED INTERNAL UNAVAILABLE
+DATA_LOSS FORBIDDEN
+
+
+message
+string
+required
+
+details
+object
+
+Additional information about the error. This field is not guaranteed to be
+present.
+
+Has additional fields
+401
+
+UNAUTHORIZED. POSSIBLE CAUSES: INVALID API KEY.
+
+
+
+Response body
+object
+
+The response shape used for all error responses.
+
+
+
+status
+integer
+required
+
+The HTTP status code of the error.
+
+
+error
+object
+required
+
+Detailed information about the error that occurred.
+
+code
+string
+required
+
+OK UNKNOWN INVALID_ARGUMENT DEADLINE_EXCEEDED QUOTA_EXCEEDED NOT_FOUND
+ALREADY_EXISTS PERMISSION_DENIED UNAUTHENTICATED RESOURCE_EXHAUSTED
+FAILED_PRECONDITION ABORTED OUT_OF_RANGE UNIMPLEMENTED INTERNAL UNAVAILABLE
+DATA_LOSS FORBIDDEN
+
+
+message
+string
+required
+
+details
+object
+
+Additional information about the error. This field is not guaranteed to be
+present.
+
+Has additional fields
+403
+
+YOU'VE EXCEED YOUR COLLECTIONS QUOTA.
+
+
+
+Response body
+object
+
+The response shape used for all error responses.
+
+
+
+status
+integer
+required
+
+The HTTP status code of the error.
+
+
+error
+object
+required
+
+Detailed information about the error that occurred.
+
+code
+string
+required
+
+OK UNKNOWN INVALID_ARGUMENT DEADLINE_EXCEEDED QUOTA_EXCEEDED NOT_FOUND
+ALREADY_EXISTS PERMISSION_DENIED UNAUTHENTICATED RESOURCE_EXHAUSTED
+FAILED_PRECONDITION ABORTED OUT_OF_RANGE UNIMPLEMENTED INTERNAL UNAVAILABLE
+DATA_LOSS FORBIDDEN
+
+
+message
+string
+required
+
+details
+object
+
+Additional information about the error. This field is not guaranteed to be
+present.
+
+Has additional fields
+409
+
+A COLLECTION ALREADY EXISTS WITH THE NAME PROVIDED.
+
+
+
+Response body
+object
+
+The response shape used for all error responses.
+
+
+
+status
+integer
+required
+
+The HTTP status code of the error.
+
+
+error
+object
+required
+
+Detailed information about the error that occurred.
+
+code
+string
+required
+
+OK UNKNOWN INVALID_ARGUMENT DEADLINE_EXCEEDED QUOTA_EXCEEDED NOT_FOUND
+ALREADY_EXISTS PERMISSION_DENIED UNAUTHENTICATED RESOURCE_EXHAUSTED
+FAILED_PRECONDITION ABORTED OUT_OF_RANGE UNIMPLEMENTED INTERNAL UNAVAILABLE
+DATA_LOSS FORBIDDEN
+
+
+message
+string
+required
+
+details
+object
+
+Additional information about the error. This field is not guaranteed to be
+present.
+
+Has additional fields
+422
+
+UNPROCESSABLE ENTITY. THE REQUEST BODY COULD NOT BE DESERIALIZED.
+
+
+
+Response body
+object
+
+The response shape used for all error responses.
+
+
+
+status
+integer
+required
+
+The HTTP status code of the error.
+
+
+error
+object
+required
+
+Detailed information about the error that occurred.
+
+code
+string
+required
+
+OK UNKNOWN INVALID_ARGUMENT DEADLINE_EXCEEDED QUOTA_EXCEEDED NOT_FOUND
+ALREADY_EXISTS PERMISSION_DENIED UNAUTHENTICATED RESOURCE_EXHAUSTED
+FAILED_PRECONDITION ABORTED OUT_OF_RANGE UNIMPLEMENTED INTERNAL UNAVAILABLE
+DATA_LOSS FORBIDDEN
+
+
+message
+string
+required
+
+details
+object
+
+Additional information about the error. This field is not guaranteed to be
+present.
+
+Has additional fields
+500
+
+INTERNAL SERVER ERROR.
+
+
+
+Response body
+object
+
+The response shape used for all error responses.
+
+
+
+status
+integer
+required
+
+The HTTP status code of the error.
+
+
+error
+object
+required
+
+Detailed information about the error that occurred.
+
+code
+string
+required
+
+OK UNKNOWN INVALID_ARGUMENT DEADLINE_EXCEEDED QUOTA_EXCEEDED NOT_FOUND
+ALREADY_EXISTS PERMISSION_DENIED UNAUTHENTICATED RESOURCE_EXHAUSTED
+FAILED_PRECONDITION ABORTED OUT_OF_RANGE UNIMPLEMENTED INTERNAL UNAVAILABLE
+DATA_LOSS FORBIDDEN
+
+
+message
+string
+required
+
+details
+object
+
+Additional information about the error. This field is not guaranteed to be
+present.
+
+Has additional fields
+
+
+Updated 9 days ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+Language
+ShellPythonNode
+
+Authorization
+Header
+Header
+
+
+Request
+Examples
+
+xxxxxxxxxx
+
+
+
+
+1
+
+curl --request POST \
+
+2
+
+     --url https://api.pinecone.io/collections \
+
+3
+
+     --header 'accept: application/json' \
+
+4
+
+     --header 'content-type: application/json'
+
+
+
+
+
+RESPONSE
+Examples
+Choose an example:
+application/json
+201400 - Validation error on
+metric.401 - Unauthorized403 - Forbidden409422 - Unprocessable
+entity500 - Internal server error
+
+Updated 9 days ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+
+
+ 1.  Pinecone API
+ 2.  
+ 3.  
+ 4.  
+ 5.  
+ 6.  
+ 7.  
+ 8.  
+ 9.  
+ 10. 
+ 11. 
+
+ 1.  Pinecone Control Plane API
+ 2.  
+ 3.  
+ 4.  
+ 5.  
+ 6.  
+ 7.  
+ 8.  
+ 9.  
+ 10. 
+ 11. 
+
+
+ 1.  Pinecone API
+ 2.  
+ 3.  
+ 4.  
+ 5.  
+ 6.  
+ 7.  
+ 8.  
+ 9.  
+ 10. 
+ 11. 
+
+ 1.  Pinecone Control Plane API
+ 2.  
+ 3.  
+ 4.  
+ 5.  
+ 6.  
+ 7.  
+ 8.  
+ 9.  
+ 10. 
+ 11. 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

@@ -1,0 +1,647 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+
+MULTI-MODAL ML WITH OPENAI'S CLIP
+
+--------------------------------------------------------------------------------
+
+Jump to section
+ * 
+ * 
+ * 
+ * 
+
+--------------------------------------------------------------------------------
+
+Language models (LMs) can not rely on language alone. That is the idea behind
+the “Experience Grounds Language” paper, that proposes a framework to measure
+LMs' current and future progress. A key idea is that, beyond a certain threshold
+LMs need other forms of data, such as visual input [1] [2].
+
+World Scopes (WS), as datasets become larger in scope and span multiple
+modalities, the capabilities of models trained with them increase.
+[https://cdn.sanity.io/images/vr8gru94/production/25e7f2f54b543af8c34c143448a4b0c55f77c6b5-2360x854.png]
+World Scopes (WS), as datasets become larger in scope and span multiple
+modalities, the capabilities of models trained with them increase.
+
+The next step beyond well-known language models; BERT, GPT-3, and T5 is ”World
+Scope 3”. In World Scope 3, we move from large text-only datasets to large
+multi-modal datasets. That is, datasets containing information from multiple
+forms of media, like both images and text.
+
+The world, both digital and real, is multi-modal. We perceive the world as an
+orchestra of language, imagery, video, smell, touch, and more. This chaotic
+ensemble produces an inner state, our “model” of the outside world.
+
+AI must move in the same direction. Even specialist models that focus on
+language or vision must, at some point, have input from the other modalities.
+How can a model fully understand the concept of the word “person” without seeing
+a person?
+
+OpenAI Contrastive Learning In Pretraining (CLIP) is a world scope three model.
+It can comprehend concepts in both text and image and even connect concepts
+between the two modalities. In this chapter we will learn about multi-modality,
+how CLIP works, and how to use CLIP for different use cases like encoding,
+classification, and object detection.
+
+
+
+--------------------------------------------------------------------------------
+
+
+MULTI-MODALITY
+
+The multi-modal nature of CLIP is powered by two encoder models trained to
+“speak the same language”. Text inputs are passed to a text encoder, and image
+inputs to an image encoder [3]. These models then create a vector representation
+of the respective input.
+
+Both models “speak the same language” by encoding similar concepts in text and
+images into similar vectors. That means that the text “two dogs running across a
+frosty field” would output a vector similar to an image of two dogs running
+across a frosty field.
+
+Similar text and images will be encoded into a similar vector space. Dissimilar
+text and images do not share a similar vector space.
+[https://cdn.sanity.io/images/vr8gru94/production/a54a2f1fa0aeac03748c09df0fdfbb42aadc96b7-2430x1278.png]
+Similar text and images will be encoded into a similar vector space. Dissimilar
+text and images do not share a similar vector space.
+
+We can think of the language these models speak as the vector space in which
+they encode vectors. These two models can express nuanced information about text
+and images through this vector space. However, this “vector language” is far too
+abstract for us to directly understand.
+
+Rather than directly reading this “language”, we can train other simple neural
+networks to understand it and make predictions that we can understand. Or we use
+vector search to identify similar concepts and patterns across text and image
+domains.
+
+Let’s take a look at an example of CLIP in action.
+
+
+TEXT-TO-IMAGE SEARCH
+
+Entering a prompt in the search bar above allows us to search through images
+based on their content rather than any attached textual metadata. We call this
+Content Based Image Retrieval (CBIR).
+
+With CBIR, we can search for specific phrases such as “two dogs running across a
+frosty field”. We can even drop the word “dogs” and replace it with everyday
+slang for dogs like “good boy” or “mans best friend”, and we return the same
+images showing dogs running across fields.
+
+CLIP can accurately understand language. It understands that in the context of
+running across a field, we are likely referring to dogs and do not literally
+mean good children or someone’s “human” best friend.
+
+Amusingly, the dataset contains no images of the food hot dogs (other than one).
+So, suppose we search for “hot dogs”. In that case, we first get an image
+containing a hot dog (and a dog), a dog looking toasty in a warm room, another
+dog looking warm with wooly clothing, and another dog posing for the camera. All
+of these portray a hot dog in one sense or another.
+
+--------------------------------------------------------------------------------
+
+After being processed by CLIP’s text or image encoder, we are left with vectors.
+That means we can search across any modality with any modality; we can search in
+either direction. We can also stick to a single modality, like text-to-text or
+image-to-image.
+
+--------------------------------------------------------------------------------
+
+Now that we’ve seen what CLIP can do, let’s take a look at how it can do this.
+
+
+CLIP
+
+CLIP actually consists of two models trained in parallel. A 12-layer text
+transformer for building text embeddings and a ResNet or vision transformer
+(ViT) for building image embeddings [3].
+
+Architecture diagram of CLIP with the text encoder and ViT or ResNet as the
+image encoder.
+[https://cdn.sanity.io/images/vr8gru94/production/539716ea1571e459908c1fdc5a898fea239d8243-2803x1672.png]
+Architecture diagram of CLIP with the text encoder and ViT or ResNet as the
+image encoder.
+
+The text encoder and image encoder (ResNet or ViT) output single vector
+embeddings for each text/image record fed into the encoders. All vectors are 512
+dimensional and can be represented in the same vector space, meaning similar
+images and text produce vectors that appear near each other.
+
+
+CONTRASTIVE PRETRAINING
+
+Across both    and computer vision (CV), large pretrained models dominate the
+SotA. The idea is that by giving a big model a lot of data, they can learn
+general patterns from the dataset.
+
+For language models, that may be the general rules and patterns in the English
+language. For vision models, that may be the characteristics of different scenes
+or objects.
+
+The problem with multi-modality is that these models are trained separately and,
+by default, have no understanding of one another. CLIP solves this thanks to
+image-text contrastive pretraining. With CLIP, text and image encoders are
+trained while considering the other modality and context. Meaning that the text
+and image encoders share an “indirect understanding” of patterns in both
+modalities; language and vision.
+
+Contrastive pretraining works by taking a (text, image) pair – where the text
+describes the image – and learning to encode the pairs as closely as possible in
+vector space.
+
+For this to work well, we also need negative pairs to provide a contrastive
+comparison. We need positive pairs that should output similar vectors and
+negative pairs that should output dissimilar vectors.
+
+This is the general idea behind contrastive learning, which can be found in the
+training functions of many models, particularly those that produce embedding
+vectors.
+
+The negative pairs can be extracted directly from positive pairs. If we have
+positive pairs (T1,I1)(T_1,I_1)(T1 ,I1 ) and (T2,I2)(T_2,I_2)(T2 ,I2 ), we
+simply swap the components, giving us the negative pairs (T1,I2)(T_1,I_2)(T1 ,I2
+) and (T2,I1)(T_2,I_1)(T2 ,I1 ).
+
+With this, we can apply a loss function that maximizes the similarity between
+(T1,I1)(T_1,I_1)(T1 ,I1 ) and (T2,I2)(T_2,I_2)(T2 ,I2 ), and minimizes the
+similarity between (T1,I2)(T_1,I_2)(T1 ,I2 ) and (T2,I1)(T_2,I_1)(T2 ,I1 ).
+Altogether, this looks like this:
+
+Contrastive pretraining with CLIP.
+[https://cdn.sanity.io/images/vr8gru94/production/d6868e6dae721512fed8f1287fc9ffe6b6a2cddd-2332x1342.png]
+Contrastive pretraining with CLIP.
+
+In this image, we can see a single pretraining step on a single batch. The loss
+function assumes pairs in the diagonal should have a maximized dot product
+score, and all other pairs should have a minimized dot product score. Both text
+and image encoder models are optimized for this.
+
+A fundamental assumption is that there are no other positive pairs within a
+single batch. For example, we assume that “two dogs running across a frosty
+field” is only relevant to the image it is paired with. We assume there are no
+other texts or images with similar meanings.
+
+This assumption is possible because the datasets used for pretraining are
+diverse and large enough that the likelihood of two similar pairs appearing in a
+single batch is negligible. Therefore, rare enough to have a little-to-no
+negative impact on pretraining performance.
+
+
+USING CLIP
+
+We have a good idea of what CLIP can be used for and how it is trained. With
+that, how can we get started with it?
+
+OpenAI released a few implementations of CLIP via the Hugging Face library; this
+is the fastest way to get started. First, we need to install the necessary
+libraries.
+
+pip install transformers torch datasets
+
+Before we can do anything with CLIP, we need some text and images. The
+jamescalam/image-text-demo dataset contains a small number of image-text pairs
+we can use in our examples.
+
+from datasets import load_dataset
+
+data = load_dataset(
+    "jamescalam/image-text-demo",
+    split="train"
+)
+
+
+Example of text-image pair found in the dataset. Text is stored in the "text"
+feature and images in the "image" feature.
+[https://cdn.sanity.io/images/vr8gru94/production/a40f673ed52e07f497c7a39b032c27b33ce9f565-1128x761.png]
+Example of text-image pair found in the dataset. Text is stored in the "text"
+feature and images in the "image" feature.
+
+With these sample records ready, we can move on to initializing CLIP and an
+image/text preprocessor like so:
+
+from transformers import CLIPProcessor, CLIPModel
+import torch
+
+model_id = "openai/clip-vit-base-patch32"
+
+processor = CLIPProcessor.from_pretrained(model_id)
+model = CLIPModel.from_pretrained(model_id)
+
+# move model to device if possible
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
+model.to(device)
+
+
+
+The model is CLIP itself. Note that we use the ViT image encoder (the model is
+clip-vit). Text and image data cannot be fed directly into CLIP. The text must
+be preprocessed to create “tokens IDs”, and images must be resized and
+normalized. The processor handles both of these functions.
+
+
+ENCODING TEXT
+
+We will start with encoding text using the CLIP text transformer. Before feeding
+text into CLIP, it must be preprocessed and converted into token IDs. Let’s take
+a batch of sentences from the unsplash data and encode them.
+
+In[5]:
+
+text = data['text']  # 21
+
+tokens = processor(
+    text=text,
+    padding=True,
+    images=None,
+    return_tensors='pt'
+).to(device)
+tokens.keys()
+
+
+Out[5]:
+
+dict_keys(['input_ids', 'attention_mask'])
+
+This returns the typical text transformer inputs of input_ids and
+attention_mask.
+
+The input_ids are token ID values where each token ID is an integer value ID
+that maps to a specific word or sub-word. For example the phrase
+“multi-modality” may be split into tokens [“multi”, “-”, “modal”, “ity”], which
+are then mapped to IDs [1021, 110, 2427, 425].
+
+A text transformer maps these token IDs to semantic vector embeddings that the
+model learned during pretraining.
+
+The attention_mask is a tensor of 1s and 0s used by the model’s internal
+mechanisms to “pay attention” to real token IDs and ignore padding tokens.
+
+--------------------------------------------------------------------------------
+
+Padding tokens are a special type of token used by text transformers to create
+input sequences of a fixed length from sentences of varying length. They are
+appended to the end of shorter sentences, so “hello world” may become “hello
+world [PAD] [PAD] [PAD]”.
+
+--------------------------------------------------------------------------------
+
+We then use CLIP to encode all of these text descriptions with get_text_features
+like so:
+
+text_emb = model.get_text_features(
+    **tokens
+)
+
+
+
+One important thing to note here is that these embeddings are not normalized. If
+we plan on using a similarity metric like the dot product, we must normalize the
+embeddings:
+
+In[9]:
+
+print(text_emb.shape)
+print(text_emb.min(), text_emb.max())
+
+
+Out[9]:
+
+torch.Size([21, 512])
+tensor(-1.1893, grad_fn=<MinBackward1>) tensor(4.8015, grad_fn=<MaxBackward1>)
+
+
+In[40]:
+
+# IF using dot product similarity, must normalize vectors like so...
+import numpy as np
+
+# detach text emb from graph, move to CPU, and convert to numpy array
+text_emb = text_emb.detach().cpu().numpy()
+
+# calculate value to normalize each vector by
+norm_factor = np.linalg.norm(text_emb, axis=1)
+norm_factor.shape
+
+
+Out[40]:
+
+(21,)
+
+In[41]:
+
+text_emb = text_emb.T / norm_factor
+# transpose back to (21, 512)
+text_emb = text_emb.T
+print(text_emb.shape)
+print(text_emb.min(), text_emb.max())
+
+
+Out[41]:
+
+(21, 512)
+-0.1526844 0.53449875
+
+
+Alternatively, we can use cosine similarity as our metric as this only considers
+angular similarity and not vector magnitude (like dot product). For our
+examples, we will normalize and use dot product similarity.
+
+We now have our text embeddings; let’s see how to do the same for images.
+
+
+ENCODING IMAGES
+
+Images will be encoded using the ViT portion of CLIP. Similar to text encoding,
+we need to preprocess these images using the preprocessor like so:
+
+In[42]:
+
+data['image'][0].size
+
+
+Out[42]:
+
+(6000, 3376)
+
+In[43]:
+
+image_batch = data['image']
+
+images = processor(
+    text=None,
+    images=image_batch,
+    return_tensors='pt'
+)['pixel_values'].to(device)
+images.shape
+
+
+Out[43]:
+
+torch.Size([21, 3, 224, 224])
+
+Preprocessing images does not produce token IDs like those we saw from
+preprocessing our text. Instead, preprocessing images consists of resizing the
+image to a 244x244 array with three color channels (red, green, and blue) and
+normalizing pixel values into a [0,1][0,1] range.
+
+After preprocessing our images, we get the image features with
+get_image_features and normalize them as before:
+
+In[44]:
+
+img_emb = model.get_image_features(images)
+print(img_emb.shape)
+print(img_emb.min(), img_emb.max())
+
+
+Out[44]:
+
+torch.Size([21, 512])
+tensor(-8.6533, grad_fn=<MinBackward1>) tensor(2.6551, grad_fn=<MaxBackward1>)
+
+
+In[45]:
+
+# NORMALIZE
+# detach text emb from graph, move to CPU, and convert to numpy array
+img_emb = img_emb.detach().cpu().numpy()
+
+img_emb = img_emb.T / np.linalg.norm(img_emb, axis=1)
+# transpose back to (21, 512)
+img_emb = img_emb.T
+print(img_emb.shape)
+print(img_emb.min(), img_emb.max())
+
+
+Out[45]:
+
+(21, 512)
+-0.7275361 0.23383287
+
+
+With this, we have created CLIP embeddings for both text and images. We can move
+on to comparing items across the two modalities.
+
+
+CALCULATING SIMILARITY
+
+CLIP embedding similarities are represented by their angular similarity. Meaning
+we can identify similar pairs using cosine similarity:
+
+cossim(A,B)=A⋅B∣∣A∣∣∗∣∣B∣∣=∑inAiBi∑inAi2∑inBi2cossim(A, B) = \frac{A \cdot
+B}{||A|| * ||B||} = \frac{\sum_i^nA_iB_i}{\sqrt{\sum_i^nA_i^2}
+\sqrt{\sum_i^nB_i^2}}cossim(A,B)=∣∣A∣∣∗∣∣B∣∣A⋅B =∑in Ai2 ∑in Bi2 ∑in Ai Bi
+
+Or, if we have normalized the embeddings, we can use dot product similarity:
+
+dotproduct(A,B)=A⋅B=∑i=0n−1AiBidotproduct(A, B) = A \cdot B =
+\sum_{i=0}^{n-1}A_iB_idotproduct(A,B)=A⋅B=i=0∑n−1 Ai Bi
+
+Let’s try both. First, for cosine similarity, we do:
+
+In[46]:
+
+from numpy.linalg import norm
+
+cos_sim = np.dot(text_emb, img_emb.T) / (
+    norm(text_emb, axis=1) * norm(img_emb, axis=1)
+)
+cos_sim.shape
+
+
+Out[46]:
+
+(21, 21)
+
+In[47]:
+
+import matplotlib.pyplot as plt
+
+plt.imshow(cos_sim)
+plt.show()
+
+
+Out[47]:
+
+<Figure size 432x288 with 1 Axes>[data:image/png;base64,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]
+
+And if we perform the same operation for dot product similarity, we should
+return the same results:
+
+In[48]:
+
+dot_sim = np.dot(text_emb, img_emb.T)
+
+plt.imshow(cos_sim)
+plt.show()
+
+
+Out[48]:
+
+<Figure size 432x288 with 1 Axes>[data:image/png;base64,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]
+
+Both of these similarity score arrays look the same, and if we check for the
+difference between the two arrays, we will see that the scores are the same. We
+see some slight differences due to floating point errors.
+
+In[51]:
+
+diff = cos_sim - dot_sim
+diff.min(), diff.max()
+
+
+Out[51]:
+
+(0.0, 2.9802322e-08)
+
+Using the embedding functions of CLIP in this way, we can perform a semantic
+search across the modalities of text and image in any direction. We can search
+for images with text, text with images, text with text, and images with images.
+
+These use cases are great, but we can make slight modifications to this for many
+other tasks.
+
+
+CLASSIFICATION
+
+One of the most impressive demonstrations of CLIP is its unparalleled zero-shot
+performance on various tasks. For example, given the fragment/imagenette dataset
+from Hugging Face Datasets, we can write a list of brief sentences that align
+with the ten class labels.
+
+We take the original imagenette labels and preappend "a photo of a ..." to each
+to create a set of CLIP-friendly sentence representations.
+[https://cdn.sanity.io/images/vr8gru94/production/f841984e7617686f5041ca95797498e2b0b085b5-1348x542.png]
+We take the original imagenette labels and preappend "a photo of a ..." to each
+to create a set of CLIP-friendly sentence representations.
+
+From this, we can calculate the cosine similarity between the text embeddings of
+these ten labels against an image we’d like to classify. The text that returns
+the highest similarity is our predicted class.
+
+
+OBJECT DETECTION
+
+Another compelling use case of zero-shot CLIP is object detection. We can do
+this by splitting our images into smaller patches and running each patch through
+the image encoder of CLIP. We then compare these patch embeddings to a text
+encoding describing what we are looking for. After calculating the similarity
+scores for all patches, we can collate them into a map of relevance.
+
+For example, given an image of a butterfly and a cat, we could break it into
+many small patches. Given the prompt "a fluffy cat", we will return an outline
+of the cat, whereas the prompt "a butterfly" will produce an outline of the
+butterfly.
+
+Zero-shot object detection with CLIP allows us to find specific objects with
+natural language prompts.
+[https://cdn.sanity.io/images/vr8gru94/production/be4800918976efd9d974d9e5453985a5106f2558-2389x1455.png]
+Zero-shot object detection with CLIP allows us to find specific objects with
+natural language prompts.
+
+These are only a few of the use cases of CLIP and only scratch the surface of
+what is possible with this model and others in the scope of multi-modal ML.
+
+--------------------------------------------------------------------------------
+
+That’s it for this introduction to multi-modal ML with OpenAI’s CLIP. The past
+years since the CLIP release have seen ever more fascinating applications of the
+model.
+
+DALL-E 2 is a well-known example of CLIP. The incredible images generated by
+DALL-E 2 start by embedding the user’s text prompt with CLIP [4]. That text
+embedding is then passed to the diffusion model, which generates some
+mind-blowing images.
+
+The fields of NLP and CV have mainly progressed independently of each other for
+the past decade. However, with the introduction of world scope three models,
+they’re becoming more entwined into a majestic multi-modal field of Machine
+Learning.
+
+
+RESOURCES
+
+[1] Y. Bisk et al., (2020), EMNLP
+
+[2] J. Alammar, (2022), YouTube
+
+[3] A. Radford et al., (2021), arXiv
+
+[4] A. Ramesh, P. Dhariwal, A. Nichol, C. Chu, M. Chen, (2022), arXiv
+
+Share via:
+
+
+Learn about the past, present, and future of image search, text-to-image, and
+more. (series cover image)
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F9952912500cbe79a9729a37e31b74ac940f0cb7b-850x1096.png&w=3840&q=100]
+
+Chapters
+
+ 1. 
+ 2. 
+ 3. 
+ 4. 
+ 5. 
+ 6.  * 
+     * 
+     * 
+     * 
+
+ 7. 
+ 8. 
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+
+
+
+DON'T MISS THE NEXT ONE...
+
+
+
+Get an email the next time we publish an article about machine learning and
+similarity search.
+
+Get Updates

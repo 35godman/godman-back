@@ -1,0 +1,969 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+Guides
+
+v2
+
+Ctrl+K
+Intro to the new API
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+
+GETTING STARTED
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+ORGANIZATIONS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+PROJECTS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INDEXES
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+DATA
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+
+
+OPERATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INTEGRATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+REFERENCE
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+SUPPORT
+
+ * 
+ * 
+ * 
+
+
+INTRO TO THE NEW API
+
+
+
+Pinecone's new API gives you the same great vector database but with a
+drastically improved developer experience over the legacy API. This page
+explains the most significant improvements and changes. Docs for the legacy API
+remain available at .
+
+
+> ℹ️
+> 
+> NOTE
+> 
+> To use the new API, existing users of Pinecone's Python and Node.js clients
+> must upgrade to new client versions and adapt some code. This page summarizes
+> the most important changes. For a comprehensive list, see the and .
+
+
+IMPROVEMENTS
+
+
+SERVERLESS INDEXES
+
+The new API lets you create for storing and querying your vector data. With
+serverless indexes, you don't configure or manage compute and storage resources.
+You just load your data and your indexes scale automatically based on usage.
+Likewise, you don't pay for dedicated resources that may sometimes lay idle.
+Instead, the pricing model for serverless indexes is consumption-based: You pay
+only for the amount of data stored and operations performed, with no minimums.
+You can still create pod-based indexes on the new API as well, and you can also
+continue to access indexes you created previously on the legacy API.
+
+For guidance on creating serverless indexes, see . For more on how costs are
+calculated for serverless indexes, see .
+
+
+> ⚠️
+> 
+> WARNING
+> 
+> Serverless indexes are in public preview and are available only on AWS in the
+> us-west-2 region. Check the and test thoroughly before using serverless
+> indexes in production.
+
+
+MULTI-REGION PROJECTS
+
+On the legacy API, all indexes in a project are hosted in a single cloud region.
+On the new API, you have the flexibility to choose a different cloud region for
+each index. This makes it possible to consolidate related work across regions in
+a single project.
+
+
+GLOBAL URL FOR CONTROL PLANE OPERATIONS
+
+On the new API, the global URL for all like create_index, describe_index, and
+list_indexes is https://api.pinecone.io. You use this URL regardless of the
+cloud environment where an index is hosted. This simplifes the experience
+compared to the legacy API, where each environment has a unique URL:
+https://controller.{environment}.pinecone.io.
+
+
+CHANGES
+
+
+UPDATED CLIENTS
+
+
+> ℹ️
+> 
+> NOTE
+> 
+> To use the new API, existing users of Pinecone clients must upgrade to new
+> client versions and adapt some code. This page summarizes the most important
+> changes. For a comprehensive list, see the and .
+
+Python
+
+To install the new version of the , run the following command:
+
+Shell
+pip install pinecone-client
+
+
+If you already have the Python client, run the following command:
+
+Shell
+pip install pinecone-client --upgrade
+
+
+Node.js
+
+To install the new version of the , run the following command:
+
+Shell
+npm install @pinecone-database/pinecone
+
+
+If you already have the Node.js client, run the following command:
+
+Shell
+npm install @pinecone-database/pinecone@latest
+
+
+
+AUTHENTICATION
+
+with a Pinecone client or the REST API now requires only the API key for your
+project. The environment parameter is no longer required because you now choose
+a cloud environment for each index, and all use a global URL
+(https://api.pinecone.io).
+
+New API
+
+Using the new API, you initialize a client object just with your project API
+key:
+
+PythonJavaScriptcurl
+from pinecone import Pinecone
+
+pc = Pinecone(api_key='YOUR_API_KEY')
+
+
+import { Pinecone } from '@pinecone-database/pinecone';
+
+const pc = new Pinecone({
+    apiKey: 'YOUR_API_KEY' 
+});
+
+
+PINECONE_API_KEY = "YOUR_API_KEY"
+
+curl -s -X POST "https://api.pinecone.io/indexes" \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -H "Api-Key: $PINECONE_API_KEY" \
+  -d '{
+         "name": "quickstart",
+         "dimension": 1536,
+         "metric": "cosine",
+         "spec": {
+            "serverless": {
+               "cloud": "aws",
+               "region": "us-west-2"
+            }
+         }
+      }'
+
+
+
+Legacy API
+
+Using the legacy API, you initialize a client with your project API key and
+environment:
+
+PythonJavaScriptcurl
+import pinecone
+
+pinecone.init(api_key="YOUR_API_KEY", environment="YOUR_ENVIRONMENT")
+
+
+import { Pinecone } from '@pinecone-database/pinecone';
+
+const pc = new Pinecone({
+    apiKey: "YOUR_API_KEY",
+    environment: "YOUR_ENVIRONMENT",
+});
+
+
+PINECONE_API_KEY="YOUR_API_KEY"
+PINECONE_ENVIRONMENT="YOUR_ENVIRONMENT"
+
+curl -X POST "https://controller.$PINECONE_ENVIRONMENT.pinecone.io/databases" \
+  -H "Api-Key: $PINECONE_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "quickstart",
+    "dimension": 1536,
+    "metric": "cosine"
+  }'
+
+
+
+CREATING INDEXES
+
+Now that you can create multiple types of indexes (serverless, pod-based, and
+starter), the syntax for defining indexes has changed compared to the legacy
+API.
+
+
+CREATING A SERVERLESS INDEX
+
+
+> ⚠️
+> 
+> WARNING
+> 
+> Serverless indexes are in public preview and are available only on AWS in the
+> us-west-2 region. Check the and test thoroughly before using serverless
+> indexes in production.
+
+New API
+
+Using the new API, you create a by importing the ServerlessSpec class and using
+the spec parameter to define the cloud and region where the index should be
+deployed:
+
+PythonJavaScriptcurl
+from pinecone import Pinecone, ServerlessSpec
+
+pc = Pinecone(api_key="YOUR_API_KEY")
+
+pc.create_index(
+    name="serverless-index",
+    dimension=1536,
+    metric="cosine",
+    spec=ServerlessSpec(
+        cloud='aws', 
+        region='us-west-2'
+    ) 
+) 
+
+
+import { Pinecone } from '@pinecone-database/pinecone';
+
+const pc = new Pinecone({
+    apiKey: 'YOUR_API_KEY'
+});
+
+await pc.createIndex({
+    name: 'serverless-index',
+    dimension: 1536,
+    metric: 'cosine',
+    spec: { 
+        serverless: { 
+            cloud: 'aws', 
+            region: 'us-west-2' 
+        }
+    } 
+}) 
+
+
+curl -s -X POST "https://api.pinecone.io/indexes" \
+   -H "Accept: application/json" \
+   -H "Content-Type: application/json" \
+   -H "Api-Key: YOUR_API_KEY" \
+   -d '{
+         "name":  "serverless-index",
+         "dimension": 1536,
+         "metric": "cosine",
+         "spec": {
+            "serverless": {
+               "cloud":"aws",
+               "region": "us-west-2"
+            }
+         }
+      }'
+
+
+Legacy API
+
+Serverless indexes cannot be created on the legacy API. You must use the new
+API.
+
+
+CREATING A POD-BASED INDEX
+
+New API
+
+Using the new API, you create a by importing the PodSpec class and using the
+spec parameter to define the where the index should be deployed, the and to use,
+and other index characteristics:
+
+PythonJavaScriptcurl
+from pinecone import Pinecone, PodSpec
+
+pc = Pinecone(api_key='YOUR_API_KEY')
+
+pc.create_index(
+    name='pod-index', 
+    dimension=1536, 
+    metric='cosine', 
+    spec=PodSpec(
+        environment="us-west1-gcp", 
+        pod_type="p1.x1",
+        pods=1
+    )
+)
+
+
+import { Pinecone } from '@pinecone-database/pinecone';
+
+const pc = new Pinecone({
+    apiKey: 'your-api-key'
+});
+
+await pc.createIndex({
+  name: 'pod-index',
+  dimension: 1536,
+  metric: 'cosine',
+  spec: { 
+    pod: { 
+      environment: 'us-west1-gcp', 
+      podType: 'p1.x1',
+      pods: 1,
+    }
+  }
+});
+
+
+PINECONE_API_KEY = "YOUR_API_KEY"
+
+curl -s -X POST "https://api.pinecone.io/indexes" \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -H "Api-Key: $PINECONE_API_KEY" \
+  -d '{
+         "name": "pod-index",
+         "dimension": 1536,
+         "metric": "cosine",
+         "spec": {
+            "pod": {
+               "environment": "us-west-1-gcp",
+               "pod_type": "p1.x1",
+               "pods": 1
+            }
+         }
+      }'
+
+
+
+CREATING A STARTER INDEX
+
+On the free Starter plan, you get one project and one pod-based starter index
+with enough resources to support 100,000 vectors. Although , it's easy to .
+
+Starter indexes are hosted in the gcp-starter environment, which is the
+us-central-1 (Iowa) region of the GCP cloud.
+
+New API
+
+Using the new API, you create a by importing the PodSpec class and setting
+environment="gcp-starter" in the spec parameter:
+
+PythonJavaScriptcurl
+from pinecone import Pinecone, PodSpec
+
+pc = Pinecone(api_key="YOUR_API_KEY")
+
+pc.create_index(
+  name="starter-index",
+  dimension=1536,
+  metric="cosine",
+  spec=PodSpec(
+    environment="gcp-starter"
+  )
+)
+
+
+import { Pinecone } from '@pinecone-database/pinecone'
+
+const pc = new Pinecone({
+  apiKey: 'YOUR_API_KEY'
+});
+
+await pc.createIndex({
+  name: 'starter-index',
+  dimension: 1536,
+  metric: 'cosine',
+  spec: {
+    pod: {
+      environment: 'gcp-starter'
+    }
+  }
+});
+
+
+PINECONE_API_KEY = "YOUR_API_KEY"
+
+curl -s -X POST "https://api.pinecone.io/indexes" \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -H "Api-Key: $PINECONE_API_KEY" \
+  -d '{
+         "name": "starter-index",
+         "dimension": 1536,
+         "metric": "cosine",
+         "spec": {
+            "pod": {
+               "environment": "gcp-starter"
+            }
+         }
+      }'
+
+
+Legacy API
+
+PythonJavaScriptcurl
+import pinecone
+
+pinecone.init(api_key="YOUR_API_KEY", environment="YOUR_ENVIRONMENT")
+
+pinecone.create_index("starter-index", dimension=1536, metric="cosine")
+
+
+import { Pinecone } from '@pinecone-database/pinecone';
+
+const pc = new Pinecone({ 
+    apiKey: 'YOUR_API_KEY',
+    environment: 'YOUR_ENVIRONMENT'
+})
+await pc.createIndex({
+    name: "starter-index",
+    dimension: 1536,
+    metric: "cosine",
+});
+
+
+PINECONE_API_KEY="YOUR_API_KEY"
+PINECONE_ENVIRONMENT="YOUR_ENVIRONMENT"
+
+# Create the index
+curl -X POST "https://controller.$PINECONE_ENVIRONMENT.pinecone.io/databases" \
+  -H "Api-Key: $PINECONE_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "starter-index",
+    "dimension": 1536,
+    "metric": "cosine"
+  }'
+
+
+
+LISTING INDEXES
+
+Using the legacy API, the operation returns an array of index names and no other
+information. Using the new API, the operation now fetches a complete description
+of each index. The data returned on each index is equivalent to what you get
+back from the describe_index operation.
+
+New API
+
+PythonJavaScriptcurl
+from pinecone import Pinecone
+
+pc = Pinecone(api_key="YOUR_API_KEY")
+
+pc.list_indexes()
+
+# Response:
+# {'indexes': [{'dimension': 1536,
+#               'host': 'serverless-index-4zo0ijk.svc.us-west2-aws.pinecone.io',
+#               'metric': 'cosine',
+#               'name': 'serverless-index',
+#               'spec': {'serverless': {'cloud': 'aws', 'region': 'us-west-2'}},
+#               'status': {'ready': True, 'state': 'Ready'}},
+#              {'dimension': 1536,
+#               'host': 'pod-index-4zo0ijk.svc.us-west2-aws.pinecone.io',
+#               'metric': 'cosine',
+#               'name': 'pod-index',
+#               'spec': {'pod': {'environment': 'us-west2-aws',
+#                                'pod_type': 'p1.x1',
+#                                'pods': 1,
+#                                'replicas': 1,
+#                                'shards': 1}},
+#               'status': {'ready': True, 'state': 'Ready'}}]}
+
+
+import { Pinecone } from '@pinecone-database/pinecone'
+
+const pc = new Pinecone({ apiKey: 'YOUR_API_KEY' })
+
+await pc.listIndexes();
+
+// Response:
+// {
+//    "indexes": [
+//       {
+//          "name": "serverless-index",
+//          "dimension": 1536,
+//          "metric": "cosine",
+//          "host": "serverless-index-4zo0ijk.svc.us-west2-aws.pinecone.io",
+//          "spec": {
+//             "serverless": {
+//                "cloud": "aws",
+//                "region": "us-west-2"
+//             }
+//          },
+//          "status": {
+//             "ready": true,
+//             "state": "Ready"
+//          }
+//       },
+//       {
+//          "name": "pod-index",
+//          "dimension": 1536,
+//          "metric": "cosine",
+//          "host": "pod-index-4zo0ijk.svc.us-west2-aws.pinecone.io",
+//          "spec": {
+//             "pod": {
+//                "environment": "us-west2-aws",
+//                "replicas": 1,
+//                "shards": 1,
+//                "podType": "p1.x1",
+//                "pods": 1
+//             }
+//          },
+//          "status": {
+//             "ready": true,
+//             "state": "Ready"
+//          }
+//       }
+//    ]
+// }
+
+
+PINECONE_API_KEY="YOUR_API_KEY"
+
+curl -i -X GET "https://api.pinecone.io/indexes" \
+  -H "Api-Key: $PINECONE_API_KEY"
+
+# Response:
+# {
+#    "indexes": [
+#       {
+#          "name": "serverless-index",
+#          "metric": "cosine",
+#          "dimension": 1536,
+#          "status": {
+#             "ready": true,
+#             "state": "Ready"
+#          },
+#          "host": "serverless-index-4zo0ijk.svc.dev-us-west2-aws.pinecone.io",
+#          "spec": {
+#             "serverless": {
+#                "region": "us-west-2",
+#                "cloud": "aws"
+#             }
+#          }
+#       },
+#       {
+#          "name": "pod-index",
+#          "metric": "cosine",
+#          "dimension": 1536,
+#          "status": {
+#             "ready": true,
+#             "state": "Ready"
+#          },
+#          "host": "pod-index-4zo0ijk.svc.us-west2-aws.pinecone.io",
+#          "spec": {
+#             "pod": {
+#                "replicas": 1,
+#                "shards": 1,
+#                "pods": 1,
+#                "pod_type": "p1.x1",
+#                "environment": "us-west2-aws"
+#             }
+#          }
+#       }
+#    ]
+# }
+
+
+Legacy API
+
+Using the legacy API, the operation returns an array of index names and no other
+information.
+
+PythonJavaScriptcurl
+import pinecone
+
+pinecone.init(
+    api_key='YOUR_API_KEY', 
+    environment='PROJECT_ENVIRONMENT'
+)
+
+pinecone.list_indexes()
+
+# Response:
+# ['sample-movies', 'news']
+
+
+import { Pinecone } from '@pinecone-database/pinecone';
+
+const pc = new Pinecone({ 
+    apiKey: 'YOUR_API_KEY',
+    environment: 'YOUR_ENVIRONMENT'
+})
+
+await pc.listIndexes();
+
+// Response:
+// [
+//   "sample-movies",
+//   "news",
+// ]
+
+
+PINECONE_API_KEY = "YOUR_API_KEY"
+curl -i https://controller.YOUR_ENVIRONMENT.pinecone.io/databases \
+  -H 'Api-Key: $PINECONE_API_KEY'
+
+# Response:
+# [
+#   "sample-movies",
+#   "news",
+# ]
+
+
+
+DESCRIBING INDEXES
+
+Using the new API, the operation returns a description of an index in a
+different format than the legacy API. It also returns the needed to run data
+plane operations again the index.
+
+New API
+
+PythonJavaScriptcurl
+from pinecone import Pinecone
+
+pc = Pinecone(api_key="YOUR_API_KEY")
+
+pc.describe_index("serverless-index")
+
+# Response:
+# {'dimension': 1536,
+#  'host': 'serverless-index-4zo0ijk.svc.us-weset2-aws.pinecone.io',
+#  'metric': 'cosine',
+#  'name': 'serverless-index',
+#  'spec': {'serverless': {'cloud': 'aws', 'region': 'us-west-2'}},
+#  'status': {'ready': True, 'state': 'Ready'}}
+
+
+import { Pinecone } from '@pinecone-database/pinecone';
+
+const pc = new Pinecone({ apiKey: 'YOUR_API_KEY' });
+
+await pc.describeIndex('serverless-index');
+
+// Response:
+// {
+//    "name": "serverless-index",
+//    "dimension": 1536,
+//    "metric": "cosine",
+//    "host": "serverless-index-4zo0ijk.svc.us-west2-aws.pinecone.io",
+//    "spec": {
+//       "serverless": {
+//          "cloud": "aws",
+//          "region": "us-west-2"
+//       }
+//    },
+//    "status": {
+//       "ready": true,
+//       "state": "Ready"
+//    }
+// }
+
+
+PINECONE_API_KEY = "YOUR_API_KEY"
+
+curl -i -X GET "https://api.pinecone.io/indexes/serverless-index" \
+    -H "Api-Key: $PINECONE_API_KEY"
+
+# Response:
+# {
+#    "name": "serverless-index",
+#    "metric": "cosine",
+#    "dimension": 1536,
+#    "status": {
+#       "ready": true,
+#       "state": "Ready"
+#    },
+#    "host": "serverless-index-4zo0ijk.svc.us-west1-aws.pinecone.io",
+#    "spec": {
+#       "serverless": {
+#          "region": "us-west-2",
+#          "cloud": "aws"
+#       }
+#    }
+# }
+
+
+Legacy API
+
+PythonJavaScriptcurl
+import pinecone
+
+pinecone.init(
+    api_key='YOUR_API_KEY', 
+    environment='PROJECT_ENVIRONMENT'
+)
+
+pinecone.describe_index("test-index")
+
+# # Response:
+# IndexDescription(
+#     name='sample-movies', 
+#     metric='cosine', replicas=1, 
+#     dimension=1536.0, 
+#     shards=1, 
+#     pods=1, 
+#     pod_type='p1.x1', 
+#     status={'ready': True, 'state': 'Ready'}, 
+#     metadata_config=None, 
+#     source_collection=''
+# )
+
+
+import { Pinecone } from '@pinecone-database/pinecone';
+
+const pc = new Pinecone({ 
+    apiKey: 'YOUR_API_KEY',
+    environment: 'YOUR_ENVIRONMENT'
+})
+
+await pc.describeIndex('test-index');
+
+// Response:
+// {
+//     database: {
+//         name: 'test-index',
+//         dimension: 1536,
+//         metric: 'cosine',
+//         pods: 1,
+//         replicas: 1,
+//         shards: 1,
+//         podType: 'p1.x1'
+//     },
+//     status: {
+//         ready: true,
+//         state: 'Ready',
+//         host: 'search-history-1234567.svc.us-east4-gcp.pinecone.io',
+//         port: 433
+//     }
+// }
+
+
+INDEX_NAME='example-index' \
+API_KEY='your-api-key' \
+ENVIRONMENT='your-environment' \
+  curl -i -X GET "https://controller.$ENVIRONMENT.pinecone.io/databases/$INDEX_NAME" \
+    -H "Api-Key: $API_KEY"
+
+# Response:
+IndexDescription(
+    name='sample-movies', 
+    metric='cosine', 
+    replicas=1, 
+    dimension=1536.0, 
+    shards=1, 
+    pods=1, 
+    pod_type='p1.x1', 
+    status={'ready': True, 'state': 'Ready'}, 
+    metadata_config=None, 
+    source_collection=''
+)
+
+
+
+SERVERLESS LIMITATIONS
+
+ * Each project is limited to 20 serverless indexes.
+
+ * Each serverless index is limited to 10,000 namespaces.
+
+ * Each serverless namespace is limited to 1B vectors.
+
+ * During the public preview period, requests are limited as follows:
+   
+   * query requests are limited to 1000 /second
+   
+   * upsert, delete, and update requests, combined, are limited to 50,000
+     /second
+   
+   * list, fetch, and describe_index_stats requests, combined, are limited to
+     2.5 requests/second
+
+ * Serverless indexes do not support the following features:
+   
+   * 
+   
+   * Instead, you can .
+   
+   * 
+   
+   * Because serverless indexes scale automantically based on usage, this
+     operation is not relevant
+   
+   * 
+
+
+GET STARTED
+
+ * to get a vector search service up and running in minutes using the new API.
+
+Updated 2 days ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+ * 
+ * * * 
+     * 
+     * 
+   * * 
+     * 
+     * 
+     * 
+     * 
+     * 
+   * 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

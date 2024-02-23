@@ -1,0 +1,287 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+
+OPENAI ASSISTANTS API VS CANOPY: A QUICK COMPARISON
+
+Nov 9, 2023
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F8b3fb37178129c4ba2d7c68eb896ec8cea8f395b-400x400.png&w=3840&q=100]
+
+Developer Advocate
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F540a006e4ee5ca13c8a9a2c6d31c876152774dfd-600x600.jpg&w=3840&q=100]
+
+ML Engineer, GenAI
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F37c8ea85b7b07e358afbe8a64dbba626aa496994-800x800.png&w=3840&q=100]
+
+ML Engineer, GenAI
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F714fe2c46c9c9d2cd2b7758c24243a20909d4733-800x800.png&w=3840&q=100]
+
+Engineering Manager, GenAI
+
+--------------------------------------------------------------------------------
+
+Jump to section
+
+--------------------------------------------------------------------------------
+
+We recently the release of , an open-source framework for quickly building
+high-performance for GenAI applications. OpenAI has also announced the release
+of Assistants API — an API with built-in vector-based retrieval.
+
+Of course, we wondered: How good is the OpenAI Assistants API, and how does it
+compare to Canopy?
+
+To find out, we ran several tests to compare the two frameworks using the — a
+realistic, real-world dataset containing 423 old and new ArXiv papers about LLMs
+and machine learning.
+
+This is only a quick comparison to help you (and us) make sense of these
+brand-new frameworks. Over time, we will continue testing and sharing our
+findings, and we welcome contributions from the community.
+
+And now, onto the findings...
+
+TL;DR - OpenAI Assistants API vs Canopy (powered by Pinecone):
+
+ * Assistants API is limited to storing only 20 documents from the dataset.
+   Canopy could store all 423 documents, with room for another ~777 before
+   reaching the limit of Pinecone's free plan.
+ * Assistants API couldn't answer a question that required retrieving context
+   from multiple documents. Canopy could search across the entire dataset and
+   therefore was able to answer the question.
+ * Assistants API hallucinated on a question related to one of the stored
+   documents. Canopy answered the same question correctly.
+ * The response latency of Canopy was 21% lower (ie, faster) than that of
+   Assistants API.
+
+
+STORAGE CAPACITY
+
+We began with the full dataset of 423 documents. By most standards, this is a
+small dataset. For reference, with Canopy — which uses Pinecone as its — you can
+store up to 100,000 vector embeddings on the free plan. That's around 1,200+
+similarly sized documents.
+
+OpenAI's Assistants API has an official limit of 20 documents. That didn't stop
+us from trying to fit the entire dataset: We concatenated many of the papers
+until we had compressed them into 20 separate documents.
+
+Unfortunately, we hit a snag on document upload — our dataset contains GPT's
+special tokens <|endoftext|> and <|endofprompt|>. The API doesn't provide an
+option to process these — so we replaced these tokens before continuing with the
+upload.
+
+After uploading, we tried querying the Assistants API via the OpenAI Playground
+and the API. Unfortunately, we hit another problem.
+
+[https://cdn.sanity.io/images/vr8gru94/production/fc572d9c5333ef45c74e18006916e52f259d0be0-1928x1032.png]
+API Assistant breaks when trying "context cramming".
+
+To debug this, we tried to work through the request responses provided by
+OpenAI. Unfortunately, the interface hides most of the logic from the user, so
+we could not progress. It seems likely (though we could not confirm) that our
+"context cramming" hack overloaded the retrieval component of Assistants API.
+
+Using Canopy, we encountered no issues with uploading the full dataset.
+
+To make the comparison fair, from this point onward, we used a subset of just 20
+regular documents from the full dataset. We were able to upload this subset to
+both Assistants API and Canopy without issues.
+
+It is worth underscoring just how small a dataset of 20 documents is. We expect
+OpenAI to increase this limit, but in the meantime it severely caps the kinds of
+applications you can build — and how far you can scale them — with Assistants
+API.
+
+
+ANSWER QUALITY
+
+After switching to the smaller 20-document set for Assistants API and Canopy, we
+wanted to perform a qualitative assessment of retrieval performance. We began
+with a relatively simple question: "should I use gpt-3.5 or llama 2?"
+
+The results from Assistants API could have been better:
+
+[https://cdn.sanity.io/images/vr8gru94/production/a8a6aba7c28abd53e1b7efe87731bf1280eb8bb9-1984x1274.png]
+OpenAI API Assistant answer to our comparison of GPT-3.5 and Llama 2.
+
+We get a good overview of GPT-3.5, but the model cannot answer our question
+about Llama 2. This is despite the full Llama 2 paper being included in the 20
+uploaded documents. Just to confirm the Llama 2 paper was among the uploaded
+documents, we asked this follow-up question:
+
+[https://cdn.sanity.io/images/vr8gru94/production/9d789174ee3e4eaf98c79cc247dcaefc08b46fba-1960x780.png]
+The follow-up question for API Assistant shows that the knowledge of Llama 2 is
+within its retrieval tool.
+
+On the other hand, Canopy answered our question using information it found for
+both GPT-3.5 and Llama 2.
+
+[https://cdn.sanity.io/images/vr8gru94/production/9dc80c03d42134a4fffdd427bc62218f19ed8aa8-2002x842.png]
+Canopy answer to our comparison of GPT-3.5 and Llama 2.
+
+We tried another question that would require searching across documents, with
+similar results. Here is the response from Assistants API:
+
+[https://cdn.sanity.io/images/vr8gru94/production/543095048ec065d5bc4589b2430eca1f6c1b84fe-1960x678.png]
+
+
+And from Canopy:
+
+[https://cdn.sanity.io/images/vr8gru94/production/ace93e5283928710f83e20ab1a8a26ea5a2e6968-1994x768.png]
+
+
+We know these queries perform well in Canopy thanks to its multi-query feature.
+Multi-query uses an LLM call to break the query into multiple searches, one on
+"llama 2" and another on "pythia". We cannot know for sure, but the Assistants
+API doesn't seem to do this.
+
+HALLUCINATIONS
+
+No RAG solution can completely eliminate hallucinations. However, some reduce
+hallucinations more than others. We did notice more frequent hallucinations by
+Assistants API than by Canopy.
+
+For example, we asked about the red-teaming efforts of Llama 2 development — a
+big topic within the Llama 2 paper. Here is the answer from Assistants API:
+
+[https://cdn.sanity.io/images/vr8gru94/production/1499664199a2c4c831c167a80e03487ad3ac2d83-1994x1018.png]
+Red teaming hallucination from Assistants API.
+
+This is a compelling answer about Verbose Cloning — a term that does not appear
+in the Llama 2 paper and instead seems to come from another paper unrelated to
+Llama 2 [1].
+
+Canopy, on the other hand, answered correctly:
+
+[https://cdn.sanity.io/images/vr8gru94/production/d2d29cf6f095d04c78b7e8327d13c39c49b90cfa-1988x830.png]
+Canopy's correct answer to red teaming in the context of Llama 2
+
+
+RESPONSE LATENCY
+
+Finally, we wanted to compare response latencies between the two frameworks.
+
+Using our earlier question of "should I use gpt-3.5 or llama 2?" via Google
+Colab, we returned a wall time of 11.2 seconds for the Assistants API and 8.88
+seconds (21% lower latency) for Canopy.
+
+From a user experience perspective, the difference between 9 and 11 seconds
+isn't all that meaningful. But this was a surprising outcome, because we
+expected Assistants API — having the embedding, search, and generation steps all
+under one roof — to be faster. But the opposite was true: Despite making calls
+to both Pinecone and OpenAI, Canopy was quickest to the draw.
+
+--------------------------------------------------------------------------------
+
+Based on our initial testing of OpenAI Assistants API, we think it could be
+useful for very small use cases such as personal projects or basic internal
+tools for small teams. It could be a great light-weight option for some users,
+and it validates the critical role of vector-based RAG for GenAI applications.
+
+Canopy, on the other hand, was developed with the goal of building
+production-grade RAG applications as quickly as possible. It is therefore not
+too surprising that these frameworks perform very differently.
+
+We hope this saves you some time in evaluating Assistants API vs. Canopy. Or
+maybe this inspires you to go deeper into any of these tests and get more
+information. If you do, we'd welcome your !
+
+
+
+References
+
+[1] Z. Sun, (2023)
+
+Share via:
+
+
+FURTHER READING
+
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F8b3fb37178129c4ba2d7c68eb896ec8cea8f395b-400x400.png&w=3840&q=100]
+
+Developer Advocate
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F540a006e4ee5ca13c8a9a2c6d31c876152774dfd-600x600.jpg&w=3840&q=100]
+
+ML Engineer, GenAI
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F37c8ea85b7b07e358afbe8a64dbba626aa496994-800x800.png&w=3840&q=100]
+
+ML Engineer, GenAI
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F714fe2c46c9c9d2cd2b7758c24243a20909d4733-800x800.png&w=3840&q=100]
+
+Engineering Manager, GenAI
+
+--------------------------------------------------------------------------------
+
+Jump to section
+ * 
+ * 
+ * 
+
+Share via:
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+
+
+
+DON'T MISS THE NEXT ONE...
+
+
+
+Get an email the next time we publish an article about machine learning and
+similarity search.
+
+Get Updates

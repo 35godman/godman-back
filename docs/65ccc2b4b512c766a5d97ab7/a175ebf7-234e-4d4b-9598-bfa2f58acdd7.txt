@@ -1,0 +1,77 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+Examples
+
+v1
+
+Ctrl+K
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+
+EXAMPLES
+
+
+PINECONE EXAMPLES
+
+Get hands-on with Pinecone and common AI patterns, tools, and algorithms. For
+additional examples, see .
+
+Example Model(s) Stack How to perform a simple semantic
+search.all-MiniLM-L6-v2PythonSentence Transformers A simple semantic search app
+in TypeScriptall-MiniLM-L6-v2TypeScriptSentence Transformers Use the official
+AWS Reference Architecture as a starting point for high-scale semantic search
+apps.all-MiniLM-L6-v2TypeScriptTransformers.jsAWSPulumiReact Build retrieval
+enhanced generative QA systems with
+OpenAI.text-davinci-003text-embedding-ada-002PythonOpenAI Use Pinecone to create
+a simple personalized article or content recommender in
+Typescript.all-MiniLM-L6-v2TypeScriptTransformers.jsDanfo.js How to create
+conversational agents with LangChain and
+Pinecone.gpt-3.5-turbotext-embedding-ada-002PythonOpenAILangChain How to create
+conversational agents with LangChain and
+Pinecone.gpt-3.5-turboall-MiniLM-L6-v2TypeScriptOpenAILangChainTransformers.jsDanfo.js
+How to give knowledge base information to an LLM using
+LangChain.gpt-3.5-turbotext-embedding-ada-002LangchainOpenAIPython How to use
+GPT-4 with retrieval augmentation to answer
+questions.gpt-4text-embedding-ada-002LangchainOpenAIPython Use Pinecone to
+create an image search engine with
+Typescript.clip-vit-base-patch32TypeScriptTransformers.jsReact
+
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

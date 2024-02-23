@@ -1,0 +1,200 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+
+LAUNCH PRODUCTION-GRADE ARCHITECTURES USING PINECONE'S VECTOR DATABASE IN
+MINUTES WITH THE AWS REFERENCE ARCHITECTURE
+
+Nov 27, 2023 - in Engineering
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F8f66c8410d14247e66c68467afa7870768ed147b-460x460.png&w=3840&q=100]
+
+Staff Developer Advocate
+
+--------------------------------------------------------------------------------
+
+Jump to section
+
+--------------------------------------------------------------------------------
+
+Pinecone’s vector database scales to billions of vectors and returns queries in
+milliseconds.
+
+We’ve heard from customers that our and example applications are ideal for
+hands-on learning and exploring new AI techniques, but it’s less clear how to go
+to production with AI applications leveraging Pinecone’s vector database at
+scale.
+
+So today, we’re going beyond examples and open-sourcing our , defined via
+Infrastructure as Code with . In minutes, users can deploy high-scale systems
+using Pinecone in their AWS accounts.
+
+You can also read our .
+
+
+
+Pinecone's AWS Reference Architecture schematic
+[https://cdn.sanity.io/images/vr8gru94/production/93a90590233e0b207777a694ddab323077fab751-1720x1029.png]
+
+
+
+The Reference Architecture has been tested with batches ranging from 10,000 to 1
+million records. It is the fastest way to deploy production-ready systems
+leveraging Pinecone’s vector database at scale.
+
+
+TRY IT OUT!
+
+The Pinecone AWS Reference Architecture is open-source and free to use. We have
+focused on getting the system up and running in your AWS account as quickly as
+possible.
+
+Launching the Pinecone AWS Reference Architecture requires setting three
+environment variables you can get from a free Pinecone account and then running
+`pulumi up.` The Reference Architecture takes around 14 and a half minutes to
+deploy fully.
+
+The Pinecone open-source team is standing by to support users, answer questions,
+and respond to any issues.
+
+
+WHAT IS THE PINECONE AWS REFERENCE ARCHITECTURE?
+
+The Pinecone AWS Reference Architecture is a fully open-source, distributed
+system defined in Pulumi and written in TypeScript.
+
+You can run the system to understand our best practices and recommendations,
+modify the code to your needs, and re-deploy a custom system to help you get
+your applications into production more quickly.
+
+The Pinecone AWS Reference Architecture encodes best practices for both AWS and
+Pinecone.
+
+It demonstrates a high-scale distributed system that uses a queue to fan out
+work as well as networking and security group separation of infrastructure, ECS
+services for the frontend and backend microservices, and autoscaling configured
+to expand the worker pool up and down elastically in response to system load.
+
+
+WHAT DOES THE PINECONE AWS REFERENCE ARCHITECTURE HELP YOU DO?
+
+The Pinecone AWS Reference Architecture is the ideal starting point for teams
+building production systems using Pinecone’s vector database for high-scale use
+cases.
+
+Vector databases are core infrastructure for Generative AI, and the Pinecone AWS
+Reference Architecture is the fastest way to deploy a scalable cloud-native
+architecture.
+
+Since the architecture is defined as code, users can modify it to their specific
+needs or requirements quickly without having to start from scratch.
+
+Pinecone’s vector database can scale to billions of vectors, and the AWS
+Reference Architecture uses a job queue and automatically scales workers out and
+in to elastically process spiking workloads.
+
+The architecture can be used as written or modified in TypeScript to fit any use
+case that requires processing a large amount of data.
+
+Pinecone provides an easy-to-use API for all vector database operations,
+including creating new indexes, upserting embeddings, and querying for nearest
+neighbor results.
+
+Pinecone’s AWS Reference Architecture includes three microservices written in
+TypeScript using the latest Pinecone Node.js SDK to demonstrate how to
+provision, query, and instantly update Pinecone indexes.
+
+The Reference Architecture also contains sample applications
+[https://cdn.sanity.io/images/vr8gru94/production/5767bd7ede50676d294ad39a37a54708e1a3a3b5-1024x1024.png]
+
+
+
+They’re ideal for learning or modifying to get your use case into production
+more quickly.
+
+For a more detailed explanation of the Reference Architecture’s components and
+how they fit together, see our technical walkthrough.
+
+
+GIVE IT A SHOT!
+
+In addition to the guides included in, we also have which includes:
+
+
+ * Setup and initial configuration, required tool installation
+ * Deploying the Reference Architecture
+ * Understanding what is deployed
+ * Autoscaling
+ * Deploying a jump host to interact with private resources such as the RDS
+   database
+ * Destroying the deployed Reference Architecture
+
+Share via:
+
+
+FURTHER READING
+
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F8f66c8410d14247e66c68467afa7870768ed147b-460x460.png&w=3840&q=100]
+
+Staff Developer Advocate
+
+--------------------------------------------------------------------------------
+
+Jump to section
+ * 
+ * 
+ * 
+ * 
+
+Share via:
+
+
+--------------------------------------------------------------------------------
+
+
+WHAT WILL YOU BUILD?
+
+Upgrade your search or chatbots applications with just a few lines of code.
+
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+

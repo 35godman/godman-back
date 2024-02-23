@@ -1,0 +1,536 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+Guides
+
+v2
+
+Ctrl+K
+Semantic Search
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+
+GETTING STARTED
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+ORGANIZATIONS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+PROJECTS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INDEXES
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+DATA
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+
+
+OPERATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INTEGRATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+REFERENCE
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+SUPPORT
+
+ * 
+ * 
+ * 
+
+
+SEMANTIC SEARCH
+
+
+
+
+SEMANTIC SEARCH
+
+
+
+In this walkthrough we will see how to use Pinecone for semantic search. To
+begin we must install the required prerequisite libraries:
+
+Python
+!pip install -qU \
+  "pinecone-client[grpc]"==2.2.1 \
+  datasets==2.12.0 \
+  sentence-transformers==2.2.2
+
+
+--------------------------------------------------------------------------------
+
+🚨 Note: the above pip install is formatted for Jupyter notebooks. If running
+elsewhere you may need to drop the !.
+
+--------------------------------------------------------------------------------
+
+
+DATA PREPROCESSING
+
+The dataset preparation process requires a few steps:
+
+ 1. We download the Quora dataset from Hugging Face Datasets.
+
+ 2. The text content of the dataset is embedded into vectors.
+
+ 3. We reformat into a (id, vector, metadata) structure to be added to Pinecone.
+
+We will see how steps 1, 2, and 3 are done in this section, but we won't
+implement 2 and 3 across the whole dataset until we reach the upsert loop as we
+will iteratively perform these two steps.
+
+In either case, this can take some time. If you'd rather skip the data
+preparation step and get straight to upserts and testing the semantic search
+functionality, you should
+refer to the .
+
+Python
+from datasets import load_dataset
+
+dataset = load_dataset('quora', split='train[240000:320000]')
+dataset
+
+
+WARNING:datasets.builder:Found cached dataset quora (/root/.cache/huggingface/datasets/quora/default/0.0.0/36ba4cd42107f051a158016f1bea6ae3f4685c5df843529108a54e42d86c1e04)
+
+
+
+
+
+Dataset({
+    features: ['questions', 'is_duplicate'],
+    num_rows: 80000
+})
+
+
+The dataset contains ~400K pairs of natural language questions from Quora.
+
+Python
+dataset[:5]
+
+
+{'questions': [{'id': [207550, 351729],
+   'text': ['What is the truth of life?', "What's the evil truth of life?"]},
+  {'id': [33183, 351730],
+   'text': ['Which is the best smartphone under 20K in India?',
+    'Which is the best smartphone with in 20k in India?']},
+  {'id': [351731, 351732],
+   'text': ['Steps taken by Canadian government to improve literacy rate?',
+    'Can I send homemade herbal hair oil from India to US via postal or private courier services?']},
+  {'id': [37799, 94186],
+   'text': ['What is a good way to lose 30 pounds in 2 months?',
+    'What can I do to lose 30 pounds in 2 months?']},
+  {'id': [351733, 351734],
+   'text': ['Which of the following most accurately describes the translation of the graph y = (x+3)^2 -2 to the graph of y = (x -2)^2 +2?',
+    'How do you graph x + 2y = -2?']}],
+ 'is_duplicate': [False, True, False, True, False]}
+
+
+Whether or not the questions are duplicates is not so important, all we need for
+this example is the text itself. We can extract them all into a single questions
+list.
+
+Python
+questions = []
+
+for record in dataset['questions']:
+    questions.extend(record['text'])
+  
+# remove duplicates
+questions = list(set(questions))
+print('\n'.join(questions[:5]))
+print(len(questions))
+
+
+Does Jimmy Wales use Wikipedia?
+How can I find the real true purpose of my life?
+What is the meaning of "we'd"?
+If you could be famous for 15 minutes, for what would you want to be known?
+Do you think Bruno Mars' songs are as good as the 70's funk songs?
+136057
+
+
+With our questions ready to go we can move on to demoing steps 2 and 3 above.
+
+
+BUILDING EMBEDDINGS AND UPSERT FORMAT
+
+To create our embeddings we will us the MiniLM-L6 sentence transformer model.
+This is a very efficient semantic similarity embedding model from the
+sentence-transformers library. We initialize it like so:
+
+Python
+from sentence_transformers import SentenceTransformer
+import torch
+
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+if device != 'cuda':
+    print(f"You are using {device}. This is much slower than using "
+          "a CUDA-enabled GPU. If on Colab you can change this by "
+          "clicking Runtime > Change runtime type > GPU.")
+
+model = SentenceTransformer('all-MiniLM-L6-v2', device=device)
+model
+
+
+SentenceTransformer(
+  (0): Transformer({'max_seq_length': 256, 'do_lower_case': False}) with Transformer model: BertModel 
+  (1): Pooling({'word_embedding_dimension': 384, 'pooling_mode_cls_token': False, 'pooling_mode_mean_tokens': True, 'pooling_mode_max_tokens': False, 'pooling_mode_mean_sqrt_len_tokens': False})
+  (2): Normalize()
+)
+
+
+There are three interesting bits of information in the above model printout.
+Those are:
+
+ * max_seq_length is 256. That means that the maximum number of tokens (like
+   words) that can be encoded into a single vector embedding is 256. Anything
+   beyond this must be truncated.
+
+ * word_embedding_dimension is 384. This number is the dimensionality of vectors
+   output by this model. It is important that we know this number later when
+   initializing our Pinecone vector index.
+
+ * Normalize(). This final normalization step indicates that all vectors
+   produced by the model are normalized. That means that models that we would
+   typical measure similarity for using cosine similarity can also make use of
+   the dotproduct similarity metric. In fact, with normalized vectors cosine and
+   dotproduct are equivalent.
+
+Moving on, we can create a sentence embedding using this model like so:
+
+Python
+query = 'which city is the most populated in the world?'
+
+xq = model.encode(query)
+xq.shape
+
+
+(384,)
+
+
+Encoding this single sentence leaves us with a 384 dimensional sentence
+embedding (aligned to the word_embedding_dimension above).
+
+To prepare this for upsert to Pinecone, all we do is this:
+
+Python
+_id = '0'
+metadata = {'text': query}
+
+vectors = [(_id, xq, metadata)]
+
+
+Later when we do upsert our data to Pinecone, we will be doing so in batches.
+Meaning vectors will be a list of (id, embedding, metadata) tuples.
+
+
+CREATING AN INDEX
+
+Now the data is ready, we can set up our index to store it.
+
+We begin by initializing our connection to Pinecone. To do this we need a .
+
+Python
+import os
+import pinecone
+
+# get api key from app.pinecone.io
+PINECONE_API_KEY = os.environ.get('PINECONE_API_KEY') or 'PINECONE_API_KEY'
+# find your environment next to the api key in pinecone console
+PINECONE_ENV = os.environ.get('PINECONE_ENVIRONMENT') or 'PINECONE_ENVIRONMENT'
+
+pinecone.init(
+    api_key=PINECONE_API_KEY,
+    environment=PINECONE_ENV
+)
+
+
+Now we create a new index called semantic-search. It's important that we align
+the index dimension and metric parameters with those required by the MiniLM-L6
+model.
+
+Python
+index_name = 'semantic-search'
+
+# only create index if it doesn't exist
+if index_name not in pinecone.list_indexes():
+    pinecone.create_index(
+        name=index_name,
+        dimension=model.get_sentence_embedding_dimension(),
+        metric='cosine'
+    )
+
+# now connect to the index
+index = pinecone.GRPCIndex(index_name)
+
+
+Now we upsert the data, we will do this in batches of 128.
+
+Note: On Google Colab with GPU expected runtime is ~7 minutes. If using CPU this
+will be significantly longer. If you'd like to get this running faster refer to
+the .
+
+Python
+from tqdm.auto import tqdm
+
+batch_size = 128
+
+for i in tqdm(range(0, len(questions), batch_size)):
+    # find end of batch
+    i_end = min(i+batch_size, len(questions))
+    # create IDs batch
+    ids = [str(x) for x in range(i, i_end)]
+    # create metadata batch
+    metadatas = [{'text': text} for text in questions[i:i_end]]
+    # create embeddings
+    xc = model.encode(questions[i:i_end])
+    # create records list for upsert
+    records = zip(ids, xc, metadatas)
+    # upsert to Pinecone
+    index.upsert(vectors=records)
+
+# check number of records in the index
+index.describe_index_stats()
+
+
+  0%|          | 0/1063 [00:00<?, ?it/s]
+
+
+
+
+
+{'dimension': 384,
+ 'index_fullness': 0.1,
+ 'namespaces': {'': {'vector_count': 136057}},
+ 'total_vector_count': 136057}
+
+
+
+MAKING QUERIES
+
+Now that our index is populated we can begin making queries. We are performing a
+semantic search for similar questions, so we should embed and search with
+another question. Let's begin.
+
+Python
+query = "which city has the highest population in the world?"
+
+# create the query vector
+xq = model.encode(query).tolist()
+
+# now query
+xc = index.query(xq, top_k=5, include_metadata=True)
+xc
+
+
+{'matches': [{'id': '31072',
+              'metadata': {'text': 'What country has the biggest population?'},
+              'score': 0.7655585,
+              'sparse_values': {'indices': [], 'values': []},
+              'values': []},
+             {'id': '23769',
+              'metadata': {'text': 'What is the biggest city?'},
+              'score': 0.7271395,
+              'sparse_values': {'indices': [], 'values': []},
+              'values': []},
+             {'id': '65783',
+              'metadata': {'text': 'What is the most isolated city in the '
+                                   'world, with over a million metro area '
+                                   'inhabitants?'},
+              'score': 0.7020447,
+              'sparse_values': {'indices': [], 'values': []},
+              'values': []},
+             {'id': '104484',
+              'metadata': {'text': 'Which is the most beautiful city in '
+                                   'world?'},
+              'score': 0.69991666,
+              'sparse_values': {'indices': [], 'values': []},
+              'values': []},
+             {'id': '79997',
+              'metadata': {'text': 'Where is the most beautiful city in the '
+                                   'world?'},
+              'score': 0.69605494,
+              'sparse_values': {'indices': [], 'values': []},
+              'values': []}],
+ 'namespace': ''}
+
+
+In the returned response xc we can see the most relevant questions to our
+particular query. We can reformat this response to be a little easier to read:
+
+Python
+for result in xc['matches']:
+    print(f"{round(result['score'], 2)}: {result['metadata']['text']}")
+
+
+0.77: What country has the biggest population?
+0.73: What is the biggest city?
+0.7: What is the most isolated city in the world, with over a million metro area inhabitants?
+0.7: Which is the most beautiful city in world?
+0.7: Where is the most beautiful city in the world?
+
+
+These are good results, let's try and modify the words being used to see if we
+still surface similar results.
+
+Python
+query = "which metropolis has the highest number of people?"
+
+# create the query vector
+xq = model.encode(query).tolist()
+
+# now query
+xc = index.query(xq, top_k=5, include_metadata=True)
+for result in xc['matches']:
+    print(f"{round(result['score'], 2)}: {result['metadata']['text']}")
+
+
+0.67: What is the most isolated city in the world, with over a million metro area inhabitants?
+0.64: What is the biggest city?
+0.61: Which place has the highest Asian Indian population in the USA?
+0.6: What is the most dangerous city in USA?
+0.59: What country has the biggest population?
+
+
+Here we used different terms in our query than that of the returned documents.
+We substituted "city" for "metropolis" and "populated" for "number of people".
+
+Despite these very different terms and lack of term overlap between query and
+returned documents — we get highly relevant results — this is the power of
+semantic search.
+
+You can go ahead and ask more questions above. When you're done, delete the
+index to save resources:
+
+Python
+pinecone.delete_index(index_name)
+
+
+--------------------------------------------------------------------------------
+
+Updated 4 months ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+ * 
+ * * * 
+     * 
+     * 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

@@ -1,0 +1,231 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+
+START FREE, SCALE EFFORTLESSLY.
+
+Pinecone runs on fully managed infrastructure that scales with you.
+
+Available through and
+
+
+HOW WE BILL
+
+For each existing index, hourly billing is determined by the
+per-hour-priceVaries by plan, pod type, pod size, and cloud region. Try our
+pricing estimator below. of a pod multiplied by the number of podsVaries by
+plan, pod type, pod size, and cloud region. Try our pricing estimator below. the
+index uses. You will be sent an invoice at the end of the month for the total
+minutes your indexes have been running, regardless of activity. to an expert if
+you have any questions.
+
+
+PODS
+
+An index is made up of pods, which are units of cloud resources (vCPU, RAM,
+disk) that provide storage and compute for each index. Choose the that works
+best for your use case.
+
+
+INDEXES
+
+Indexes store your vector embeddings and metadata. Each index uses at least one
+pod, but you can add more to increase storage capacity.
+
+
+SCALING
+
+As you grow, you can scale storage capacity by increasing your pod sizes. You
+can also increase or decrease throughput when needed, by adding to an index.
+
+
+PRICING PLANS
+
+
+STARTER
+
+Free
+
+
+
+Limited to one index and one project.
+
+No credit card required.
+
+--------------------------------------------------------------------------------
+
+For trying out and for small applications.
+
+HARDWARE:
+
+ * Single starter pod
+
+FEATURES:
+
+ * Single project
+ * Shared environment
+
+COMMUNITY SUPPORT:
+
+ * 
+
+
+STANDARD
+
+starting at $0.096/hour
+
+
+
+View pricing details
+
+--------------------------------------------------------------------------------
+
+For production applications at any scale.
+
+HARDWARE:
+
+ * Any number of pods and replicas
+ * Zero-downtime scaling
+
+FEATURES:
+
+ * Save vector data in Collections ($0.025/GB/month)
+ * Multiple projects and users
+ * Choose your cloud region
+ * Keep your free starter pod
+
+STANDARD SUPPORT:
+
+ * Email support during business hours
+ * Up to 2 technical contacts
+   Response Time SLA
+
+
+ENTERPRISE
+
+starting at $0.144/hour
+
+
+
+View pricing details
+
+--------------------------------------------------------------------------------
+
+For mission-critical production applications.
+
+HARDWARE:
+
+ * Any number of pods and replicas
+ * Zero-downtime scaling
+
+FEATURES:
+
+ * Everything in Standard
+ * Prometheus metrics
+ * Single sign-on
+ * Multiple payment options
+ * Keep your free starter pod
+
+PREMIUM SUPPORT:
+
+ * 24/7/365 dedicated support
+ * Up to 4 technical contacts
+   Response Time SLA
+ * Uptime SLA (99.9%)
+
+Enterprise Dedicated: Everything in Enterprise, deployed in a single-tenant VPC
+environment in the region of your choice. for details and pricing.
+
+
+QUESTIONS? WE’RE HERE TO HELP.
+
+Reach out to get assistance with configuring your index or to ask questions
+about features and pricing.
+
+
+PRICE ESTIMATOR
+
+You will be billed per minute from the moment your index is live, with monthly
+invoices.
+
+ 1. Choose pricing plan
+    StandardEnterprise
+ 2. Choose cloud provider
+    Google Cloud PlatformAmazon Web ServicesMicrosoft Azure
+ 3. Choose pod typeRefer to or reach out to for help with your specific use
+    case.
+    s1 — storage optimizedp1 — performance optimizedp2 — 2nd gen performance
+ 4. Choose number of podsDetermine how many pods you need based on the storage
+    capacity for your pod type
+    
+    s1 - 5M vectors of 768 dimensions
+    
+    p1 - 1M vectors of 768 dimensions
+    
+    p2 - 1M vectors of 768 dimensions
+    
+    .
+
+Advanced Configuration
+
+For an index on the standard plan, deployed on gcp, made up of 1 s1.x1 pod(s)
+with 1 replica(s):
+
+$70/monthor $0.0960/hour for 30 days
+
+For information on enterprise use cases, bulk discounts, or cost optimization, .
+
+
+FREQUENTLY ASKED QUESTIONS
+
+How many pods will I need?
+If I don't run any queries, will I still be charged?
+An s1 pod can hold 5M embeddings, but I have 20M. Can I still use Pinecone?
+Can I increase storage capacity after creating an index?
+Do I need a separate index for each of my multi-tenant customers?
+Do you offer discounts for startups or non-profits?
+How secure is Pinecone?
+Where is the user license or the terms of service?
+How do I cancel or downgrade?
+What’s new with the Starter (free) plan?
+Why does the pricing calculator start at 1 replica?
+What if I created a project on the free plan before April 26, 2023?
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+

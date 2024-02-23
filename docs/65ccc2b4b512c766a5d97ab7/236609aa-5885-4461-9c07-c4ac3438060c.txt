@@ -1,0 +1,710 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+Guides
+
+v2
+
+Ctrl+K
+Quickstart
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+
+GETTING STARTED
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+ORGANIZATIONS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+PROJECTS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INDEXES
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+DATA
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+
+
+OPERATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INTEGRATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+REFERENCE
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+SUPPORT
+
+ * 
+ * 
+ * 
+
+
+QUICKSTART
+
+
+
+This guide shows you how to set up a Pinecone vector database in minutes using
+Pinecone's .
+
+
+BEFORE YOU BEGIN
+
+ * If you haven't already, . You'll get $100 in serverless credits that will
+   last you far beyond this quickstart.
+
+ * If you're on the Starter plan, to get your $100 in serverless credits.
+
+ * If you don't want to provide a credit card, you can .
+
+
+1. INSTALL A PINECONE CLIENT
+
+Pinecone exposes a simple REST API for interacting with its vector database. You
+can use the directly, or you can use one of the official or clients:
+
+PythonJavaScript
+pip install pinecone-client
+
+
+npm install @pinecone-database/pinecone
+
+
+Pinecone supports a and a . For community-supported clients and other client
+resources, see .
+
+
+2. GET YOUR API KEY
+
+You need an API key to make API calls to your Pinecone project. To get your key,
+follow these steps:
+
+ 1. Open the .
+ 2. Go to API Keys.
+ 3. Copy your API key.
+
+
+3. INITIALIZE YOUR CLIENT CONNECTION
+
+Using your API key, initialize your client connection to Pinecone:
+
+PythonJavaScript
+from pinecone import Pinecone
+
+pc = Pinecone(api_key='YOUR_API_KEY')
+
+
+import { Pinecone } from '@pinecone-database/pinecone';
+
+const pc = new Pinecone({
+    apiKey: 'YOUR_API_KEY' 
+});
+
+
+
+> ℹ️
+> 
+> NOTE
+> 
+> When using the API directly, each HTTP request must contain an Api-Key header
+> that specifies your API key. You'll see this in all subsequent curl examples.
+
+
+4. CREATE A SERVERLESS INDEX
+
+In Pinecone, you store vector embeddings in . The vectors in any index you
+create must share the same dimensionality and distance metric for measuring
+similarity.
+
+Use the following code to create a named "quickstart" that performs
+nearest-neighbor search using the for vectors of 8 dimensions:
+
+PythonJavaScriptcurl
+from pinecone import Pinecone, ServerlessSpec
+
+pc = Pinecone(api_key='YOUR_API_KEY')
+
+pc.create_index(
+    name="quickstart",
+    dimension=8,
+    metric="euclidean",
+    spec=ServerlessSpec(
+        cloud='aws', 
+        region='us-west-2'
+    ) 
+) 
+
+
+import { Pinecone } from '@pinecone-database/pinecone';
+
+const pc = new Pinecone({
+    apiKey: 'YOUR_API_KEY'
+});
+
+await pc.createIndex({
+    name: 'quickstart',
+    dimension: 8,
+    metric: 'euclidean',
+    spec: { 
+        serverless: { 
+            cloud: 'aws', 
+            region: 'us-west-2' 
+        }
+    } 
+}) 
+
+
+PINECONE_API_KEY = "YOUR_API_KEY"
+
+curl -s -X POST "https://api.pinecone.io/indexes" \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -H "Api-Key: $PINECONE_API_KEY" \
+  -d '{
+         "name": "quickstart",
+         "dimension": 1536,
+         "metric": "cosine",
+         "spec": {
+            "serverless": {
+               "cloud": "aws",
+               "region": "us-west-2"
+            }
+         }
+      }'
+
+
+
+5. UPSERT VECTORS
+
+Now that you've created your index, sample vectors into 2 distinct namespaces.
+
+let you partition vectors within a single index. Although optional, they are a
+best practice for speeding up queries, which can be filtered by namespace, and
+for complying with requirements.
+
+ 1. Create a client instance that targets the "quickstart" index:
+    
+    PythonJavaScriptcurl
+    index = pc.Index("quickstart")
+    
+    
+    const index = pc.index("quickstart");
+    
+    
+    # Not applicable
+    
+
+ 2. Use the operation to write 8 8-dimensional vectors into 2 distinct
+    namespaces:
+    
+    PythonJavaScriptcurl
+    index.upsert(
+      vectors=[
+        {"id": "vec1", "values": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]},
+        {"id": "vec2", "values": [0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2]},
+        {"id": "vec3", "values": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3]},
+        {"id": "vec4", "values": [0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4]}
+      ],
+      namespace="ns1"
+    )
+    
+    index.upsert(
+      vectors=[
+        {"id": "vec5", "values": [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]},
+        {"id": "vec6", "values": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]},
+        {"id": "vec7", "values": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]},
+        {"id": "vec8", "values": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8]}
+      ],
+      namespace="ns2"
+    )
+    
+    
+    await index.namespace("ns1").upsert([
+      {
+        "id": "vec1", 
+        "values": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+      },
+      {
+        "id": "vec2", 
+        "values": [0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2]
+      },
+      {
+        "id": "vec3", 
+        "values": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3]
+      },
+      {
+        "id": "vec4", 
+        "values": [0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4]
+      }
+    ]);
+    
+    await index.namespace("ns2").upsert([
+      {
+        "id": "vec5", 
+        "values": [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
+      },
+      {
+        "id": "vec6", 
+        "values": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+      },
+      {
+        "id": "vec7", 
+        "values": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+      },
+      {
+        "id": "vec8", 
+        "values": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8]
+      }
+    ]);
+    
+    
+    # The `POST` requests below uses the unique endpoint for an index.
+    # See https://docs.pinecone.io/docs/get-index-endpoint for details.
+    PINECONE_API_KEY="YOUR_API_KEY"
+    INDEX_HOST="INDEX_HOST"
+    
+    curl -X POST "https://$INDEX_HOST/vectors/upsert" \
+      -H "Api-Key: $PINECONE_API_KEY" \
+      -H 'Content-Type: application/json' \
+      -d '{
+        "vectors": [
+          {
+            "id": "vec1", 
+            "values": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+          },
+          {
+            "id": "vec2", 
+            "values": [0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2]
+          },
+          {
+            "id": "vec3", 
+            "values": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3]
+          },
+          {
+            "id": "vec4", 
+            "values": [0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4]
+          }
+        ],
+        "namespace": "ns1"
+      }'
+    
+    curl -X POST "https://$INDEX_HOST/vectors/upsert" \
+      -H "Api-Key: $PINECONE_API_KEY" \
+      -H 'Content-Type: application/json' \
+      -d '{
+        "vectors": [
+          {
+            "id": "vec5", 
+            "values": [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
+          },
+          {
+            "id": "vec6", 
+            "values": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          {
+            "id": "vec7", 
+            "values": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          {
+            "id": "vec8", 
+            "values": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8]
+          }
+        ],
+        "namespace": "ns2"
+      }'
+    
+
+
+> ℹ️
+> 
+> NOTE
+> 
+> When upserting larger amounts of data, of 100-500 vectors over multiple upsert
+> requests.
+
+
+6. CHECK THE INDEX
+
+Pinecone is eventually consistent, so there can be a delay before your upserted
+vectors are available to query. Use the operation to check if the current vector
+count matches the number of vectors you upserted:
+
+PythonJavaScriptcurl
+index.describe_index_stats()
+
+# Returns:
+# {'dimension': 8,
+#  'index_fullness': 0.0,
+#  'namespaces': {'ns1': {'vector_count': 4}, 'ns2': {'vector_count': 4}},
+#  'total_vector_count': 8}
+
+
+const stats = await index.describeIndexStats();
+
+// Returns:
+// {
+//   namespaces: { ns1: { recordCount: 4 }, ns2: { recordCount: 4 } },
+//   dimension: 8,
+//   indexFullness: 0.00008,
+//   totalRecordCount: 8
+// }
+
+
+# The `POST` request below uses the unique endpoint for an index.
+# See https://docs.pinecone.io/docs/get-index-endpoint for details.
+PINECONE_API_KEY="YOUR_API_KEY"
+INDEX_HOST="INDEX_HOST"
+
+curl -X POST "https://$INDEX_HOST/describe_index_stats" \
+  -H "Api-Key: $PINECONE_API_KEY" \
+
+# Output:
+# {
+#   "namespaces": {
+#     "ns1": {
+#       "vectorCount": 4
+#     },
+#     "ns2": {
+#       "vectorCount": 4
+#     }
+#   },
+#   "dimension": 8,
+#   "indexFullness": 0.00008,
+#   "totalVectorCount": 8
+# }
+
+
+
+7. RUN A SIMILARITY SEARCH
+
+Query each namespace in your index for the 3 vectors that are most similar to an
+example 8-dimensional vector using the Euclidean distance metric you specified
+for the index:
+
+PythonJavaScriptcurl
+index.query(
+  namespace="ns1",
+  vector=[0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+  top_k=3,
+  include_values=True
+)
+
+index.query(
+  namespace="ns2",
+  vector=[0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7],
+  top_k=3,
+  include_values=True
+)
+
+# Returns:
+# {'matches': [{'id': 'vec3',
+#               'score': 0.0,
+#               'values': [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3]},
+#              {'id': 'vec4',
+#               'score': 0.0799999237,
+#               'values': [0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4]},
+#              {'id': 'vec2',
+#               'score': 0.0800000429,
+#               'values': [0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2]}],
+#  'namespace': 'ns1',
+#  'usage': {'read_units': 6}}
+# {'matches': [{'id': 'vec7',
+#               'score': 0.0,
+#               'values': [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]},
+#              {'id': 'vec8',
+#               'score': 0.0799999237,
+#               'values': [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8]},
+#              {'id': 'vec6',
+#               'score': 0.0799999237,
+#               'values': [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]}],
+#  'namespace': 'ns2',
+#  'usage': {'read_units': 6}}
+
+
+const queryResponse1 = await index.namespace("ns1").query({
+    topK: 3,
+    vector: [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+    includeValues: true
+});
+
+const queryResponse2 = await index.namespace("ns2").query({
+    topK: 3,
+    vector: [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7],
+    includeValues: true
+});
+
+// Returns:
+// {
+// 	matches: [{
+// 		id: "vec3",
+// 		score: 0,
+// 		values: [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3]
+// 	}, {
+// 		id: "vec4",
+// 		score: 0.0799999237,
+// 		values: [0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4]
+// 	}, {
+// 		id: "vec2",
+// 		score: 0.0800000429,
+// 		values: [0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2]
+// 	}],
+// 	namespace: "ns1",
+//  usage: {readUnits: 6}
+// }
+// {
+//  matches: [{
+//    id: "vec7",
+//    score: 0,
+//    values: [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+//  }, {
+//    id: "vec6",
+//    score: 0.0799999237,
+//    values: [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+//  }, {
+//    id: "vec8",
+//    score: 0.0800000429,
+//    values: [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8]
+//  }],
+//  namespace: "ns2",
+//  usage: {readUnits: 6}
+// }
+
+
+
+# The `POST` requests below uses the unique endpoint for an index.
+# See https://docs.pinecone.io/docs/get-index-endpoint for details.
+PINECONE_API_KEY="YOUR_API_KEY"
+INDEX_HOST="INDEX_HOST"
+
+curl -X POST "https://$INDEX_HOST/query" \
+  -H "Api-Key: $PINECONE_API_KEY" \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "namespace": "ns1",
+    "vector": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+    "topK": 3,
+    "includeValues": true
+  }'
+
+curl -X POST "https://$INDEX_HOST/query" \
+ \
+  -H "Api-Key: $PINECONE_API_KEY" \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "namespace": "ns2",
+    "vector": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7],
+    "topK": 3,
+    "includeValues": true
+  }'
+# Output:
+# {
+#   "matches":[
+#     {
+#       "id": "vec3",
+#       "score": 0,
+#       "values": [0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3]
+#     },
+#     {
+#       "id": "vec2",
+#       "score": 0.0800000429,
+#       "values": [0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2]
+#     },
+#     {
+#       "id": "vec4",
+#       "score": 0.0799999237,
+#       "values": [0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4]
+#     }
+#   ],
+#   "namespace": "ns1",
+#   "usage": {"read_units": 6}
+# }
+# {
+#   "matches": [
+#     {
+#       "id": "vec7",
+#       "score": 0,
+#       "values": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+#     },
+#     {
+#       "id": "vec6",
+#       "score": 0.0799999237,
+#       "values": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+#     },
+#     {
+#       "id": "vec8",
+#       "score": 0.0799999237,
+#       "values": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8]
+#     }
+#   ],
+#   "namespace": "ns2",
+#   "usage": {"read_units": 6}
+# }
+
+
+This is a simple example. As you put more demands on Pinecone, you'll see it
+returning low-latency, accurate results at huge scales, with indexes of up to
+billions of vectors.
+
+
+8. CLEAN UP
+
+When you no longer need the "quickstart" index, use the delete_index operation
+to delete it:
+
+PythonJavaScriptcurl
+pc.delete_index("quickstart")
+
+
+await pc.deleteIndex("quickstart");
+
+
+PINECONE_API_KEY="YOUR_API_KEY"
+
+curl -s -X -v DELETE "https://api.pinecone.io/indexes/quickstart" \
+   -H "Accept: application/json" \
+   -H "Api-Key: $PINECONE_API_KEY"
+
+
+
+> ⚠️
+> 
+> WARNING
+> 
+> After you delete an index, you cannot use it again or recover it.
+
+
+NEXT STEPS
+
+Now that you have a and experience with basic Pinecone operations, check out our
+using common AI patterns, tools, and algorithms, or start .
+
+Updated 5 days ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

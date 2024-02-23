@@ -1,0 +1,136 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+MULTIMODAL SEARCH
+
+
+SEARCH FOR MEANING EVERYWHERE
+
+Build remarkable search applications that work across data modalities like text
+and images.
+
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fhero-bg.734036df.png&w=3840&q=100]
+Gong
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F922741b641029c77fa5a88339504636782747c7f-158x56.png&w=3840&q=100]Notion
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2Faf5cca85d4867b046f6d1dec52beeb6c1585680f-158x58.png&w=3840&q=100]Microsoft
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F9f1a1e8edfb77639ee53acf49a1f8ec3673813d7-301x62.png&w=3840&q=100]Hubspot
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2Fab7219a1516e1c83a82fada65af94ee34209917e-1000x284.png&w=3840&q=100]Klarna
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F468190e8ef7ad82dcd927f1227a023c135d4b7a4-248x61.png&w=3840&q=100]clickup
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2Fdbd157379336492fae1f389f3259ad539a8bbd89-374x100.png&w=3840&q=100]CS
+DISCO
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F37aadb918940693df3c62c1ee7fa99c7adb47449-145x21.png&w=3840&q=100]Frontier
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F52c968e7d1bf98ea373f491e79a242003abcf0a6-272x65.png&w=3840&q=100]
+
+
+MULTIMODAL SEARCH WITH PINECONE
+
+Multimodal search allows you to search beyond text, including images, audio, and
+videos. The Pinecone vector database lets you add multimodal search capabilities
+to your applications using vector search.
+
+icon
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F04f487b7880030f218e2fc22e8fc3e12671aa289-96x97.png&w=3840&q=100]
+
+
+BETTER RESULTS
+
+Combine vector or hybrid search with metadata filter and real-time index updates
+to get the freshest and most relevant results.
+
+icon
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F7fd6f83937e3b5c3cd243ee585e5f4e203d587a0-96x97.png&w=3840&q=100]
+
+
+START FAST, NO FRICTION
+
+Go to production in hours, not days, with a fully managed vector database that
+is easy to use without any infrastructure to manage.
+
+icon
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F0947f11809f8f24d92a21aaecd2bcda1d2ac9abf-96x97.png&w=3840&q=100]
+
+
+UP TO 50X LOWER COST
+
+Reduce cost by up to 50x for most workloads with a serverless architecture that
+separates storage, reads, and writes.
+
+
+WHAT DEVELOPERS CAN BUILD WITH PINECONE
+
+icon
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F1bf7a3a76847f64fabaa477a726ab82f0472e8e3-96x97.png&w=3840&q=100]
+
+
+COMPUTER VISION SYSTEMS 
+
+icon
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2Ff8db1564dbb8d22267951f8ce06e241f83db3247-96x97.png&w=3840&q=100]
+
+
+CONTENT SEARCH
+
+icon
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F99fb8cc701edf080a2f4d0374e479165fd9b7a5e-96x97.png&w=3840&q=100]
+
+
+TEXT-TO-IMAGE  SEARCH 
+
+icon
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F8a6d4db7f6ee09465cc159aeff605375a637009d-96x97.png&w=3840&q=100]
+
+
+AD GENERATION
+
+
+RESOURCES FOR DEVELOPERS
+
+
+
+
+START BUILDING KNOWLEDGEABLE AI NOW
+
+Create your first index for free, then upgrade and when you're ready to scale,
+or .
+
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+

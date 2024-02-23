@@ -1,0 +1,224 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+
+MAKING IT EASIER TO MAINTAIN OPEN-SOURCE PROJECTS WITH CODIUMAI AND PINECONE
+
+Sep 27, 2023
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F8f66c8410d14247e66c68467afa7870768ed147b-460x460.png&w=3840&q=100]
+
+Staff Developer Advocate
+
+--------------------------------------------------------------------------------
+
+Jump to section
+
+--------------------------------------------------------------------------------
+
+The maintenance burden for open-source developers extends beyond technical tasks
+like code reviews, bug fixing, and feature implementation. Especially for
+popular projects, much of the work comes down to triaging and responding to a
+deluge of issues, questions, and discussions.
+
+Unfortunately, folks new to a project often open a new issue without first
+searching to see if a similar issue exists, increasing the workload of
+maintainers, who must find and link related issues when responding.
+
+In this post, we’ll examine how works, how it uses semantic search to
+automatically find and link issues related to new issues opened by community
+members, and how the vector database and its powers this use case.
+
+
+AUTOMATICALLY SURFACING SIMILAR GITHUB ISSUES
+
+Let’s suppose an enthusiastic new community member visits your GitHub project
+and files this issue without first checking if there are any similar issues
+already open:
+
+
+
+GitHub new issue opened
+[https://cdn.sanity.io/images/vr8gru94/production/0dfff4cf75f101cf332cf2d55ebc9f053aee3b4a-1155x949.png]
+
+
+PR-agent will find similar issues that have already been opened, with a high
+degree of accuracy, and automatically comment, linking to the pre-existing
+issues:
+
+
+
+CodiumAI similar issues solution comment
+[https://cdn.sanity.io/images/vr8gru94/production/8ea5aa5c9e54d3e2925eacbac6ac37fdc07b8dd9-953x339.png]
+
+
+
+This automates away a great deal of open-source maintainer toil, allowing human
+developers to focus where they can have the most impact: creative
+problem-solving and improving software projects.
+
+Every user visiting a GitHub project connected to PR-agent can issue a
+command to pull back the list of issues about the same bug or feature request.
+
+This functionality is more complex than it may initially seem: naive
+text-matching searches will not retrieve issues about the same topic or problem
+with a high enough degree of accuracy to be useful. Let’s look under the hood at
+how the solution works end to end.
+
+
+HOW DOES IT WORK?
+
+The CodiumAI / Pinecone integration uses semantic search, which examines the
+intent behind the user’s words. We’ve written in-depth about (and ). It converts
+the user’s ambiguous natural language query into vectors and then queries a
+vector database, such as , to return matches closest to the user’s meaning.
+
+Whereas naive keyword-matching search will get tripped up by the different
+contexts in which the word “bank” can be used, as in:
+
+ 1. Bank of England: an institution that handles money
+ 2. Bank shot: a special kind of golf shot intentionally fired into a hill to
+    slow the ball down
+ 3. The muddy bank: The edge of a river
+
+Semantic search will return the correct results based on the intent and context
+of the user’s query because it converts human language into vectors, which
+vector databases can use to determine semantic similarity.
+
+
+LEVERAGING GITHUB WEBHOOKS TO ACT ON ALL NEW ISSUES
+
+CodiumAI’s engineering team built a custom solution that converts the initial
+GitHub issue into vectors that can be stored in Pinecone.
+
+GitHub offers webhooks support, allowing notifications to be delivered to
+external web servers when certain events occur on GitHub. For example, you can
+configure a GitHub webhook that calls your server whenever a new issue is opened
+against one of your repositories.
+
+This chart demonstrates the flow end to end:
+
+CodiumAI Pinecone integration flowchart
+[https://cdn.sanity.io/images/vr8gru94/production/fa696cc5530194c94ff0b8ed60f31d1e6aee9f75-614x823.png]
+
+
+When a new issue is opened, Pinecone’s vector database can be queried to find
+the “nearest neighbors” to the new issue, meaning the issues most similar in
+their actual content and meaning.
+
+
+ACHIEVING THE BEST ACCURACY THROUGH EXPERIMENTATION
+
+CodiumAI’s solution uses OpenAI’s text-embedding-ada-02 embedding model to
+convert the GitHub issue title and body into vectors. In the initial stages of
+building out this solution, the CodiumAI team considered flattening and
+vectorizing subsequent follow-up comments on GitHub issues but ultimately found
+the best accuracy was achieved by converting the GitHub issue title and body to
+vectors and then querying Pinecone for nearest neighbors to retrieve issues
+discussing the same problem or feature.
+
+
+REDUCING TOIL ACROSS THE SOFTWARE DEVELOPMENT LIFECYCLE, SECURELY
+
+Helping out open-source maintainers is essential. But CodiumAI has broader
+ambitions to reduce developer toil across the entire development lifecycle by
+auto-generating tests for your codebase, catching security issues within your
+IDE before insecure code is committed, generating pull request descriptions, and
+more. If you’re a developer who wishes they had some more free time, .
+
+
+WHY PINECONE?
+
+The CodiumAI team shared that they were able to go from idea to working
+implementation in about 4 days using Pinecone’s API. They especially found
+useful because it allowed them to manage and address multiple repositories via
+metadata.
+
+CodiumAI’s similar issue solution allows each GitHub user to supply their own
+Pinecone API key when installing the application for even more privacy and
+control over their data.
+
+Even though GitHub issues are completely public, meaning that even folks not
+signed into GitHub can find them in search engines and read them, the CodiumAI
+team takes security seriously, which was part of why they chose Pinecone as
+their vector database.
+
+Pinecone is a cloud-native and fully managed solution designed for extreme scale
+and security. When you use Pinecone, you provision indexes, upsert vectors, and
+make queries via API calls, and all of your vectors are encrypted in flight and
+at rest. Pinecone never looks at embeddings and only stores data necessary to
+service your API requests.
+
+Share via:
+
+
+FURTHER READING
+
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F8f66c8410d14247e66c68467afa7870768ed147b-460x460.png&w=3840&q=100]
+
+Staff Developer Advocate
+
+--------------------------------------------------------------------------------
+
+Jump to section
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+Share via:
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+
+
+
+DON'T MISS THE NEXT ONE...
+
+
+
+Get an email the next time we publish an article about machine learning and
+similarity search.
+
+Get Updates

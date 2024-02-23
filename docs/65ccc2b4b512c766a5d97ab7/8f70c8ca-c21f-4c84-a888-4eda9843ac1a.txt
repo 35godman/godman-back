@@ -1,0 +1,301 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+Guides
+
+v2
+
+Ctrl+K
+Monitoring
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+
+GETTING STARTED
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+ORGANIZATIONS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+PROJECTS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INDEXES
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+DATA
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+
+
+OPERATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INTEGRATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+REFERENCE
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+SUPPORT
+
+ * 
+ * 
+ * 
+
+
+MONITORING
+
+
+
+Pinecone generates time-series performance metrics for each Pinecone index. You
+can monitor these metrics directly in the Pinecone Console, or you can pull them
+into or Prometheus- and -compatible tools, such as .
+
+
+MONITOR IN THE PINECONE CONSOLE
+
+To view performance metrics in the Pinesone Console:
+
+ 1. Log in to the .
+ 2. Select the index that you want to monitor.
+ 3. Go to the Metrics tab.
+
+
+MONITOR WITH PROMETHEUS
+
+
+> ℹ️
+> 
+> NOTE
+> 
+> This feature is available only for pod-based indexes on Enterprise or
+> Enterprise Dedicated plans. Serverless indexes do not currently support
+> Prometheus monitoring.
+
+Pinecone metrics are available at the following URL:
+
+https://metrics.YOUR_ENVIRONMENT.pinecone.io/metrics.
+
+To monitor Pinecone with your own Prometheus instance, configure the
+prometheus.yml file to target the Pinecone metrics URL, using your API key for
+authorization:
+
+YAML
+scrape_configs:
+  - job_name: pinecone-job-1
+    authorization:
+      credentials: <api-key-here>
+    scheme: https
+    static_configs:
+      - targets: ['metrics.YOUR_ENVIRONMENT.pinecone.io/metrics']
+
+
+Your API key must be passed via the Authorization header as a bearer token like
+Authorization: Bearer \<api-key\>. Also, note that only the metrics for the
+project associated with the API key will be ingested by Prometheus.
+
+For more configuration details, see the .
+
+
+EXAMPLE PROMETHEUS QUERIES
+
+Return the average latency in seconds for all requests against the Pinecone
+index example-index:
+
+avg by (request_type) (pinecone_request_latency_seconds{index_name="example-index"})
+
+
+Return the vector count for the Pinecone index example-index:
+
+sum ((avg by (app) (pinecone_vector_count{index_name="example-index"})))
+
+
+Return the total number of requests against the Pinecone index example-index
+over one minute:
+
+sum by (request_type)(increase(pinecone_request_count_total{index_name="example-index"}[60s]))
+
+
+Return the total number of upsert requests against the Pinecone index
+example-index over one minute:
+
+sum by (request_type)(increase(pinecone_request_count_total{index_name="example-index", request_type="upsert"}[60s]))
+
+
+Return the total errors returned by the Pinecone index example-index over one
+minute:
+
+sum by (request_type) (increase(pinecone_request_error_count{
+      index_name="example-index"}[60s]))
+
+
+Return the index fullness metric for the Pinecone index example-index:
+
+round(max (pinecone_index_fullness{index_name="example-index"} * 100))
+
+
+
+MONITOR WITH DATADOG
+
+
+> ℹ️
+> 
+> NOTE
+> 
+> This feature is available only for pod-based indexes on Enterprise or
+> Enterprise Dedicated plans. Serverless indexes do not currently support
+> Datadog monitoring.
+
+To monitor Pinecone with Datadog, use Pinecone's direct .
+
+
+AVAILABLE METRICS
+
+The metrics available are as follows:
+
+Name Type Description Labels pinecone_vector_count gauge The number of records
+per pod in the index. - pid: Process identifier
+- index_name: Name of the index
+- project_name: Pinecone project name
+pinecone_request_count_total counter The number of data plane calls made by
+clients. - pid: Process identifier
+- index_name: Name of the index
+- project_name: Pinecone project name
+- request_type: One of upsert, delete, fetch, query, describe_index_stats
+pinecone_request_error_count_total counter The number of data plane calls made
+by clients that resulted in errors. - pid: Process identifier
+- index_name: Name of the index
+- project_name: Pinecone project name
+- request_type: One of upsert, delete, fetch, query, describe_index_stats
+pinecone_request_latency_seconds histogram The distribution of server-side
+processing latency for pinecone data plane calls. - pid: Process identifier
+- index_name: Name of the index
+- project_name: Pinecone project name
+- request_type: One of upsert, delete, fetch, query, describe_index_stats
+pinecone_index_fullness gauge The fullness of the index on a scale of 0 to 1. -
+pid: Process identifier
+- index_name: Name of the index
+- project_name: Pinecone project name
+
+
+Updated 30 days ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+ * 
+ * * 
+   * * 
+   * 
+   * 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

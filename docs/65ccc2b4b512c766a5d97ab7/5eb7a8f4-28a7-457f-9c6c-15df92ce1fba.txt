@@ -1,0 +1,169 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+
+OPENAI'S TEXT EMBEDDINGS V3
+
+Jan 25, 2024
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F8b3fb37178129c4ba2d7c68eb896ec8cea8f395b-400x400.png&w=3840&q=100]
+
+Developer Advocate
+
+--------------------------------------------------------------------------------
+
+Jump to section
+
+--------------------------------------------------------------------------------
+
+In December 2022, in the middle of the unprecedented success of ChatGPT — OpenAI
+dropped another lesser-noticed, yet, world-changing AI model.
+
+That model was creatively named text-embedding-ada-002. At the time, Ada 002
+leapfrogged all other state-of-the-art (SotA) embedding models — including
+OpenAI's own previous record-setter; text-search-davinci-001.
+
+Since then, OpenAI has remained surprisingly quiet on the embedding model front
+— despite the massive widespread adoption of embedding-dependant AI pipelines
+like Retrieval Augmented Generation (RAG).
+
+That lack of movement from OpenAI didn't matter much regarding adoption. Ada 002
+is still the most broadly adopted text embedding model. However, Ada 002 is
+about to be dethroned.
+
+OpenAI is dethroning its own model. Again, they came up with very creative model
+names — text-embedding-3-small and text-embedding-3-large.
+
+First look video walkthrough:
+
+Video walkthrough of the new OpenAI embed 3 models.
+
+--------------------------------------------------------------------------------
+
+
+AT A GLANCE
+
+These models are better, and we have the option of latency and storage-optimized
+text-embedding-3-smallor the higher accuracy text-embedding-3-large.
+
+ModelDimensionsMax TokensKnowledge CutoffMIRACL avgMTEB
+avgtext-embedding-ada-00215368191Sep
+202131.461.0text-embedding-3-small15368191Sep
+202144.062.3text-embedding-3-large30728191Sep 202154.964.6
+
+Key takeaways here are the pretty huge performance gains for multilingual
+embeddings — measured by the leap from 31.4% to 54.9% on the MIRACL benchmark.
+For English-language performance, we look at MTEB and see a smaller but still
+significant increase from 61% to 64.6%.
+
+It's worth noting that the max tokens and knowledge cutoff have not changed.
+That lack of new knowledge represents a minor drawback for use cases performing
+retrieval in domains requiring up-to-date knowledge.
+
+We also have a different embedding dimensionality for the new v3 large model,
+resulting in higher storage costs and paired with higher embedding costs than
+what we get with Ada 002.
+
+Now, there is some nuance to the dimensionality of these models. By default,
+these models use the dimensionality noted above. However, it turns out that they
+still perform even if we cut down those vectors.
+
+For v3 small, we can keep just the first 512 dimensions. For v3 large, we can
+trim the vectors down to a tiny 256-dimensions or a more midsized
+1024-dimensions.
+
+to try out the new OpenAI embedding models and see how they compare to Ada 002.
+
+--------------------------------------------------------------------------------
+
+
+WHAT'S SO SPECIAL ABOUT THESE MODELS?
+
+After further testing, the most exciting feature (for us) is that the
+256-dimensional version of text-embedding-3-large can outperform the
+1536-dimensional Ada 002. That is a 6x reduction in vector size.
+
+OpenAI confirmed (after some prodding) that they achieved this via Matryoshka
+Representation Learning (MRL) [1].
+
+MRL encodes information at different embedding dimensionalities. As per the
+paper, this enables up to 14x smaller embedding sizes with negligible
+degradation in accuracy.
+
+--------------------------------------------------------------------------------
+
+
+REFERENCES
+
+[1] A. Kusupati, et al., (2022), NeurIPS 2022
+
+Share via:
+
+
+FURTHER READING
+
+
+Author
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F8b3fb37178129c4ba2d7c68eb896ec8cea8f395b-400x400.png&w=3840&q=100]
+
+Developer Advocate
+
+--------------------------------------------------------------------------------
+
+Jump to section
+ * 
+ * 
+ * 
+
+Share via:
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+
+
+
+DON'T MISS THE NEXT ONE...
+
+
+
+Get an email the next time we publish an article about machine learning and
+similarity search.
+
+Get Updates

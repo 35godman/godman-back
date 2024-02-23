@@ -1,0 +1,227 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+Guides
+
+v1
+
+Ctrl+K
+Managing cost
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+
+GETTING STARTED
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+ORGANIZATIONS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+PROJECTS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+ * 
+
+
+INDEXES
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+DATA
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+OPERATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INTEGRATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+REFERENCE
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+SUPPORT
+
+ * 
+ * 
+ * 
+
+
+MANAGING COST
+
+
+
+OVERVIEW
+
+This topic provides guidance on managing the cost of Pinecone. For the latest
+pricing details, see our . For help estimating total cost, see . To see a
+calculation of your current usage and costs, see the in the Pinecone console.
+
+The derives from , the number of pods in use, pod size, the total time each pod
+is running, and the billing plan. This topic describes several ways you can
+manage your overall Pinecone cost by adjusting these variables.
+
+
+USE THE STARTER PLAN FOR SMALL PROJECTS OR PROTOTYPES
+
+The incurs no costs, and supports 100,000 vectors. If this meets the needs of
+your project, you can use Pinecone for free; if you decide to or , you can
+upgrade your billing plan later.
+
+
+CHOOSE THE RIGHT POD SIZE FOR YOUR APPLICATION
+
+Different Pinecone pod sizes are designed for different applications, and some
+are more expensive than others. By , you can pay for the resources you need. For
+example, the s1 pod type provides large storage capacity and lower overall costs
+with slightly higher query latencies than p1 pods. By switching to a different
+pod type, you may be able to reduce costs while still getting the performance
+your application needs.
+
+
+BACK UP INACTIVE INDEXES
+
+When a specific index is not in use, and delete the inactive index. When you're
+ready to use these vectors again, you can . This new index can also use a
+different index type or size. Because it's relatively cheap to store
+collections, you can reduce costs by only running an index when it's in use.
+
+
+USE NAMESPACES FOR MULTITENANCY
+
+If your application requires you to separate users into groups, consider .
+Depending on your application requirements, this may allow you to reduce the
+total number of active indexes.
+
+
+COMMIT TO ANNUAL SPEND
+
+Users who commit to an annual contract may qualify for discounted rates. To
+learn more, .
+
+
+TALK TO SUPPORT
+
+Users on the Standard and Enterprise plans can for help in optimizing costs.
+
+
+NEXT STEPS
+
+ * Learn about
+ * Learn about
+
+Updated 16 days ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

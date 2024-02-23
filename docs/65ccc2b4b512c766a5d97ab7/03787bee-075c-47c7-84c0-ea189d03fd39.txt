@@ -1,0 +1,585 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+
+LANGCHAIN EXPRESSION LANGUAGE EXPLAINED
+
+--------------------------------------------------------------------------------
+
+Jump to section
+ * 
+ * 
+ * 
+ * 
+
+--------------------------------------------------------------------------------
+
+The LangChain Expression Language (LCEL) is an abstraction of some interesting
+Python concepts into a format that enables a "minimalist" code layer for
+building chains of LangChain components.
+
+LCEL comes with strong support for:
+
+ 1. Superfast development of chains.
+ 2. Advanced features such as streaming, async, parallel execution, and more.
+ 3. Easy integration with LangSmith and LangServe.
+
+In this article, we'll learn what LCEL is, how it works, and the essentials of
+LCEL chains, pipes, and Runnables.
+
+--------------------------------------------------------------------------------
+
+
+LCEL SYNTAX
+
+We'll begin by installing all of the prerequisite libraries that we'll need for
+this walkthrough. Note, you can follow along via our .
+
+!pip install -qU \
+    langchain==0.0.345 \
+    anthropic==0.7.7 \
+    cohere==4.37 \
+    docarray==0.39.1
+
+
+
+To understand LCEL syntax let's first build a simple chain using the traditional
+LangChain syntax. We will initialize a simple LLMChain using Claude 2.1.
+
+from langchain.chat_models import ChatAnthropic
+from langchain.prompts import ChatPromptTemplate
+from langchain.schema.output_parser import StrOutputParser
+
+ANTHROPIC_API_KEY = "<<YOUR_ANTHROPIC_API_KEY>>"
+
+prompt = ChatPromptTemplate.from_template(
+    "Give me small report about {topic}"
+)
+model = ChatAnthropic(
+    model="claude-2.1",
+    max_tokens_to_sample=512,
+    anthropic_api_key=ANTHROPIC_API_KEY
+)  # swap Anthropic for OpenAI with `ChatOpenAI` and `openai_api_key`
+output_parser = StrOutputParser()
+
+
+
+Using this chain we can generate a small report about a particular topic, such
+as "Artificial Intelligence" by calling the chain.run method on an LLMChain:
+
+In[2]:
+
+from langchain.chains import LLMChain
+
+chain = LLMChain(
+    prompt=prompt,
+    llm=model,
+    output_parser=output_parser
+)
+
+# and run
+out = chain.run(topic="Artificial Intelligence")
+print(out)
+
+
+Out[2]:
+
+ Here is a brief report on some key aspects of artificial intelligence (AI):
+
+Introduction
+- AI refers to computer systems that are designed to perform tasks that would otherwise require human intelligence, such as visual perception, speech recognition, decision-making, and language translation. 
+
+Major AI Techniques
+- Machine learning uses statistical techniques and neural networks to enable systems to improve at tasks with experience. Common techniques include deep learning, reinforcement learning, and supervised learning.
+- Computer vision focuses on extracting information from digital images and videos. It powers facial recognition, self-driving vehicles, and other visual AI tasks.
+- Natural language processing enables computers to understand, interpret, and generate human languages. Key applications include machine translation, search engines, and voice assistants like Siri.
+
+Current Capabilities
+- AI programs have matched or exceeded human capabilities in narrow or well-defined tasks like playing chess and Go, identifying objects in images, and transcribing speech. 
+- However, general intelligence comparable to humans across different areas remains an unsolved challenge, often referred to as artificial general intelligence (AGI).
+
+Future Directions
+- Ongoing AI research is focused on developing stronger machine learning techniques, achievingexplainability and transparency in AI decision-making, and addressing potential ethical issues like bias.
+- If achieved, AGI could have significant societal and economic impacts, potentially enhancing and automating intellectual work. However safety, control and alignment with human values remain active research priorities.
+
+I hope this brief overview of some major aspects of the current state of AI technology and research provides useful context and information. Let me know if you would like me to elaborate on or clarify anything further.
+
+
+With LCEL we create our chain differently using pipe operators (|) rather than
+Chains:
+
+In[3]:
+
+lcel_chain = prompt | model | output_parser
+
+# and run
+out = lcel_chain.invoke({"topic": "Artificial Intelligence"})
+print(out)
+
+
+Out[3]:
+
+ Here is a brief report on artificial intelligence:
+
+Artificial intelligence (AI) refers to computer systems that can perform human-like cognitive functions such as learning, reasoning, and self-correction. AI has advanced significantly in recent years due to increases in computing power and the availability of large datasets and open source machine learning libraries.
+
+Some key highlights about the current state of AI:
+
+- Applications of AI - AI is being utilized in a wide variety of industries including finance, healthcare, transportation, criminal justice, and social media platforms. Use cases include personalized recommendations, predictive analytics, automated customer service agents, medical diagnosis, self-driving vehicles, and content moderation.
+
+- Machine Learning - The ability for AI systems to learn from data without explicit programming is driving much of the recent progress. Machine learning methods like deep learning neural networks have achieved new breakthroughs in areas like computer vision, speech recognition, and natural language processing. 
+
+- Limitations - While AI has made great strides, current systems still have major limitations compared to human intelligence including lack of general world knowledge, difficulties dealing with novelty, bias issues from flawed datasets, and lack of skills for complex reasoning, empathy, creativity, etc. Ensuring the safety and controllability of AI systems remains an ongoing challenge.  
+
+- Future Outlook - Experts predict key areas for AI advancement to include gaining contextual understanding and reasoning skills, achieving more human-like communication abilities, algorithmic fairness and transparency, as well as advances in specialized fields like robotics, autonomous vehicles, and human-AI collaboration. Careful management of risks posed by more advanced AI systems remains crucial. Global competition for AI talent and computing resources continues to intensify.
+
+That covers some of the key trends, strengths and limitations, and future trajectories for artificial intelligence technology based on the current landscape. Please let me know if you would like me to elaborate on any part of this overview.
+
+
+The syntax here is not typical for Python but uses nothing but native Python.
+Our | operator simply takes output from the left and feeds it into the function
+on the right.
+
+
+HOW THE PIPE OPERATOR WORKS
+
+To understand what is happening with LCEL and the pipe operator we create our
+own pipe-compatible functions.
+
+When the Python interpreter sees the | operator between two objects (like a | b)
+it attempts to feed object a into the __or__ method of object b. That means
+these patterns are equivalent:
+
+# object approach
+chain = a.__or__(b)
+chain("some input")
+
+# pipe approach
+chain = a | b
+chain("some input")
+
+
+
+With that in mind, we can build a Runnable class that consumes a function and
+turns it into a function that can be chained with other functions using the pipe
+operator |.
+
+class Runnable:
+    def __init__(self, func):
+        self.func = func
+
+    def __or__(self, other):
+        def chained_func(*args, **kwargs):
+            # the other func consumes the result of this func
+            return other(self.func(*args, **kwargs))
+        return Runnable(chained_func)
+
+    def __call__(self, *args, **kwargs):
+        return self.func(*args, **kwargs)
+
+
+
+Let's implement this to take the value 3, add 5 (giving 8), and multiply by 2 —
+giving us 16.
+
+In[5]:
+
+def add_five(x):
+    return x + 5
+
+def multiply_by_two(x):
+    return x * 2
+
+# wrap the functions with Runnable
+add_five = Runnable(add_five)
+multiply_by_two = Runnable(multiply_by_two)
+
+# run them using the object approach
+chain = add_five.__or__(multiply_by_two)
+chain(3)  # should return 16
+
+
+Out[5]:
+
+16
+
+Using __or__ directly we get the correct answer, let's try using the pipe
+operator | to chain them together:
+
+In[6]:
+
+# chain the runnable functions together
+chain = add_five | multiply_by_two
+
+# invoke the chain
+chain(3)  # we should return 16
+
+
+Out[6]:
+
+16
+
+With either method, we get the same response, and at its core, this is the pipe
+logic that LCEL uses when chaining together components. However, this is not all
+there is to LCEL, there is more.
+
+
+LCEL DEEP DIVE
+
+Now that we understand what the LCEL syntax is doing under the hood, let's
+explore it within the context of LangChain and see a few of the additional
+methods that are provided to maximize flexibility when working with LCEL.
+
+
+RUNNABLES
+
+When working with LCEL we may find that we need to modify the flow of values, or
+the values themselves as they are passed between components — for this, we can
+use runnables. Let's begin by initializing a couple of simple vector store
+components.
+
+from langchain.embeddings import CohereEmbeddings
+from langchain.vectorstores import DocArrayInMemorySearch
+
+COHERE_API_KEY = "<<COHERE_API_KEY>>"
+
+embedding = CohereEmbeddings(
+    model="embed-english-light-v3.0",
+    cohere_api_key=COHERE_API_KEY
+)
+
+vecstore_a = DocArrayInMemorySearch.from_texts(
+    ["half the info will be here", "James' birthday is the 7th December"],
+    embedding=embedding
+)
+vecstore_b = DocArrayInMemorySearch.from_texts(
+    ["and half here", "James was born in 1994"],
+    embedding=embedding
+)
+
+
+
+We're creating two local vector stores here and breaking apart two essential
+pieces of information between the two vector stores. We'll see why soon, but for
+now we only need one of these. Let's try passing a question through a RAG
+pipeline using vecstore_a.
+
+from langchain_core.runnables import (
+    RunnableParallel,
+    RunnablePassthrough
+)
+
+retriever_a = vecstore_a.as_retriever()
+retriever_b = vecstore_b.as_retriever()
+
+prompt_str = """Answer the question below using the context:
+
+Context: {context}
+
+Question: {question}
+
+Answer: """
+prompt = ChatPromptTemplate.from_template(prompt_str)
+
+retrieval = RunnableParallel(
+    {"context": retriever_a, "question": RunnablePassthrough()}
+)
+
+chain = retrieval | prompt | model | output_parser
+
+
+
+We use two new objects here, RunnableParallel and RunnablePassthrough. The
+RunnableParallel object allows us to define multiple values and operations, and
+run them all in parallel. Here we call retriever_a using the input to our chain
+(below), and then pass the results from retriever_a to the next component in the
+chain via the "context" parameter.
+
+LCEL Flow using RunnableParallel and RunnablePassthrough
+[https://cdn.sanity.io/images/vr8gru94/production/63f8a8482c9ec06a8d7d1041514f87c06dd108a9-3442x942.png]
+LCEL Flow using RunnableParallel and RunnablePassthrough.
+
+The RunnablePassthrough object is used as a "passthrough" take takes any input
+to the current component (retrieval) and allows us to provide it in the
+component output via the "question" key.
+
+In[16]:
+
+out = chain.invoke("when was James born?")
+print(out)
+
+
+Out[16]:
+
+ Unfortunately I do not have enough context to definitively state when James was born. The only potentially relevant information is "James' birthday is the 7th December", but this does not specify the year he was born. To answer the question of when specifically James was born, I would need more details or context such as his current age or the year associated with his birthday.
+
+
+Using this information the chain is close to answering the question but it
+doesn't have enough information, it is missing the information that we have
+stored in retriever_b. Fortunately, we can have multiple parallel information
+streams with the RunnableParallel object.
+
+prompt_str = """Answer the question below using the context:
+
+Context:
+{context_a}
+{context_b}
+
+Question: {question}
+
+Answer: """
+prompt = ChatPromptTemplate.from_template(prompt_str)
+
+retrieval = RunnableParallel(
+    {
+        "context_a": retriever_a, "context_b": retriever_b,
+        "question": RunnablePassthrough()
+    }
+)
+
+chain = retrieval | prompt | model | output_parser
+
+
+
+Here we're passing two sets of context to our prompt component via "context_a"
+and "context_b". Using this we get more information into our LLM (although oddly
+the LLM doesn't manage to put two-and-two together).
+
+In[19]:
+
+out = chain.invoke("when was James born?")
+print(out)
+
+
+Out[19]:
+
+ Based on the context provided, James was born in 1994. This is stated in the second document with the page content "James was born in 1994". Therefore, the answer to the question "when was James born?" is 1994.
+
+
+In[16]:
+
+out = chain.invoke("what date exactly was James born?")
+print(out)
+
+
+Out[16]:
+
+ Unfortunately, the given context does not provide definitive information to answer the question "what date exactly was James born?". The context includes:
+
+- James' birthday is the 7th December (no year specified)
+- James was born in 1994
+
+While it states James was born in 1994, there is no additional detail provided about the exact date. The context only specifies that his birthday, referring to the day and month he was born, is December 7th. But without the specific year provided with his birthday, there is not enough information to determine the exact date he was born.
+
+Since an exact date of James' birth is not able to be determined from the given context, I do not have enough information to provide an answer specifying his exact birth date. The context provides his year of birth but does not include the required detail about the day and month in order for me to state his complete exact date of birth.
+
+
+Using this approach we're able to have multiple parallel executions and build
+more complex chains pretty easily.
+
+
+RUNNABLE LAMBDAS
+
+The RunnableLambda is a LangChain abstraction that allows us to turn Python
+functions into pipe-compatible functions, similar to the Runnable class we
+created near the beginning of this article.
+
+Let's try it out with our earlier add_five and multiply_by_two functions.
+
+from langchain_core.runnables import RunnableLambda
+
+def add_five(x):
+    return x + 5
+
+def multiply_by_two(x):
+    return x * 2
+
+# wrap the functions with RunnableLambda
+add_five = RunnableLambda(add_five)
+multiply_by_two = RunnableLambda(multiply_by_two)
+
+
+
+As with our earlier Runnable abstraction, we can use | operators to chain
+together our RunnableLambda abstractions.
+
+chain = add_five | multiply_by_two
+
+
+
+Unlike our Runnable abstraction, we cannot run the RunnableLambda chain by
+calling it directly, instead we must call chain.invoke:
+
+In[25]:
+
+chain.invoke(3)
+
+
+Out[25]:
+
+16
+
+As before, we can see the same answer. Naturally, we can feed custom functions
+into our chains using this approach. Let's try a short chain and see where we
+might want to insert a custom function:
+
+prompt_str = "Tell me an short fact about {topic}"
+prompt = ChatPromptTemplate.from_template(prompt_str)
+
+chain = prompt | model | output_parser
+
+
+
+We can run this chain a couple of times to see what type of answers it returns:
+
+In[34]:
+
+chain.invoke({"topic": "Artificial Intelligence"})
+
+
+Out[34]:
+
+" Here's a short fact about artificial intelligence:\n\nAI systems can analyze huge amounts of data and detect patterns that humans may miss. For example, AI is helping doctors diagnose diseases earlier by processing medical images and spotting subtle signs that a human might not notice."
+
+In[35]:
+
+chain.invoke({"topic": "Artificial Intelligence"})
+
+
+Out[35]:
+
+" Here's a short fact about artificial intelligence:\n\nAI systems are able to teach themselves over time. Through machine learning, algorithms can analyze large amounts of data and improve their own processes and decision making without needing to be manually updated by humans. This self-learning ability is a key attribute enabling AI progress."
+
+The returned text always includes the initial "Here's a short fact about
+...\n\n" — let's add a function to split on double newlines "\n\n" and only
+return the fact itself.
+
+def extract_fact(x):
+    if "\n\n" in x:
+        return "\n".join(x.split("\n\n")[1:])
+    else:
+        return x
+    
+get_fact = RunnableLambda(extract_fact)
+
+chain = prompt | model | output_parser | get_fact
+
+
+
+Now let's try invoking our chain again.
+
+In[37]:
+
+chain.invoke({"topic": "Artificial Intelligence"})
+
+
+Out[37]:
+
+'Most AI systems today are narrow AI, meaning they are focused on and trained for a specific task like computer vision, natural language processing or playing chess. General artificial intelligence that has human-level broad capabilities across many domains does not yet exist. AI has made tremendous progress in recent years thanks to advances in deep learning, big data and computing power, but still has limitations and scientists are working to make AI systems safer and more beneficial to humanity.'
+
+In[38]:
+
+chain.invoke({"topic": "Artificial Intelligence"})
+
+
+Out[38]:
+
+'AI systems can analyze massive amounts of data and detect patterns that humans may miss. This ability to find insights in large datasets is one of the key strengths of AI and enables many practical applications like personalized recommendations, fraud detection, and medical diagnosis.'
+
+Using the get_fact function we're not getting well-formatted responses.
+
+--------------------------------------------------------------------------------
+
+That covers the essentials you need to get started and build with the LangChain
+Expression Language (LCEL). With it, we can put together chains very easily —
+and the current focus of the LangChain team is on further LCEL development and
+support.
+
+The pros and cons of LCEL are varied. Those who love it tend to focus on the
+minimalist code style, LCEL's support for streaming, parallel operations, and
+async, and LCEL's nice integration with LangChain's focus on chaining components
+together.
+
+Some people are less fond of LCEL. These people typically point to LCEL being
+yet another abstraction on top of an already very abstract library, that the
+syntax is confusing, against , and requires too much effort to learn new (or
+uncommon) syntax.
+
+Both viewpoints are entirely valid, LCEL is a very different approach — there
+are major pros and major cons. In either case, if you're willing to spend some
+time learning the syntax, it allows us to develop very quickly, and with that in
+mind, it's well worth learning.
+
+Share via:
+
+
+The handbook to the LangChain library for building applications around
+generative AI and large language models (LLMs). (series cover image)
+[/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2Fb0bf4949bbd13bd1e62057bfc931fe30aad35d83-1700x2192.png&w=3840&q=100]
+
+Chapters
+
+ 1.  
+ 2.  
+ 3.  
+ 4.  
+ 5.  
+ 6.  
+ 7.  
+ 8.  
+ 9.  
+ 10. 
+ 11.  * 
+      * 
+      * 
+      * 
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+
+
+
+DON'T MISS THE NEXT ONE...
+
+
+
+Get an email the next time we publish an article about machine learning and
+similarity search.
+
+Get Updates

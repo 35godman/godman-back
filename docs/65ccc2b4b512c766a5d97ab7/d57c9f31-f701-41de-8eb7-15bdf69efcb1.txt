@@ -1,0 +1,264 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+Guides
+
+v2
+
+Ctrl+K
+Authentication
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+
+GETTING STARTED
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+ORGANIZATIONS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+PROJECTS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INDEXES
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+DATA
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+
+
+OPERATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INTEGRATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+REFERENCE
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+SUPPORT
+
+ * 
+ * 
+ * 
+
+
+AUTHENTICATION
+
+
+
+This guide explains how to authenticate API calls to your Pinecone project.
+
+
+OVERVIEW
+
+All API calls to your Pinecone index authenticate with an for the project
+containing the target index. If you are using a client, like the Python or
+Node.js clients, you can initialize a client object, which allows you to provide
+your API key in one place and use it multiple times. If you are making HTTP
+requests with a tool like cURL, the HTTP request must include a header that
+specifies the API key. This topic describes each method.
+
+
+FINDING YOUR PINECONE API KEY
+
+To find your API key, open the , select your project, and click API Keys.
+
+
+INITIALIZE YOUR CONNECTION
+
+Using your API key, initialize your client connection to Pinecone:
+
+PythonJavaScript
+from pinecone import Pinecone
+pc = Pinecone(api_key='YOUR_API_KEY')
+
+
+import { Pinecone } from '@pinecone-database/pinecone';
+
+const pc = new Pinecone({
+    apiKey: 'YOUR_API_KEY' 
+});
+
+
+Function calls with this client use the authentication information provided at
+initialization. For example:
+
+PythonJavaScript
+# Creates an index using the API key stored in the client 'pinecone'.
+pc.create_index(
+    name="auth-guide",
+    dimension=8,
+    metric="euclidean",
+    spec=ServerlessSpec(
+        cloud='aws', 
+        region='us-west-2'
+    ) 
+) 
+
+
+// Creates an index using the API key stored in the client 'pinecone'.
+await pc.createIndex({
+    name: 'auth-guide',
+    dimension: 8,
+    metric: 'euclidean',
+    spec: { 
+        serverless: { 
+            cloud: 'aws', 
+            region: 'us-west-2' 
+        }
+    } 
+}) 
+
+
+
+ADD A HEADER TO AN HTTP REQUEST
+
+When issuing an HTTP request to Pinecone, each request must contain an Api-Key
+header that specifies a valid API key.
+
+curl
+curl -s -X POST "https://api.pinecone.io/indexes" \
+   -H "Content-Type: application/json" \
+   -H "Api-Key: YOUR_API_KEY" \
+   -d '{
+         "name":  "auth-guide",
+         "dimension": 8,
+         "metric": "euclidean",
+         "spec": {
+            "serverless": {
+               "cloud":"aws",
+               "region": "us-west-2"
+            }
+         }
+      }'
+
+
+
+NEXT STEPS
+
+ * Learn more about using the .
+ * Learn more about using the .
+
+Updated 30 days ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

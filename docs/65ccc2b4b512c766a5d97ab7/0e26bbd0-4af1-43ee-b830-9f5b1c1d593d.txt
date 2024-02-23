@@ -1,0 +1,190 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+Guides
+
+v1
+
+Ctrl+K
+Setting up billing through Azure Marketplace
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+
+GETTING STARTED
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+ORGANIZATIONS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+PROJECTS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+ * 
+
+
+INDEXES
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+DATA
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+OPERATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INTEGRATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+REFERENCE
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+SUPPORT
+
+ * 
+ * 
+ * 
+
+
+SETTING UP BILLING THROUGH AZURE MARKETPLACE
+
+
+
+This document describes how to configure pay-as-you-go billing for your Pinecone
+organization through Azure Marketplace. To commit to annual spending, .
+
+
+> ℹ️
+> 
+> NOTE
+> 
+> This workflow creates a new Pinecone . If you already have an organization,
+> signing up through Azure Marketplace creates an additional organization.
+
+ 1.  Log in to the .
+ 2.  Search for 'Pinecone'.
+ 3.  In the Pinecone result card, click Get it now.
+ 4.  Select the Pinecone - Pay As You Go plan.
+ 5.  Click Subscribe.
+ 6.  Select the Subscription and Resource group you would like your Pinecone
+     Azure Marketplace Subscription to use.
+ 7.  Confirm that recurring billing is enabled.
+ 8.  Continue to the Review and Subscribe section to review your information.
+ 9.  Click Subscribe.
+ 10. After the subscription is approved, click Configure Account. This redirects
+     you to a Pinecone login page.
+ 11. Log in to Pinecone.
+
+When you sign in, Pinecone creates a new organization linked to your Azure
+Marketplace billing.
+
+If you already have a Pinecone organization, you can select the new "Azure
+Linked" organization in the organization drop-down menu in the console.
+
+Updated about 2 months ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

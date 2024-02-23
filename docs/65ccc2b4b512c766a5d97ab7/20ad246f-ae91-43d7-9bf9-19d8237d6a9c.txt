@@ -1,0 +1,262 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+API Reference
+
+v1
+
+Ctrl+K
+configure_index
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+JUMP TOCTRL-/
+
+
+PINECONE API
+
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+
+PINECONE API
+
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+JUMP TOCTRL-/
+
+
+PINECONE API
+
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+
+PINECONE API
+
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+
+CONFIGURE_INDEX
+
+patch https://controller.{environment}.pinecone.io/databases/{indexName}
+
+This operation specifies the pod type and number of replicas for an index. Not
+supported by projects on the gcp-starter environment.
+
+Path Params
+indexName
+string
+required
+
+The name of the index
+
+
+Body Params
+
+The desired pod type and replica configuration for the index.
+
+replicas
+integer
+
+The desired number of replicas for the index.
+
+
+pod_type
+string
+
+The new pod type for the index. One of s1, p1, or p2 appended with . and one of
+x1, x2, x4, or x8.
+
+
+Responses
+202
+
+THE INDEX HAS BEEN SUCCESSFULLY UPDATED
+
+
+
+Response body
+string
+400
+
+Bad request,not enough quota.
+
+404
+
+Index not found.
+
+500
+
+Internal error. Can be caused by invalid parameters.
+
+
+
+Updated 2 months ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+Language
+ShellPythonHTTPNode
+
+Authorization
+Header
+Header
+
+
+URL
+Base URL
+https://controller.us-east1-gcp.pinecone.io/databases/{indexName}
+Request
+Examples
+
+xxxxxxxxxx
+
+
+
+
+1
+
+curl --request PATCH \
+
+2
+
+     --url https://controller.us-east1-gcp.pinecone.io/databases/indexName \
+
+3
+
+     --header 'accept: text/plain' \
+
+4
+
+     --header 'content-type: application/json'
+
+
+
+
+
+Try It!
+RESPONSE
+Examples
+Click Try It! to start a request and see the response here! Or choose an
+example:
+text/plain
+202
+
+Updated 2 months ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+
+
+ 1. Pinecone API
+ 2. 
+ 3. 
+ 4. 
+ 5. 
+ 6. 
+ 7. 
+ 8. 
+
+ 1.  Pinecone API
+ 2.  
+ 3.  
+ 4.  
+ 5.  
+ 6.  
+ 7.  
+ 8.  
+ 9.  
+ 10. 
+ 11. 
+
+
+ 1. Pinecone API
+ 2. 
+ 3. 
+ 4. 
+ 5. 
+ 6. 
+ 7. 
+ 8. 
+
+ 1.  Pinecone API
+ 2.  
+ 3.  
+ 4.  
+ 5.  
+ 6.  
+ 7.  
+ 8.  
+ 9.  
+ 10. 
+ 11. 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

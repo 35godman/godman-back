@@ -1,0 +1,321 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+Guides
+
+v2
+
+Ctrl+K
+Troubleshooting
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+
+GETTING STARTED
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+ORGANIZATIONS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+PROJECTS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INDEXES
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+DATA
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+
+
+OPERATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INTEGRATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+REFERENCE
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+SUPPORT
+
+ * 
+ * 
+ * 
+
+
+TROUBLESHOOTING
+
+
+
+This section describes common issues and how to solve them. Need help? Standard,
+Enterprise, and Dedicated customers can also for help.
+
+
+UNABLE TO PIP INSTALL
+
+Python 3.x uses pip3. Use the following commands in your terminal to install the
+latest version of the Pinecone
+Python client:
+
+Shell
+pip3 install -U pinecone-client
+
+
+
+INDEX CREATION ERROR - MISSING SPEC PARAMETER
+
+Using the , creating an index requires passing appropriate values into the spec
+parameter. Without this spec parameter, the create_index method raises the
+following error:
+
+console
+TypeError: Pinecone.create_index() missing 1 required positional argument: 'spec'
+
+
+For guidance on how to set this parameter, see and .
+
+
+SERVERLESS INDEX CREATION ERROR - MAX SERVERLESS INDEXES
+
+Each project is limited to 20 serverless indexes. Trying to create more than 20
+serverless indexes in a project raises the following 403 (FORBIDDEN) error:
+
+console
+This project already contains 20 serverless indexes, the maximum per project. 
+Delete any unused indexes and try again, or create a new project for more serverless indexes. 
+For additional help, please contact support@pinecone.io.
+
+
+in the project and try again, or create a new project to hold additional
+serverless indexes.
+
+Also consider using to partition vectors of the same dimensionality within a
+single index. Namespaces can help speed up queries as well as comply with
+requirements.
+
+
+SERVERLESS INDEX CONNECTION ERRORS
+
+To connect to a serverless index, you must use an updated Pinecone client.
+Trying to connect to a serverless index with an outdated client will raise
+errors similar to one of the following:
+
+console
+Failed to resolve 'controller.us-west-2.pinecone.io'
+
+controller.us-west-2-aws.pinecone.io not found
+
+Request failed to reach Pinecone while calling https://controller.us-west-2.pinecone.io/actions/whoami
+
+
+Upgrade to the latest or client and try again:
+
+ShellShell
+# Python
+pip install pinecone-client --upgrade
+
+
+# Node.js
+npm install @pinecone-database/pinecone@latest
+
+
+
+SLOW UPLOADS OR HIGH LATENCIES
+
+To minimize latency when accessing Pinecone:
+
+ * Switch to a cloud environment. For example: EC2, GCE, , , or . If you
+   experience slow uploads or high query latencies, it might be because you are
+   accessing Pinecone from your home network.
+ * Consider deploying your application in the same environment as your Pinecone
+   service. For users on the Starter (free) plan, the environment is GCP US-West
+   (Oregon).
+ * See for more tips.
+
+
+HIGH QUERY LATENCIES WITH BATCHING
+
+If you're batching queries, try reducing the number of queries per call to 1
+query vector. You can make these calls in parallel and expect roughly the same
+performance as with batching.
+
+
+UPSERT THROTTLING WHEN USING THE GRPC CLIENT
+
+It's possible to get write-throttled sooner when upserting using the gRPC index.
+If you see this often, then we recommend using a backoff algorithm while
+upserting.
+
+
+PODS ARE FULL
+
+
+> ℹ️
+> 
+> NOTE
+> 
+> This guidance applies to only. With , you don't configure any compute or
+> storage resources. Instead, serverless indexes scale automatically based on
+> usage.
+
+There is a limit to how much vector data a single pod can hold. Create an index
+with more pods to hold more data. and to increase capacity.
+
+If your metadata has high cardinality (e.g. you have unique values for every
+vector in a large index) the index will
+take up more memory. This could result in the pods becoming full sooner than
+expected. Consider , and storing the rest in a separate key-value store.
+
+See the for information on how to specify the number of pods for your index.
+
+
+SECURITY CONCERNS
+
+We work hard to earn and maintain trust by treating security and reliability as
+a cornerstone of our company and product. Pinecone is SOC 2 Type II compliant
+and GDPR-ready. See the for more information. to report any security concerns.
+
+
+CORS ERRORS
+
+When sending requests to Pinecone, you may receive the following error:
+
+console
+No 'Access-Control-Allow-Origin' header is present on the requested resource.
+
+
+This error occurs in response to cross-origin requests. Most commonly, it occurs
+when a user is running a local web server with the hostname localhost, which
+Pinecone's Same Origin Policy (SOP) treats as distinct from the IP address of
+the local machine.
+
+To resolve this issue, host your web server on an external server with a public
+IP address and DNS name entry.
+
+Updated 7 days ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

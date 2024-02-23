@@ -1,0 +1,221 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+API Reference
+
+v1
+
+Ctrl+K
+list_indexes
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+JUMP TOCTRL-/
+
+
+PINECONE API
+
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+
+PINECONE API
+
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+JUMP TOCTRL-/
+
+
+PINECONE API
+
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+
+PINECONE API
+
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+
+LIST_INDEXES
+
+get https://controller.{environment}.pinecone.io/databases
+
+This operation returns a list of your Pinecone indexes.
+
+
+Response
+200
+
+THIS OPERATION RETURNS A LIST OF ALL THE INDEXES THAT YOU HAVE PREVIOUSLY
+CREATED, AND WHICH ARE ASSOCIATED WITH THE GIVEN API KEY
+
+
+
+Response body
+array of strings
+
+
+Updated 2 months ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+Language
+ShellPythonHTTPNode
+
+Authorization
+Header
+Header
+
+
+URL
+Base URL
+https://controller.us-east1-gcp.pinecone.io/databases
+Request
+
+xxxxxxxxxx
+
+
+
+
+1
+
+curl --request GET \
+
+2
+
+     --url https://controller.us-east1-gcp.pinecone.io/databases \
+
+3
+
+     --header 'accept: application/json; charset=utf-8'
+
+
+
+
+
+Try It!
+RESPONSE
+Examples
+Click Try It! to start a request and see the response here! Or choose an
+example:
+application/json; charset=utf-8
+200
+
+Updated 2 months ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+
+
+ 1. Pinecone API
+ 2. 
+ 3. 
+ 4. 
+ 5. 
+ 6. 
+ 7. 
+ 8. 
+
+ 1.  Pinecone API
+ 2.  
+ 3.  
+ 4.  
+ 5.  
+ 6.  
+ 7.  
+ 8.  
+ 9.  
+ 10. 
+ 11. 
+
+
+ 1. Pinecone API
+ 2. 
+ 3. 
+ 4. 
+ 5. 
+ 6. 
+ 7. 
+ 8. 
+
+ 1.  Pinecone API
+ 2.  
+ 3.  
+ 4.  
+ 5.  
+ 6.  
+ 7.  
+ 8.  
+ 9.  
+ 10. 
+ 11. 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

@@ -1,0 +1,66 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+
+HIPAA COMPLIANCE
+
+
+BAA REQUEST FORM
+
+Submit the form on this page to request a Business Associate Addendum (BAA).
+Please expect a DocuSign, sent to the email address provided, for your signature
+within 1-2 business days. Note that redlining requests will not be accommodated
+through this process.
+
+First name*
+Last name*
+Email*
+Job Title*
+Company name*
+Phone number
+Message
+Submit
+
+By submitting you agree to our and to receive information from Pinecone related
+to our products. You can unsubscribe at any time.
+
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+

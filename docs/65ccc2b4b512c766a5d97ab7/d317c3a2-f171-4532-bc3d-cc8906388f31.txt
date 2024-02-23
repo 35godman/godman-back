@@ -1,0 +1,300 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+Guides
+
+v2
+
+Ctrl+K
+Fetch data
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+
+GETTING STARTED
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+ORGANIZATIONS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+PROJECTS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INDEXES
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+DATA
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+
+
+OPERATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INTEGRATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+REFERENCE
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+SUPPORT
+
+ * 
+ * 
+ * 
+
+
+FETCH DATA
+
+
+
+This page shows you how to use the operation to fetch records by ID from an
+index . The returned records are complete, including all relevant dense vector,
+metadata, and sparse vector values.
+
+
+FETCH RECORDS FROM THE DEFAULT NAMESPACE
+
+To fetch records from the default namespace ("") in an index, specify the record
+IDs but no namespace:
+
+PythonJavaScriptcurl
+from pinecone import Pinecone
+
+pc = Pinecone(api_key="YOUR_API_KEY")
+index = pc.Index("pinecone-index")
+
+index.fetch(["id-1", "id-2"])
+
+# Returns:
+# {'namespace': '',
+#  'usage': {'readUnits': 1},
+#  'vectors': {'id-1': {'id': 'id-1',
+#                       'values': [0.568879, 0.632687092, 0.856837332, ...]},
+#              'id-2': {'id': 'id-2',
+#                       'values': [0.00891787093, 0.581895, 0.315718859, ...]}}}
+
+
+import { Pinecone } from '@pinecone-database/pinecone'
+
+const pc = new Pinecone({ apiKey: "YOUR_API_KEY" })
+const index = pc.index("pinecone-index")
+
+const fetchResult = await index.fetch(['id-1', 'id-2']);
+
+// Returns:
+// {'namespace': '',
+//  'usage': {'readUnits': 1},
+//  'records': {'id-1': {'id': 'id-1',
+//                       'values': [0.568879, 0.632687092, 0.856837332, ...]},
+//              'id-2': {'id': 'id-2',
+//                       'values': [0.00891787093, 0.581895, 0.315718859, ...]}}}
+
+
+# The `GET` request below uses the unique endpoint for an index.
+# See https://docs.pinecone.io/docs/get-index-endpoint for details.
+PINECONE_API_KEY="YOUR_API_KEY"
+INDEX_HOST="INDEX_HOST"
+
+curl -X GET "https://$INDEX_HOST/vectors/fetch?ids=id-1&ids=id-2" \
+  -H "Api-Key: $PINECONE_API_KEY"
+
+# Output:
+# {
+#   "vectors": {
+#     "id-1": {
+#       "id": "id-1",
+#       "values": [0.568879, 0.632687092, 0.856837332, ...]
+#     },
+#     "id-2": {
+#       "id": "id-2",
+#       "values": [0.00891787093, 0.581895, 0.315718859, ...]
+#     }
+#   },
+#   "namespace": ""
+#   "usage": {"readUnits": 1},
+# }
+
+
+
+FETCH RECORDS FROM A NON-DEFAULT NAMESPACE
+
+To fetch records from a non-default namespace in an index, specify the record
+IDs and the namespace:
+
+PythonJavaScriptcurl
+from pinecone import Pinecone
+
+pc = Pinecone(api_key="YOUR_API_KEY")
+index = pc.Index("pinecone-index")
+
+index.fetch(ids=["id-1", "id-2"], namespace="ns1")
+
+# Returns:
+# {'namespace': 'ns1',
+#  'usage': {'readUnits': 1},
+#  'vectors': {'id-1': {'id': 'id-1',
+#                       'values': [0.568879, 0.632687092, 0.856837332, ...]},
+#              'id-2': {'id': 'id-2',
+#                       'values': [0.00891787093, 0.581895, 0.315718859, ...]}}}
+
+
+import { Pinecone } from '@pinecone-database/pinecone'
+
+const pc = new Pinecone({ apiKey: "YOUR_API_KEY" })
+const index = pc.index("pinecone-index")
+
+const fetchResult = await index.namespace('ns1').fetch(['id-1', 'id-2']);
+
+// Returns:
+// {'namespace': 'ns1',
+//  'usage': {'readUnits': 1},
+//  'records': {'id-1': {'id': 'id-1',
+//                       'values': [0.568879, 0.632687092, 0.856837332, ...]},
+//              'id-2': {'id': 'id-2',
+//                       'values': [0.00891787093, 0.581895, 0.315718859, ...]}}}
+
+
+# The `GET` request below uses the unique endpoint for an index.
+# See https://docs.pinecone.io/docs/get-index-endpoint for details.
+PINECONE_API_KEY="YOUR_API_KEY"
+INDEX_HOST="INDEX_HOST"
+
+curl -X GET "https://$INDEX_HOST/vectors/fetch?ids=id-1&ids=id-2&namespace=ns1" \
+  -H "Api-Key: $PINECONE_API_KEY"
+
+# Response:
+# {
+#   "vectors": {
+#     "id-1": {
+#       "id": "id-1",
+#       "values": [0.568879, 0.632687092, 0.856837332, ...]
+#     },
+#     "id-2": {
+#       "id": "id-2",
+#       "values": [0.00891787093, 0.581895, 0.315718859, ...]
+#     }
+#   },
+#   "namespace": "ns1"
+#   "usage": {"readUnits": 1},
+# }
+
+
+Updated 16 days ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+ * 
+ * * 
+   * 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+

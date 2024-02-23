@@ -1,0 +1,221 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+Product
+Solutions
+Resources
+Company
+
+
+
+THE MOST POPULAR VECTOR DATABASE — NOW SERVERLESS
+
+Build remarkable GenAI applications fast, with lower cost, better performance,
+and greater ease of use at any scale.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2FProduct-Page-Hero.8959a466.png&w=3840&q=100]
+
+
+
+
+FAST, COST-EFFICIENT PERFORMANCE AT ANY SCALE
+
+Latency
+Recall
+Cost
+51ms query latency (p95)*
+96% recall*
+up to 50x lower cost
+*Performance with MSMarco V2 dataset of 138M embeddings (1536 dimensions)
+LatencyRecallCost
+Latency chart
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Flatency-chart.6f2e1884.png&w=3840&q=100]
+
+
+BRING AI PRODUCTS TO MARKET FASTER
+
+Start building in minutes. Forget about configuring or scaling your index.
+
+
+SDKS
+
+Growing number of SDKs including and make working with Pinecone a breeze for
+developers.
+
+
+STREAMLINED API
+
+Manage control and data plane requests across environments with a single API.
+
+
+ANY AI MODEL
+
+Compatible with embeddings from any AI model or LLM, including those from
+OpenAI, Anthropic, Cohere, Hugging Face, PaLM, etc.
+
+
+INTEGRATIONS
+
+Supercharge your AI stack with for popular data sources, frameworks, models, and
+more.
+
+
+GET JUST THE RESULTS YOU WANT
+
+Always fresh, relevant results as your data changes and grows.
+
+
+HYBRID SEARCH
+
+Combine vector search with keyword boosting for the best of both worlds ().
+
+
+NAMESPACES
+
+Partition your workload with to minimize latency and compute needed for query.
+
+
+METADATA FILTERING
+
+Combine vector search with familiar to get just the results you want.
+
+
+LIVE INDEX UPDATES
+
+As your data changes, the Pinecone index is updated in realtime to provide the
+freshest results.
+
+
+
+
+THE VECTOR DATABASE REIMAGINED
+
+Build your next great GenAI apps with our industry-first architecture.
+
+
+EFFICIENT QUERY-PLANNING
+
+Built-in logic to scan the optimal number of semantically similar clusters
+needed for query, not the entire index.
+
+
+DURABLE WRITES
+
+Write requests are committed to a write-ahead-log in blob storage for guaranteed
+durability and strong ordering.
+
+
+ADAPTIVE CLUSTERING
+
+Indexes automatically adapt as data grows to maintain low-latency and O(s)
+freshness.
+
+
+MULTI-TENANT LAYER
+
+Built to efficiently manage thousands of tenants without performance
+degradation.
+
+
+INTELLIGENT RETRIEVAL
+
+Only the most used clusters are cached in memory instead of loading from blob
+storage for quick, memory efficient retrieval.
+
+
+REIMAGINING THE VECTOR DATABASE TO ENABLE KNOWLEDGEABLE AI
+
+Learn more about the architecture and performance in our technical deep dive.
+
+
+READY TO BUILD WITH YOUR FAVORITE TOOLS
+
+Learn how to build with Pinecone and the GenAI stack.
+
+Vercel
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fserverless-vercel.a15ffca5.png&w=3840&q=100]
+
+Vercel
+
+Pulumi
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fserverless-pulumi.5cdb6807.png&w=3840&q=100]
+
+Pulumi
+
+Langchain
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fserverless-langchain.3e202167.png&w=3840&q=100]
+
+Langchain
+
+Cohere
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fserverless-cohere.dd6393af.png&w=3840&q=100]
+
+Cohere
+
+Confluent
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fserverless-confluent.da1c4524.png&w=3840&q=100]
+
+Confluent
+
+Anyscale
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fserverless-anyscale.a2671680.png&w=3840&q=100]
+
+Anyscale
+
+
+SECURE BY DESIGN
+
+Pinecone is GDPR-ready, SOC2 Type II certified, HIPAA-compliant. Easily control
+and manage access within the console with organizations and SSO. Data is
+encrypted at rest and in transit.
+
+
+
+
+INTEGRATIONS TO CONNECT TO YOUR AI STACK
+
+Use Pinecone with your favorite cloud provider, data sources, models,
+frameworks, and more.
+
+
+
+
+GET STARTED WITH $100 CREDITS
+
+Try the full power of Pinecone serverless with $100 in usage credits. Credits
+expire June 1, 2024.
+
+
+
+Product
+
+Solutions
+
+Resources
+
+Company
+
+Legal
+
+
+© Pinecone Systems, Inc. | San Francisco, CA
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+[/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpopup-bg.197eeb2c.png&w=3840&q=100]
+
+
+INTRODUCING — PINECONE SERVERLESS
+
+Build knowledgeable AI at up to 50x lower cost. No need to manage
+infrastructure. Get started with $100 in usage credits.
+

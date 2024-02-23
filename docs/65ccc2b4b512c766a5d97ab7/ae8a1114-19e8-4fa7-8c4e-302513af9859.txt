@@ -1,0 +1,220 @@
+Opens in a new window Opens an external website Opens an external website in a
+new window
+<!---->Close this dialog<!---->
+This website utilizes technologies such as cookies to enable essential site
+functionality, as well as for analytics, personalization, and targeted
+advertising purposes. To learn more, view the following link:
+
+
+
+<!---->Close Cookie Preferences<!---->
+
+
+v1v2
+
+--------------------------------------------------------------------------------
+
+Guides
+
+v1
+
+Ctrl+K
+Limits
+All
+Guides
+Reference
+Pages
+
+START TYPING TO SEARCH…
+
+
+GETTING STARTED
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+ORGANIZATIONS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+PROJECTS
+
+ * 
+ * * 
+   * 
+   * 
+   * 
+ * 
+
+
+INDEXES
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+DATA
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * * 
+   * 
+   * 
+ * * 
+   * 
+   * 
+
+
+OPERATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+INTEGRATIONS
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+REFERENCE
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+
+SUPPORT
+
+ * 
+ * 
+ * 
+
+
+LIMITS
+
+
+
+This is a summary of current Pinecone limitations. For many of these, there is a
+workaround or we're working on increasing the limits.
+
+
+UPSERTS
+
+Max vector dimensionality is 20,000.
+
+Max size for an upsert request is 2MB. Recommended upsert limit is 100 vectors
+per request.
+
+Vectors may not be visible to queries immediately after upserting. You can check
+if the vectors were indexed by looking at the total with describe_index_stats(),
+although this method may not work if the index has multiple replicas. Pinecone
+is eventually consistent.
+
+Pinecone supports sparse vector values of sizes up to 1000 non-zero values.
+
+
+QUERIES
+
+Max value for top_k, the number of results to return, is 10,000. Max value for
+top_k for queries with include_metadata=True or include_data=True is 1,000.
+
+
+FETCH AND DELETE
+
+Max vectors per fetch or delete request is 1,000.
+
+
+NAMESPACES
+
+There is no limit to the number of for p1, s1, or p2 indexes. Indexes in
+gcp-starter are limited to 100 namespaces.
+
+
+POD STORAGE CAPACITY
+
+Each p1 pod has enough capacity for 1M vectors with 768 dimensions.
+
+Each s1 pod has enough capacity for 5M vectors with 768 dimensions.
+
+
+METADATA
+
+Max metadata size per vector is 40 KB.
+
+Null metadata values are not supported. Instead of setting a key to hold a null
+value, we recommend you remove that key from the metadata payload.
+
+Metadata with high cardinality, such as a unique value for every vector in a
+large index, uses more memory than expected and can cause the pods to become
+full.
+
+Updated about 2 months ago
+
+--------------------------------------------------------------------------------
+
+
+Did this page help you?
+Yes
+No
+ * 
+ * * 
+   * 
+   * 
+   * 
+   * 
+   * 
+
+
+
+
+
+
+
+Pinecone [https://pinecone.io/images/pinecone-white.svg]
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+
+© Pinecone Systems, Inc. | San Francisco, CA | | | | | |
+
+Pinecone is a registered trademark of Pinecone Systems, Inc.
+
+
